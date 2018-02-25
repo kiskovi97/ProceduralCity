@@ -12,10 +12,10 @@ public class Houses : MonoBehaviour {
         {
             int i = (int)(Random.value * alapHosues.Count);
             if (i == alapHosues.Count) i--;
-            GameObject ki = alapHosues[i];
+            GameObject ki = Instantiate(alapHosues[i]);
             ki.transform.rotation = new Quaternion(0, 0, 0, 0);
             ki.transform.Rotate(-90, 90, 0);
-            return Instantiate(ki);
+            return ki;
         }
     }
     public GameObject AlapHosues02
@@ -24,10 +24,10 @@ public class Houses : MonoBehaviour {
         {
             int i = (int)(Random.value * alapHosues.Count);
             if (i == alapHosues.Count) i--;
-            GameObject ki = alapHosues[i];
+            GameObject ki = Instantiate(alapHosues[i]);
             ki.transform.rotation = new Quaternion(0, 0, 0, 0);
             ki.transform.Rotate(-90, 270, 0);
-            return Instantiate(ki);
+            return ki;
         }
     }
     public GameObject AlapHosues04
@@ -36,10 +36,10 @@ public class Houses : MonoBehaviour {
         {
             int i = (int)(Random.value * alapHosues.Count);
             if (i == alapHosues.Count) i--;
-            GameObject ki = alapHosues[i];
+            GameObject ki = Instantiate(alapHosues[i]);
             ki.transform.rotation = new Quaternion(0, 0, 0, 0);
             ki.transform.Rotate(-90, 0, 0);
-            return Instantiate(ki);
+            return ki;
         }
     }
     public GameObject AlapHosues08
@@ -48,10 +48,10 @@ public class Houses : MonoBehaviour {
         {
             int i = (int)(Random.value * alapHosues.Count);
             if (i == alapHosues.Count) i--;
-            GameObject ki = alapHosues[i];
+            GameObject ki = Instantiate(alapHosues[i]);
             ki.transform.rotation = new Quaternion(0, 0, 0, 0);
             ki.transform.Rotate(-90, 180, 0);
-            return Instantiate(ki);
+            return ki;
         }
     }
 
@@ -63,10 +63,10 @@ public class Houses : MonoBehaviour {
         {
             int i = (int)(Random.value * lalapHosues.Count);
             if (i == lalapHosues.Count) i--;
-            GameObject ki = lalapHosues[i];
+            GameObject ki = Instantiate(lalapHosues[i]);
             ki.transform.rotation = new Quaternion(0, 0, 0, 0);
             ki.transform.Rotate(-90, 0, 0);
-            return Instantiate(ki);
+            return ki;
         }
     }
     public GameObject LAlapHosues09
@@ -75,10 +75,10 @@ public class Houses : MonoBehaviour {
         {
             int i = (int)(Random.value * lalapHosues.Count);
             if (i == lalapHosues.Count) i--;
-            GameObject ki = lalapHosues[i];
+            GameObject ki = Instantiate(lalapHosues[i]);
             ki.transform.rotation = new Quaternion(0, 0, 0, 0);
             ki.transform.Rotate(-90, 90, 0);
-            return Instantiate(ki);
+            return ki;
         }
     }
     public GameObject LAlapHosues10
@@ -87,10 +87,10 @@ public class Houses : MonoBehaviour {
         {
             int i = (int)(Random.value * lalapHosues.Count);
             if (i == lalapHosues.Count) i--;
-            GameObject ki = lalapHosues[i];
+            GameObject ki = Instantiate(lalapHosues[i]);
             ki.transform.rotation = new Quaternion(0, 0, 0, 0);
             ki.transform.Rotate(-90, 180, 0);
-            return Instantiate(ki);
+            return ki;
         }
     }
     public GameObject LAlapHosues06
@@ -99,10 +99,10 @@ public class Houses : MonoBehaviour {
         {
             int i = (int)(Random.value * lalapHosues.Count);
             if (i == lalapHosues.Count) i--;
-            GameObject ki = lalapHosues[i];
+            GameObject ki = Instantiate(lalapHosues[i]);
             ki.transform.rotation = new Quaternion(0, 0, 0, 0);
             ki.transform.Rotate(-90, 270, 0);
-            return Instantiate(ki);
+            return ki;
         }
     }
 
@@ -114,10 +114,10 @@ public class Houses : MonoBehaviour {
         {
             int i = (int)(Random.value * tetoHosues.Count);
             if (i == tetoHosues.Count) i--;
-            GameObject ki = tetoHosues[i];
+            GameObject ki = Instantiate(tetoHosues[i]);
             ki.transform.rotation = new Quaternion(0, 0, 0, 0);
             ki.transform.Rotate(-90, 0, 0);
-            return Instantiate(ki);
+            return ki;
         }
     }
 
@@ -129,10 +129,10 @@ public class Houses : MonoBehaviour {
         {
             int i = (int)(Random.value * semmiHosues.Count);
             if (i == semmiHosues.Count) i--;
-            GameObject ki = semmiHosues[i];
+            GameObject ki = Instantiate(semmiHosues[i]);
             ki.transform.rotation = new Quaternion(0, 0, 0, 0);
             ki.transform.Rotate(-90, 0, 0);
-            return Instantiate(ki);
+            return ki;
         }
     }
 
@@ -143,10 +143,10 @@ public class Houses : MonoBehaviour {
         {
             int i = (int)(Random.value * xHosues.Count);
             if (i == xHosues.Count) i--;
-            GameObject ki = xHosues[i];
+            GameObject ki = Instantiate(xHosues[i]);
             ki.transform.rotation = new Quaternion(0, 0, 0, 0);
             ki.transform.Rotate(-90, 0, 0);
-            return Instantiate(ki);
+            return ki;
         }
     }
     public GameObject YHouse
@@ -155,10 +155,10 @@ public class Houses : MonoBehaviour {
         {
             int i = (int)(Random.value * xHosues.Count);
             if (i == xHosues.Count) i--;
-            GameObject ki = xHosues[i];
+            GameObject ki = Instantiate(xHosues[i]);
             ki.transform.rotation = new Quaternion(0, 0, 0, 0);
             ki.transform.Rotate(-90, 90, 0);
-            return Instantiate(ki);
+            return ki;
         }
     }
 
@@ -169,11 +169,11 @@ public class Houses : MonoBehaviour {
         {
             int i = (int)(Random.value * thouse.Count);
             if (i == thouse.Count) i--;
-            GameObject ki = thouse[i];
+            GameObject ki = Instantiate(thouse[i]);
             ki.transform.rotation = new Quaternion(0, 0, 0, 0);
 
             ki.transform.Rotate(-90, 0, 0);
-            return Instantiate(ki);
+            return ki;
         }
     }
     public GameObject THouse11
@@ -182,10 +182,10 @@ public class Houses : MonoBehaviour {
         {
             int i = (int)(Random.value * thouse.Count);
             if (i == thouse.Count) i--;
-            GameObject ki = thouse[i];
+            GameObject ki = Instantiate(thouse[i]);
             ki.transform.rotation = new Quaternion(0, 0, 0, 0);
             ki.transform.Rotate(-90, 180, 0);
-            return Instantiate(ki);
+            return ki;
         }
     }
     public GameObject THouse13
@@ -194,10 +194,10 @@ public class Houses : MonoBehaviour {
         {
             int i = (int)(Random.value * thouse.Count);
             if (i == thouse.Count) i--;
-            GameObject ki = thouse[i];
+            GameObject ki = Instantiate(thouse[i]);
             ki.transform.rotation = new Quaternion(0, 0, 0, 0);
             ki.transform.Rotate(-90, 90, 0);
-            return Instantiate(ki);
+            return ki;
         }
     }
     public GameObject THouse14
@@ -206,10 +206,10 @@ public class Houses : MonoBehaviour {
         {
             int i = (int)(Random.value * thouse.Count);
             if (i == thouse.Count) i--;
-            GameObject ki = thouse[i];
+            GameObject ki = Instantiate(thouse[i]);
             ki.transform.rotation = new Quaternion(0, 0, 0, 0);
             ki.transform.Rotate(-90, 270, 0);
-            return Instantiate(ki);
+            return ki;
         }
     }
 
