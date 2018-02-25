@@ -53,7 +53,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   crossPlus: 1
   lineMinus: 0.1
-  size: 30
+  size: 60
   db: 1
   rootObjektum: {fileID: 1407839738940264, guid: 91a57dd48e5ff3d41bfeea5d768fb539,
     type: 2}
