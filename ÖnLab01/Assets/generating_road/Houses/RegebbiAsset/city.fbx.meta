@@ -1,0 +1,183 @@
+fileFormatVersion: 2
+guid: 768a44772e62b384dabad8b4b1a64b16
+timeCreated: 1519145915
+licenseType: Free
+ModelImporter:
+  serializedVersion: 22
+  fileIDToRecycleName:
+    100000: Also_L_01.009
+    100002: Also_L_01.010
+    100004: Also_L_01.011
+    100006: Also_L_02.008
+    100008: Also_L_02.009
+    100010: Also_L_02.010
+    100012: Also_M_01.006
+    100014: Also_M_02.004
+    100016: Also_S_01.008
+    100018: Also_S_01.009
+    100020: Also_S_01.010
+    100022: Also_S_01.011
+    100024: Also_S_02.007
+    100026: Also_S_02.008
+    100028: Also_S_02.009
+    100030: Also_S_02.010
+    100032: //RootNode
+    400000: Also_L_01.009
+    400002: Also_L_01.010
+    400004: Also_L_01.011
+    400006: Also_L_02.008
+    400008: Also_L_02.009
+    400010: Also_L_02.010
+    400012: Also_M_01.006
+    400014: Also_M_02.004
+    400016: Also_S_01.008
+    400018: Also_S_01.009
+    400020: Also_S_01.010
+    400022: Also_S_01.011
+    400024: Also_S_02.007
+    400026: Also_S_02.008
+    400028: Also_S_02.009
+    400030: Also_S_02.010
+    400032: //RootNode
+    2100000: Teto_S_mat
+    2100002: Also_M_01_mat
+    2100004: Also_M_02_mat
+    2100006: Material
+    2100008: Also_L_02_mat
+    2100010: Alap_S_02_mat
+    2100012: Alap_S_01_mat
+    2100014: Felso_S_02_mat
+    2100016: Felso_S_01_mat
+    2100018: Also_L_01_mat
+    2100020: Felso_L_01_mat
+    2100022: Felso_L_02_mat
+    2100024: Oldalso_01
+    2100026: Felso_S_03
+    2300000: Also_L_01.009
+    2300002: Also_L_01.010
+    2300004: Also_L_01.011
+    2300006: Also_L_02.008
+    2300008: Also_L_02.009
+    2300010: Also_L_02.010
+    2300012: Also_M_01.006
+    2300014: Also_M_02.004
+    2300016: Also_S_01.008
+    2300018: Also_S_01.009
+    2300020: Also_S_01.010
+    2300022: Also_S_01.011
+    2300024: Also_S_02.007
+    2300026: Also_S_02.008
+    2300028: Also_S_02.009
+    2300030: Also_S_02.010
+    3300000: Also_L_01.009
+    3300002: Also_L_01.010
+    3300004: Also_L_01.011
+    3300006: Also_L_02.008
+    3300008: Also_L_02.009
+    3300010: Also_L_02.010
+    3300012: Also_M_01.006
+    3300014: Also_M_02.004
+    3300016: Also_S_01.008
+    3300018: Also_S_01.009
+    3300020: Also_S_01.010
+    3300022: Also_S_01.011
+    3300024: Also_S_02.007
+    3300026: Also_S_02.008
+    3300028: Also_S_02.009
+    3300030: Also_S_02.010
+    4300000: Also_M_01.006
+    4300002: Also_M_02.004
+    4300004: Also_L_02.010
+    4300006: Also_S_02.010
+    4300008: Also_S_01.011
+    4300010: Also_S_01.010
+    4300012: Also_S_02.009
+    4300014: Also_S_02.008
+    4300016: Also_S_01.009
+    4300018: Also_L_01.011
+    4300020: Also_L_01.010
+    4300022: Also_L_02.009
+    4300024: Also_L_02.008
+    4300026: Also_L_01.009
+    4300028: Also_S_01.008
+    4300030: Also_S_02.007
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

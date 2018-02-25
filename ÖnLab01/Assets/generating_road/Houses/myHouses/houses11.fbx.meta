@@ -1,0 +1,226 @@
+fileFormatVersion: 2
+guid: 1453730309777e24f9043014c194ef16
+timeCreated: 1519484990
+licenseType: Free
+ModelImporter:
+  serializedVersion: 22
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: L_Alap01
+    100004: L_Roof01
+    100006: L_Roof02
+    100008: L_Roof02.001
+    100010: L_Up01
+    100012: S_Alap01
+    100014: S_Alap02
+    100016: S_Alap03
+    100018: S_Alap04
+    100020: S_Roof01
+    100022: S_Roof02
+    100024: S_Roof02.001
+    100026: s_roof11
+    100028: s_roof12
+    100030: S_up01
+    100032: S_up02
+    100034: s_up11
+    100036: s_up12
+    100038: T_Alap01
+    400000: //RootNode
+    400002: L_Alap01
+    400004: L_Roof01
+    400006: L_Roof02
+    400008: L_Roof02.001
+    400010: L_Up01
+    400012: S_Alap01
+    400014: S_Alap02
+    400016: S_Alap03
+    400018: S_Alap04
+    400020: S_Roof01
+    400022: S_Roof02
+    400024: S_Roof02.001
+    400026: s_roof11
+    400028: s_roof12
+    400030: S_up01
+    400032: S_up02
+    400034: s_up11
+    400036: s_up12
+    400038: T_Alap01
+    2100000: Material.012
+    2100002: Material.011
+    2100004: Material.010
+    2100006: Material.007
+    2100008: Material.008
+    2100010: Material.009
+    2100012: brick02
+    2300000: L_Alap01
+    2300002: L_Roof01
+    2300004: L_Roof02
+    2300006: L_Roof02.001
+    2300008: L_Up01
+    2300010: S_Alap01
+    2300012: S_Alap02
+    2300014: S_Alap03
+    2300016: S_Alap04
+    2300018: S_Roof01
+    2300020: S_Roof02
+    2300022: S_Roof02.001
+    2300024: s_roof11
+    2300026: s_roof12
+    2300028: S_up01
+    2300030: S_up02
+    2300032: s_up11
+    2300034: s_up12
+    2300036: T_Alap01
+    3300000: L_Alap01
+    3300002: L_Roof01
+    3300004: L_Roof02
+    3300006: L_Roof02.001
+    3300008: L_Up01
+    3300010: S_Alap01
+    3300012: S_Alap02
+    3300014: S_Alap03
+    3300016: S_Alap04
+    3300018: S_Roof01
+    3300020: S_Roof02
+    3300022: S_Roof02.001
+    3300024: s_roof11
+    3300026: s_roof12
+    3300028: S_up01
+    3300030: S_up02
+    3300032: s_up11
+    3300034: s_up12
+    3300036: T_Alap01
+    4300000: s_roof12
+    4300002: s_roof11
+    4300004: s_up12
+    4300006: s_up11
+    4300008: S_up02
+    4300010: S_Alap04
+    4300012: S_Alap03
+    4300014: L_Roof02.001
+    4300016: S_Roof02.001
+    4300018: S_Roof02
+    4300020: L_Roof02
+    4300022: S_Alap02
+    4300024: T_Alap01
+    4300026: L_Roof01
+    4300028: L_Up01
+    4300030: L_Alap01
+    4300032: S_Roof01
+    4300034: S_up01
+    4300036: S_Alap01
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.007
+    second: {fileID: 2100000, guid: d2f3c30494edc094898560013e6ae6bc, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.008
+    second: {fileID: 2100000, guid: d93b9fe5969109540b8cb3f6c90a280b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.009
+    second: {fileID: 2100000, guid: 7d802b9b3d55f9044aa80d8b64c356ad, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.010
+    second: {fileID: 2100000, guid: 91ae9e6ac4c8a3144908673bce209b77, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.011
+    second: {fileID: 2100000, guid: 5ee69462fc44b964983d0ce51d3134f8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.012
+    second: {fileID: 2100000, guid: 87c0aea9e8f08c34eb9eadff9cc4f7c8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: brick02
+    second: {fileID: 2100000, guid: da5c91b2bc1941146b5fc0abbdef1e37, type: 2}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
