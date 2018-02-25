@@ -194,9 +194,10 @@ public class MapScript : MonoBehaviour {
 
 
                     if (road != null)
+                    {
                         road.transform.position = new Vector3(merce * i, 0, merce * j);
-                    road.transform.localScale *= merce / 2.0f;
-                    
+                        road.transform.localScale *= merce / 2.0f;
+                    }
                     
                 }
             }
