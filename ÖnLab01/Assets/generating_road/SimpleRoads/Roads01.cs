@@ -11,19 +11,19 @@ public class Roads01 : MonoBehaviour {
         {
             int i = (int)(Random.value * xRoad.Count);
             if (i == xRoad.Count) i--;
-            GameObject ki = xRoad[i];
+            GameObject ki = Instantiate(xRoad[i]);
             ki.transform.rotation = new Quaternion(0, 0, 0, 0);
-            return Instantiate(ki);
+            return ki;
         }
     }
     public GameObject YRoad {
         get {
             int i = (int) (Random.value * xRoad.Count);
             if (i == xRoad.Count) i--;
-            GameObject ki = xRoad[i];
+            GameObject ki = Instantiate(xRoad[i]);
             ki.transform.rotation = new Quaternion(0, 0, 0, 0);
             ki.transform.Rotate(new Vector3(0, 90, 0));
-            return Instantiate(ki);
+            return ki;
         }
     }
 
@@ -35,9 +35,9 @@ public class Roads01 : MonoBehaviour {
         {
             int i = (int)(Random.value * crossRoad.Count);
             if (i == crossRoad.Count) i--;
-            GameObject ki = crossRoad[i];
+            GameObject ki = Instantiate(crossRoad[i]);
             ki.transform.rotation = new Quaternion(0, 0, 0, 0);
-            return Instantiate(ki);
+            return ki;
         }
     }
 
@@ -49,9 +49,9 @@ public class Roads01 : MonoBehaviour {
         {
             int i = (int)(Random.value * tRoad.Count);
             if (i == tRoad.Count) i--;
-            GameObject ki = tRoad[i];
+            GameObject ki = Instantiate(tRoad[i]);
             ki.transform.rotation = new Quaternion(0, 0, 0, 0);
-            return Instantiate(ki);
+            return ki;
         }
     }
     public GameObject TRoad11
@@ -60,10 +60,10 @@ public class Roads01 : MonoBehaviour {
         {
             int i = (int)(Random.value * tRoad.Count);
             if (i == tRoad.Count) i--;
-            GameObject ki = tRoad[i];
+            GameObject ki = Instantiate(tRoad[i]);
             ki.transform.rotation = new Quaternion(0, 0, 0, 0);
             ki.transform.Rotate(0, 180, 0);
-            return Instantiate(ki);
+            return ki;
         }
     }
     public GameObject TRoad13
@@ -72,10 +72,10 @@ public class Roads01 : MonoBehaviour {
         {
             int i = (int)(Random.value * tRoad.Count);
             if (i == tRoad.Count) i--;
-            GameObject ki = tRoad[i];
+            GameObject ki = Instantiate(tRoad[i]);
             ki.transform.rotation = new Quaternion(0, 0, 0, 0);
             ki.transform.Rotate(0, 90, 0);
-            return Instantiate(ki);
+            return ki;
         }
     }
     public GameObject TRoad14
@@ -84,10 +84,10 @@ public class Roads01 : MonoBehaviour {
         {
             int i = (int)(Random.value * tRoad.Count);
             if (i == tRoad.Count) i--;
-            GameObject ki = tRoad[i];
+            GameObject ki = Instantiate(tRoad[i]);
             ki.transform.rotation = new Quaternion(0, 0, 0, 0);
             ki.transform.Rotate(0, 270, 0);
-            return Instantiate(ki);
+            return ki;
         }
     }
     //---------------------------------------------------------
@@ -98,9 +98,9 @@ public class Roads01 : MonoBehaviour {
         {
             int i = (int)(Random.value * lRoad.Count);
             if (i == lRoad.Count) i--;
-            GameObject ki = lRoad[i];
+            GameObject ki = Instantiate(lRoad[i]);
             ki.transform.rotation = new Quaternion(0, 0, 0, 0);
-            return Instantiate(ki);
+            return ki;
         }
     }
     public GameObject LRoad09
@@ -109,10 +109,10 @@ public class Roads01 : MonoBehaviour {
         {
             int i = (int)(Random.value * lRoad.Count);
             if (i == lRoad.Count) i--;
-            GameObject ki = lRoad[i];
+            GameObject ki = Instantiate(lRoad[i]);
             ki.transform.rotation = new Quaternion(0, 0, 0, 0);
             ki.transform.Rotate(0, 90, 0);
-            return Instantiate(ki);
+            return ki;
         }
     }
     public GameObject LRoad10
@@ -121,10 +121,10 @@ public class Roads01 : MonoBehaviour {
         {
             int i = (int)(Random.value * lRoad.Count);
             if (i == lRoad.Count) i--;
-            GameObject ki = lRoad[i];
+            GameObject ki = Instantiate(lRoad[i]);
             ki.transform.rotation = new Quaternion(0, 0, 0, 0);
             ki.transform.Rotate(0, 180, 0);
-            return Instantiate(ki);
+            return ki;
         }
     }
     public GameObject LRoad06
@@ -133,10 +133,10 @@ public class Roads01 : MonoBehaviour {
         {
             int i = (int)(Random.value * lRoad.Count);
             if (i == lRoad.Count) i--;
-            GameObject ki = lRoad[i];
+            GameObject ki = Instantiate(lRoad[i]);
             ki.transform.rotation = new Quaternion(0, 0, 0, 0);
             ki.transform.Rotate(0, 270, 0);
-            return Instantiate(ki);
+            return ki;
         }
     }
     //-----------------------------------------------
@@ -148,10 +148,10 @@ public class Roads01 : MonoBehaviour {
         {
             int i = (int)(Random.value * stopRoad.Count);
             if (i == stopRoad.Count) i--;
-            GameObject ki = stopRoad[i];
+            GameObject ki = Instantiate(stopRoad[i]);
             ki.transform.rotation = new Quaternion(0, 0, 0, 0);
             ki.transform.Rotate(0, 180, 0);
-            return Instantiate(ki);
+            return ki;
         }
     }
     public GameObject SRoad02
@@ -160,10 +160,10 @@ public class Roads01 : MonoBehaviour {
         {
             int i = (int)(Random.value * stopRoad.Count);
             if (i == stopRoad.Count) i--;
-            GameObject ki = stopRoad[i];
+            GameObject ki = Instantiate(stopRoad[i]);
             ki.transform.rotation = new Quaternion(0, 0, 0, 0);
             ki.transform.Rotate(0, 0, 0);
-            return Instantiate(ki);
+            return ki;
         }
     }
     public GameObject SRoad08
@@ -172,10 +172,10 @@ public class Roads01 : MonoBehaviour {
         {
             int i = (int)(Random.value * stopRoad.Count);
             if (i == stopRoad.Count) i--;
-            GameObject ki = stopRoad[i];
+            GameObject ki = Instantiate(stopRoad[i]);
             ki.transform.rotation = new Quaternion(0, 0, 0, 0);
             ki.transform.Rotate(0, 270, 0);
-            return Instantiate(ki);
+            return ki;
         }
     }
     public GameObject SRoad04
@@ -184,10 +184,10 @@ public class Roads01 : MonoBehaviour {
         {
             int i = (int)(Random.value * stopRoad.Count);
             if (i == stopRoad.Count) i--;
-            GameObject ki = stopRoad[i];
+            GameObject ki = Instantiate(stopRoad[i]);
             ki.transform.rotation = new Quaternion(0, 0, 0, 0);
             ki.transform.Rotate(0, 90, 0);
-            return Instantiate(ki);
+            return ki;
         }
     }
 }
