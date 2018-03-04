@@ -81,7 +81,52 @@ ModelImporter:
     4300020: road_intersection_T
     4300022: road_intersection_X
     4300024: road_stop
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: asfalt.003
+    second: {fileID: 2100000, guid: cd20ff11792a1454681b8fd97d610f4c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: brick.003
+    second: {fileID: 2100000, guid: ac42d71738c7b4d46b761c020e437aa2, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: linie.001
+    second: {fileID: 2100000, guid: df1bdab69c64509428a233306e173c12, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: linie.002
+    second: {fileID: 2100000, guid: 39f2ad24ec2353a47b2055b36647c91a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: linie.003
+    second: {fileID: 2100000, guid: 8ad0812a852d29f49900d9bafca5a36f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: mat_007
+    second: {fileID: 2100000, guid: 555d6e0373fff084b9f556c957ff2cf9, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: piroslampa
+    second: {fileID: 2100000, guid: 7b7c68a8eed54e348b9658b094824650, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: sargalampa
+    second: {fileID: 2100000, guid: e8e28255a2aa51546a1222ec55aa0dbe, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: zoldlampa
+    second: {fileID: 2100000, guid: 7440d7e8f4640d04c8924a7459e4e75b, type: 2}
   materials:
     importMaterials: 1
     materialName: 0

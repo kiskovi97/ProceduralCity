@@ -17,4 +17,17 @@ public class SideRoadObjects : MonoBehaviour
             return ki;
         }
     }
+
+    public List<GameObject> lampa = new List<GameObject>();
+
+    public GameObject LampaX
+    {
+        get
+        {
+            int i = (int)(Random.value * lampa.Count);
+            if (i == lampa.Count) i--;
+            GameObject ki = Instantiate(lampa[i]);
+            return ki;
+        }
+    }
 }

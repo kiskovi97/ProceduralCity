@@ -58,3 +58,5 @@ MonoBehaviour:
   - {fileID: 100000, guid: 3e3850fd8012e494fae8f1ef444dc2e2, type: 3}
   - {fileID: 100000, guid: ccc418124eae89c46bfbf5ab529e24a5, type: 3}
   - {fileID: 100000, guid: 8d099d309566e4d4fabf0a167d269e1d, type: 3}
+  lampa:
+  - {fileID: 1760145645979872, guid: fa92e6828dc4e7f4d906b4a6b415b295, type: 2}
