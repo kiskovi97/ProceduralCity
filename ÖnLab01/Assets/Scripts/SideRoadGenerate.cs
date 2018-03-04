@@ -15,7 +15,7 @@ public class SideRoadGenerate : MonoBehaviour {
         GameObject pad = objects.PadX;
         float z = Random.value * 1.5f - 0.75f;
         pad.transform.SetParent(this.transform);
-        pad.transform.localScale = transform.localScale * 0.5f;
+        pad.transform.localScale = new Vector3(0.75f,0.75f,0.75f);
         pad.transform.localRotation = new Quaternion(0, 0, 0, 0);
         pad.transform.Rotate(0, 90, 0);
         pad.transform.position = new Vector3(0,0,0);
@@ -29,7 +29,7 @@ public class SideRoadGenerate : MonoBehaviour {
         GameObject pad = objects.PadX;
         float z = Random.value * 1.5f - 0.75f;
         pad.transform.SetParent(this.transform);
-        pad.transform.localScale = transform.localScale * 0.5f;
+        pad.transform.localScale = new Vector3(0.75f, 0.75f, 0.75f);
         pad.transform.localRotation = new Quaternion(0, 0, 0, 0);
         pad.transform.Rotate(0, 270, 0);
         pad.transform.position = new Vector3(0, 0, 0);
