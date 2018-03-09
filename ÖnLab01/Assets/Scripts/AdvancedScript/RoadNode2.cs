@@ -23,11 +23,9 @@ public class RoadNode2 {
     void MakeIranyok()
     {
         Vector3 elozo_irany = new Vector3(0, 0, 1);
-        if (elozo != null) elozo_irany = position - elozo.position;
+        if (elozo != null) elozo_irany =  elozo.position - position;
 
-        int elagazasok = (int)(Random.value * 8);
-        if (elagazasok < 5) elagazasok = 1;
-        else elagazasok -= 4;
+        int elagazasok = (int)(Random.value * 2 + 2);
         Debug.Log(elagazasok);
         for (int i = 1; i < elagazasok + 1; i++)
         {
@@ -56,13 +54,26 @@ public class RoadNode2 {
     public List<RoadNode2> GenerateRoads()
     {
         List<RoadNode2> ki = new List<RoadNode2>();
-        
-        RoadNode2 ad = new RoadNode2();
-        Vector3 irany = new Vector3(0, 0, 1);
-        if (elozo!=null) irany = position - elozo.position;
-        ad.position = position + irany + new Vector3(Random.value*0.9f-0.45f, 0, 0);
-        ad.SetElozo(this);
-        ki.Add(ad);
+        if (Random.value <0.9f)
+        {
+            RoadNode2 ad = new RoadNode2();
+            Vector3 irany = new Vector3(0, 0, 1);
+            if (elozo != null) irany = position - elozo.position;
+            ad.position = position + irany + new Vector3(Random.value * 0.2f - 0.1f, 0, 0);
+            ad.SetElozo(this);
+            ki.Add(ad);
+        }
+        else
+        {
+            MakeIranyok();
+            foreach (Vector3 irany in tovabb_irany)
+            {
+                RoadNode2 ad = new RoadNode2();
+                ad.position = position + irany*2;
+                ad.SetElozo(this);
+                ki.Add(ad);
+            }
+        }
         
         return ki;
     }

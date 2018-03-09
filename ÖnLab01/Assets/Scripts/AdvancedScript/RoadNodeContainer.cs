@@ -11,6 +11,7 @@ public class RoadNodeContainer : MonoBehaviour {
     public float zMin = -20;
     public float xMax = 20;
     public float zMax = 20;
+    int db = 300;
     // Use this for initialization
     void Start() {
         roads.Clear();
@@ -41,6 +42,8 @@ public class RoadNodeContainer : MonoBehaviour {
         return true;
     }
     void Generating(){
+        db--;
+        if (db < 0) return;
         if (rootObjIndex < roads.Count)
         {
             RoadNode2 root = roads[rootObjIndex];
@@ -55,7 +58,7 @@ public class RoadNodeContainer : MonoBehaviour {
                 }
             }
             rootObjIndex++;
-            Generating();
+            Invoke("Generating",0.03f);
         }
         else return;
     }
