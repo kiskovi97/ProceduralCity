@@ -56,3 +56,4 @@ MonoBehaviour:
   zMin: -25
   xMax: 25
   zMax: 25
+  kozelseg: 1

@@ -17,6 +17,7 @@ public class RoadNode2 {
     {
         
         position = pos;
+        Debug.DrawLine(position, elozo.position, Color.yellow, 100, false);
     }
 
     List<Vector3> tovabb_irany = new List<Vector3>();
@@ -49,7 +50,6 @@ public class RoadNode2 {
         else
             szomszedok[0] = setElozo;
         Debug.DrawLine(position, elozo.position, Color.red, 100, false);
-        Debug.Log("Itt is jartunk" + position.ToString() + elozo.position.ToString());
     }
     public List<RoadNode2> GenerateRoads()
     {

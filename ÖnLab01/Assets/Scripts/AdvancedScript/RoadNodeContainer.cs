@@ -11,6 +11,7 @@ public class RoadNodeContainer : MonoBehaviour {
     public float zMin = -20;
     public float xMax = 20;
     public float zMax = 20;
+    public float kozelseg = 0.3f;
     int db = 300;
     // Use this for initialization
     void Start() {
@@ -52,9 +53,25 @@ public class RoadNodeContainer : MonoBehaviour {
                 List<RoadNode2> newRoads = root.GenerateRoads();
                 foreach (RoadNode2 road in newRoads)
                 {
-                    roads.Add(road);
-                    GameObject ki = Instantiate(visual);
-                    ki.transform.position = road.position;
+                    bool oks = true;
+                    foreach(RoadNode2 other_road in roads)
+                    {
+                        if ((road.position - other_road.position).sqrMagnitude < kozelseg)
+                        {
+                            road.SetPosition(other_road.position);
+                            GameObject ki = Instantiate(visual);
+                            ki.transform.position = road.position;
+                            oks = false;
+                            break;
+                        }
+                    }
+                    if (oks)
+                    {
+                        roads.Add(road);
+                        GameObject ki = Instantiate(visual);
+                        ki.transform.position = road.position;
+                    }
+                    
                 }
             }
             rootObjIndex++;
