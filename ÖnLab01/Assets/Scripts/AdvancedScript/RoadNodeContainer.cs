@@ -6,6 +6,8 @@ public class RoadNodeContainer : MonoBehaviour {
   
     public GameObject visual;
     public List<RoadNode2> roads = new List<RoadNode2>();
+    List<RoadNode2> sideroads = new List<RoadNode2>();
+
     int rootObjIndex = 0;
     public float xMin = -20;
     public float zMin = -20;
@@ -62,9 +64,11 @@ public class RoadNodeContainer : MonoBehaviour {
                     {
                         if ((road.position - other_road.position).sqrMagnitude < kozelseg)
                         {
-                            road.SetPosition(other_road.position);
-                            GameObject ki = Instantiate(visual);
-                            ki.transform.position = road.position;
+                            //road.SetPosition(other_road.position);
+                            RoadNode2 elozo = road.getElozo();
+                            elozo.Csere(other_road, road);
+                            other_road.addSzomszed(elozo);
+                            
                             oks = false;
                             Debug.Log("Javit");
                             break;
@@ -89,4 +93,6 @@ public class RoadNodeContainer : MonoBehaviour {
         }
     }
 	
+
+
 }

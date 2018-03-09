@@ -48,6 +48,30 @@ public class RoadNode2 {
 
     }
 
+    
+    public void addSzomszed(RoadNode2 be)
+    {
+        szomszedok.Add(be);
+        Debug.DrawLine(position, be.position, Color.blue, 100, false);
+    }
+    void MakeSideIrany()
+    {
+
+    }
+
+    public RoadNode2 getElozo()
+    {
+        return elozo;
+    }
+
+    public void Csere(RoadNode2 uj, RoadNode2 regi)
+    {
+        int index = szomszedok.IndexOf(regi);
+        szomszedok[index] = uj;
+        Debug.DrawLine(position, uj.position, Color.black, 100, false);
+
+    }
+
     public void SetElozo(RoadNode2 setElozo)
     {
         elozo = setElozo;
@@ -83,6 +107,7 @@ public class RoadNode2 {
             ad.position = position + irany * 2;
             ad.SetElozo(this);
             ki.Add(ad);
+            szomszedok.Add(ad);
         }
     }
 
@@ -101,6 +126,7 @@ public class RoadNode2 {
         ad.position = position + random_irany;
         ad.SetElozo(this);
         ki.Add(ad);
+        szomszedok.Add(ad);
     }
     
 	
