@@ -12,11 +12,13 @@ public class RoadNodeContainer : MonoBehaviour {
     public float xMax = 20;
     public float zMax = 20;
     public float kozelseg = 0.3f;
-    int db = 300;
+    public float straightFreq = 0.9f;
+    public int MaxElagazas = 4;
+    public int ReqursiveMax = 300;
     // Use this for initialization
     void Start() {
         roads.Clear();
-        roads.Add(new RoadNode2());
+        roads.Add(new RoadNode2(straightFreq, MaxElagazas));
         Invoke("Visualization01", 0.01f);
         Invoke("Generating",0.1f);
     }
@@ -43,8 +45,9 @@ public class RoadNodeContainer : MonoBehaviour {
         return true;
     }
     void Generating(){
-        db--;
-        if (db < 0) return;
+        ReqursiveMax--;
+        if (ReqursiveMax < 0) return;
+
         if (rootObjIndex < roads.Count)
         {
             RoadNode2 root = roads[rootObjIndex];
@@ -54,7 +57,7 @@ public class RoadNodeContainer : MonoBehaviour {
                 foreach (RoadNode2 road in newRoads)
                 {
                     bool oks = true;
-                    foreach(RoadNode2 other_road in roads)
+                    foreach (RoadNode2 other_road in roads)
                     {
                         if ((road.position - other_road.position).sqrMagnitude < kozelseg)
                         {
@@ -62,6 +65,7 @@ public class RoadNodeContainer : MonoBehaviour {
                             GameObject ki = Instantiate(visual);
                             ki.transform.position = road.position;
                             oks = false;
+                            Debug.Log("Javit");
                             break;
                         }
                     }
@@ -71,13 +75,17 @@ public class RoadNodeContainer : MonoBehaviour {
                         GameObject ki = Instantiate(visual);
                         ki.transform.position = road.position;
                     }
-                    
+
                 }
             }
             rootObjIndex++;
-            Invoke("Generating",0.03f);
+            Invoke("Generating", 0.03f);
         }
-        else return;
+        else
+        {
+            Debug.Log("Vege");
+            return;
+        }
     }
 	
 }
