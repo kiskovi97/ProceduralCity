@@ -9,6 +9,7 @@ public class RoadNodeContainer : MonoBehaviour {
     List<RoadNode2> sideroads = new List<RoadNode2>();
 
     int rootObjIndex = 0;
+    int rootSideObjectIndex = 0;
     public float xMin = -20;
     public float zMin = -20;
     public float xMax = 20;
@@ -21,9 +22,11 @@ public class RoadNodeContainer : MonoBehaviour {
     // Use this for initialization
     void Start() {
         roads.Clear();
-        roads.Add(new RoadNode2(straightFreq, MaxElagazas, RotationRandom));
-        Invoke("Visualization01", 0.01f);
-        Invoke("Generating",0.1f);
+        roads.Add(new RoadNode2(straightFreq, MaxElagazas, RotationRandom, 2));
+        Visualization01();
+        GeneratingMainRoads();
+        GeneratingSideRoads();
+       // GrowSideRoads();
     }
     void Visualization01()
     {
@@ -47,7 +50,7 @@ public class RoadNodeContainer : MonoBehaviour {
         }
         return true;
     }
-    void Generating(){
+    void GeneratingMainRoads(){
         ReqursiveMax--;
         if (ReqursiveMax < 0) return;
 
@@ -64,7 +67,6 @@ public class RoadNodeContainer : MonoBehaviour {
                     {
                         if ((road.position - other_road.position).sqrMagnitude < kozelseg)
                         {
-                            //road.SetPosition(other_road.position);
                             RoadNode2 elozo = road.getElozo();
                             elozo.Csere(other_road, road);
                             other_road.addSzomszed(elozo);
@@ -84,7 +86,7 @@ public class RoadNodeContainer : MonoBehaviour {
                 }
             }
             rootObjIndex++;
-            Invoke("Generating", 0.03f);
+            GeneratingMainRoads();
         }
         else
         {
@@ -92,7 +94,107 @@ public class RoadNodeContainer : MonoBehaviour {
             return;
         }
     }
-	
+	void GeneratingSideRoads()
+    {
+        Debug.Log("SideRoads");
+        sideroads.Clear();
+        foreach(RoadNode2 road in roads)
+        {
+            List<RoadNode2> ki = new List<RoadNode2>();
+            if (Random.value <0.2)
+            {
+                ki = road.GenerateSideRoads();
+            }
+            foreach(RoadNode2 sideroad in ki)
+            {
+                bool oks = true;
+                foreach (RoadNode2 other_road in roads)
+                {
+                    if ((sideroad.position - other_road.position).sqrMagnitude < kozelseg/2)
+                    {
+                        oks = false;
+                        Debug.Log("Kozel van");
+                        break;
+                    }
+                }
+                foreach (RoadNode2 other_road in sideroads)
+                {
+                    if ((sideroad.position - other_road.position).sqrMagnitude < kozelseg/2)
+                    {
+                        oks = false;
+                        Debug.Log("Kozel van");
+                        break;
+                    }
+                }
+                if (oks)
+                {
+                    sideroads.Add(sideroad);
+                    GameObject visual01 = Instantiate(visual);
+                    visual01.transform.position = sideroad.position;
+                }
+            }
 
+
+        }
+    }
+
+    void GrowSideRoads()
+    {
+        ReqursiveMax--;
+        if (ReqursiveMax < 0) return;
+
+        if (rootSideObjectIndex < sideroads.Count)
+        {
+            RoadNode2 root = sideroads[rootSideObjectIndex];
+            if (PalyanBelulVane(root))
+            {
+                List<RoadNode2> newRoads = root.GenerateRoads();
+                foreach (RoadNode2 road in newRoads)
+                {
+                    bool oks = true;
+                    foreach (RoadNode2 other_road in sideroads)
+                    {
+                        if ((road.position - other_road.position).sqrMagnitude < kozelseg)
+                        {
+                            RoadNode2 elozo = road.getElozo();
+                            elozo.Csere(other_road, road);
+                            other_road.addSzomszed(elozo);
+
+                            oks = false;
+                            Debug.Log("Javit");
+                            break;
+                        }
+                    }
+                    foreach (RoadNode2 other_road in roads)
+                    {
+                        if ((road.position - other_road.position).sqrMagnitude < kozelseg)
+                        {
+                            RoadNode2 elozo = road.getElozo();
+                            elozo.Csere(other_road, road);
+                            other_road.addSzomszed(elozo);
+
+                            oks = false;
+                            Debug.Log("Javit");
+                            break;
+                        }
+                    }
+                    if (oks)
+                    {
+                        sideroads.Add(road);
+                        GameObject ki = Instantiate(visual);
+                        ki.transform.position = road.position;
+                    }
+
+                }
+            }
+            rootSideObjectIndex++;
+            GrowSideRoads();
+        }
+        else
+        {
+            Debug.Log("Vege");
+            return;
+        }
+    }
 
 }

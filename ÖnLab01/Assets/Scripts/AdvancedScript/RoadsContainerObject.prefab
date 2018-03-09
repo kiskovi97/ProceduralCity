@@ -57,6 +57,7 @@ MonoBehaviour:
   xMax: 25
   zMax: 100
   kozelseg: 1
-  straightFreq: 0.9
+  straightFreq: 0.95
   MaxElagazas: 5
   ReqursiveMax: 400
+  RotationRandom: 0.1
