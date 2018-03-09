@@ -55,5 +55,8 @@ MonoBehaviour:
   xMin: -25
   zMin: -25
   xMax: 25
-  zMax: 25
+  zMax: 100
   kozelseg: 1
+  straightFreq: 0.9
+  MaxElagazas: 5
+  ReqursiveMax: 400

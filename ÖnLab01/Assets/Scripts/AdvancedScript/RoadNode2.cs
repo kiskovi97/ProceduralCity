@@ -8,18 +8,19 @@ public class RoadNode2 {
     public Vector3 position;
     public float straightFreq = 0.9f;
     public int maxelagazas = 4;
+    public float RotationRandom = 0.2f;
 
     // Use this for initialization
 
-    public RoadNode2(float freq, int max) {
+    public RoadNode2(float freq, int max, float rotate) {
         szomszedok = new List<RoadNode2>();
         position = new Vector3(0, 0, 0);
         straightFreq = freq;
         maxelagazas = max;
+        RotationRandom = rotate;
     }
     public void SetPosition(Vector3 pos)
     {
-        
         position = pos;
         Debug.DrawLine(position, elozo.position, Color.yellow, 100, false);
     }
@@ -56,40 +57,50 @@ public class RoadNode2 {
             szomszedok[0] = setElozo;
         Debug.DrawLine(position, elozo.position, Color.red, 100, false);
     }
+
     public List<RoadNode2> GenerateRoads()
     {
         List<RoadNode2> ki = new List<RoadNode2>();
         if (Random.value < straightFreq)
         {
-            RoadNode2 ad = new RoadNode2(straightFreq, maxelagazas);
-            Vector3 irany = new Vector3(0, 0, 1.5f);
-            if (elozo != null) irany = position - elozo.position;
-
-            Vector3 random_irany = new Vector3();
-            float Rotation = -0.2f + Random.value * 0.4f;
-            random_irany.Set(
-            irany.x * Mathf.Cos(Rotation) - irany.z * Mathf.Sin(Rotation), irany.y * -1,
-            irany.x * Mathf.Sin(Rotation) + irany.z * Mathf.Cos(Rotation));
-
-            ad.position = position + random_irany;
-            ad.SetElozo(this);
-            ki.Add(ad);
+            GenerateStraight(ki);
         }
         else
         {
-            Debug.Log("Elagazas");
-            MakeIranyok();
-            Debug.Log(tovabb_irany.Count);
-            foreach (Vector3 irany in tovabb_irany)
-            {
-                RoadNode2 ad = new RoadNode2(straightFreq, maxelagazas);
-                ad.position = position + irany*2;
-                ad.SetElozo(this);
-                ki.Add(ad);
-            }
+            GenerateCrossing(ki);
         }
-        
         return ki;
+    }
+
+    void GenerateCrossing(List<RoadNode2> ki)
+    {
+        Debug.Log("Elagazas");
+        MakeIranyok();
+        Debug.Log(tovabb_irany.Count);
+        foreach (Vector3 irany in tovabb_irany)
+        {
+            RoadNode2 ad = new RoadNode2(straightFreq, maxelagazas, RotationRandom);
+            ad.position = position + irany * 2;
+            ad.SetElozo(this);
+            ki.Add(ad);
+        }
+    }
+
+    void GenerateStraight(List<RoadNode2> ki)
+    {
+        RoadNode2 ad = new RoadNode2(straightFreq, maxelagazas, RotationRandom);
+        Vector3 irany = new Vector3(0, 0, 1.5f);
+        if (elozo != null) irany = position - elozo.position;
+
+        Vector3 random_irany = new Vector3();
+        float Rotation = Random.value * RotationRandom *2 - RotationRandom;
+        random_irany.Set(
+        irany.x * Mathf.Cos(Rotation) - irany.z * Mathf.Sin(Rotation), irany.y * -1,
+        irany.x * Mathf.Sin(Rotation) + irany.z * Mathf.Cos(Rotation));
+
+        ad.position = position + random_irany;
+        ad.SetElozo(this);
+        ki.Add(ad);
     }
     
 	

@@ -15,10 +15,11 @@ public class RoadNodeContainer : MonoBehaviour {
     public float straightFreq = 0.9f;
     public int MaxElagazas = 4;
     public int ReqursiveMax = 300;
+    public float RotationRandom = 0.2f;
     // Use this for initialization
     void Start() {
         roads.Clear();
-        roads.Add(new RoadNode2(straightFreq, MaxElagazas));
+        roads.Add(new RoadNode2(straightFreq, MaxElagazas, RotationRandom));
         Invoke("Visualization01", 0.01f);
         Invoke("Generating",0.1f);
     }
