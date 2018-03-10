@@ -39,7 +39,6 @@ public class RoadNodeContainer : MonoBehaviour {
         roads.Add(elso);
         Invoke("Step01", 1);
         
-        
     }
 
     void Step01()
@@ -52,6 +51,15 @@ public class RoadNodeContainer : MonoBehaviour {
     {
         GeneratingStartSideRoads();
         Visualization01();
+        Invoke("Step03", 2);
+    }
+    void Step03()
+    {
+
+        Debug.Log("Generating More SideRoads");
+        GeneratingMoreSideRoads();
+        Visualization01();
+        Debug.Log("Vege a SideROadnak");
     }
 
     void Visualization01()
@@ -85,7 +93,6 @@ public class RoadNodeContainer : MonoBehaviour {
         return true;
     }
     void GeneratingMainRoads(){
-        Debug.Log("Generating Main Roads");
         ReqursiveMax--;
         if (ReqursiveMax < 0) return;
 
@@ -128,14 +135,13 @@ public class RoadNodeContainer : MonoBehaviour {
     }
 	void GeneratingStartSideRoads()
     {
-        Debug.Log("Generating SideRoads");
         sideroads.Clear();
         foreach(RoadNode2 road in roads)
         {
             List<RoadNode2> ki = new List<RoadNode2>();
             if (Random.value < SideRoadfreq)
             {
-                ki = road.GenerateSideRoads(SRoadsDistances);
+                ki = road.GenerateSideRoads(SRoadsDistances, straightFreqS,RotationRandomS);
             }
             foreach(RoadNode2 sideroad in ki)
             {
@@ -169,6 +175,48 @@ public class RoadNodeContainer : MonoBehaviour {
 
         }
     }
+    void GeneratingMoreSideRoads()
+    {
+        if (rootObjIndexS >= sideroads.Count)
+        {
+            return;
+        }
 
+        RoadNode2 current_road = sideroads[rootObjIndexS];
+        List<RoadNode2> newRoads = current_road.GenerateRoads(SRoadsDistances);
+
+        foreach (RoadNode2 newroad in newRoads)
+        {
+            bool ok = true;
+
+            foreach (RoadNode2 other_road in roads)
+                if ((newroad.position - other_road.position).sqrMagnitude < kozelsegS)
+                {
+                    ok = false;
+                    break;
+                }
+            foreach (RoadNode2 other_road in sideroads)
+                if ((newroad.position - other_road.position).sqrMagnitude < kozelsegS)
+                {
+                    ok = false;
+                    break;
+                }
+
+
+            if (ok)
+            {
+                sideroads.Add(newroad);
+            }
+        }
+
+
+        if (ReqursiveMaxS > 0)
+        {
+            ReqursiveMaxS--;
+            rootObjIndexS++;
+            GeneratingMoreSideRoads();
+        }
+
+    }
     
 }

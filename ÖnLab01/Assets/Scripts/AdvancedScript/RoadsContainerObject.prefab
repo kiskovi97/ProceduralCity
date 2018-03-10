@@ -64,7 +64,7 @@ MonoBehaviour:
   MaxElagazas: 4
   RotationRandom: 0.1
   ReqursiveMax: 400
-  ReqursiveMaxS: 600
+  ReqursiveMaxS: 800
   straightFreqS: 0.9
   RotationRandomS: 0.2
   SideRoadfreq: 0.5

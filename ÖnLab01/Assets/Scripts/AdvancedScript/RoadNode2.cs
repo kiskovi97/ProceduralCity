@@ -74,13 +74,13 @@ public class RoadNode2 {
         side_irany.Add(meroleges2.normalized);
     }
 
-    public List<RoadNode2> GenerateSideRoads(float distance)
+    public List<RoadNode2> GenerateSideRoads(float distance, float straightFreqS, float RotationRandomS)
     {
         List<RoadNode2> ki = new List<RoadNode2>();
         MakeSideIrany();
         foreach(Vector3 irany in side_irany)
         {
-            RoadNode2 ad = new RoadNode2(straightFreq/2, maxelagazas/2, RotationRandom/2, next/3*2);
+            RoadNode2 ad = new RoadNode2(straightFreqS, maxelagazas, RotationRandomS, distance);
             ad.position = position + irany * distance;
             ad.SetElozo(this);
             ki.Add(ad);
