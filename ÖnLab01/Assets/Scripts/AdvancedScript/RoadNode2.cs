@@ -24,6 +24,12 @@ public class RoadNode2 {
     public void SetPosition(Vector3 pos)
     {
         position = pos;
+        
+    }
+
+    public void DrawLines()
+    {
+        if (elozo!=null)
         Debug.DrawLine(position, elozo.position, Color.yellow, 100, false);
     }
 
@@ -35,7 +41,6 @@ public class RoadNode2 {
 
         int elagazasok = (int)(Random.value * (maxelagazas-2) + 2);
         if (elagazasok < 2) elagazasok = 2;
-        Debug.Log(elagazasok);
         for (int i = 1; i < elagazasok + 1; i++)
         {
             Vector3 uj = new Vector3();
@@ -54,7 +59,6 @@ public class RoadNode2 {
     public void addSzomszed(RoadNode2 be)
     {
         szomszedok.Add(be);
-        Debug.DrawLine(position, be.position, Color.blue, 100, false);
     }
 
     List<Vector3> side_irany = new List<Vector3>();
@@ -70,14 +74,14 @@ public class RoadNode2 {
         side_irany.Add(meroleges2.normalized);
     }
 
-    public List<RoadNode2> GenerateSideRoads()
+    public List<RoadNode2> GenerateSideRoads(float distance)
     {
         List<RoadNode2> ki = new List<RoadNode2>();
         MakeSideIrany();
         foreach(Vector3 irany in side_irany)
         {
             RoadNode2 ad = new RoadNode2(straightFreq/2, maxelagazas/2, RotationRandom/2, next/3*2);
-            ad.position = position + irany * next / 3 * 2;
+            ad.position = position + irany * distance;
             ad.SetElozo(this);
             ki.Add(ad);
             szomszedok.Add(ad);
@@ -94,8 +98,6 @@ public class RoadNode2 {
     {
         int index = szomszedok.IndexOf(regi);
         szomszedok[index] = uj;
-        Debug.DrawLine(position, uj.position, Color.black, 100, false);
-
     }
 
     public void SetElozo(RoadNode2 setElozo)
@@ -105,24 +107,23 @@ public class RoadNode2 {
             szomszedok.Add(elozo);
         else
             szomszedok[0] = setElozo;
-        Debug.DrawLine(position, elozo.position, Color.red, 100, false);
     }
 
-    public List<RoadNode2> GenerateRoads()
+    public List<RoadNode2> GenerateRoads(float distance)
     {
         List<RoadNode2> ki = new List<RoadNode2>();
         if (Random.value < straightFreq)
         {
-            GenerateStraight(ki);
+            GenerateStraight(ki, distance);
         }
         else
         {
-            GenerateCrossing(ki);
+            GenerateCrossing(ki, distance);
         }
         return ki;
     }
 
-    void GenerateCrossing(List<RoadNode2> ki)
+    void GenerateCrossing(List<RoadNode2> ki, float distance)
     {
         Debug.Log("Elagazas");
         MakeIranyok();
@@ -130,26 +131,26 @@ public class RoadNode2 {
         foreach (Vector3 irany in tovabb_irany)
         {
             RoadNode2 ad = new RoadNode2(straightFreq, maxelagazas, RotationRandom, next);
-            ad.position = position + irany * 2;
+            ad.position = position + irany * distance;
             ad.SetElozo(this);
             ki.Add(ad);
             szomszedok.Add(ad);
         }
     }
 
-    void GenerateStraight(List<RoadNode2> ki)
+    void GenerateStraight(List<RoadNode2> ki, float distance)
     {
         RoadNode2 ad = new RoadNode2(straightFreq, maxelagazas, RotationRandom, next);
         Vector3 irany = new Vector3(0, 0, 1.5f);
         if (elozo != null) irany = position - elozo.position;
 
         Vector3 random_irany = new Vector3();
-        float Rotation = Random.value * RotationRandom *2 - RotationRandom;
+        float Rotation = Random.value * RotationRandom * 2 - RotationRandom;
         random_irany.Set(
         irany.x * Mathf.Cos(Rotation) - irany.z * Mathf.Sin(Rotation), irany.y * -1,
         irany.x * Mathf.Sin(Rotation) + irany.z * Mathf.Cos(Rotation));
 
-        ad.position = position + random_irany;
+        ad.position = position + random_irany.normalized * distance;
         ad.SetElozo(this);
         ki.Add(ad);
         szomszedok.Add(ad);
