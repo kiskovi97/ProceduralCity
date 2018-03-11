@@ -6,6 +6,7 @@ public class RoadNode2 {
     RoadNode2 elozo = null;
     List<RoadNode2> szomszedok;
     public float next = 2.0f;
+    bool sideroad = false;
     public Vector3 position;
     public float straightFreq = 0.9f;
     public int maxelagazas = 4;
@@ -27,10 +28,12 @@ public class RoadNode2 {
         
     }
 
-    public void DrawLines()
+    public void DrawLines(Color c)
     {
-        if (elozo!=null)
-        Debug.DrawLine(position, elozo.position, Color.yellow, 100, false);
+        foreach (RoadNode2 road in szomszedok)
+        {
+                Debug.DrawLine(position, road.position, c, 100, false);
+        }
     }
 
     List<Vector3> tovabb_irany = new List<Vector3>();
@@ -41,6 +44,7 @@ public class RoadNode2 {
 
         int elagazasok = (int)(Random.value * (maxelagazas-2) + 2);
         if (elagazasok < 2) elagazasok = 2;
+        if (sideroad) elagazasok = 3;
         for (int i = 1; i < elagazasok + 1; i++)
         {
             Vector3 uj = new Vector3();
@@ -83,6 +87,7 @@ public class RoadNode2 {
             RoadNode2 ad = new RoadNode2(straightFreqS, maxelagazas, RotationRandomS, distance);
             ad.position = position + irany * distance;
             ad.SetElozo(this);
+            ad.sideroad = true;
             ki.Add(ad);
             szomszedok.Add(ad);
         }
@@ -97,6 +102,11 @@ public class RoadNode2 {
     public void Csere(RoadNode2 uj, RoadNode2 regi)
     {
         int index = szomszedok.IndexOf(regi);
+        if (index > szomszedok.Count || index < 0)
+        {
+            Debug.Log("CsereHiba");
+            return;
+        }
         szomszedok[index] = uj;
     }
 
@@ -125,14 +135,13 @@ public class RoadNode2 {
 
     void GenerateCrossing(List<RoadNode2> ki, float distance)
     {
-        Debug.Log("Elagazas");
         MakeIranyok();
-        Debug.Log(tovabb_irany.Count);
         foreach (Vector3 irany in tovabb_irany)
         {
             RoadNode2 ad = new RoadNode2(straightFreq, maxelagazas, RotationRandom, next);
             ad.position = position + irany * distance;
             ad.SetElozo(this);
+            ad.sideroad = sideroad;
             ki.Add(ad);
             szomszedok.Add(ad);
         }
@@ -152,6 +161,7 @@ public class RoadNode2 {
 
         ad.position = position + random_irany.normalized * distance;
         ad.SetElozo(this);
+        ad.sideroad = sideroad;
         ki.Add(ad);
         szomszedok.Add(ad);
     }

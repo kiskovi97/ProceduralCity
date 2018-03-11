@@ -68,13 +68,13 @@ public class RoadNodeContainer : MonoBehaviour {
         {
             GameObject ki = Instantiate(visual);
             ki.transform.position = road.position;
-            road.DrawLines();
+            road.DrawLines(Color.red);
         }
         foreach (RoadNode2 road in sideroads)
         {
             GameObject ki = Instantiate(visual);
             ki.transform.position = road.position;
-            road.DrawLines();
+            road.DrawLines(Color.yellow);
         }
 
     }
@@ -82,12 +82,10 @@ public class RoadNodeContainer : MonoBehaviour {
     {
         if (r.position.x < xMin || r.position.x > xMax)
         {
-            Debug.Log("Kint Vagy");
             return false;
         }
         if (r.position.z < zMin || r.position.z > zMax)
         {
-            Debug.Log("Kint Vagy");
             return false;
         }
         return true;
@@ -109,11 +107,10 @@ public class RoadNodeContainer : MonoBehaviour {
                     {
                         if ((road.position - other_road.position).sqrMagnitude < kozelseg)
                         {
-                            RoadNode2 elozo = road.getElozo();
-                            elozo.Csere(other_road, road);
-                            other_road.addSzomszed(elozo);
+                            
+                            root.Csere(other_road, road);
+                            other_road.addSzomszed(root);
                             oks = false;
-                            Debug.Log("Javit");
                             break;
                         }
                     }
@@ -151,7 +148,6 @@ public class RoadNodeContainer : MonoBehaviour {
                     if ((sideroad.position - other_road.position).sqrMagnitude < kozelsegS)
                     {
                         oks = false;
-                        Debug.Log("Kozel van");
                         break;
                     }
                 }
@@ -160,7 +156,6 @@ public class RoadNodeContainer : MonoBehaviour {
                     if ((sideroad.position - other_road.position).sqrMagnitude < kozelsegS)
                     {
                         oks = false;
-                        Debug.Log("Kozel van");
                         break;
                     }
                 }
@@ -188,21 +183,25 @@ public class RoadNodeContainer : MonoBehaviour {
         foreach (RoadNode2 newroad in newRoads)
         {
             bool ok = true;
-
+            if (!PalyanBelulVane(newroad)) continue;
             foreach (RoadNode2 other_road in roads)
                 if ((newroad.position - other_road.position).sqrMagnitude < kozelsegS)
                 {
+                    
+                    current_road.Csere(other_road, newroad);
+                    other_road.addSzomszed(current_road);
                     ok = false;
                     break;
                 }
             foreach (RoadNode2 other_road in sideroads)
                 if ((newroad.position - other_road.position).sqrMagnitude < kozelsegS)
                 {
+                    
+                    current_road.Csere(other_road, newroad);
+                    other_road.addSzomszed(current_road);
                     ok = false;
                     break;
                 }
-
-
             if (ok)
             {
                 sideroads.Add(newroad);
