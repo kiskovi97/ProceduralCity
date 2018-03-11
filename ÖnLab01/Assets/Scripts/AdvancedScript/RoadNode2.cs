@@ -74,6 +74,11 @@ public class RoadNode2 {
         szomszedok.Add(be);
     }
 
+    public void removeSzomszed(RoadNode2 ki)
+    {
+        szomszedok.Remove(ki);
+    }
+
     List<Vector3> side_irany = new List<Vector3>();
     void MakeSideIrany()
     {
