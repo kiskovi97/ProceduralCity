@@ -31,6 +31,8 @@ public class RoadNodeContainer : MonoBehaviour {
     public float straightFreqS = 0.9f;
     public float RotationRandomS = 0.1f;
     public float SideRoadfreq = 0.2f;
+    // Smooth
+    public float smootIntensity = 0.1f;
     // Use this for initialization
     void Start() {
         roads.Clear();
@@ -44,13 +46,13 @@ public class RoadNodeContainer : MonoBehaviour {
     void Step01()
     {
         GeneratingMainRoads();
-        Visualization01();
+        //Visualization01();
         Invoke("Step02", 2);
     }
     void Step02()
     {
         GeneratingStartSideRoads();
-        Visualization01();
+        //Visualization01();
         Invoke("Step03", 2);
     }
     void Step03()
@@ -58,8 +60,9 @@ public class RoadNodeContainer : MonoBehaviour {
 
         Debug.Log("Generating More SideRoads");
         GeneratingMoreSideRoads();
-        Visualization01();
         Debug.Log("Vege a SideROadnak");
+        SmoothRoads();
+        Visualization01();
     }
 
     void Visualization01()
@@ -126,7 +129,6 @@ public class RoadNodeContainer : MonoBehaviour {
         }
         else
         {
-            Debug.Log("Vege");
             return;
         }
     }
@@ -193,6 +195,7 @@ public class RoadNodeContainer : MonoBehaviour {
                     ok = false;
                     break;
                 }
+            if (ok)
             foreach (RoadNode2 other_road in sideroads)
                 if ((newroad.position - other_road.position).sqrMagnitude < kozelsegS)
                 {
@@ -217,5 +220,16 @@ public class RoadNodeContainer : MonoBehaviour {
         }
 
     }
-    
+    void SmoothRoads()
+    {
+        foreach (RoadNode2 road in roads)
+        {
+            road.Smooth(smootIntensity);
+        }
+        foreach (RoadNode2 road in sideroads)
+        {
+            road.Smooth(smootIntensity);
+        }
+        Visualization01();
+    }
 }

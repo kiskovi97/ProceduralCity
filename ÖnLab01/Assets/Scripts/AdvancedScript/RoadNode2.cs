@@ -25,7 +25,6 @@ public class RoadNode2 {
     public void SetPosition(Vector3 pos)
     {
         position = pos;
-        
     }
 
     public void DrawLines(Color c)
@@ -34,6 +33,16 @@ public class RoadNode2 {
         {
                 Debug.DrawLine(position, road.position, c, 100, false);
         }
+    }
+
+    public void Smooth(float intensity)
+    {
+        if (szomszedok.Count < 2) return;
+        Vector3 center = new Vector3(0, 0, 0);
+        foreach (RoadNode2 szomszed in szomszedok) center += szomszed.position;
+        center /= szomszedok.Count;
+        Vector3 irany = center - position;
+        position += irany * intensity;
     }
 
     List<Vector3> tovabb_irany = new List<Vector3>();
