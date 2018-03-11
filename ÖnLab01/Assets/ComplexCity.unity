@@ -155,22 +155,22 @@ Prefab:
     - target: {fileID: 114479532145028860, guid: 51709fc6ad525e3469ade0eace8012db,
         type: 2}
       propertyPath: xMin
-      value: -5
+      value: -15
       objectReference: {fileID: 0}
     - target: {fileID: 114479532145028860, guid: 51709fc6ad525e3469ade0eace8012db,
         type: 2}
       propertyPath: zMin
-      value: -5
+      value: -15
       objectReference: {fileID: 0}
     - target: {fileID: 114479532145028860, guid: 51709fc6ad525e3469ade0eace8012db,
         type: 2}
       propertyPath: xMax
-      value: 5
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 114479532145028860, guid: 51709fc6ad525e3469ade0eace8012db,
         type: 2}
       propertyPath: zMax
-      value: 5
+      value: 15
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 51709fc6ad525e3469ade0eace8012db, type: 2}
