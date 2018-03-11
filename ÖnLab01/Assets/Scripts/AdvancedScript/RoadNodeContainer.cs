@@ -58,8 +58,7 @@ public class RoadNodeContainer : MonoBehaviour {
     {
         GeneratingMainRoads();
         Debug.Log("End of main road generation");
-        Visualization01();
-        //Invoke("Step02", 2);
+        Invoke("Step02", 2);
     }
     void Step02()
     {
@@ -114,7 +113,7 @@ public class RoadNodeContainer : MonoBehaviour {
             List<RoadNode2> newRoads = root.GenerateRoads(RoadsDistances);
             foreach (RoadNode2 road in newRoads)
             {
-                if (Ellenorzes(root,road))
+                if (Ellenorzes(root,road, true))
                 {
                     roads.Add(road);
                 }
@@ -143,32 +142,16 @@ public class RoadNodeContainer : MonoBehaviour {
             {
                 ki = road.GenerateSideRoads(SRoadsDistances, straightFreqS,RotationRandomS);
             }
-            foreach(RoadNode2 sideroad in ki)
+            foreach(RoadNode2 newroad in ki)
             {
-                bool oks = true;
-                foreach (RoadNode2 other_road in roads)
+                
+                if (Ellenorzes(road,newroad, false))
                 {
-                    if ((sideroad.position - other_road.position).sqrMagnitude < kozelsegS)
-                    {
-                        oks = false;
-                        break;
-                    }
-                }
-                foreach (RoadNode2 other_road in sideroads)
-                {
-                    if ((sideroad.position - other_road.position).sqrMagnitude < kozelsegS)
-                    {
-                        oks = false;
-                        break;
-                    }
-                }
-                if (oks)
-                {
-                    sideroads.Add(sideroad);
+                    sideroads.Add(newroad);
                 }
                 else
                 {
-                    road.removeSzomszed(sideroad);
+                    road.removeSzomszed(newroad);
                 }
             }
 
@@ -187,76 +170,8 @@ public class RoadNodeContainer : MonoBehaviour {
 
         foreach (RoadNode2 newroad in newRoads)
         {
-            bool ok = true;
-            if (!PalyanBelulVane(newroad))
-            {
-                current_road.removeSzomszed(newroad);
-                continue;
-            }
-            foreach (RoadNode2 other_road in roads)
-            {
-                if ((newroad.position - other_road.position).sqrMagnitude < kozelsegS)
-                {
-                    current_road.Csere(other_road, newroad);
-                    other_road.addSzomszed(current_road);
-                    plusroads.Add(new PlusRoad(current_road.position, other_road.position));
-                    ok = false;
-                    break;
-                }
-                Vector3 p1 = current_road.position;
-                if (other_road.getElozo() == null) continue;
-                Vector3 p2 = other_road.getElozo().position;
-                Vector3 q1 = newroad.position;
-                Vector3 q2 = other_road.position;
-                if (p1 == p2 || p1 == q2 || p2 == q1 || q1 == q2) continue;
-                if (SegmentFunctions.doIntersect(p1, q1, p2, q2))
-                {
-                    ok = false;
-                    break;
-                }
-            }
-                
-            if (ok)
-            foreach (RoadNode2 other_road in sideroads)
-            {
-                if ((newroad.position - other_road.position).sqrMagnitude < kozelsegS)
-                {
-                    current_road.Csere(other_road, newroad);
-                    other_road.addSzomszed(current_road);
-                    plusroads.Add(new PlusRoad(current_road.position, other_road.position));
-                    ok = false;
-                    break;
-               }
-
-               Vector3 p1 = current_road.position;
-               Vector3 q1 = newroad.position;
-               if (other_road.getElozo() == null) continue;
-               Vector3 p2 = other_road.getElozo().position;
-               Vector3 q2 = other_road.position;
-               if (p1 == p2 || p1 == q2 || p2 == q1 || q1 == q2) continue;
-               if (SegmentFunctions.doIntersect(p1, q1, p2, q2))
-               {
-                   ok = false;
-                   break;
-                }
-            }
-            if (ok)
-            {
-                foreach (PlusRoad plusroad in plusroads)
-                {
-                    Vector3 p1 = current_road.position;
-                    Vector3 q1 = newroad.position;
-                    if (p1 == plusroad.p || p1 == plusroad.q || plusroad.q == q1 || plusroad.p == q1) continue;
-                    if (SegmentFunctions.doIntersect(p1, q1, plusroad.p, plusroad.q))
-                    {
-                        ok = false;
-                        break;
-                    }
-                }
-            }
-
-                
-            if (ok)
+            
+            if (Ellenorzes(current_road,newroad, true))
             {
                 sideroads.Add(newroad);
             }
@@ -276,17 +191,23 @@ public class RoadNodeContainer : MonoBehaviour {
 
     }
 
-    bool Ellenorzes(RoadNode2 current_road,RoadNode2 newroad)
+    bool Ellenorzes(RoadNode2 current_road,RoadNode2 newroad, bool Javitassal)
     {
         if (!PalyanBelulVane(newroad)) return false;
         foreach (RoadNode2 other_road in roads)
         {
             if ((newroad.position - other_road.position).sqrMagnitude < kozelseg)
             {
-                // -- Javitas --
-                current_road.Csere(other_road, newroad);
-                other_road.addSzomszed(current_road);
-                plusroads.Add(new PlusRoad(current_road.position, other_road.position));
+                if (Javitassal)
+                {
+                    if (KeresztEllenorzes(current_road.position, other_road.position))
+                    {
+                        // -- Javitas --
+                        current_road.Csere(other_road, newroad);
+                        other_road.addSzomszed(current_road);
+                        plusroads.Add(new PlusRoad(current_road.position, other_road.position));
+                    }
+                }
                 return false;
             }
             Vector3 p1 = current_road.position;
@@ -304,10 +225,16 @@ public class RoadNodeContainer : MonoBehaviour {
         {
             if ((newroad.position - other_road.position).sqrMagnitude < kozelsegS)
             {
-                // -- Javitas --
-                current_road.Csere(other_road, newroad);
-                other_road.addSzomszed(current_road);
-                plusroads.Add(new PlusRoad(current_road.position, other_road.position));
+                if (Javitassal)
+                {
+                    if (KeresztEllenorzes(current_road.position, other_road.position))
+                    {
+                        current_road.Csere(other_road, newroad);
+                        other_road.addSzomszed(current_road);
+                        plusroads.Add(new PlusRoad(current_road.position, other_road.position));
+                    }
+                }
+
                 return false;
             }
             Vector3 p1 = current_road.position;
@@ -321,17 +248,21 @@ public class RoadNodeContainer : MonoBehaviour {
                 return false;
             }
         }
+        return KeresztEllenorzes(current_road.position,newroad.position);
+    }
+
+    bool KeresztEllenorzes(Vector3 p1 , Vector3 q1)
+    {
+        
         foreach (PlusRoad plusroad in plusroads)
         {
-           
-            Vector3 p1 = current_road.position;
-            Vector3 q1 = newroad.position;
             if (p1 == plusroad.p || p1 == plusroad.q || plusroad.q == q1 || plusroad.p == q1) continue;
             if (SegmentFunctions.doIntersect(p1, q1, plusroad.p, plusroad.q))
             {
                 return false;
             }
         }
+        
         return true;
     }
 
