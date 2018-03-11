@@ -110,8 +110,8 @@ public class RoadNodeContainer : MonoBehaviour {
                     {
                         if ((road.position - other_road.position).sqrMagnitude < kozelseg)
                         {
-                            //root.Csere(other_road, road);
-                            //other_road.addSzomszed(root);
+                            root.Csere(other_road, road);
+                            other_road.addSzomszed(root);
                             oks = false;
                             break;
                         }
@@ -199,8 +199,8 @@ public class RoadNodeContainer : MonoBehaviour {
             {
                 if ((newroad.position - other_road.position).sqrMagnitude < kozelsegS)
                 {
-                    //current_road.Csere(other_road, newroad);
-                    //other_road.addSzomszed(current_road);
+                    current_road.Csere(other_road, newroad);
+                    other_road.addSzomszed(current_road);
                     ok = false;
                     break;
                 }
@@ -222,10 +222,10 @@ public class RoadNodeContainer : MonoBehaviour {
             {
                 if ((newroad.position - other_road.position).sqrMagnitude < kozelsegS)
                 {
-                        //current_road.Csere(other_road, newroad);
-                        //other_road.addSzomszed(current_road);
-                        ok = false;
-                        break;
+                    current_road.Csere(other_road, newroad);
+                    other_road.addSzomszed(current_road);
+                    ok = false;
+                    break;
                }
 
                Vector3 p1 = current_road.position;
