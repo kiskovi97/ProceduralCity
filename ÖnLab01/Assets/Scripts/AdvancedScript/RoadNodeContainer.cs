@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class RoadNodeContainer : MonoBehaviour {
@@ -194,33 +193,6 @@ public class RoadNodeContainer : MonoBehaviour {
     bool Ellenorzes(RoadNode2 current_road,RoadNode2 newroad, bool Javitassal)
     {
         if (!PalyanBelulVane(newroad)) return false;
-        foreach (RoadNode2 other_road in roads)
-        {
-            if ((newroad.position - other_road.position).sqrMagnitude < kozelseg)
-            {
-                if (Javitassal)
-                {
-                    if (KeresztEllenorzes(current_road.position, other_road.position))
-                    {
-                        // -- Javitas --
-                        current_road.Csere(other_road, newroad);
-                        other_road.addSzomszed(current_road);
-                        plusroads.Add(new PlusRoad(current_road.position, other_road.position));
-                    }
-                }
-                return false;
-            }
-            Vector3 p1 = current_road.position;
-            if (other_road.getElozo() == null) continue;
-            Vector3 p2 = other_road.getElozo().position;
-            Vector3 q1 = newroad.position;
-            Vector3 q2 = other_road.position;
-            if (p1 == p2 || p1 == q2 || q1 == p2 || q1 == q2) continue;
-            if (SegmentFunctions.doIntersect(p1, q1, p2, q2))
-            {
-                return false;
-            }
-        }
         foreach (RoadNode2 other_road in sideroads)
         {
             if ((newroad.position - other_road.position).sqrMagnitude < kozelsegS)
@@ -235,6 +207,33 @@ public class RoadNodeContainer : MonoBehaviour {
                     }
                 }
 
+                return false;
+            }
+            Vector3 p1 = current_road.position;
+            if (other_road.getElozo() == null) continue;
+            Vector3 p2 = other_road.getElozo().position;
+            Vector3 q1 = newroad.position;
+            Vector3 q2 = other_road.position;
+            if (p1 == p2 || p1 == q2 || q1 == p2 || q1 == q2) continue;
+            if (SegmentFunctions.doIntersect(p1, q1, p2, q2))
+            {
+                return false;
+            }
+        }
+        foreach (RoadNode2 other_road in roads)
+        {
+            if ((newroad.position - other_road.position).sqrMagnitude < kozelseg)
+            {
+                if (Javitassal)
+                {
+                    if (KeresztEllenorzes(current_road.position, other_road.position))
+                    {
+                        // -- Javitas --
+                        current_road.Csere(other_road, newroad);
+                        other_road.addSzomszed(current_road);
+                        plusroads.Add(new PlusRoad(current_road.position, other_road.position));
+                    }
+                }
                 return false;
             }
             Vector3 p1 = current_road.position;
