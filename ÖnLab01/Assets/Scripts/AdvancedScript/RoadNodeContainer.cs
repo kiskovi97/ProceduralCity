@@ -46,22 +46,21 @@ public class RoadNodeContainer : MonoBehaviour {
     void Step01()
     {
         GeneratingMainRoads();
-        //Visualization01();
+        Debug.Log("End of main road generation");
         Invoke("Step02", 2);
     }
     void Step02()
     {
         GeneratingStartSideRoads();
-        //Visualization01();
+        Debug.Log("End of start side road generation");
         Invoke("Step03", 2);
     }
     void Step03()
     {
-
-        Debug.Log("Generating More SideRoads");
         GeneratingMoreSideRoads();
-        Debug.Log("Vege a SideROadnak");
+        Debug.Log("End of side road generation");
         SmoothRoads();
+        Debug.Log("End of Smooth");
         Visualization01();
     }
 
@@ -81,6 +80,7 @@ public class RoadNodeContainer : MonoBehaviour {
         }
 
     }
+   
     bool  PalyanBelulVane(RoadNode2 r)
     {
         if (r.position.x < xMin || r.position.x > xMax)
@@ -164,8 +164,6 @@ public class RoadNodeContainer : MonoBehaviour {
                 if (oks)
                 {
                     sideroads.Add(sideroad);
-                    GameObject visual01 = Instantiate(visual);
-                    visual01.transform.position = sideroad.position;
                 }
             }
 
@@ -187,24 +185,55 @@ public class RoadNodeContainer : MonoBehaviour {
             bool ok = true;
             if (!PalyanBelulVane(newroad)) continue;
             foreach (RoadNode2 other_road in roads)
+            {
                 if ((newroad.position - other_road.position).sqrMagnitude < kozelsegS)
                 {
-                    
                     current_road.Csere(other_road, newroad);
                     other_road.addSzomszed(current_road);
                     ok = false;
                     break;
                 }
+                Vector3 p1 = current_road.position;
+                if (other_road.getElozo() == null) continue;
+                Vector3 p2 = other_road.getElozo().position;
+                Vector3 q1 = newroad.position;
+                Vector3 q2 = other_road.position;
+                if (p1 == p2 || p1 == q2 || p2 == q1) continue;
+                if (SegmentFunctions.doIntersect(p1, q1, p2, q2))
+                {
+                    current_road.Csere(other_road, newroad);
+                    other_road.addSzomszed(current_road);
+                    ok = false;
+                    break;
+                }
+            }
+                
             if (ok)
             foreach (RoadNode2 other_road in sideroads)
-                if ((newroad.position - other_road.position).sqrMagnitude < kozelsegS)
                 {
-                    
-                    current_road.Csere(other_road, newroad);
-                    other_road.addSzomszed(current_road);
-                    ok = false;
-                    break;
+                    if ((newroad.position - other_road.position).sqrMagnitude < kozelsegS)
+                    {
+                        current_road.Csere(other_road, newroad);
+                        other_road.addSzomszed(current_road);
+                        ok = false;
+                        break;
+                    }
+
+                    Vector3 p1 = current_road.position;
+                    Vector3 q1 = newroad.position;
+                    if (other_road.getElozo() == null) continue;
+                    Vector3 p2 = other_road.getElozo().position;
+                    Vector3 q2 = other_road.position;
+                    if (p1 == p2 || p1 == q2 || p2 == q1) continue;
+                    if (SegmentFunctions.doIntersect(p1, q1, p2, q2))
+                    {
+                        current_road.Csere(other_road, newroad);
+                        other_road.addSzomszed(current_road);
+                        ok = false;
+                        break;
+                    }
                 }
+                
             if (ok)
             {
                 sideroads.Add(newroad);
@@ -230,6 +259,5 @@ public class RoadNodeContainer : MonoBehaviour {
         {
             road.Smooth(smootIntensity);
         }
-        Visualization01();
     }
 }
