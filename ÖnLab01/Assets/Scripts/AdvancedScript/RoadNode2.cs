@@ -13,6 +13,43 @@ public class RoadNode2 {
     public float RotationRandom = 0.2f;
 
     // Use this for initialization
+    // legnagyobb Zvel rendelkezo
+    public RoadNode2 LegmagasabbSzomszed()
+    {
+        if (szomszedok.Count <= 0) return null;
+        RoadNode2 ki = szomszedok[0];
+        foreach (RoadNode2 road in szomszedok)
+        {
+            if (ki.position.z < road.position.z) ki = road;
+        }
+        return ki;
+    }
+
+    public RoadNode2 Kovetkezo(RoadNode2 elozo)
+    {
+        if (szomszedok.Count <= 1) return null;
+        if (!szomszedok.Contains(elozo)) {
+            Debug.Log("Rosz elozo lett megadva");
+            return null;
+        }
+        RoadNode2 ki = szomszedok[0];
+        Vector3 ki_irany = ki.position - position;
+        Vector3 elozo_irany = elozo.position - position;
+        float angleNow = Vector3.Angle(elozo_irany, ki_irany);
+        foreach (RoadNode2 road in szomszedok)
+        {
+            if (road == elozo) continue;
+            Vector3 kovetkezo_irany = road.position - position;
+            float angleNew = Vector3.Angle(elozo_irany, kovetkezo_irany);
+            if (angleNow > angleNew)
+            {
+                ki = road;
+                elozo_irany = elozo.position - position;
+                angleNow = Vector3.Angle(elozo_irany, ki_irany);
+            }
+        }
+        return ki;
+    }
 
     public RoadNode2(float freq, int max, float rotate, float n) {
         szomszedok = new List<RoadNode2>();
