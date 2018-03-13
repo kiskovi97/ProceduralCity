@@ -14,6 +14,7 @@ public class RoadNodeContainer : MonoBehaviour {
     }
   
     public GameObject visual;
+    public GameObject blockObject;
     List<RoadNode2> roads = new List<RoadNode2>();
     List<RoadNode2> sideroads = new List<RoadNode2>();
     List<PlusRoad> plusroads = new List<PlusRoad>();
@@ -77,10 +78,10 @@ public class RoadNodeContainer : MonoBehaviour {
         Debug.Log("NEXT");
         all.AddRange(roads);
         all.AddRange(sideroads);
-        generator.GenerateCircles(all);
+        generator.GenerateCircles(all, blockObject);
     }
 
-        void Visualization01()
+    void Visualization01()
     {
         foreach (RoadNode2 road in roads)
         {

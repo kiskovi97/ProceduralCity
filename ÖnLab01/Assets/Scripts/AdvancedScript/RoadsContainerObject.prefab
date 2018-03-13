@@ -51,7 +51,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b06f9e3b13dbcc74a8b34110e76af3de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  visual: {fileID: 1546522376816596, guid: 0263e994d9c5e95479588be3231f2e3e, type: 2}
+  visual: {fileID: 1670723780966886, guid: fca6ff302cd90704c8ef741fa74f7345, type: 2}
+  blockObject: {fileID: 1179097907748356, guid: eacc2f1849964a542b7415cf3057fe9a,
+    type: 2}
   xMin: -10
   zMin: -10
   xMax: 10
