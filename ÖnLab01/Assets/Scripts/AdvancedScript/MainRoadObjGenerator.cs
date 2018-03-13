@@ -35,38 +35,46 @@ public class MainRoadObjGenerator{
     void GenerateCircle(RoadNode2 root)
     {
         Debug.Log("Circle");
-        RoadNode2 second = root.LegmagasabbSzomszed();
-        if (second == null) return;
-
-        List<RoadNode2> circle = new List<RoadNode2>();
-        circle.Add(root);
-        circle.Add(second);
-        bool ok = true;
-        int last = circle.Count - 1;
-        while (ok)
+        List<RoadNode2> sz = root.getSomszedok();
+        foreach(RoadNode2 second in sz)
         {
-           //Debug.Log("Circle");
-            RoadNode2 nextroad = circle[last].Kovetkezo(circle[last-1]);
-            if (nextroad == null) return;
+            if (second == null) return;
 
-            if (nextroad == root) ok = false;
-            else
+            List<RoadNode2> circle = new List<RoadNode2>();
+            circle.Add(root);
+            circle.Add(second);
+            bool ok = true;
+            int last = circle.Count - 1;
+            while (ok)
             {
-                foreach (RoadNode2 road in circle)
+                //Debug.Log("Circle");
+                RoadNode2 nextroad = circle[last].Kovetkezo(circle[last - 1]);
+                if (nextroad == null) return;
+
+                if (nextroad == root) ok = false;
+                else
                 {
-                    if (road == nextroad) return;
+                    foreach (RoadNode2 road in circle)
+                    {
+                        if (road == nextroad) return;
+                    }
+                    circle.Add(nextroad);
+                    last++;
                 }
-                circle.Add(nextroad);
-                last++;
+
             }
-            
+            Vector3 kozeppont = new Vector3(0, 0, 0);
+            foreach (RoadNode2 road in circle)
+            {
+                kozeppont += road.position;
+            }
+            kozeppont /= circle.Count;
+            foreach (RoadNode2 road in circle)
+            {
+                Debug.DrawLine(kozeppont, road.position, Color.green, 100, false);
+            }
         }
-        Vector3 kozeppont = new Vector3(0, 0, 0);
-        foreach(RoadNode2 road in circle)
-        {
-            kozeppont += road.position;
-        }
-        kozeppont /= circle.Count;
-        Debug.DrawLine(kozeppont, kozeppont + new Vector3(0,2,0), Color.green, 100, false);
+        
+        
     }
 }

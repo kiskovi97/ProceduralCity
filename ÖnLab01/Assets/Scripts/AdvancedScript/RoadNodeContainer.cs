@@ -77,7 +77,7 @@ public class RoadNodeContainer : MonoBehaviour {
         Debug.Log("NEXT");
         all.AddRange(roads);
         all.AddRange(sideroads);
-        generator.GenerateCircles(sideroads);
+        generator.GenerateCircles(all);
     }
 
         void Visualization01()

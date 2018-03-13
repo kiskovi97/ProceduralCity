@@ -18,16 +18,21 @@ public class RoadNode2 {
     {
         if (szomszedok.Count <= 0) return null;
         RoadNode2 ki = szomszedok[0];
-        foreach (RoadNode2 road in szomszedok)
-        {
-            if (ki.position.z < road.position.z) ki = road;
-        }
+        //foreach (RoadNode2 road in szomszedok)
+        //{
+        //    if (ki.position.z < road.position.z) ki = road;
+        //}
         return ki;
     }
 
+    public List<RoadNode2> getSomszedok()
+    {
+        return szomszedok;
+    }
     public RoadNode2 Kovetkezo(RoadNode2 elozo)
     {
-        if (szomszedok.Count <= 1) return null;
+        if (szomszedok.Count == 1) return szomszedok[0];
+        if (szomszedok.Count < 1) return null;
         if (!szomszedok.Contains(elozo)) {
             Debug.Log("Rosz elozo lett megadva");
             return null;
@@ -35,12 +40,13 @@ public class RoadNode2 {
         RoadNode2 ki = szomszedok[0];
         Vector3 ki_irany = ki.position - position;
         Vector3 elozo_irany = elozo.position - position;
-        float angleNow = Vector3.Angle(elozo_irany, ki_irany);
+        float angleNow = 360;
         foreach (RoadNode2 road in szomszedok)
         {
             if (road == elozo) continue;
             Vector3 kovetkezo_irany = road.position - position;
             float angleNew = Vector3.Angle(elozo_irany, kovetkezo_irany);
+            if (angleNew < 0) angleNew += 360;
             if (angleNow > angleNew)
             {
                 ki = road;
@@ -48,6 +54,7 @@ public class RoadNode2 {
                 angleNow = Vector3.Angle(elozo_irany, ki_irany);
             }
         }
+        if (ki == elozo) return null;
         return ki;
     }
 
