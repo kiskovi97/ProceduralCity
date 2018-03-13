@@ -90,7 +90,6 @@ public class RoadNodeContainer : MonoBehaviour {
         }
 
     }
-   
     bool PalyanBelulVane(RoadNode2 r)
     {
         if (r.position.x < xMin || r.position.x > xMax)
@@ -189,7 +188,6 @@ public class RoadNodeContainer : MonoBehaviour {
         }
 
     }
-
     bool Ellenorzes(RoadNode2 current_road,RoadNode2 newroad, bool Javitassal)
     {
         if (!PalyanBelulVane(newroad)) return false;
@@ -209,16 +207,6 @@ public class RoadNodeContainer : MonoBehaviour {
 
                 return false;
             }
-            Vector3 p1 = current_road.position;
-            if (other_road.getElozo() == null) continue;
-            Vector3 p2 = other_road.getElozo().position;
-            Vector3 q1 = newroad.position;
-            Vector3 q2 = other_road.position;
-            if (p1 == p2 || p1 == q2 || q1 == p2 || q1 == q2) continue;
-            if (SegmentFunctions.doIntersect(p1, q1, p2, q2))
-            {
-                return false;
-            }
         }
         foreach (RoadNode2 other_road in roads)
         {
@@ -236,20 +224,9 @@ public class RoadNodeContainer : MonoBehaviour {
                 }
                 return false;
             }
-            Vector3 p1 = current_road.position;
-            if (other_road.getElozo() == null) continue;
-            Vector3 p2 = other_road.getElozo().position;
-            Vector3 q1 = newroad.position;
-            Vector3 q2 = other_road.position;
-            if (p1 == p2 || p1 == q2 || q1 == p2 || q1 == q2) continue;
-            if (SegmentFunctions.doIntersect(p1, q1, p2, q2))
-            {
-                return false;
-            }
         }
         return KeresztEllenorzes(current_road.position,newroad.position);
     }
-
     bool KeresztEllenorzes(Vector3 p1 , Vector3 q1)
     {
         
@@ -261,10 +238,34 @@ public class RoadNodeContainer : MonoBehaviour {
                 return false;
             }
         }
-        
+        foreach (RoadNode2 other_road in sideroads)
+        {
+            
+            if (other_road.getElozo() == null) continue;
+            Vector3 p2 = other_road.getElozo().position;
+            Vector3 q2 = other_road.position;
+            if (p1 == p2 || p1 == q2 || q1 == p2 || q1 == q2) continue;
+            if (SegmentFunctions.doIntersect(p1, q1, p2, q2))
+            {
+                return false;
+            }
+        }
+        foreach (RoadNode2 other_road in roads)
+        {
+
+            if (other_road.getElozo() == null) continue;
+            Vector3 p2 = other_road.getElozo().position;
+            Vector3 q2 = other_road.position;
+            if (p1 == p2 || p1 == q2 || q1 == p2 || q1 == q2) continue;
+            if (SegmentFunctions.doIntersect(p1, q1, p2, q2))
+            {
+                return false;
+            }
+        }
+
+
         return true;
     }
-
     void SmoothRoads()
     {
         foreach (RoadNode2 road in roads)
