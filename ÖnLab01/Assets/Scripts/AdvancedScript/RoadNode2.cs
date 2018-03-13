@@ -29,7 +29,7 @@ public class RoadNode2 {
     {
         return szomszedok;
     }
-    public RoadNode2 Kovetkezo(RoadNode2 elozo)
+    public RoadNode2 Kovetkezo(RoadNode2 elozo, bool jobbra)
     {
         if (szomszedok.Count == 1) return szomszedok[0];
         if (szomszedok.Count < 1) return null;
@@ -38,20 +38,37 @@ public class RoadNode2 {
             return null;
         }
         RoadNode2 ki = szomszedok[0];
-        Vector3 ki_irany = ki.position - position;
-        Vector3 elozo_irany = elozo.position - position;
-        float angleNow = 360;
+        Vector3 ki_irany = (ki.position - position).normalized;
+        Vector3 elozo_irany = (elozo.position - position).normalized;
+        float angleNow;
+        if (jobbra)
+            angleNow = 360;
+        else
+            angleNow = -360;
         foreach (RoadNode2 road in szomszedok)
         {
             if (road == elozo) continue;
-            Vector3 kovetkezo_irany = road.position - position;
-            float angleNew = Vector3.Angle(elozo_irany, kovetkezo_irany);
-            if (angleNew < 0) angleNew += 360;
-            if (angleNow > angleNew)
+            Vector3 kovetkezo_irany = (road.position - position).normalized;
+            float angleNew = Vector3.SignedAngle(elozo_irany, kovetkezo_irany,Vector3.up);
+            if (jobbra)
+            {
+                if (angleNew < 0) angleNew += 360;
+            }
+            else
+                 if (angleNew > 0) angleNew -= 360;
+
+            
+            if (angleNow > angleNew && jobbra)
             {
                 ki = road;
                 elozo_irany = elozo.position - position;
-                angleNow = Vector3.Angle(elozo_irany, ki_irany);
+                angleNow = angleNew;
+            }
+            if (angleNow < angleNew && !jobbra)
+            {
+                ki = road;
+                elozo_irany = elozo.position - position;
+                angleNow = angleNew;
             }
         }
         if (ki == elozo) return null;

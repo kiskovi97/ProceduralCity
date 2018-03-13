@@ -29,15 +29,17 @@ public class MainRoadObjGenerator{
         if (roads.Count <= 0) return;
         foreach (RoadNode2 road in list)
         {
-            GenerateCircle(road);
+            Debug.Log("Circle");
+            List<RoadNode2> sz = road.getSomszedok();
+            foreach (RoadNode2 second in sz)
+            {
+                GenerateCircle(road, second, true);
+                GenerateCircle(road, second, false);
+            }
         }
     }
-    void GenerateCircle(RoadNode2 root)
+    void GenerateCircle(RoadNode2 root, RoadNode2 second, bool jobbra)
     {
-        Debug.Log("Circle");
-        List<RoadNode2> sz = root.getSomszedok();
-        foreach(RoadNode2 second in sz)
-        {
             if (second == null) return;
 
             List<RoadNode2> circle = new List<RoadNode2>();
@@ -48,9 +50,8 @@ public class MainRoadObjGenerator{
             while (ok)
             {
                 //Debug.Log("Circle");
-                RoadNode2 nextroad = circle[last].Kovetkezo(circle[last - 1]);
+                RoadNode2 nextroad = circle[last].Kovetkezo(circle[last - 1], jobbra);
                 if (nextroad == null) return;
-
                 if (nextroad == root) ok = false;
                 else
                 {
@@ -73,8 +74,6 @@ public class MainRoadObjGenerator{
             {
                 Debug.DrawLine(kozeppont, road.position, Color.green, 100, false);
             }
-        }
-        
         
     }
 }

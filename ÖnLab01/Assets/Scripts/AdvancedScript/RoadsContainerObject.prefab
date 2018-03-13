@@ -52,10 +52,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   visual: {fileID: 1546522376816596, guid: 0263e994d9c5e95479588be3231f2e3e, type: 2}
-  xMin: -5
-  zMin: -5
-  xMax: 5
-  zMax: 5
+  xMin: -10
+  zMin: -10
+  xMax: 10
+  zMax: 10
   kozelseg: 1
   kozelsegS: 0.5
   RoadsDistances: 2
