@@ -25,11 +25,11 @@ public class MainRoadObjGenerator{
             return;
         }
         if (list == null) return;
-        Debug.Log("Elso road");
+       
         if (roads.Count <= 0) return;
         foreach (RoadNode2 road in list)
         {
-            Debug.Log("Circle");
+            
             List<RoadNode2> sz = road.getSomszedok();
             foreach (RoadNode2 second in sz)
             {

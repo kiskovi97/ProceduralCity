@@ -69,7 +69,7 @@ public class RoadNodeContainer : MonoBehaviour {
         GeneratingMoreSideRoads();
         SmoothRoads();
         Visualization01();
-        Step04();
+        Invoke("Step04",3.5f);
     }
     void Step04()
     {
