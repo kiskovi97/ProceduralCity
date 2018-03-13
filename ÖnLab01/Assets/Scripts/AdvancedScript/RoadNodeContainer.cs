@@ -17,7 +17,7 @@ public class RoadNodeContainer : MonoBehaviour {
     List<RoadNode2> roads = new List<RoadNode2>();
     List<RoadNode2> sideroads = new List<RoadNode2>();
     List<PlusRoad> plusroads = new List<PlusRoad>();
-
+    MainRoadObjGenerator generator = new MainRoadObjGenerator();
     int rootObjIndex = 0;
     int rootObjIndexS = 0;
     // Palya merete
@@ -62,19 +62,25 @@ public class RoadNodeContainer : MonoBehaviour {
     void Step02()
     {
         GeneratingStartSideRoads();
-        Debug.Log("End of start side road generation");
         Invoke("Step03", 2);
     }
     void Step03()
     {
         GeneratingMoreSideRoads();
-        Debug.Log("End of side road generation");
         SmoothRoads();
-        Debug.Log("End of Smooth");
         Visualization01();
+        Step04();
+    }
+    void Step04()
+    {
+        List<RoadNode2> all = new List<RoadNode2>();
+        Debug.Log("NEXT");
+        all.AddRange(roads);
+        all.AddRange(sideroads);
+        generator.GenerateCircles(sideroads);
     }
 
-    void Visualization01()
+        void Visualization01()
     {
         foreach (RoadNode2 road in roads)
         {
