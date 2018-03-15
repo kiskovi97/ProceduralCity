@@ -4,13 +4,32 @@ using UnityEngine;
 
 public class TestBlockGenerating : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
+    public List<GameObject> vertexObjects;
+    public GameObject blockObject;
+    BlockObjectScript script;
+    GameObject actual;
+    BlockObjectScript bos;
+    // Use this for initialization
+    void Start () {
+        actual = GameObject.Instantiate(blockObject);
+        bos = actual.GetComponent<BlockObjectScript>();
+        List<Vector3> vertexes = new List<Vector3>();
+        foreach (GameObject road in vertexObjects)
+        {
+            vertexes.Add(road.transform.position);
+        }
+        Vector3 kozeppont = new Vector3(0, 0, 0);
+        foreach (GameObject road in vertexObjects)
+        {
+            kozeppont += road.transform.position;
+        }
+        kozeppont /= vertexes.Count;
+        bos.MakeMeshData(vertexes, kozeppont);
+        bos.CreateMesh();
+    }
 	
 	// Update is called once per frame
 	void Update () {
-		
-	}
+        
+    }
 }
