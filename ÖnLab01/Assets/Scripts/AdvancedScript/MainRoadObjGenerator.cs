@@ -6,15 +6,7 @@ public class MainRoadObjGenerator{
     List<RoadNode2> roads;
     List<List<RoadNode2>> circles = new List<List<RoadNode2>>();
     GameObject blockObject;
- //   // Use this for initialization
- //   void Start () {
- //       roads = new List<RoadNode2>();
-	//}
-	
-	//// Update is called once per frame
-	//void Update () {
-		
-	//}
+
 
    public  void GenerateCircles(List<RoadNode2> list, GameObject block)
     {
@@ -34,7 +26,6 @@ public class MainRoadObjGenerator{
             List<RoadNode2> sz = road.getSomszedok();
             foreach (RoadNode2 second in sz)
             {
-                //GenerateCircle(road, second, true);
                 GenerateCircle(road, second, false);
             }
         }
@@ -50,7 +41,6 @@ public class MainRoadObjGenerator{
             int last = circle.Count - 1;
             while (ok)
             {
-                //Debug.Log("Circle");
                 RoadNode2 nextroad = circle[last].Kovetkezo(circle[last - 1], jobbra);
                 if (nextroad == null) return;
                 if (nextroad == root) ok = false;
@@ -65,6 +55,7 @@ public class MainRoadObjGenerator{
                 }
 
             }
+        if (circle.Count <= 2) return;
         ok = true;
         foreach(List<RoadNode2> eddigi in circles)
         {

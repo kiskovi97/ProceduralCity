@@ -175,7 +175,6 @@ public class RoadNodeContainer : MonoBehaviour {
 
         foreach (RoadNode2 newroad in newRoads)
         {
-            
             if (Ellenorzes(current_road,newroad, true))
             {
                 sideroads.Add(newroad);
@@ -197,7 +196,9 @@ public class RoadNodeContainer : MonoBehaviour {
     }
     bool Ellenorzes(RoadNode2 current_road,RoadNode2 newroad, bool Javitassal)
     {
+        
         if (!PalyanBelulVane(newroad)) return false;
+        
         foreach (RoadNode2 other_road in sideroads)
         {
             if ((newroad.position - other_road.position).sqrMagnitude < kozelsegS)
@@ -236,7 +237,6 @@ public class RoadNodeContainer : MonoBehaviour {
     }
     bool KeresztEllenorzes(Vector3 p1 , Vector3 q1)
     {
-        
         foreach (PlusRoad plusroad in plusroads)
         {
             if (p1 == plusroad.p || p1 == plusroad.q || plusroad.q == q1 || plusroad.p == q1) continue;
