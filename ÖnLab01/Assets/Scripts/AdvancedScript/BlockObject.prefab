@@ -107,3 +107,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a95e73b593757d249b4bc117523d76da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  minHouse: 0.1
+  HouseUpmin: 0.2
+  HouseUpmax: 0.6
+  HouseDeepmin: 0.2
+  HouseDeepmax: 0.3
