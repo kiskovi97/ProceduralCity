@@ -15,40 +15,22 @@ public class RoadNodeContainer : MonoBehaviour {
   
     public GameObject visual;
     public GameObject blockObject;
+    public RoadGeneratingValues values;
+
+    // rekurziv adatok
+    public int ReqursiveMax = 400;
+    public int ReqursiveMaxS = 1000;
     List<RoadNode2> roads = new List<RoadNode2>();
     List<RoadNode2> sideroads = new List<RoadNode2>();
     List<PlusRoad> plusroads = new List<PlusRoad>();
     MainRoadObjGenerator generator = new MainRoadObjGenerator();
     int rootObjIndex = 0;
     int rootObjIndexS = 0;
-    // Palya merete
-    public float xMin = -20;
-    public float zMin = -20;
-    public float xMax = 20;
-    public float zMax = 20;
-    // merge adatok
-    public float kozelseg = 0.3f;
-    public float kozelsegS = 0.1f;
-    public float RoadsDistances = 2;
-    public float SRoadsDistances = 0.5f;
-    // main road adatok
-    public float straightFreq = 0.9f;
-    public int MaxElagazas = 4;
-    public float RotationRandom = 0.2f;
-    // rekurziv adatok
-    public int ReqursiveMax = 300;
-    public int ReqursiveMaxS = 600;
-    // side road adatok
-    public float straightFreqS = 0.9f;
-    public float RotationRandomS = 0.1f;
-    public float SideRoadfreq = 0.2f;
-    // Smooth
-    public float smootIntensity = 0.1f;
     // Use this for initialization
     void Start() {
         roads.Clear();
-        RoadNode2 elso = new RoadNode2(straightFreq, MaxElagazas, RotationRandom, 2);
-        elso.SetPosition(new Vector3(0, 0, zMin + 1));
+        RoadNode2 elso = new RoadNode2(values.straightFreq, values.MaxElagazas, values.RotationRandom, 2);
+        elso.SetPosition(new Vector3(0, 0, values.zMin + 1));
         roads.Add(elso);
         Invoke("Step01", 1);
         
@@ -99,11 +81,11 @@ public class RoadNodeContainer : MonoBehaviour {
     }
     bool PalyanBelulVane(RoadNode2 r)
     {
-        if (r.position.x < xMin || r.position.x > xMax)
+        if (r.position.x < values.xMin || r.position.x > values.xMax)
         {
             return false;
         }
-        if (r.position.z < zMin || r.position.z > zMax)
+        if (r.position.z < values.zMin || r.position.z > values.zMax)
         {
             return false;
         }
@@ -115,7 +97,7 @@ public class RoadNodeContainer : MonoBehaviour {
         if (rootObjIndex < roads.Count)
         {
             RoadNode2 root = roads[rootObjIndex];
-            List<RoadNode2> newRoads = root.GenerateRoads(RoadsDistances);
+            List<RoadNode2> newRoads = root.GenerateRoads(values.RoadsDistances);
             foreach (RoadNode2 road in newRoads)
             {
                 if (Ellenorzes(root,road, true))
@@ -143,9 +125,9 @@ public class RoadNodeContainer : MonoBehaviour {
         foreach(RoadNode2 road in roads)
         {
             List<RoadNode2> ki = new List<RoadNode2>();
-            if (Random.value < SideRoadfreq)
+            if (Random.value < values.SideRoadfreq)
             {
-                ki = road.GenerateSideRoads(SRoadsDistances, straightFreqS,RotationRandomS);
+                ki = road.GenerateSideRoads(values.SRoadsDistances, values.straightFreqS, values.RotationRandomS);
             }
             foreach(RoadNode2 newroad in ki)
             {
@@ -171,7 +153,7 @@ public class RoadNodeContainer : MonoBehaviour {
         }
 
         RoadNode2 current_road = sideroads[rootObjIndexS];
-        List<RoadNode2> newRoads = current_road.GenerateRoads(SRoadsDistances);
+        List<RoadNode2> newRoads = current_road.GenerateRoads(values.SRoadsDistances);
 
         foreach (RoadNode2 newroad in newRoads)
         {
@@ -201,7 +183,7 @@ public class RoadNodeContainer : MonoBehaviour {
         
         foreach (RoadNode2 other_road in sideroads)
         {
-            if ((newroad.position - other_road.position).sqrMagnitude < kozelsegS)
+            if ((newroad.position - other_road.position).sqrMagnitude < values.kozelsegS)
             {
                 if (Javitassal)
                 {
@@ -218,7 +200,7 @@ public class RoadNodeContainer : MonoBehaviour {
         }
         foreach (RoadNode2 other_road in roads)
         {
-            if ((newroad.position - other_road.position).sqrMagnitude < kozelseg)
+            if ((newroad.position - other_road.position).sqrMagnitude < values.kozelseg)
             {
                 if (Javitassal)
                 {
@@ -277,11 +259,11 @@ public class RoadNodeContainer : MonoBehaviour {
     {
         foreach (RoadNode2 road in roads)
         {
-            road.Smooth(smootIntensity);
+            road.Smooth(values.smootIntensity);
         }
         foreach (RoadNode2 road in sideroads)
         {
-            road.Smooth(smootIntensity);
+            road.Smooth(values.smootIntensity);
         }
     }
 }
