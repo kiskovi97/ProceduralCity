@@ -40,12 +40,6 @@ public class BlockObjectScript : MonoBehaviour {
     }
     void AddTriangle(Vector3 A, Vector3 B, Vector3 C)
     {
-        /*triangles.Add(vertexes.Count);
-        vertexes.Add(A);
-        triangles.Add(vertexes.Count);
-        vertexes.Add(B);
-        triangles.Add(vertexes.Count);
-        vertexes.Add(C);*/
 
         triangles_masik.Add(vertexes_masik.Count);
         vertexes_masik.Add(A);

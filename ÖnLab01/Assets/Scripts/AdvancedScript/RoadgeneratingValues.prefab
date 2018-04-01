@@ -51,18 +51,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d738a104fcfbca04d9c2560b98f27bea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  xMin: -10
-  zMin: -10
-  xMax: 10
-  zMax: 10
-  kozelseg: 0.5
-  kozelsegS: 0.3
-  RoadsDistances: 2
-  SRoadsDistances: 1
-  straightFreq: 0.9
-  MaxElagazas: 4
-  RotationRandom: 0.2
-  straightFreqS: 0.5
-  RotationRandomS: 0
-  SideRoadfreq: 0.5
+  size:
+    xMin: -10
+    zMin: -10
+    xMax: 10
+    zMax: 10
+  collapseRangeMainRoad: 0.5
+  collapseRangeSideRoad: 0.3
+  roadsDistancesMainRoad: 2
+  roadsDistancesSideRoad: 1
+  straightFreqMainRoad: 0.9
+  straightFreqSideRoad: 0.9
+  maxCrossings: 4
+  rotationRandomMainRoad: 0.2
+  rotationRandomSideRoad: 0
+  sideRoadFreq: 0.5
   smootIntensity: 0.1

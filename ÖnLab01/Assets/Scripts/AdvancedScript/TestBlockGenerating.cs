@@ -6,7 +6,6 @@ public class TestBlockGenerating : MonoBehaviour {
 
     public List<GameObject> vertexObjects;
     public GameObject blockObject;
-    BlockObjectScript script;
     GameObject actual;
     BlockObjectScript bos;
     // Use this for initialization
