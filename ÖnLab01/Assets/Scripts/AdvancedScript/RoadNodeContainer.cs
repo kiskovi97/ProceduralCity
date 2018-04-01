@@ -29,8 +29,8 @@ public class RoadNodeContainer : MonoBehaviour {
     // Use this for initialization
     void Start() {
         roads.Clear();
-        RoadNode2 elso = new RoadNode2(values.straightFreq, values.MaxElagazas, values.RotationRandom, 2);
-        elso.SetPosition(new Vector3(0, 0, values.zMin + 1));
+        RoadNode2 elso = new RoadNode2(values.straightFreqMainRoad, values.maxCrossings, values.rotationRandomMainRoad, 2);
+        elso.SetPosition(new Vector3(0, 0, values.size.zMin + 1));
         roads.Add(elso);
         Invoke("Step01", 1);
         
@@ -81,11 +81,11 @@ public class RoadNodeContainer : MonoBehaviour {
     }
     bool PalyanBelulVane(RoadNode2 r)
     {
-        if (r.position.x < values.xMin || r.position.x > values.xMax)
+        if (r.position.x < values.size.xMin || r.position.x > values.size.xMax)
         {
             return false;
         }
-        if (r.position.z < values.zMin || r.position.z > values.zMax)
+        if (r.position.z < values.size.zMin || r.position.z > values.size.zMax)
         {
             return false;
         }
@@ -97,7 +97,7 @@ public class RoadNodeContainer : MonoBehaviour {
         if (rootObjIndex < roads.Count)
         {
             RoadNode2 root = roads[rootObjIndex];
-            List<RoadNode2> newRoads = root.GenerateRoads(values.RoadsDistances);
+            List<RoadNode2> newRoads = root.GenerateRoads(values.roadsDistancesMainRoad);
             foreach (RoadNode2 road in newRoads)
             {
                 if (Ellenorzes(root,road, true))
@@ -125,9 +125,9 @@ public class RoadNodeContainer : MonoBehaviour {
         foreach(RoadNode2 road in roads)
         {
             List<RoadNode2> ki = new List<RoadNode2>();
-            if (Random.value < values.SideRoadfreq)
+            if (Random.value < values.sideRoadFreq)
             {
-                ki = road.GenerateSideRoads(values.SRoadsDistances, values.straightFreqS, values.RotationRandomS);
+                ki = road.GenerateSideRoads(values.roadsDistancesSideRoad, values.straightFreqSideRoad, values.rotationRandomSideRoad);
             }
             foreach(RoadNode2 newroad in ki)
             {
@@ -153,7 +153,7 @@ public class RoadNodeContainer : MonoBehaviour {
         }
 
         RoadNode2 current_road = sideroads[rootObjIndexS];
-        List<RoadNode2> newRoads = current_road.GenerateRoads(values.SRoadsDistances);
+        List<RoadNode2> newRoads = current_road.GenerateRoads(values.roadsDistancesSideRoad);
 
         foreach (RoadNode2 newroad in newRoads)
         {
@@ -183,7 +183,7 @@ public class RoadNodeContainer : MonoBehaviour {
         
         foreach (RoadNode2 other_road in sideroads)
         {
-            if ((newroad.position - other_road.position).sqrMagnitude < values.kozelsegS)
+            if ((newroad.position - other_road.position).sqrMagnitude < values.collapseRangeSideRoad)
             {
                 if (Javitassal)
                 {
@@ -200,7 +200,7 @@ public class RoadNodeContainer : MonoBehaviour {
         }
         foreach (RoadNode2 other_road in roads)
         {
-            if ((newroad.position - other_road.position).sqrMagnitude < values.kozelseg)
+            if ((newroad.position - other_road.position).sqrMagnitude < values.collapseRangeMainRoad)
             {
                 if (Javitassal)
                 {
