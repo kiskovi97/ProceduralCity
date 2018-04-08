@@ -57,7 +57,12 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 4f371862014a03b4eb2af9b14e8588d4, type: 2}
+  - {fileID: 2100000, guid: 66e7933ccacdb544883c93e68a76cc84, type: 2}
+  - {fileID: 2100000, guid: d4a0fb29aa81c1b4abfcc4af5eab98b7, type: 2}
+  - {fileID: 2100000, guid: 34691e877e8ff4e46a6bc9b7e0062091, type: 2}
+  - {fileID: 2100000, guid: d4750a12d80f52c4db7c6e4e54d6cca3, type: 2}
+  - {fileID: 2100000, guid: 8d0e70064dffd2042a0ba7ce7cbaa8cd, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -107,7 +112,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a95e73b593757d249b4bc117523d76da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minHouse: 0.5
+  minHouse: 0.4
   HouseUpmin: 0.2
   HouseUpmax: 0.6
   HouseDeepmin: 0.2

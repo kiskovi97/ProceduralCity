@@ -137,8 +137,6 @@ public class BlockObjectScript : MonoBehaviour {
         elozo_meroleges.Normalize();
         float a = Random.value * (HouseDeepmax - HouseDeepmin) + HouseDeepmin;
         float b = Random.value * (HouseDeepmax - HouseDeepmin) + HouseDeepmin;
-        //float a = (0.5f) * (HouseDeepmax - HouseDeepmin) + HouseDeepmin;
-        //float b = (0.5f) * (HouseDeepmax - HouseDeepmin) + HouseDeepmin;
 
         Vector3 actual_point = vertexes[kovetkezoIndex];
         Vector3 next_point;
@@ -176,6 +174,10 @@ public class BlockObjectScript : MonoBehaviour {
         {
             arany = 0.5f;
             felezo_point2 = (actual_point * (1.0f - arany) + elozo_point * arany);
+
+            Vector3 FB = felezo_point2 + felezo_irany.normalized * b;
+            Vector3 AB = actual_point + actual_meroleges.normalized * b;
+            MakeBox(felezo_point2, actual_point, AB, FB);
         }
         else
         {
@@ -186,10 +188,8 @@ public class BlockObjectScript : MonoBehaviour {
 
         Vector3 EA = elozo_point + elozo_meroleges.normalized * a;
         Vector3 FA = felezo_point + felezo_irany.normalized * a;
-        Vector3 FB = felezo_point2 + felezo_irany.normalized * b;
-        Vector3 AB = actual_point + actual_meroleges.normalized * b;
         MakeBox(elozo_point, felezo_point, FA, EA);
-        //MakeBox(felezo_point2, actual_point, AB ,FB);
+        //
         return actual_meroleges;
     }
 
