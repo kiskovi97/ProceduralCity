@@ -66,7 +66,6 @@ public class MainRoadObjGenerator{
             MakeMesh(circle);
             circles.Add(circle);
         }
-            
         
     }
 
