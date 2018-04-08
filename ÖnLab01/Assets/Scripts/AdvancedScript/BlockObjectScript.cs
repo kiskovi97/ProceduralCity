@@ -11,6 +11,7 @@ public class BlockObjectScript : MonoBehaviour {
     
     Mesh mesh;
     MeshRenderer renderer;
+    List<Material> materials;
     MeshFilter filter;
     // Use this for initialization
     void Start () {
@@ -24,41 +25,45 @@ public class BlockObjectScript : MonoBehaviour {
     
     List<Vector3> vertexes = new List<Vector3>();
     List<Vector3> vertexes_masik = new List<Vector3>();
-    List<int> triangles = new List<int>();
-    List<int> triangles_masik = new List<int>();
-
-    void Add(int i)
-    {
-       triangles_masik.Add(vertexes_masik.Count);
-       vertexes_masik.Add(vertexes[i]);
-    }
+    //List<int> triangles = new List<int>();
+   
+    
+    List<List<int>> subTriangles;
+    
     public void MakeMeshData(List<Vector3> loading, Vector3 kozeppont)
     {
+
+        subTriangles = new List<List<int>>();
         filter = GetComponent<MeshFilter>();
         mesh = filter.mesh;
         renderer = GetComponent<MeshRenderer>();
+        materials = new List<Material>();
+        materials.AddRange(renderer.materials);
+
+        for (int i = 0; i < materials.Count; i++)
+        {
+            subTriangles.Add(new List<int>());
+        }
+
         vertexes.AddRange(loading);
         //vertexes.Add(kozeppont);
         GenerateBlock01(kozeppont);
         //MakeSimpleBlock();
     }
-    void AddTriangle(Vector3 A, Vector3 B, Vector3 C,Color color)
+    void AddTriangle(Vector3 A, Vector3 B, Vector3 C,int mat)
     {
 
-        triangles_masik.Add(vertexes_masik.Count);
+        subTriangles[mat].Add(vertexes_masik.Count);
         vertexes_masik.Add(A);
-        triangles_masik.Add(vertexes_masik.Count);
+        subTriangles[mat].Add(vertexes_masik.Count);
         vertexes_masik.Add(B);
-        triangles_masik.Add(vertexes_masik.Count);
+        subTriangles[mat].Add(vertexes_masik.Count);
         vertexes_masik.Add(C);
-        colors.Add(color);
-        colors.Add(color);
-        colors.Add(color);
     }
     void MakeBox(Vector3 A, Vector3 B, Vector3 C, Vector3 D)
     {
         float max = Random.value*(HouseUpmax-HouseUpmin) + HouseUpmin;
-        Color color = Color.red;
+        int color = (int)(Random.value*5);
         Vector3 up = new Vector3(0, max, 0);
         AddTriangle(B,A, C, color);
         AddTriangle(C, A, D, color);
@@ -250,7 +255,12 @@ public class BlockObjectScript : MonoBehaviour {
     {
         mesh.Clear();
         mesh.vertices = vertexes_masik.ToArray();
-        mesh.triangles = triangles_masik.ToArray();
+        mesh.subMeshCount = subTriangles.Count;
+        for (int i=0; i<subTriangles.Count; i++)
+        {
+            mesh.SetTriangles(subTriangles[i].ToArray(), i);
+        }
+        
         mesh.RecalculateBounds();
         mesh.RecalculateNormals();
         mesh.SetColors(colors);
