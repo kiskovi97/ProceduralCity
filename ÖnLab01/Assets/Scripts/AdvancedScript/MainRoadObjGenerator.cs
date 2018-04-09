@@ -109,7 +109,7 @@ public class MainRoadObjGenerator{
             Vector3 irany = kozeppont - vertexes[i];
             vertexes[i] += irany.normalized*0.3f;
         }
-        bos.MakeMeshData(vertexes, kozeppont);
+        bos.GenerateBlockMesh(vertexes, kozeppont);
         bos.CreateMesh();
     }
 }

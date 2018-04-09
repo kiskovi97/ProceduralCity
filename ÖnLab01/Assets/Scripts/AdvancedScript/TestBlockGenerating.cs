@@ -23,7 +23,7 @@ public class TestBlockGenerating : MonoBehaviour {
             kozeppont += road.transform.position;
         }
         kozeppont /= vertexes.Count;
-        bos.MakeMeshData(vertexes, kozeppont);
+        bos.GenerateBlockMesh(vertexes, kozeppont);
         bos.CreateMesh();
     }
 	

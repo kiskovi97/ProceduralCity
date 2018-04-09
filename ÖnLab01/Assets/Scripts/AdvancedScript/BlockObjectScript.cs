@@ -10,55 +10,43 @@ public class BlockObjectScript : MonoBehaviour {
     public float HouseDeepmax = 6.0f;
     
     Mesh mesh;
-    MeshRenderer renderer;
     List<Material> materials;
-    MeshFilter filter;
     // Use this for initialization
     void Start () {
         
     }
 	
-	// Update is called once per frame
-	void Update () {
-
-	}
-    
-    List<Vector3> vertexes = new List<Vector3>();
-    List<Vector3> vertexes_masik = new List<Vector3>();
+    List<Vector3> controlPoints = new List<Vector3>();
+    List<Vector3> meshVertexes = new List<Vector3>();
     //List<int> triangles = new List<int>();
    
-    
     List<List<int>> subTriangles;
-    
-    public void MakeMeshData(List<Vector3> loading, Vector3 kozeppont)
+    Vector3 kozeppont;
+    public void GenerateBlockMesh(List<Vector3> loading, Vector3 _kozeppont)
     {
 
         subTriangles = new List<List<int>>();
-        filter = GetComponent<MeshFilter>();
-        mesh = filter.mesh;
-        renderer = GetComponent<MeshRenderer>();
+        mesh = GetComponent<MeshFilter>().mesh;
         materials = new List<Material>();
-        materials.AddRange(renderer.materials);
+        materials.AddRange(GetComponent<MeshRenderer>().materials);
 
         for (int i = 0; i < materials.Count; i++)
         {
             subTriangles.Add(new List<int>());
         }
-
-        vertexes.AddRange(loading);
-        //vertexes.Add(kozeppont);
-        GenerateBlock01(kozeppont);
-        //MakeSimpleBlock();
+        controlPoints.AddRange(loading);
+        kozeppont = _kozeppont;
+        GenerateBlock01();
     }
     void AddTriangle(Vector3 A, Vector3 B, Vector3 C,int mat)
     {
 
-        subTriangles[mat].Add(vertexes_masik.Count);
-        vertexes_masik.Add(A);
-        subTriangles[mat].Add(vertexes_masik.Count);
-        vertexes_masik.Add(B);
-        subTriangles[mat].Add(vertexes_masik.Count);
-        vertexes_masik.Add(C);
+        subTriangles[mat].Add(meshVertexes.Count);
+        meshVertexes.Add(A);
+        subTriangles[mat].Add(meshVertexes.Count);
+        meshVertexes.Add(B);
+        subTriangles[mat].Add(meshVertexes.Count);
+        meshVertexes.Add(C);
     }
     void MakeBox(Vector3 A, Vector3 B, Vector3 C, Vector3 D)
     {
@@ -85,29 +73,30 @@ public class BlockObjectScript : MonoBehaviour {
         
 
     }
-    void GenerateBlock01(Vector3 kozeppont)
+    void GenerateBlock01()
     {
-        Vector3 meroleges = elsoMeroleges(0, kozeppont);
-        for (int i=1; i < vertexes.Count; i++)
+        Vector3 meroleges = elsoMeroleges(0);
+        for (int i=1; i < controlPoints.Count; i++)
         {
-            meroleges = NextLepes(i, vertexes[i-1], meroleges,kozeppont);
+            meroleges = NextLepes(i, meroleges);
         }
-        meroleges = NextLepes(0, vertexes[vertexes.Count - 1], meroleges, kozeppont);
+        meroleges = NextLepes(0, meroleges);
     }
-    Vector3 elsoMeroleges(int index, Vector3 kozeppont)
+    Vector3 elsoMeroleges(int index)
     {
 
-        Vector3 actual_point = vertexes[index];
+        Vector3 actual_point = controlPoints[index];
         Vector3 next_point;
-        if (index + 1 < vertexes.Count)
-            next_point = vertexes[index + 1];
+        if (index + 1 < controlPoints.Count)
+            next_point = controlPoints[index + 1];
         else
-            next_point = vertexes[0];
+            next_point = controlPoints[0];
+
         Vector3 elozo_point;
         if (index - 1 > 0)
-            elozo_point = vertexes[index - 1];
+            elozo_point = controlPoints[index - 1];
         else
-            elozo_point = vertexes[vertexes.Count - 1];
+            elozo_point = controlPoints[controlPoints.Count - 1];
 
         Vector3 irany_elozo = (elozo_point - actual_point).normalized;
         Vector3 irany_kovetkezo = (next_point - actual_point).normalized;
@@ -132,18 +121,24 @@ public class BlockObjectScript : MonoBehaviour {
         }
         return actual_meroleges;
     }
-    Vector3 NextLepes(int kovetkezoIndex, Vector3 elozo_point, Vector3 elozo_meroleges, Vector3 kozeppont)
+    Vector3 NextLepes(int index, Vector3 elozo_meroleges)
     {
         elozo_meroleges.Normalize();
         float a = Random.value * (HouseDeepmax - HouseDeepmin) + HouseDeepmin;
         float b = Random.value * (HouseDeepmax - HouseDeepmin) + HouseDeepmin;
 
-        Vector3 actual_point = vertexes[kovetkezoIndex];
+        Vector3 actual_point = controlPoints[index];
         Vector3 next_point;
-        if (kovetkezoIndex + 1 < vertexes.Count)
-            next_point = vertexes[kovetkezoIndex + 1];
+        if (index + 1 < controlPoints.Count)
+            next_point = controlPoints[index + 1];
         else
-            next_point = vertexes[0];
+            next_point = controlPoints[0];
+
+        Vector3 elozo_point;
+        if (index - 1 >= 0)
+            elozo_point = controlPoints[index - 1];
+        else
+            elozo_point = controlPoints[controlPoints.Count - 1];
 
         Vector3 irany_elozo = (elozo_point - actual_point).normalized;
         Vector3 irany_kovetkezo = (next_point - actual_point).normalized;
@@ -182,7 +177,7 @@ public class BlockObjectScript : MonoBehaviour {
         else
         {
             Vector3 tmp = (actual_point * (1.0f - arany) + elozo_point * arany );
-            felezo_point2 = NextLepes(actual_point, next_point, tmp, felezo_irany, kozeppont);
+            felezo_point2 = NextLepes(actual_point, next_point, tmp, felezo_irany);
         }
         Vector3 felezo_point = (actual_point * (1.0f - arany) + elozo_point * arany);
 
@@ -193,7 +188,7 @@ public class BlockObjectScript : MonoBehaviour {
         return actual_meroleges;
     }
 
-    Vector3 NextLepes(Vector3 actual_point, Vector3 next_point, Vector3 elozo_point, Vector3 elozo_meroleges, Vector3 kozeppont)
+    Vector3 NextLepes(Vector3 actual_point, Vector3 next_point, Vector3 elozo_point, Vector3 elozo_meroleges)
     {
         elozo_meroleges.Normalize();
         float a = Random.value * (HouseDeepmax - HouseDeepmin) + HouseDeepmin;
@@ -239,7 +234,7 @@ public class BlockObjectScript : MonoBehaviour {
         else
         {
             Vector3 tmp = (actual_point * (1.0f - arany) + elozo_point * arany);
-            felezo_point2 = NextLepes(actual_point, next_point, tmp, felezo_irany, kozeppont);
+            felezo_point2 = NextLepes(actual_point, next_point, tmp, felezo_irany);
         }
         Vector3 felezo_point = (actual_point * (1.0f - arany) + elozo_point * arany);
 
@@ -254,7 +249,7 @@ public class BlockObjectScript : MonoBehaviour {
     public void CreateMesh()
     {
         mesh.Clear();
-        mesh.vertices = vertexes_masik.ToArray();
+        mesh.vertices = meshVertexes.ToArray();
         mesh.subMeshCount = subTriangles.Count;
         for (int i=0; i<subTriangles.Count; i++)
         {
