@@ -15,7 +15,7 @@ public class BlockObjectScript : MonoBehaviour {
     void Start () {
         
     }
-	
+    
     List<Vector3> controlPoints = new List<Vector3>();
     List<Vector3> meshVertexes = new List<Vector3>();
     //List<int> triangles = new List<int>();
@@ -51,6 +51,8 @@ public class BlockObjectScript : MonoBehaviour {
     void MakeBox(Vector3 A, Vector3 B, Vector3 C, Vector3 D)
     {
         float max = Random.value*(HouseUpmax-HouseUpmin) + HouseUpmin;
+        
+        
         int color = (int)(Random.value*5);
         Vector3 up = new Vector3(0, max, 0);
         AddTriangle(B,A, C, color);
@@ -103,8 +105,6 @@ public class BlockObjectScript : MonoBehaviour {
         Vector3 actual_meroleges;
         Vector3 egyik = irany_elozo + irany_kovetkezo;
         Vector3 kozeppont_irany = kozeppont - actual_point;
-       // Debug.DrawLine(kozeppont,actual_point,Color.red,100,false);
-        //Debug.DrawLine(kozeppont, next_point, Color.red, 100, false);
         if (egyik.sqrMagnitude < 0.01f)
         {
             Vector3 bal = new Vector3(irany_elozo.z, 0, -irany_elozo.x);
@@ -184,7 +184,6 @@ public class BlockObjectScript : MonoBehaviour {
         Vector3 EA = elozo_point + elozo_meroleges.normalized * a;
         Vector3 FA = felezo_point + felezo_irany.normalized * a;
         MakeBox(elozo_point, felezo_point, FA, EA);
-        //
         return actual_meroleges;
     }
 
@@ -193,8 +192,6 @@ public class BlockObjectScript : MonoBehaviour {
         elozo_meroleges.Normalize();
         float a = Random.value * (HouseDeepmax - HouseDeepmin) + HouseDeepmin;
         float b = Random.value * (HouseDeepmax - HouseDeepmin) + HouseDeepmin;
-        //float a = (0.5f) * (HouseDeepmax - HouseDeepmin) + HouseDeepmin;
-        //float b = (0.5f) * (HouseDeepmax - HouseDeepmin) + HouseDeepmin;
 
         Vector3 irany_elozo = (elozo_point - actual_point).normalized;
         Vector3 irany_kovetkezo = (next_point - actual_point).normalized;
