@@ -8,7 +8,16 @@ public class BlockObjectScript : MonoBehaviour {
     public float HouseUpmax = 5.0f;
     public float HouseDeepmin = 5.0f;
     public float HouseDeepmax = 6.0f;
-    
+    class KontrolPoint
+    {
+        public Vector3 basePoint;
+        public Vector3 crossPoint;
+        public KontrolPoint(Vector3 baseP, Vector3 crossP)
+        {
+            basePoint = baseP;
+            crossPoint = crossP;
+        }
+    }
     Mesh mesh;
     List<Material> materials;
     // Use this for initialization
@@ -78,12 +87,14 @@ public class BlockObjectScript : MonoBehaviour {
     void GenerateBlock01()
     {
         Vector3 meroleges = elsoMeroleges(0);
+        KontrolPoint kont = new KontrolPoint(controlPoints[0], new Vector3(0, 0, 0));
         for (int i=1; i < controlPoints.Count; i++)
         {
             //Vector3 merolegese = Kereszt(i);
-            meroleges = NextLepes(i, meroleges);
+            //meroleges = NextLepes(i, meroleges);
+            kont = SarokPoint(kont, i);
         }
-        meroleges = NextLepes(0, meroleges);
+        kont = SarokPoint(kont, 0);
     }
     Vector3 elsoMeroleges(int index)
     {
@@ -202,6 +213,49 @@ public class BlockObjectScript : MonoBehaviour {
         return felezo_point2;
     }
 
+    KontrolPoint SarokPoint(KontrolPoint elozo, int index)
+    {
+        
+        float a = Random.value * (HouseDeepmax - HouseDeepmin) + HouseDeepmin;
+        float b = Random.value * (HouseDeepmax - HouseDeepmin) + HouseDeepmin;
+
+        Vector3 actual_point = controlPoints[index];
+        Vector3 next_point;
+        if (index + 1 < controlPoints.Count) next_point = controlPoints[index + 1];
+        else next_point = controlPoints[0];
+        Vector3 next_irany = (next_point - actual_point).normalized;
+        Vector3 elozo_irany = (elozo.basePoint - actual_point).normalized;
+
+        float szog  = Vector3.SignedAngle(next_irany, elozo_irany,new Vector3(0,1,0));
+        if (szog > 0 && 120 > szog)
+        {
+            float hosz = (elozo.basePoint - actual_point).magnitude;
+            float newHouse = hosz / 2;
+            if (minHouse < newHouse)
+            {
+                newHouse = minHouse;
+            }
+            Vector3 hazPointElozo = actual_point + (elozo.basePoint - actual_point).normalized * newHouse;
+
+            hosz = (next_point - actual_point).magnitude;
+            newHouse = hosz / 2;
+            if (minHouse < newHouse)
+            {
+                newHouse = minHouse;
+            }
+            Vector3 hazPointNext = actual_point + (next_point - actual_point).normalized * newHouse;
+            Vector3 hazPointCross = hazPointElozo + (next_point - actual_point).normalized * newHouse;
+            MakeBox(actual_point, hazPointNext, hazPointCross, hazPointElozo);
+            KontrolPoint next = new KontrolPoint(hazPointNext, hazPointCross);
+            return next;
+        } else
+        {
+            Vector3 kereszt = Kereszt(next_point, elozo.basePoint, actual_point);
+            KontrolPoint next = new KontrolPoint(actual_point, actual_point + kereszt);
+            return next;
+        }
+        
+    }
     
     Vector3 Kereszt(Vector3 next_point, Vector3 elozo_point, Vector3 actual_point)
     {
@@ -285,7 +339,7 @@ public class BlockObjectScript : MonoBehaviour {
         if (q > 1) return false;
         return true;
     }
-    List<Color> colors=new List<Color>();
+    
     public void CreateMesh()
     {
         mesh.Clear();
@@ -298,6 +352,5 @@ public class BlockObjectScript : MonoBehaviour {
         
         mesh.RecalculateBounds();
         mesh.RecalculateNormals();
-        mesh.SetColors(colors);
     }
 }
