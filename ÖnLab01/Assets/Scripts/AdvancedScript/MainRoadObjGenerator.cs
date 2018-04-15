@@ -6,6 +6,7 @@ public class MainRoadObjGenerator{
     List<RoadNode2> roads;
     List<List<RoadNode2>> circles = new List<List<RoadNode2>>();
     GameObject blockObject;
+    public float roadSize = 0.2f;
 
 
    public  void GenerateCircles(List<RoadNode2> list, GameObject block)
@@ -96,7 +97,7 @@ public class MainRoadObjGenerator{
         List<Vector3> vertexes = new List<Vector3>();
         foreach (RoadNode2 road in circle)
         {
-            vertexes.Add(road.position );
+            vertexes.Add(road.position);
         }
         Vector3 kozeppont = new Vector3(0, 0, 0);
         foreach (RoadNode2 road in circle)
@@ -104,12 +105,61 @@ public class MainRoadObjGenerator{
             kozeppont += road.position;
         }
         kozeppont /= vertexes.Count;
-        for (int i=0; i<vertexes.Count; i++)
+        /*for (int i=0; i<vertexes.Count; i++)
         {
             Vector3 irany = kozeppont - vertexes[i];
             vertexes[i] += irany.normalized*0.3f;
-        }
-        bos.GenerateBlockMesh(vertexes, kozeppont);
+        }*/
+        bos.GenerateBlockMesh(beljebb(vertexes), kozeppont);
         bos.CreateMesh();
+    }
+
+    List<Vector3> beljebb(List<Vector3> eredeti)
+    {
+        List<Vector3> uj = new List<Vector3>();
+        uj.Add(Kereszt(eredeti[0], eredeti[eredeti.Count - 1], eredeti[1]));
+        for (int i=1; i<eredeti.Count-1; i++)
+        {
+            uj.Add(Kereszt(eredeti[i], eredeti[i - 1], eredeti[i + 1]));
+        }
+        uj.Add(Kereszt(eredeti[eredeti.Count - 1], eredeti[eredeti.Count - 2], eredeti[0]));
+        
+        return uj;
+    }
+    Vector3 Kereszt(Vector3 actual,Vector3 elozo, Vector3 next)
+    {
+        float angle = Vector3.SignedAngle(elozo - actual, next - actual, new Vector3(0, 1, 0))/2.0f;
+        float tan = Mathf.Tan(angle / 180.0f * 3.14f)*-1;
+        Vector3 mer = Meroleges(actual, next).normalized;
+        if (tan <= 0)
+        {
+            Vector3 elozoIrany = (elozo - actual) * -1;
+            Vector3 nextIrany = (next - actual) * -1;
+            angle = Vector3.SignedAngle(elozoIrany, nextIrany, new Vector3(0, 1, 0)) / 2.0f;
+            tan = Mathf.Tan(angle / 180.0f * 3.14f) * -1;
+            if (tan <= 0)
+            {
+                return actual+mer*roadSize;
+            }
+            float a = roadSize / tan;
+            Vector3 A = actual + (nextIrany).normalized * a;
+            
+            return A + mer * roadSize;
+
+        } else
+        {
+            float a = roadSize / tan;
+            Vector3 A = actual + (next - actual).normalized * a;
+            return A + mer * roadSize;
+        }
+        
+        //return A;
+    }
+    Vector3 Meroleges(Vector3 actual_point, Vector3 next_point)
+    {
+        Vector3 next_irany = (next_point - actual_point).normalized;
+        Quaternion rotation = Quaternion.Euler(0, 90, 0);
+        Vector3 meroleges = (rotation * next_irany).normalized;
+        return meroleges;
     }
 }
