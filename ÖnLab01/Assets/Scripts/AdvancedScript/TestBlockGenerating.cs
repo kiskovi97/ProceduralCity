@@ -31,6 +31,15 @@ public class TestBlockGenerating : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        update = false;
+        foreach(GameObject obj in vertexObjects)
+        {
+            if (obj.transform.hasChanged)
+            {
+                update = true;
+                obj.transform.hasChanged=false;
+            }
+        }
         if (update)
         {
             bos.Clear();
