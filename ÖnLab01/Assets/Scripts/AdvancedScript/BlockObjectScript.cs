@@ -37,6 +37,7 @@ public class BlockObjectScript : MonoBehaviour {
         controlPoints.Clear();
         meshVertexes.Clear();
         subTriangles.Clear();
+        myUV.Clear();
     }
     
     List<Vector3> controlPoints = new List<Vector3>();
@@ -44,6 +45,7 @@ public class BlockObjectScript : MonoBehaviour {
     //List<int> triangles = new List<int>();
    
     List<List<int>> subTriangles;
+    List<Vector2> myUV = new List<Vector2>();
     Vector3 kozeppont;
     public void GenerateBlockMesh(List<Vector3> loading, Vector3 _kozeppont)
     {
@@ -66,10 +68,24 @@ public class BlockObjectScript : MonoBehaviour {
 
         subTriangles[mat].Add(meshVertexes.Count);
         meshVertexes.Add(A);
+        
         subTriangles[mat].Add(meshVertexes.Count);
         meshVertexes.Add(B);
+        
         subTriangles[mat].Add(meshVertexes.Count);
         meshVertexes.Add(C);
+        
+    }
+    void AddRectangle(Vector3 A, Vector3 B, Vector3 C, Vector3 D, int color)
+    {
+        AddTriangle(B, A, C, color);
+        AddTriangle(C, A, D, color);
+        myUV.Add(new Vector2(0, 0));
+        myUV.Add(new Vector2(1, 0));
+        myUV.Add(new Vector2(0, 1));
+        myUV.Add(new Vector2(0, 1));
+        myUV.Add(new Vector2(1, 0));
+        myUV.Add(new Vector2(1, 1));
     }
     void MakeBox(Vector3 A, Vector3 B, Vector3 C, Vector3 D)
     {
@@ -78,24 +94,19 @@ public class BlockObjectScript : MonoBehaviour {
         
         int color = (int)(Random.value*(materials.Count));
         Vector3 up = new Vector3(0, max, 0);
-        AddTriangle(B,A, C, color);
-        AddTriangle(C, A, D, color);
+        //down
+        AddRectangle(A,B,C,D, color);
         //front
-        AddTriangle( A + up,A, B + up, color);
-        AddTriangle(B + up,A, B, color);
+        AddRectangle(A, A + up, B+up,B,color);
         //up
-        AddTriangle(D + up, A + up, B + up, color);
-        AddTriangle(C + up, D + up, B + up, color);
+        AddRectangle(A + up, D +up,  C+up, B + up, color);
         //right
-        AddTriangle(C + up, B + up, B, color);
-        AddTriangle(C + up, B, C, color);
+        AddRectangle(B + up, C +up,C, B, color);
         //left
-        AddTriangle(A + up, D + up, A, color);
-        AddTriangle(A, D + up, D, color);
+        AddRectangle(D + up, A +up,A,D,color);
         //back
-        AddTriangle(D + up, C + up, D, color);
-        AddTriangle(C + up,C,  D, color);
-        
+        AddRectangle(C + up, D +up,D,C,color);
+
 
     }
     void GenerateBlock01()
@@ -117,6 +128,9 @@ public class BlockObjectScript : MonoBehaviour {
 
     void MakeSideROadHouses(KontrolPoint elozo, KontrolPoint kovetkezo)
     {
+
+        float a = Random.value * (HouseDeepmax - HouseDeepmin) + HouseDeepmin;
+        float b = Random.value * (HouseDeepmax - HouseDeepmin) + HouseDeepmin;
         Vector3 meroleges = Meroleges(elozo.nextPoint, kovetkezo.elozoPoint).normalized;
         Vector3 felezo = (elozo.nextPoint + kovetkezo.elozoPoint) / 2;
         float hosz = (kovetkezo.elozoPoint - elozo.nextPoint).magnitude;
@@ -266,7 +280,7 @@ public class BlockObjectScript : MonoBehaviour {
         {
             mesh.SetTriangles(subTriangles[i].ToArray(), i);
         }
-        
+        mesh.SetUVs(0, myUV);
         mesh.RecalculateBounds();
         mesh.RecalculateNormals();
         update = true;
