@@ -8,12 +8,13 @@ public class BlockObjectScript : MonoBehaviour {
     public float HouseUpmax = 5.0f;
     public float HouseDeepmin = 5.0f;
     public float HouseDeepmax = 6.0f;
+    private bool update = false;
     class KontrolPoint
     {
         public Vector3 nextPoint;
         public Vector3 crossPoint;
         public Vector3 elozoPoint;
-        public KontrolPoint(Vector3 nextP, Vector3 crossP,Vector3 elozoP)
+        public KontrolPoint(Vector3 nextP, Vector3 crossP, Vector3 elozoP)
         {
             nextPoint = nextP;
             crossPoint = crossP;
@@ -24,8 +25,18 @@ public class BlockObjectScript : MonoBehaviour {
     Mesh mesh;
     List<Material> materials;
     // Use this for initialization
-    void Start () {
-        
+    void Start() {
+
+    }
+    
+
+    public void Clear()
+    {
+        utak.Clear();
+        materials.Clear();
+        controlPoints.Clear();
+        meshVertexes.Clear();
+        subTriangles.Clear();
     }
     
     List<Vector3> controlPoints = new List<Vector3>();
@@ -65,7 +76,7 @@ public class BlockObjectScript : MonoBehaviour {
         float max = Random.value*(HouseUpmax-HouseUpmin) + HouseUpmin;
         
         
-        int color = (int)(Random.value*5);
+        int color = (int)(Random.value*(materials.Count));
         Vector3 up = new Vector3(0, max, 0);
         AddTriangle(B,A, C, color);
         AddTriangle(C, A, D, color);
@@ -258,5 +269,6 @@ public class BlockObjectScript : MonoBehaviour {
         
         mesh.RecalculateBounds();
         mesh.RecalculateNormals();
+        update = true;
     }
 }

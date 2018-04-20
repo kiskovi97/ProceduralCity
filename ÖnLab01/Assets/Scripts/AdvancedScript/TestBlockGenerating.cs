@@ -5,6 +5,7 @@ using UnityEngine;
 public class TestBlockGenerating : MonoBehaviour {
 
     public List<GameObject> vertexObjects;
+    private bool update = false;
     public GameObject blockObject;
     GameObject actual;
     BlockObjectScript bos;
@@ -25,10 +26,27 @@ public class TestBlockGenerating : MonoBehaviour {
         kozeppont /= vertexes.Count;
         bos.GenerateBlockMesh(vertexes, kozeppont);
         bos.CreateMesh();
+        update = true;
     }
 	
 	// Update is called once per frame
 	void Update () {
-        
+        if (update)
+        {
+            bos.Clear();
+            List<Vector3> vertexes = new List<Vector3>();
+            foreach (GameObject road in vertexObjects)
+            {
+                vertexes.Add(road.transform.position);
+            }
+            Vector3 kozeppont = new Vector3(0, 0, 0);
+            foreach (GameObject road in vertexObjects)
+            {
+                kozeppont += road.transform.position;
+            }
+            kozeppont /= vertexes.Count;
+            bos.GenerateBlockMesh(vertexes, kozeppont);
+            bos.CreateMesh();
+        }
     }
 }
