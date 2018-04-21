@@ -6,7 +6,7 @@ public class MainRoadObjGenerator{
     List<RoadNode2> roads;
     List<List<RoadNode2>> circles = new List<List<RoadNode2>>();
     GameObject blockObject;
-    public float roadSize = 0.2f;
+    public float roadSize = 0.15f;
 
 
    public  void GenerateCircles(List<RoadNode2> list, GameObject block)
@@ -105,11 +105,6 @@ public class MainRoadObjGenerator{
             kozeppont += road.position;
         }
         kozeppont /= vertexes.Count;
-        /*for (int i=0; i<vertexes.Count; i++)
-        {
-            Vector3 irany = kozeppont - vertexes[i];
-            vertexes[i] += irany.normalized*0.3f;
-        }*/
         bos.GenerateBlockMesh(beljebb(vertexes), kozeppont);
         bos.CreateMesh();
     }

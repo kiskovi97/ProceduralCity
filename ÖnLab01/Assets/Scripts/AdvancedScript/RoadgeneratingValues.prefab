@@ -56,14 +56,14 @@ MonoBehaviour:
     zMin: -10
     xMax: 10
     zMax: 10
-  collapseRangeMainRoad: 0.5
-  collapseRangeSideRoad: 0.3
-  roadsDistancesMainRoad: 2
+  collapseRangeMainRoad: 0.8
+  collapseRangeSideRoad: 0.5
+  roadsDistancesMainRoad: 1.5
   roadsDistancesSideRoad: 1
   straightFreqMainRoad: 0.9
-  straightFreqSideRoad: 0.9
+  straightFreqSideRoad: 0.738
   maxCrossings: 4
   rotationRandomMainRoad: 0.2
   rotationRandomSideRoad: 0
-  sideRoadFreq: 0.5
-  smootIntensity: 0.1
+  sideRoadFreq: 1
+  smootIntensity: 0.068

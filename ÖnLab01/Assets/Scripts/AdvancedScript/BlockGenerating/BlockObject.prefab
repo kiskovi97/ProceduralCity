@@ -57,6 +57,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
+  - {fileID: 2100000, guid: a43a530f2aae48249b3fa7b5aa5ae3e3, type: 2}
   - {fileID: 2100000, guid: 61f1df9dd2b6f5244a40003484cff8b5, type: 3}
   - {fileID: 2100000, guid: d2f3c30494edc094898560013e6ae6bc, type: 2}
   m_StaticBatchInfo:
@@ -110,6 +111,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minHouse: 0.4
   HouseUpmin: 0.2
-  HouseUpmax: 0.6
+  HouseUpmax: 0.5
   HouseDeepmin: 0.3
   HouseDeepmax: 0.5
