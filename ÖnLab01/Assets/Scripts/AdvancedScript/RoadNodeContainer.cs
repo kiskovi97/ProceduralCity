@@ -13,13 +13,15 @@ public class RoadNodeContainer : MonoBehaviour {
         public Vector3 q;
     }
   
-    public GameObject visual;
+    public GameObject ControlPointsVisualationObject;
     public GameObject blockObject;
     public RoadGeneratingValues values;
 
     // rekurziv adatok
     public int ReqursiveMax = 400;
     public int ReqursiveMaxS = 1000;
+    public bool DebugLines = true;
+
     List<RoadNode2> roads = new List<RoadNode2>();
     List<RoadNode2> sideroads = new List<RoadNode2>();
     List<PlusRoad> plusroads = new List<PlusRoad>();
@@ -28,53 +30,64 @@ public class RoadNodeContainer : MonoBehaviour {
     int rootObjIndexS = 0;
     // Use this for initialization
     void Start() {
+        Debug.Log("LOADING...");
         roads.Clear();
         RoadNode2 elso = new RoadNode2(values.straightFreqMainRoad, values.maxCrossings, values.rotationRandomMainRoad, 2);
         elso.SetPosition(new Vector3(0, 0, values.size.zMin + 1));
         roads.Add(elso);
-        Invoke("Step01", 1);
+        Invoke("Step01", 0);
         
     }
 
     void Step01()
     {
         GeneratingMainRoads();
-        Debug.Log("End of main road generation");
-        Invoke("Step02", 2);
+        Debug.Log("End of Main Road generating");
+        Invoke("Step02", 0);
     }
     void Step02()
     {
         GeneratingStartSideRoads();
-        Invoke("Step03", 2);
+        Invoke("Step03", 0);
+        Debug.Log("End of first Side Roads generating");
     }
     void Step03()
     {
         GeneratingMoreSideRoads();
         SmoothRoads();
+        Debug.Log("End of all Side Roads generating");
+        if (DebugLines)
         Visualization01();
-        Invoke("Step04",3.5f);
+        Invoke("Step04",0);
+        Debug.Log("Visualation Roads");
     }
     void Step04()
     {
         List<RoadNode2> all = new List<RoadNode2>();
-        Debug.Log("NEXT");
         all.AddRange(roads);
         all.AddRange(sideroads);
         generator.GenerateCircles(all, blockObject);
+        Debug.Log("End of city generating");
     }
 
     void Visualization01()
     {
         foreach (RoadNode2 road in roads)
         {
-            GameObject ki = Instantiate(visual);
-            ki.transform.position = road.position;
+            if (ControlPointsVisualationObject!=null)
+            {
+                GameObject ki = Instantiate(ControlPointsVisualationObject);
+                ki.transform.position = road.position;
+            }
             road.DrawLines(Color.red);
         }
         foreach (RoadNode2 road in sideroads)
         {
-            GameObject ki = Instantiate(visual);
-            ki.transform.position = road.position;
+            if (ControlPointsVisualationObject!=null)
+            {
+                GameObject ki = Instantiate(ControlPointsVisualationObject);
+                ki.transform.position = road.position;
+            }
             road.DrawLines(Color.yellow);
         }
 
