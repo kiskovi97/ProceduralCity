@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 // : MonoBehaviour 
 public class MainRoadObjGenerator{
-    List<RoadNode2> roads;
-    List<List<RoadNode2>> circles = new List<List<RoadNode2>>();
+    List<RoadNode> roads;
+    List<List<RoadNode>> circles = new List<List<RoadNode>>();
     GameObject blockObject;
     public float roadSize = 0.15f;
 
-
-   public  void GenerateCircles(List<RoadNode2> list, GameObject block)
+    // The Main And First to Call Function
+    public void GenerateCircles(List<RoadNode> list, GameObject block)
     {
         blockObject = block;
         roads = list;
@@ -21,33 +21,37 @@ public class MainRoadObjGenerator{
         if (list == null) return;
        
         if (roads.Count <= 0) return;
-        foreach (RoadNode2 road in list)
+        foreach (RoadNode road in list)
         {
-            
-            List<RoadNode2> sz = road.Szomszedok;
-            foreach (RoadNode2 second in sz)
+            List<RoadNode> sz = road.Szomszedok;
+            foreach (RoadNode second in sz)
             {
                 GenerateCircle(road, second, false);
             }
         }
+        foreach (List<RoadNode> circle in circles)
+        {
+            MakeABlock(circle);
+        }
     }
-    void GenerateCircle(RoadNode2 root, RoadNode2 second, bool jobbra)
+    // Search for a new Circle
+    void GenerateCircle(RoadNode root, RoadNode second, bool jobbra)
     {
-            if (second == null) return;
+        if (second == null) return;
 
-            List<RoadNode2> circle = new List<RoadNode2>();
-            circle.Add(root);
-            circle.Add(second);
-            bool ok = true;
-            int last = circle.Count - 1;
+        List<RoadNode> circle = new List<RoadNode>();
+        circle.Add(root);
+        circle.Add(second);
+        bool ok = true;
+        int last = circle.Count - 1;
             while (ok)
             {
-                RoadNode2 nextroad = circle[last].Kovetkezo(circle[last - 1], jobbra);
+                RoadNode nextroad = circle[last].Kovetkezo(circle[last - 1], jobbra);
                 if (nextroad == null) return;
                 if (nextroad == root) ok = false;
                 else
                 {
-                    foreach (RoadNode2 road in circle)
+                    foreach (RoadNode road in circle)
                     {
                         if (road == nextroad) return;
                     }
@@ -58,21 +62,20 @@ public class MainRoadObjGenerator{
             }
         if (circle.Count <= 2) return;
         ok = true;
-        foreach(List<RoadNode2> eddigi in circles)
+        foreach(List<RoadNode> eddigi in circles)
         {
             if (CircleEqual(eddigi, circle)) ok = false;
         }
         if (ok)
         {
-            MakeMesh(circle);
             circles.Add(circle);
         }
         
     }
-
-    bool CircleEqual(List<RoadNode2> egyik, List<RoadNode2> masik)
+    // 2 Circle is equal?
+    bool CircleEqual(List<RoadNode> egyik, List<RoadNode> masik)
     {
-        List<RoadNode2> hosszu = new List<RoadNode2>();
+        List<RoadNode> hosszu = new List<RoadNode>();
         hosszu.AddRange(masik);
         hosszu.AddRange(masik.GetRange(0, masik.Count - 1));
         int j = 0;
@@ -90,22 +93,25 @@ public class MainRoadObjGenerator{
         if (j == egyik.Count) return true;
         return false;
     }
-    void MakeMesh(List<RoadNode2> circle)
+
+
+    void MakeABlock(List<RoadNode> circle)
     {
-        GameObject ki = GameObject.Instantiate(blockObject);
+        GameObject ki = Object.Instantiate(blockObject);
         BlockObjectScript bos = ki.GetComponent<BlockObjectScript>();
         List<Vector3> vertexes = new List<Vector3>();
-        foreach (RoadNode2 road in circle)
+        foreach (RoadNode road in circle)
         {
             vertexes.Add(road.position);
         }
         Vector3 kozeppont = new Vector3(0, 0, 0);
-        foreach (RoadNode2 road in circle)
+        foreach (RoadNode road in circle)
         {
             kozeppont += road.position;
         }
         kozeppont /= vertexes.Count;
-        bos.GenerateBlockMesh(beljebb(vertexes), kozeppont);
+        List<Vector3> beljebbCircle = beljebb(vertexes);
+        bos.GenerateBlockMesh(beljebbCircle, kozeppont);
         bos.CreateMesh();
     }
 

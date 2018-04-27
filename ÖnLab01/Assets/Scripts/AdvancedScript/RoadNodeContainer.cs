@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
+
+// This class Makes the Graph
 public class RoadNodeContainer : MonoBehaviour {
     // when merging roadNodes we need plus roads too
     class PlusRoad
@@ -26,8 +28,8 @@ public class RoadNodeContainer : MonoBehaviour {
     [Header("Roads visalization")]
     public bool DebugLines = true;
     // Roads 
-    List<RoadNode2> roads = new List<RoadNode2>();
-    List<RoadNode2> sideroads = new List<RoadNode2>();
+    List<RoadNode> roads = new List<RoadNode>();
+    List<RoadNode> sideroads = new List<RoadNode>();
     // plus roads just for not to cross them
     List<PlusRoad> plusroads = new List<PlusRoad>();
 
@@ -47,7 +49,7 @@ public class RoadNodeContainer : MonoBehaviour {
         roads.Clear();
         sideroads.Clear();
         plusroads.Clear();
-        RoadNode2 elso = new RoadNode2(values.straightFreqMainRoad, values.maxCrossings, values.rotationRandomMainRoad);
+        RoadNode elso = new RoadNode(values.straightFreqMainRoad, values.maxCrossings, values.rotationRandomMainRoad);
         elso.position = new Vector3(0, 0, values.size.zMin + 3);
         roads.Add(elso);
     }
@@ -80,7 +82,7 @@ public class RoadNodeContainer : MonoBehaviour {
     void Step04()
     {
         Debug.Log("STEP04 -- Generating Blocks Started");
-        List<RoadNode2> all = new List<RoadNode2>();
+        List<RoadNode> all = new List<RoadNode>();
         all.AddRange(roads);
         all.AddRange(sideroads);
         generator.GenerateCircles(all, blockObject);
@@ -92,9 +94,9 @@ public class RoadNodeContainer : MonoBehaviour {
     {
         for (int i=0; i<ReqursiveMax && i<roads.Count; i++)
         {
-            RoadNode2 root = roads[i];
-            List<RoadNode2> newRoads = root.GenerateRoads(values.roadsDistancesMainRoad);
-            foreach (RoadNode2 road in newRoads)
+            RoadNode root = roads[i];
+            List<RoadNode> newRoads = root.GenerateRoads(values.roadsDistancesMainRoad);
+            foreach (RoadNode road in newRoads)
             {
                 if (Ellenorzes(root, road, true))  roads.Add(road);
                 else root.removeSzomszed(road);
@@ -104,13 +106,13 @@ public class RoadNodeContainer : MonoBehaviour {
     void GeneratingFirstSideRoads()
     {
         sideroads.Clear();
-        foreach(RoadNode2 road in roads)
+        foreach(RoadNode road in roads)
         {
-            List<RoadNode2> ki = new List<RoadNode2>();
+            List<RoadNode> ki = new List<RoadNode>();
             if (Random.value < values.sideRoadFreq)
                 ki = road.GenerateSideRoads(values.roadsDistancesSideRoad, values.straightFreqSideRoad, values.rotationRandomSideRoad);
             
-            foreach(RoadNode2 newroad in ki)
+            foreach(RoadNode newroad in ki)
             {
                 if (Ellenorzes(road,newroad, false)) sideroads.Add(newroad);
                 else road.removeSzomszed(newroad);
@@ -123,10 +125,10 @@ public class RoadNodeContainer : MonoBehaviour {
     {
         for (int i=0; i<ReqursiveMaxS && i<sideroads.Count; i++)
         {
-            RoadNode2 current_road = sideroads[i];
-            List<RoadNode2> newRoads = current_road.GenerateRoads(values.roadsDistancesSideRoad);
+            RoadNode current_road = sideroads[i];
+            List<RoadNode> newRoads = current_road.GenerateRoads(values.roadsDistancesSideRoad);
 
-            foreach (RoadNode2 newroad in newRoads)
+            foreach (RoadNode newroad in newRoads)
             {
                 if (Ellenorzes(current_road, newroad, true))
                 {
@@ -142,17 +144,17 @@ public class RoadNodeContainer : MonoBehaviour {
     }
 
     // Correction functions
-    bool PalyanBelulVane(RoadNode2 r)
+    bool PalyanBelulVane(RoadNode r)
     {
         return !(r.position.x < values.size.xMin || r.position.x > values.size.xMax
               || r.position.z < values.size.zMin || r.position.z > values.size.zMax);
     }
-    bool Ellenorzes(RoadNode2 current_road,RoadNode2 newroad, bool Javitassal)
+    bool Ellenorzes(RoadNode current_road,RoadNode newroad, bool Javitassal)
     {
         
         if (!PalyanBelulVane(newroad)) return false;
         
-        foreach (RoadNode2 other_road in sideroads)
+        foreach (RoadNode other_road in sideroads)
         {
             if ((newroad.position - other_road.position).sqrMagnitude < values.collapseRangeSideRoad)
             {
@@ -169,7 +171,7 @@ public class RoadNodeContainer : MonoBehaviour {
                 return false;
             }
         }
-        foreach (RoadNode2 other_road in roads)
+        foreach (RoadNode other_road in roads)
         {
             if ((newroad.position - other_road.position).sqrMagnitude < values.collapseRangeMainRoad)
             {
@@ -198,7 +200,7 @@ public class RoadNodeContainer : MonoBehaviour {
                 return false;
             }
         }
-        foreach (RoadNode2 other_road in sideroads)
+        foreach (RoadNode other_road in sideroads)
         {
             
             if (other_road.getElozo() == null) continue;
@@ -210,7 +212,7 @@ public class RoadNodeContainer : MonoBehaviour {
                 return false;
             }
         }
-        foreach (RoadNode2 other_road in roads)
+        foreach (RoadNode other_road in roads)
         {
 
             if (other_road.getElozo() == null) continue;
@@ -230,11 +232,11 @@ public class RoadNodeContainer : MonoBehaviour {
     // roads smoothing
     void SmoothRoads()
     {
-        foreach (RoadNode2 road in roads)
+        foreach (RoadNode road in roads)
         {
             road.Smooth(values.smootIntensity);
         }
-        foreach (RoadNode2 road in sideroads)
+        foreach (RoadNode road in sideroads)
         {
             road.Smooth(values.smootIntensity);
         }
@@ -243,7 +245,7 @@ public class RoadNodeContainer : MonoBehaviour {
     // roads temporary visualization
     void Visualization01()
     {
-        foreach (RoadNode2 road in roads)
+        foreach (RoadNode road in roads)
         {
             if (ControlPointsVisualationObject != null)
             {
@@ -252,7 +254,7 @@ public class RoadNodeContainer : MonoBehaviour {
             }
             road.DrawLines(Color.red);
         }
-        foreach (RoadNode2 road in sideroads)
+        foreach (RoadNode road in sideroads)
         {
             if (ControlPointsVisualationObject != null)
             {
