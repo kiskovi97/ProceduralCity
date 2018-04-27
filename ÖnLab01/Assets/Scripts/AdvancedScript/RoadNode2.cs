@@ -3,14 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class RoadNode2 {
+
     RoadNode2 elozo = null;
     List<RoadNode2> szomszedok;
     public float next = 2.0f;
     bool sideroad = false;
     public Vector3 position;
-    public float straightFreq = 0.9f;
-    public int maxelagazas = 4;
-    public float RotationRandom = 0.2f;
+    float straightFreq = 0.9f;
+    float rotationRandom = 0.2f;
+    int maxelagazas = 4;
+    
 
     // Use this for initialization
     // legnagyobb Zvel rendelkezo
@@ -80,7 +82,7 @@ public class RoadNode2 {
         position = new Vector3(0, 0, 0);
         straightFreq = freq;
         maxelagazas = max;
-        RotationRandom = rotate;
+        rotationRandom = rotate;
         next = n;
     }
     public void SetPosition(Vector3 pos)
@@ -214,7 +216,7 @@ public class RoadNode2 {
         MakeIranyok();
         foreach (Vector3 irany in tovabb_irany)
         {
-            RoadNode2 ad = new RoadNode2(straightFreq, maxelagazas, RotationRandom, next);
+            RoadNode2 ad = new RoadNode2(straightFreq, maxelagazas, rotationRandom, next);
             ad.position = position + irany * distance;
             ad.SetElozo(this);
             ad.sideroad = sideroad;
@@ -225,12 +227,12 @@ public class RoadNode2 {
 
     void GenerateStraight(List<RoadNode2> ki, float distance)
     {
-        RoadNode2 ad = new RoadNode2(straightFreq, maxelagazas, RotationRandom, next);
+        RoadNode2 ad = new RoadNode2(straightFreq, maxelagazas, rotationRandom, next);
         Vector3 irany = new Vector3(0, 0, 1.5f);
         if (elozo != null) irany = position - elozo.position;
 
         Vector3 random_irany = new Vector3();
-        float Rotation = Random.value * RotationRandom * 2 - RotationRandom;
+        float Rotation = Random.value * rotationRandom * 2 - rotationRandom;
         random_irany.Set(
         irany.x * Mathf.Cos(Rotation) - irany.z * Mathf.Sin(Rotation), irany.y * -1,
         irany.x * Mathf.Sin(Rotation) + irany.z * Mathf.Cos(Rotation));

@@ -28,12 +28,11 @@ public class RoadNodeContainer : MonoBehaviour {
     // Roads 
     List<RoadNode2> roads = new List<RoadNode2>();
     List<RoadNode2> sideroads = new List<RoadNode2>();
+    // plus roads just for not to cross them
     List<PlusRoad> plusroads = new List<PlusRoad>();
 
 
     MainRoadObjGenerator generator = new MainRoadObjGenerator();
-    int rootObjIndex = 0;
-    int rootObjIndexS = 0;
     // Use this for initialization
     void Start() {
         Debug.Log("PROCESS STARTING...");
@@ -42,16 +41,18 @@ public class RoadNodeContainer : MonoBehaviour {
         
     }
 
+    // Clear All Data And create the first Road
     void ClearStart()
     {
         roads.Clear();
         sideroads.Clear();
         plusroads.Clear();
         RoadNode2 elso = new RoadNode2(values.straightFreqMainRoad, values.maxCrossings, values.rotationRandomMainRoad, 2);
-        elso.SetPosition(new Vector3(0, 0, values.size.zMin + 1));
+        elso.SetPosition(new Vector3(0, 0, values.size.zMin + 3));
         roads.Add(elso);
     }
 
+    // City Generating Steps
     void Step01()
     {
         Debug.Log("STEP01 -- Main Road Generating Started");
@@ -62,7 +63,7 @@ public class RoadNodeContainer : MonoBehaviour {
     void Step02()
     {
         Debug.Log("STEP02 -- Side Road Generating Started");
-        GeneratingStartSideRoads();
+        GeneratingFirstSideRoads();
         GeneratingMoreSideRoads();
         Debug.Log("STEP02 -- Side Road Generating Ended");
         Invoke("Step03", 0);
@@ -86,7 +87,7 @@ public class RoadNodeContainer : MonoBehaviour {
         Debug.Log("STEP04 -- Generating Blocks Ended");
     }
     
-   
+   // ROAD generating functions
     void GeneratingMainRoads()
     {
         for (int i=0; i<ReqursiveMax && i<roads.Count; i++)
@@ -95,39 +96,24 @@ public class RoadNodeContainer : MonoBehaviour {
             List<RoadNode2> newRoads = root.GenerateRoads(values.roadsDistancesMainRoad);
             foreach (RoadNode2 road in newRoads)
             {
-                if (Ellenorzes(root, road, true))
-                {
-                    roads.Add(road);
-                }
-                else
-                {
-                    root.removeSzomszed(road);
-                }
-
+                if (Ellenorzes(root, road, true))  roads.Add(road);
+                else root.removeSzomszed(road);
             }
         }
     }
-    void GeneratingStartSideRoads()
+    void GeneratingFirstSideRoads()
     {
         sideroads.Clear();
         foreach(RoadNode2 road in roads)
         {
             List<RoadNode2> ki = new List<RoadNode2>();
             if (Random.value < values.sideRoadFreq)
-            {
                 ki = road.GenerateSideRoads(values.roadsDistancesSideRoad, values.straightFreqSideRoad, values.rotationRandomSideRoad);
-            }
+            
             foreach(RoadNode2 newroad in ki)
             {
-                
-                if (Ellenorzes(road,newroad, false))
-                {
-                    sideroads.Add(newroad);
-                }
-                else
-                {
-                    road.removeSzomszed(newroad);
-                }
+                if (Ellenorzes(road,newroad, false)) sideroads.Add(newroad);
+                else road.removeSzomszed(newroad);
             }
 
 
@@ -135,46 +121,31 @@ public class RoadNodeContainer : MonoBehaviour {
     }
     void GeneratingMoreSideRoads()
     {
-        if (rootObjIndexS >= sideroads.Count)
+        for (int i=0; i<ReqursiveMaxS && i<sideroads.Count; i++)
         {
-            return;
-        }
+            RoadNode2 current_road = sideroads[i];
+            List<RoadNode2> newRoads = current_road.GenerateRoads(values.roadsDistancesSideRoad);
 
-        RoadNode2 current_road = sideroads[rootObjIndexS];
-        List<RoadNode2> newRoads = current_road.GenerateRoads(values.roadsDistancesSideRoad);
-
-        foreach (RoadNode2 newroad in newRoads)
-        {
-            if (Ellenorzes(current_road,newroad, true))
+            foreach (RoadNode2 newroad in newRoads)
             {
-                sideroads.Add(newroad);
+                if (Ellenorzes(current_road, newroad, true))
+                {
+                    sideroads.Add(newroad);
+                }
+                else
+                {
+                    current_road.removeSzomszed(newroad);
+                }
             }
-            else
-            {
-                current_road.removeSzomszed(newroad);
-            }
-        }
-
-
-        if (ReqursiveMaxS > 0)
-        {
-            ReqursiveMaxS--;
-            rootObjIndexS++;
-            GeneratingMoreSideRoads();
         }
 
     }
+
+    // Correction functions
     bool PalyanBelulVane(RoadNode2 r)
     {
-        if (r.position.x < values.size.xMin || r.position.x > values.size.xMax)
-        {
-            return false;
-        }
-        if (r.position.z < values.size.zMin || r.position.z > values.size.zMax)
-        {
-            return false;
-        }
-        return true;
+        return !(r.position.x < values.size.xMin || r.position.x > values.size.xMax
+              || r.position.z < values.size.zMin || r.position.z > values.size.zMax);
     }
     bool Ellenorzes(RoadNode2 current_road,RoadNode2 newroad, bool Javitassal)
     {
