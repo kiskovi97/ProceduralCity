@@ -3,11 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 [RequireComponent(typeof(MeshFilter))]
 public class BlockObjectScript : MonoBehaviour {
-    public float minHouse = 1.0f;
-    public float HouseUpmin = 3.0f;
-    public float HouseUpmax = 5.0f;
-    public float HouseDeepmin = 5.0f;
-    public float HouseDeepmax = 6.0f;
+    
+    public RoadGeneratingValues values;
     private bool update = false;
     class KontrolPoint
     {
@@ -24,6 +21,7 @@ public class BlockObjectScript : MonoBehaviour {
     List<KontrolPoint> utak = new List<KontrolPoint>();
     Mesh mesh;
     List<Material> materials;
+    bool ok = true;
     // Use this for initialization
     void Start() {
 
@@ -46,8 +44,25 @@ public class BlockObjectScript : MonoBehaviour {
    
     List<List<int>> subTriangles;
     List<Vector2> myUV = new List<Vector2>();
+    bool ElegNagy(List<Vector3> circle)
+    {
+        return true;
+        for (int i=0; i< circle.Count; i++)
+        {
+            for (int j = i+2; j< circle.Count; j++)
+            {
+                if ( (circle[i] - circle[j]).magnitude < values.minHouse*2.0f)
+                {
+                    ok = false;
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
     public void GenerateBlockMesh(List<Vector3> loading)
     {
+        
 
         subTriangles = new List<List<int>>();
         mesh = GetComponent<MeshFilter>().mesh;
@@ -59,6 +74,7 @@ public class BlockObjectScript : MonoBehaviour {
             subTriangles.Add(new List<int>());
         }
         controlPoints.AddRange(loading);
+        if (!ElegNagy(loading)) return;
         GenerateBlock01();
     }
     void AddTriangle(Vector3 A, Vector3 B, Vector3 C,int mat)
@@ -87,7 +103,7 @@ public class BlockObjectScript : MonoBehaviour {
     }
     void MakeBox(Vector3 A, Vector3 B, Vector3 C, Vector3 D)
     {
-        float max = Random.value*(HouseUpmax-HouseUpmin) + HouseUpmin;
+        float max = Random.value*(values.HouseUpmax - values.HouseUpmin) + values.HouseUpmin;
         
         
         int color = (int)(Random.value*(materials.Count));
@@ -127,20 +143,20 @@ public class BlockObjectScript : MonoBehaviour {
     void MakeSideROadHouses(KontrolPoint elozo, KontrolPoint kovetkezo)
     {
 
-        float a = Random.value * (HouseDeepmax - HouseDeepmin) + HouseDeepmin;
-        float b = Random.value * (HouseDeepmax - HouseDeepmin) + HouseDeepmin;
+        float a = Random.value * (values.HouseDeepmax - values.HouseDeepmin) + values.HouseDeepmin;
+        float b = Random.value * (values.HouseDeepmax - values.HouseDeepmin) + values.HouseDeepmin;
         Vector3 meroleges = Meroleges(elozo.nextPoint, kovetkezo.elozoPoint).normalized;
         Vector3 felezo = (elozo.nextPoint + kovetkezo.elozoPoint) / 2;
         float hosz = (kovetkezo.elozoPoint - elozo.nextPoint).magnitude;
-        if (hosz<minHouse*2)
+        if (hosz< values.minHouse *2)
         {
             MakeBox(elozo.nextPoint, kovetkezo.elozoPoint, kovetkezo.crossPoint, elozo.crossPoint);
         } else
         {
             Vector3 irany = (kovetkezo.elozoPoint-elozo.nextPoint).normalized;
-            Vector3 kovetkezoPoint = elozo.nextPoint + irany * minHouse;
-            KontrolPoint kovi = new KontrolPoint(kovetkezoPoint, kovetkezoPoint + meroleges * minHouse, elozo.elozoPoint);
-            MakeBox(elozo.nextPoint, kovetkezoPoint, kovetkezoPoint + meroleges * minHouse, elozo.crossPoint);
+            Vector3 kovetkezoPoint = elozo.nextPoint + irany * values.minHouse;
+            KontrolPoint kovi = new KontrolPoint(kovetkezoPoint, kovetkezoPoint + meroleges * values.minHouse, elozo.elozoPoint);
+            MakeBox(elozo.nextPoint, kovetkezoPoint, kovetkezoPoint + meroleges * values.minHouse, elozo.crossPoint);
             MakeSideROadHouses(kovi, kovetkezo);
         }
 
@@ -151,8 +167,8 @@ public class BlockObjectScript : MonoBehaviour {
     KontrolPoint SarokPoint(KontrolPoint elozo, int index)
     {
         
-        float a = Random.value * (HouseDeepmax - HouseDeepmin) + HouseDeepmin;
-        float b = Random.value * (HouseDeepmax - HouseDeepmin) + HouseDeepmin;
+        float a = Random.value * (values.HouseDeepmax - values.HouseDeepmin) + values.HouseDeepmin;
+        float b = Random.value * (values.HouseDeepmax - values.HouseDeepmin) + values.HouseDeepmin;
 
         Vector3 actual_point = controlPoints[index];
         Vector3 next_point;
@@ -166,17 +182,17 @@ public class BlockObjectScript : MonoBehaviour {
         {
             float hosz = (elozo.nextPoint - actual_point).magnitude;
             float newHouse = hosz / 2;
-            if (minHouse < newHouse)
+            if (values.minHouse < newHouse)
             {
-                newHouse = minHouse;
+                newHouse = values.minHouse;
             }
             Vector3 hazPointElozo = actual_point + (elozo.nextPoint - actual_point).normalized * newHouse;
 
             hosz = (next_point - actual_point).magnitude;
             newHouse = hosz / 2;
-            if (minHouse < newHouse)
+            if (values.minHouse < newHouse)
             {
-                newHouse = minHouse;
+                newHouse = values.minHouse;
             }
             Vector3 hazPointNext = actual_point + (next_point - actual_point).normalized * newHouse;
             Vector3 hazPointCross = hazPointElozo + (next_point - actual_point).normalized * newHouse;
@@ -185,7 +201,7 @@ public class BlockObjectScript : MonoBehaviour {
             return next;
         } else
         {
-            Vector3 kereszt = Kereszt(next_point, elozo.nextPoint, actual_point)*minHouse;
+            Vector3 kereszt = Kereszt(next_point, elozo.nextPoint, actual_point)* values.minHouse;
             KontrolPoint next = new KontrolPoint(actual_point, actual_point + kereszt, actual_point);
             return next;
         }
@@ -271,6 +287,7 @@ public class BlockObjectScript : MonoBehaviour {
     
     public void CreateMesh()
     {
+        if (!ok) return;
         mesh.Clear();
         mesh.vertices = meshVertexes.ToArray();
         mesh.subMeshCount = subTriangles.Count;

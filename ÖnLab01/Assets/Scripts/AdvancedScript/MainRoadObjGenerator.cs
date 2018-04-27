@@ -7,12 +7,13 @@ public class MainRoadObjGenerator{
     List<List<RoadNode>> circles = new List<List<RoadNode>>();
     GameObject blockObject;
     GameObject roadObject;
-    public float roadSize = 0.1f;
+    
     public float MainRatio = 3;
-
+    float roadSize;
     // The Main And First to Call Function
-    public void GenerateCircles(List<RoadNode> list, GameObject block, GameObject roadobj)
+    public void GenerateCircles(List<RoadNode> list, GameObject block, GameObject roadobj, float _roadSize)
     {
+        roadSize = _roadSize;
         blockObject = block;
         roadObject = roadobj;
         roads = list;
@@ -198,7 +199,7 @@ public class MainRoadObjGenerator{
             float a = roadSize / tan;
             if (!elozo_node.IsSideRoad() && !actual_node.IsSideRoad()) a *= MainRatio;
             Vector3 A = actual + (next - actual).normalized * a;
-            if (!actual_node.IsSideRoad() && !actual_node.IsSideRoad()) return A + mer * roadSize * MainRatio;
+            if (!next_node.IsSideRoad() && !actual_node.IsSideRoad()) return A + mer * roadSize * MainRatio;
             return A + mer * roadSize;
         }
 

@@ -7,22 +7,90 @@ public class RoadGeneratingValues : MonoBehaviour {
     [System.Serializable]
     public class Size
     {
-        public float xMin = -10;
-        public float zMin = -10;
-        public float xMax = 10;
-        public float zMax = 10;
+        public float sizeRatio = 10;
+        public float[] Sizes =
+        {
+            -10,
+            -10,
+            10,
+            10
+        };
+        public float xMin
+        {
+            get
+            {
+                return Sizes[0] * sizeRatio;
+            }
+        }
+        public float zMin
+        {
+            get
+            {
+                return Sizes[1] * sizeRatio;
+            }
+        }
+        public float xMax
+        {
+            get
+            {
+                return Sizes[2] * sizeRatio;
+            }
+        }
+        public float zMax
+        {
+            get
+            {
+                return Sizes[3] * sizeRatio;
+            }
+        }
     }
+    [Header("Size of the city")]
+    public float sizeRatio = 10;
+    [Space(10)]
     [Header("Size of the city")]
     public Size size;
     [Space(10)]
     [Header("Two Point collapse, when its this close")]
-    public float collapseRangeMainRoad = 0.5f;
-    public float collapseRangeSideRoad = 0.3f;
-
+    public float CollapseMainRoad = 0.5f;
+    public float collapseRangeMainRoad {
+        get
+        {
+            return CollapseMainRoad * sizeRatio * sizeRatio ;
+        }
+    }
+    public float CollapseSideRoad = 0.3f;
+    public float collapseRangeSideRoad {
+        get
+        {
+            return CollapseSideRoad * sizeRatio * sizeRatio;
+        }
+    }
+    
+    public float RoadSize = 0.1f;
+    public float roadSize {
+        get
+        {
+            return RoadSize * sizeRatio;
+        }
+    }
     [Space(5)]
     [Header("TBasic road size")]
-    public float roadsDistancesMainRoad = 2;
-    public float roadsDistancesSideRoad = 1;
+    public float MainRoadDistance = 2;
+    public float roadsDistancesMainRoad
+    {
+        get
+        {
+            return MainRoadDistance * sizeRatio;
+        }
+    }
+    public float SideRoadsDistance = 1;
+    public float roadsDistancesSideRoad
+    {
+        get
+        {
+            return SideRoadsDistance * sizeRatio;
+        }
+    }
 
     [Space(5)]
     [Header("How Often generate Straigth Roads")]
@@ -51,13 +119,45 @@ public class RoadGeneratingValues : MonoBehaviour {
     [Header("Road Smoothing variable")]
     [Range(0, 0.5f)]
     public float smootIntensity = 0.1f;
-    // Use this for initialization
-    void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+
+    public float minHouseSize = 0.2f;
+    public float HouseUpminSize = 0.2f;
+    public float HouseUpmaxSize = 0.3f;
+    public float HouseDeepminSize = 0.2f;
+    public float HouseDeepmaxSize = 0.3f;
+
+    public float minHouse {
+        get
+        {
+            return minHouseSize * sizeRatio;
+        }
+    }
+    public float HouseUpmin
+    {
+        get
+        {
+            return HouseUpminSize * sizeRatio;
+        }
+    }
+    public float HouseUpmax
+    {
+        get
+        {
+            return HouseUpmaxSize * sizeRatio;
+        }
+    }
+    public float HouseDeepmin
+    {
+        get
+        {
+            return HouseDeepminSize * sizeRatio;
+        }
+    }
+    public float HouseDeepmax
+    {
+        get
+        {
+            return HouseDeepmaxSize * sizeRatio;
+        }
+    }
 }
