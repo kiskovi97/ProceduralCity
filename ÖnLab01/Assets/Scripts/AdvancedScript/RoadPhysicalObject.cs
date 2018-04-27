@@ -54,6 +54,9 @@ public class RoadPhysicalObject : MonoBehaviour {
     }
     void GenerateMesh()
     {
+        bool elore = true;
+        if (K1.x < K2.x) elore = false;
+        else if (K1.x == K2.x && K1.z < K2.z) elore = false;
         Vector3 irany1 = S1 - K1;
         Vector3 irany2 = S2 - K2;
         Vector3 fel = new Vector3(0, 1, 0);
@@ -63,21 +66,35 @@ public class RoadPhysicalObject : MonoBehaviour {
             Vector3 tmpK2 = K2 + irany2 * ControlPoints[i].x + fel * ControlPoints[i].y;
             Vector3 tmpS1 = K1 + irany1 * ControlPoints[i + 1].x + fel * ControlPoints[i + 1].y;
             Vector3 tmpS2 = K2 + irany2 * ControlPoints[i + 1].x + fel * ControlPoints[i + 1].y;
-
+            
 
             float hoszK = (K1-K2).magnitude*2;
             float hoszS = (S1-S2).magnitude*2;
             
             AddTriangle(tmpS2, tmpS1,  tmpK1,  0);
             AddTriangle(tmpK1, tmpK2, tmpS2,  0);
-            
-            myUV.Add(new Vector2(0.5f - ControlPoints[i + 1].x*0.5f ,hoszS));
-            myUV.Add(new Vector2(0.5f - ControlPoints[i + 1].x * 0.5f, 0));
-            myUV.Add(new Vector2(0.5f - ControlPoints[i].x * 0.5f, 0));
 
-            myUV.Add(new Vector2(0.5f - ControlPoints[i].x * 0.5f, 0));
-            myUV.Add(new Vector2(0.5f - ControlPoints[i].x * 0.5f, hoszK));
-            myUV.Add(new Vector2(0.5f - ControlPoints[i+1].x * 0.5f, hoszS));
+            if (!elore)
+            {
+                myUV.Add(new Vector2(0.5f - ControlPoints[i + 1].x * 0.5f, hoszS));
+                myUV.Add(new Vector2(0.5f - ControlPoints[i + 1].x * 0.5f, 0));
+                myUV.Add(new Vector2(0.5f - ControlPoints[i].x * 0.5f, 0));
+
+                myUV.Add(new Vector2(0.5f - ControlPoints[i].x * 0.5f, 0));
+                myUV.Add(new Vector2(0.5f - ControlPoints[i].x * 0.5f, hoszK));
+                myUV.Add(new Vector2(0.5f - ControlPoints[i + 1].x * 0.5f, hoszS));
+            }
+            else
+            {
+                myUV.Add(new Vector2(0.5f - ControlPoints[i + 1].x * 0.5f, 0));
+                myUV.Add(new Vector2(0.5f - ControlPoints[i + 1].x * 0.5f, hoszS));
+                myUV.Add(new Vector2(0.5f - ControlPoints[i].x * 0.5f, hoszK));
+
+                myUV.Add(new Vector2(0.5f - ControlPoints[i].x * 0.5f, hoszK));
+                myUV.Add(new Vector2(0.5f - ControlPoints[i].x * 0.5f, 0));
+                myUV.Add(new Vector2(0.5f - ControlPoints[i + 1].x * 0.5f, 0));
+            }
+           
         }
 
         
