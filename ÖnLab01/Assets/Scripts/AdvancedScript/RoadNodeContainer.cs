@@ -17,6 +17,7 @@ public class RoadNodeContainer : MonoBehaviour {
   
     public GameObject ControlPointsVisualationObject;
     public GameObject blockObject;
+    public GameObject roadObject;
     public RoadGeneratingValues values;
     
     [Header("MainRoads max")]
@@ -85,7 +86,7 @@ public class RoadNodeContainer : MonoBehaviour {
         List<RoadNode> all = new List<RoadNode>();
         all.AddRange(roads);
         all.AddRange(sideroads);
-        generator.GenerateCircles(all, blockObject);
+        generator.GenerateCircles(all, blockObject,roadObject);
         Debug.Log("STEP04 -- Generating Blocks Ended");
     }
     

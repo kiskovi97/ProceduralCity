@@ -16,6 +16,10 @@ public class RoadNode {
     }
 
     bool sideroad = false;
+    public bool IsSideRoad()
+    {
+        return sideroad;
+    }
     // Generating Variables
     float straightFreq = 0.9f;
     float rotationRandom = 0.2f;
