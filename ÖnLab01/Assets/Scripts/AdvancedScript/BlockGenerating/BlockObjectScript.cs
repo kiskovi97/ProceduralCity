@@ -46,19 +46,14 @@ public class BlockObjectScript : MonoBehaviour {
     List<Vector2> myUV = new List<Vector2>();
     bool ElegNagy(List<Vector3> circle)
     {
-        return true;
-        for (int i=0; i< circle.Count; i++)
+        float area = 0.0f;
+        for (int i=0; i< circle.Count ; i++)
         {
-            for (int j = i+2; j< circle.Count; j++)
-            {
-                if ( (circle[i] - circle[j]).magnitude < values.minHouse*2.0f)
-                {
-                    ok = false;
-                    return false;
-                }
-            }
+            int j =( i + 1 )% circle.Count;
+            area += circle[i].x * circle[j].z ;
+            area -= circle[i].z * circle[j].x;
         }
-        return true;
+        return Mathf.Abs(area) > values.sizeRatio ;
     }
     public void GenerateBlockMesh(List<Vector3> loading)
     {
