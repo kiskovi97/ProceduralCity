@@ -104,14 +104,12 @@ public class MainRoadObjGenerator{
         {
             vertexes.Add(road.position);
         }
-        Vector3 kozeppont = new Vector3(0, 0, 0);
-        foreach (RoadNode road in circle)
-        {
-            kozeppont += road.position;
-        }
-        kozeppont /= vertexes.Count;
         List<Vector3> beljebbCircle = beljebb(vertexes);
-        bos.GenerateBlockMesh(beljebbCircle, kozeppont);
+        for (int i=0; i<circle.Count; i++)
+        {
+            Debug.DrawLine(circle[i].position, beljebbCircle[i], Color.blue, 100);
+        }
+        bos.GenerateBlockMesh(beljebbCircle);
         bos.CreateMesh();
     }
 

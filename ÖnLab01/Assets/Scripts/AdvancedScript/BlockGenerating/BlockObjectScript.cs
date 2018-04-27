@@ -46,8 +46,7 @@ public class BlockObjectScript : MonoBehaviour {
    
     List<List<int>> subTriangles;
     List<Vector2> myUV = new List<Vector2>();
-    Vector3 kozeppont;
-    public void GenerateBlockMesh(List<Vector3> loading, Vector3 _kozeppont)
+    public void GenerateBlockMesh(List<Vector3> loading)
     {
 
         subTriangles = new List<List<int>>();
@@ -60,7 +59,6 @@ public class BlockObjectScript : MonoBehaviour {
             subTriangles.Add(new List<int>());
         }
         controlPoints.AddRange(loading);
-        kozeppont = _kozeppont;
         GenerateBlock01();
     }
     void AddTriangle(Vector3 A, Vector3 B, Vector3 C,int mat)
