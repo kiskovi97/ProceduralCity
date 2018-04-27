@@ -69,8 +69,8 @@ public class BlockObjectScript : MonoBehaviour {
             subTriangles.Add(new List<int>());
         }
         controlPoints.AddRange(loading);
-        if (!ElegNagy(loading)) return;
-        GenerateBlock01();
+        if (ElegNagy(loading)) GenerateBlock01();
+        GenerateNothing(loading);
     }
     void AddTriangle(Vector3 A, Vector3 B, Vector3 C,int mat)
     {
@@ -133,6 +133,25 @@ public class BlockObjectScript : MonoBehaviour {
             MakeSideROadHouses(utak[i], utak[i+1]);
         }
         MakeSideROadHouses(utak[utak.Count-1], utak[0]);
+    }
+
+    void GenerateNothing(List<Vector3> circle)
+    {
+        Vector3 kozeppont = new Vector3(0, 0, 0);
+        for(int i=0; i< circle.Count; i++)
+        {
+            kozeppont = kozeppont + circle[i];
+        }
+        kozeppont = kozeppont * (1.0f / circle.Count);
+        for (int i = 0; i < circle.Count ; i++)
+        {
+            int j = (i + 1) % circle.Count;
+            AddTriangle(circle[i], circle[j], kozeppont, 0);
+            myUV.Add(new Vector2(0, 0));
+            myUV.Add(new Vector2(1, 0));
+            myUV.Add(new Vector2(0, 1));
+        }
+        
     }
 
     void MakeSideROadHouses(KontrolPoint elozo, KontrolPoint kovetkezo)
