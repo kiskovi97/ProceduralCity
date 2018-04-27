@@ -56,7 +56,7 @@ MonoBehaviour:
     zMin: -10
     xMax: 10
     zMax: 10
-  collapseRangeMainRoad: 0.8
+  collapseRangeMainRoad: 3
   collapseRangeSideRoad: 0.5
   roadsDistancesMainRoad: 1.5
   roadsDistancesSideRoad: 1

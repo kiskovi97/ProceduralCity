@@ -47,8 +47,8 @@ public class RoadNodeContainer : MonoBehaviour {
         roads.Clear();
         sideroads.Clear();
         plusroads.Clear();
-        RoadNode2 elso = new RoadNode2(values.straightFreqMainRoad, values.maxCrossings, values.rotationRandomMainRoad, 2);
-        elso.SetPosition(new Vector3(0, 0, values.size.zMin + 3));
+        RoadNode2 elso = new RoadNode2(values.straightFreqMainRoad, values.maxCrossings, values.rotationRandomMainRoad);
+        elso.position = new Vector3(0, 0, values.size.zMin + 3);
         roads.Add(elso);
     }
 

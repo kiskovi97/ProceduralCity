@@ -24,7 +24,7 @@ public class MainRoadObjGenerator{
         foreach (RoadNode2 road in list)
         {
             
-            List<RoadNode2> sz = road.getSomszedok();
+            List<RoadNode2> sz = road.Szomszedok;
             foreach (RoadNode2 second in sz)
             {
                 GenerateCircle(road, second, false);
