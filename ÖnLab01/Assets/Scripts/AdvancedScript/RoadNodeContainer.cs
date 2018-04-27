@@ -2,7 +2,7 @@
 using UnityEngine;
 
 public class RoadNodeContainer : MonoBehaviour {
-
+    // when merging roadNodes we need plus roads too
     class PlusRoad
     {
         public PlusRoad(Vector3 _p, Vector3 _q)
@@ -16,104 +16,86 @@ public class RoadNodeContainer : MonoBehaviour {
     public GameObject ControlPointsVisualationObject;
     public GameObject blockObject;
     public RoadGeneratingValues values;
-
-    // rekurziv adatok
+    
+    [Header("MainRoads max")]
     public int ReqursiveMax = 400;
+    [Space(5)]
+    [Header("SideRoads max")]
     public int ReqursiveMaxS = 1000;
+    [Space(5)]
+    [Header("Roads visalization")]
     public bool DebugLines = true;
-
+    // Roads 
     List<RoadNode2> roads = new List<RoadNode2>();
     List<RoadNode2> sideroads = new List<RoadNode2>();
     List<PlusRoad> plusroads = new List<PlusRoad>();
+
+
     MainRoadObjGenerator generator = new MainRoadObjGenerator();
     int rootObjIndex = 0;
     int rootObjIndexS = 0;
     // Use this for initialization
     void Start() {
-        Debug.Log("LOADING...");
-        roads.Clear();
-        RoadNode2 elso = new RoadNode2(values.straightFreqMainRoad, values.maxCrossings, values.rotationRandomMainRoad, 2);
-        elso.SetPosition(new Vector3(0, 0, values.size.zMin + 1));
-        roads.Add(elso);
+        Debug.Log("PROCESS STARTING...");
+        ClearStart();
         Invoke("Step01", 0);
         
     }
 
+    void ClearStart()
+    {
+        roads.Clear();
+        sideroads.Clear();
+        plusroads.Clear();
+        RoadNode2 elso = new RoadNode2(values.straightFreqMainRoad, values.maxCrossings, values.rotationRandomMainRoad, 2);
+        elso.SetPosition(new Vector3(0, 0, values.size.zMin + 1));
+        roads.Add(elso);
+    }
+
     void Step01()
     {
+        Debug.Log("STEP01 -- Main Road Generating Started");
         GeneratingMainRoads();
-        Debug.Log("End of Main Road generating");
+        Debug.Log("STEP01 -- Main Road Generating Ended");
         Invoke("Step02", 0);
     }
     void Step02()
     {
+        Debug.Log("STEP02 -- Side Road Generating Started");
         GeneratingStartSideRoads();
+        GeneratingMoreSideRoads();
+        Debug.Log("STEP02 -- Side Road Generating Ended");
         Invoke("Step03", 0);
-        Debug.Log("End of first Side Roads generating");
     }
     void Step03()
     {
-        GeneratingMoreSideRoads();
+        Debug.Log("STEP03 -- Smooth Started");
         SmoothRoads();
-        Debug.Log("End of all Side Roads generating");
         if (DebugLines)
-        Visualization01();
+            Visualization01();
+        Debug.Log("STEP03 -- Smooth Ended");
         Invoke("Step04",0);
-        Debug.Log("Visualation Roads");
     }
     void Step04()
     {
+        Debug.Log("STEP04 -- Generating Blocks Started");
         List<RoadNode2> all = new List<RoadNode2>();
         all.AddRange(roads);
         all.AddRange(sideroads);
         generator.GenerateCircles(all, blockObject);
-        Debug.Log("End of city generating");
+        Debug.Log("STEP04 -- Generating Blocks Ended");
     }
-
-    void Visualization01()
+    
+   
+    void GeneratingMainRoads()
     {
-        foreach (RoadNode2 road in roads)
+        for (int i=0; i<ReqursiveMax && i<roads.Count; i++)
         {
-            if (ControlPointsVisualationObject!=null)
-            {
-                GameObject ki = Instantiate(ControlPointsVisualationObject);
-                ki.transform.position = road.position;
-            }
-            road.DrawLines(Color.red);
-        }
-        foreach (RoadNode2 road in sideroads)
-        {
-            if (ControlPointsVisualationObject!=null)
-            {
-                GameObject ki = Instantiate(ControlPointsVisualationObject);
-                ki.transform.position = road.position;
-            }
-            road.DrawLines(Color.yellow);
-        }
-
-    }
-    bool PalyanBelulVane(RoadNode2 r)
-    {
-        if (r.position.x < values.size.xMin || r.position.x > values.size.xMax)
-        {
-            return false;
-        }
-        if (r.position.z < values.size.zMin || r.position.z > values.size.zMax)
-        {
-            return false;
-        }
-        return true;
-    }
-    void GeneratingMainRoads(){
-        ReqursiveMax--;
-        if (ReqursiveMax < 0) return;
-        if (rootObjIndex < roads.Count)
-        {
-            RoadNode2 root = roads[rootObjIndex];
+            RoadNode2 root = roads[i];
             List<RoadNode2> newRoads = root.GenerateRoads(values.roadsDistancesMainRoad);
             foreach (RoadNode2 road in newRoads)
             {
-                if (Ellenorzes(root,road, true))
+                if (Ellenorzes(root, road, true))
                 {
                     roads.Add(road);
                 }
@@ -123,16 +105,9 @@ public class RoadNodeContainer : MonoBehaviour {
                 }
 
             }
-            
-            rootObjIndex++;
-            GeneratingMainRoads();
-        }
-        else
-        {
-            return;
         }
     }
-	void GeneratingStartSideRoads()
+    void GeneratingStartSideRoads()
     {
         sideroads.Clear();
         foreach(RoadNode2 road in roads)
@@ -188,6 +163,18 @@ public class RoadNodeContainer : MonoBehaviour {
             GeneratingMoreSideRoads();
         }
 
+    }
+    bool PalyanBelulVane(RoadNode2 r)
+    {
+        if (r.position.x < values.size.xMin || r.position.x > values.size.xMax)
+        {
+            return false;
+        }
+        if (r.position.z < values.size.zMin || r.position.z > values.size.zMax)
+        {
+            return false;
+        }
+        return true;
     }
     bool Ellenorzes(RoadNode2 current_road,RoadNode2 newroad, bool Javitassal)
     {
@@ -268,6 +255,8 @@ public class RoadNodeContainer : MonoBehaviour {
 
         return true;
     }
+
+    // roads smoothing
     void SmoothRoads()
     {
         foreach (RoadNode2 road in roads)
@@ -278,5 +267,29 @@ public class RoadNodeContainer : MonoBehaviour {
         {
             road.Smooth(values.smootIntensity);
         }
+    }
+
+    // roads temporary visualization
+    void Visualization01()
+    {
+        foreach (RoadNode2 road in roads)
+        {
+            if (ControlPointsVisualationObject != null)
+            {
+                GameObject ki = Instantiate(ControlPointsVisualationObject);
+                ki.transform.position = road.position;
+            }
+            road.DrawLines(Color.red);
+        }
+        foreach (RoadNode2 road in sideroads)
+        {
+            if (ControlPointsVisualationObject != null)
+            {
+                GameObject ki = Instantiate(ControlPointsVisualationObject);
+                ki.transform.position = road.position;
+            }
+            road.DrawLines(Color.yellow);
+        }
+
     }
 }
