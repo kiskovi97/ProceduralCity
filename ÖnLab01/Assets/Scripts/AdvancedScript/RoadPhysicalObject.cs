@@ -4,15 +4,8 @@ using UnityEngine;
 
 [RequireComponent(typeof(MeshFilter))]
 public class RoadPhysicalObject : MonoBehaviour {
-    // Use this for initialization
-    void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+
+    List<Vector2> ControlPoints = new List<Vector2>();
     Mesh mesh;
     List<Vector3> meshVertexes = new List<Vector3>();
     List<List<int>> subTriangles;
@@ -24,7 +17,14 @@ public class RoadPhysicalObject : MonoBehaviour {
 
     public void GenerateBlockMesh(Vector3 s1, Vector3 s2, Vector3 k1, Vector3 k2)
     {
-
+        Vector2[] tomb =
+        {
+            new Vector2(0,0),
+            new Vector2(0.8f,0),
+            new Vector2(0.8f,0.02f),
+            new Vector2(1.0f,0.02f)
+        };
+        ControlPoints.AddRange(tomb);
         subTriangles = new List<List<int>>();
         mesh = GetComponent<MeshFilter>().mesh;
         materials = new List<Material>();
@@ -54,14 +54,31 @@ public class RoadPhysicalObject : MonoBehaviour {
     }
     void GenerateMesh()
     {
-        AddTriangle(S2, S1, K1,0);
-        AddTriangle(K1, K2, S2,0);
-        myUV.Add(new Vector2(0, 0));
-        myUV.Add(new Vector2(1, 0));
-        myUV.Add(new Vector2(0, 1));
-        myUV.Add(new Vector2(0, 1));
-        myUV.Add(new Vector2(1, 0));
-        myUV.Add(new Vector2(1, 1));
+
+        for (int i=0; i<ControlPoints.Count-1; i++)
+        {
+            Vector3 irany1 = S1 - K1;
+            Vector3 irany2 = S2 - K2;
+            Vector3 fel = new Vector3(0, 1, 0);
+            AddTriangle(K2 + irany2*ControlPoints[i+1].x + fel * ControlPoints[i+1].y,
+                        K1 + irany1*ControlPoints[i+1].x + fel * ControlPoints[i+1].y,
+                        K1 + irany1*ControlPoints[i].x   + fel * ControlPoints[i].y,
+                        0);
+            AddTriangle(K1 + irany1 * ControlPoints[i].x + fel * ControlPoints[i].y,
+                        K2 + irany2 * ControlPoints[i].x + fel * ControlPoints[i].y,
+                        K2 + irany2 * ControlPoints[i + 1].x + fel * ControlPoints[i + 1].y,
+                        0);
+            
+            myUV.Add(new Vector2(0.5f-ControlPoints[i + 1].x*0.5f ,1));
+            myUV.Add(new Vector2(0.5f - ControlPoints[i + 1].x * 0.5f, 0));
+            myUV.Add(new Vector2(0.5f - ControlPoints[i].x * 0.5f, 0));
+
+            myUV.Add(new Vector2(0.5f - ControlPoints[i].x * 0.5f, 0));
+            myUV.Add(new Vector2(0.5f - ControlPoints[i].x * 0.5f, 1));
+            myUV.Add(new Vector2(0.5f - ControlPoints[i+1].x * 0.5f, 1));
+        }
+
+        
     }
     public void CreateMesh()
     {
