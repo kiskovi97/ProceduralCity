@@ -59,13 +59,13 @@ MonoBehaviour:
     - -10
     - 10
     - 10
-  CollapseMainRoad: 0.5
+  CollapseMainRoad: 0.6
   CollapseSideRoad: 0.3
   RoadSize: 0.1
   MainRoadDistance: 1.5
   SideRoadsDistance: 1
-  straightFreqMainRoad: 0.942
-  straightFreqSideRoad: 0.81
+  straightFreqMainRoad: 0.914
+  straightFreqSideRoad: 0.579
   maxCrossings: 4
   rotationRandomMainRoad: 0.2
   rotationRandomSideRoad: 0
