@@ -136,14 +136,14 @@ public class RoadGeneratingValues : MonoBehaviour {
     {
         get
         {
-            return HouseUpminSize * sizeRatio;
+            return HouseUpminSize ;
         }
     }
     public float HouseUpmax
     {
         get
         {
-            return HouseUpmaxSize * sizeRatio;
+            return HouseUpmaxSize ;
         }
     }
     public float HouseDeepmin

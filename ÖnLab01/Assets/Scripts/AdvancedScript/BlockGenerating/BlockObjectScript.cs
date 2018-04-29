@@ -5,6 +5,7 @@ using UnityEngine;
 public class BlockObjectScript : MonoBehaviour {
     
     public RoadGeneratingValues values;
+    public int FloorMaterialStart = 2;
     private bool update = false;
     class KontrolPoint
     {
@@ -98,16 +99,35 @@ public class BlockObjectScript : MonoBehaviour {
     }
     void MakeBox(Vector3 A, Vector3 B, Vector3 C, Vector3 D)
     {
-        float max = (Random.value*(values.HouseUpmax - values.HouseUpmin) + values.HouseUpmin )*8;
+        float max = (Random.value*(values.HouseUpmax - values.HouseUpmin) + values.HouseUpmin );
         int floorCount = (int)max;
         float floor = values.minHouse*0.4f;
+        int color = (int)(Random.value * (FloorMaterialStart-1)) + 1;
 
-        int color = (int)(Random.value * (materials.Count - 1)) + 1;
 
-        for (int i=0; i<floorCount; i++)
+        Vector3 up = new Vector3(0, floor, 0);
+        Vector3 down = new Vector3(0, 0, 0);
+        //down
+        AddRectangle(A + down, B + down, C + down, D + down, 0);
+        //front
+        AddRectangle(A + up, B + up, B + down, A + down, color);
+        //up
+        AddRectangle(A + up, D + up, C + up, B + up, 0);
+
+
+        //right
+        AddRectangle(B + up, C + up, C + down, B + down, color);
+        //left
+        AddRectangle(D + up, A + up, A + down, D + down, color);
+        //back
+        AddRectangle(C + up, D + up, D + down, C + down, color);
+
+        color = (int)(Random.value * (materials.Count - FloorMaterialStart)) + FloorMaterialStart;
+
+        for (int i=1; i<floorCount; i++)
         {
-            Vector3 up = new Vector3(0, floor * (i+1), 0);
-            Vector3 down = new Vector3(0, floor * i, 0);
+            up = new Vector3(0, floor * (i+1), 0);
+            down = new Vector3(0, floor * i, 0);
             //down
             AddRectangle(A + down, B + down, C + down, D + down,0);
             //front

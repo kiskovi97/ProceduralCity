@@ -51,9 +51,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d738a104fcfbca04d9c2560b98f27bea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sizeRatio: 2
+  sizeRatio: 5
   size:
-    sizeRatio: 2
+    sizeRatio: 5
     Sizes:
     - -10
     - -10
@@ -64,7 +64,7 @@ MonoBehaviour:
   RoadSize: 0.1
   MainRoadDistance: 1.5
   SideRoadsDistance: 1
-  straightFreqMainRoad: 0.914
+  straightFreqMainRoad: 0.816
   straightFreqSideRoad: 0.579
   maxCrossings: 4
   rotationRandomMainRoad: 0.2
@@ -72,7 +72,7 @@ MonoBehaviour:
   sideRoadFreq: 1
   smootIntensity: 0.068
   minHouseSize: 0.3
-  HouseUpminSize: 0.3
-  HouseUpmaxSize: 0.4
+  HouseUpminSize: 2
+  HouseUpmaxSize: 6
   HouseDeepminSize: 0.3
   HouseDeepmaxSize: 0.4

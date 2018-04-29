@@ -5,6 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(MeshFilter))]
 public class RoadPhysicalObject : MonoBehaviour {
 
+    public GameObject sideRoadObject;
     List<Vector2> ControlPoints = new List<Vector2>();
     Mesh mesh;
     List<Vector3> meshVertexes = new List<Vector3>();
@@ -21,8 +22,8 @@ public class RoadPhysicalObject : MonoBehaviour {
         {
             new Vector2(0,0),
             new Vector2(0.8f,0),
-            new Vector2(0.8f,0.02f),
-            new Vector2(1.0f,0.02f)
+            new Vector2(0.8f,0.05f),
+            new Vector2(1.0f,0.05f)
         };
         ControlPoints.AddRange(tomb);
         subTriangles = new List<List<int>>();
@@ -37,6 +38,9 @@ public class RoadPhysicalObject : MonoBehaviour {
         S2 = s2;
         K1 = k1;
         K2 = k2;
+
+        
+    
         GenerateMesh();
     }
     void AddTriangle(Vector3 A, Vector3 B, Vector3 C, int mat)
@@ -62,10 +66,21 @@ public class RoadPhysicalObject : MonoBehaviour {
         Vector3 fel = new Vector3(0, 1, 0);
         for (int i=0; i<ControlPoints.Count-1; i++)
         {
+
+            
+
             Vector3 tmpK1 = K1 + irany1 * ControlPoints[i].x + fel * ControlPoints[i].y;
             Vector3 tmpK2 = K2 + irany2 * ControlPoints[i].x + fel * ControlPoints[i].y;
             Vector3 tmpS1 = K1 + irany1 * ControlPoints[i + 1].x + fel * ControlPoints[i + 1].y;
             Vector3 tmpS2 = K2 + irany2 * ControlPoints[i + 1].x + fel * ControlPoints[i + 1].y;
+
+            if (i == 0)
+            {
+                GameObject obj = Instantiate(sideRoadObject, (tmpS1 + tmpS2) / 2, new Quaternion(0, 0, 0, 0));
+                obj.transform.localScale-=new Vector3(0.5f, 0.5f, 0.5f);
+                Vector3 irany = ((tmpK1 - tmpS1) + (tmpK2 - tmpS2)) / 2;
+                obj.transform.rotation = Quaternion.LookRotation(irany);
+            }
             
 
             float hoszK = (K1-K2).magnitude*2;

@@ -58,8 +58,12 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_Materials:
   - {fileID: 2100000, guid: 61f1df9dd2b6f5244a40003484cff8b5, type: 3}
-  - {fileID: 2100000, guid: 61f1df9dd2b6f5244a40003484cff8b5, type: 3}
-  - {fileID: 2100000, guid: d2f3c30494edc094898560013e6ae6bc, type: 2}
+  - {fileID: 2100000, guid: 00fe16fd72bd6ab43adf99e173f10fe1, type: 2}
+  - {fileID: 2100000, guid: ee134ac9a96612d4f9cf4c5172d66c48, type: 2}
+  - {fileID: 2100000, guid: a43a530f2aae48249b3fa7b5aa5ae3e3, type: 2}
+  - {fileID: 2100000, guid: 760759e60d5255145a80edd1cf5d0b17, type: 2}
+  - {fileID: 2100000, guid: cbedd202a947e8b40ab2791d73cc7034, type: 2}
+  - {fileID: 2100000, guid: 0d2889e3dbc46f74d9c7759d2b7a2a8c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -110,3 +114,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   values: {fileID: 114612238295260302, guid: 4fa623546e0957a42a0885987de2fdf7, type: 2}
+  FloorMaterialStart: 3
