@@ -125,14 +125,19 @@ public class BlockObjectScript : MonoBehaviour {
         {
             elozo = SarokPoint(elozo, i);
             utak.Add(elozo);
+            
         }
         elozo = SarokPoint(elozo, 0);
         utak.Add(elozo);
-        for (int i=0; i<utak.Count-1; i++)
+        if (utak.Count >3)
         {
-            MakeSideROadHouses(utak[i], utak[i+1]);
+            for (int i = 0; i < utak.Count - 1; i++)
+            {
+                MakeSideROadHouses(utak[i], utak[i + 1]);
+            }
+            MakeSideROadHouses(utak[utak.Count - 1], utak[0]);
         }
-        MakeSideROadHouses(utak[utak.Count-1], utak[0]);
+        
     }
 
     void GenerateNothing(List<Vector3> circle)
@@ -158,19 +163,25 @@ public class BlockObjectScript : MonoBehaviour {
     {
 
         float a = Random.value * (values.HouseDeepmax - values.HouseDeepmin) + values.HouseDeepmin;
-        float b = Random.value * (values.HouseDeepmax - values.HouseDeepmin) + values.HouseDeepmin;
+        a = values.minHouse;
         Vector3 meroleges = Meroleges(elozo.nextPoint, kovetkezo.elozoPoint).normalized;
         Vector3 felezo = (elozo.nextPoint + kovetkezo.elozoPoint) / 2;
         float hosz = (kovetkezo.elozoPoint - elozo.nextPoint).magnitude;
         if (hosz< values.minHouse *2)
         {
-            MakeBox(elozo.nextPoint, kovetkezo.elozoPoint, kovetkezo.crossPoint, elozo.crossPoint);
+            Vector3 crossElozo = elozo.nextPoint + (elozo.crossPoint - elozo.nextPoint).normalized * a;
+            Vector3 crossKov = kovetkezo.elozoPoint + (kovetkezo.crossPoint - kovetkezo.elozoPoint).normalized * a;
+            MakeBox(elozo.nextPoint, kovetkezo.elozoPoint, crossKov, crossElozo);
         } else
         {
             Vector3 irany = (kovetkezo.elozoPoint-elozo.nextPoint).normalized;
             Vector3 kovetkezoPoint = elozo.nextPoint + irany * values.minHouse;
             KontrolPoint kovi = new KontrolPoint(kovetkezoPoint, kovetkezoPoint + meroleges * values.minHouse, elozo.elozoPoint);
-            MakeBox(elozo.nextPoint, kovetkezoPoint, kovetkezoPoint + meroleges * values.minHouse, elozo.crossPoint);
+
+            Vector3 crossElozo = elozo.nextPoint + (elozo.crossPoint - elozo.nextPoint).normalized * a;
+            Vector3 crossKov = kovetkezoPoint + ((kovetkezoPoint + meroleges * values.minHouse) - kovetkezoPoint).normalized * a;
+
+            MakeBox(elozo.nextPoint, kovetkezoPoint, crossKov, crossElozo);
             MakeSideROadHouses(kovi, kovetkezo);
         }
 
@@ -181,8 +192,6 @@ public class BlockObjectScript : MonoBehaviour {
     KontrolPoint SarokPoint(KontrolPoint elozo, int index)
     {
         
-        float a = Random.value * (values.HouseDeepmax - values.HouseDeepmin) + values.HouseDeepmin;
-        float b = Random.value * (values.HouseDeepmax - values.HouseDeepmin) + values.HouseDeepmin;
 
         Vector3 actual_point = controlPoints[index];
         Vector3 next_point;
@@ -194,6 +203,7 @@ public class BlockObjectScript : MonoBehaviour {
         float szog  = Vector3.SignedAngle(next_irany, elozo_irany,new Vector3(0,1,0));
         if (szog > 0 && 120 > szog)
         {
+            
             float hosz = (elozo.nextPoint - actual_point).magnitude;
             float newHouse = hosz / 2;
             if (values.minHouse < newHouse)
