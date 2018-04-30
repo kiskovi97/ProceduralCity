@@ -9,8 +9,17 @@ public class BuildingAssetStore : MonoBehaviour {
     {
         get
         {
-            int i = (int) (Random.value * (windows.Length - 1));
+            int i = (int) (Random.value * (windows.Length ));
             return windows[i];
+        }
+    }
+    public GameObject[] walls;
+    public GameObject wall
+    {
+        get
+        {
+            int i = (int)(Random.value * (walls.Length ));
+            return walls[i];
         }
     }
 }

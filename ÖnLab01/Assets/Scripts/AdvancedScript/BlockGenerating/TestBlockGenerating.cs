@@ -25,7 +25,6 @@ public class TestBlockGenerating : MonoBehaviour {
         }
         kozeppont /= vertexes.Count;
         bos.GenerateBlockMesh(vertexes);
-        bos.CreateMesh();
         update = true;
     }
 	
@@ -55,7 +54,6 @@ public class TestBlockGenerating : MonoBehaviour {
             }
             kozeppont /= vertexes.Count;
             bos.GenerateBlockMesh(vertexes);
-            bos.CreateMesh();
         }
     }
 }

@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: a01b6867d6aac9145aa16666ff1da2bf
-timeCreated: 1525081624
+guid: d5b2c6e9dd597404ea84ebfb00ddf510
+timeCreated: 1525091602
 licenseType: Free
 ModelImporter:
   serializedVersion: 22
@@ -8,11 +8,15 @@ ModelImporter:
     100000: //RootNode
     400000: //RootNode
     2100000: alap
-    2100002: ablak
     2300000: //RootNode
     3300000: //RootNode
     4300000: Plane.001
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: alap
+    second: {fileID: 2100000, guid: 0c463f0622541f94a9a906acd29fdf0e, type: 2}
   materials:
     importMaterials: 1
     materialName: 0

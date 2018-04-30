@@ -7,7 +7,9 @@ public class BlockObjectScript : MonoBehaviour {
     public BuildingAssetStore assetstore;
     public RoadGeneratingValues values;
     public int FloorMaterialStart = 2;
+    public float WindowSize = 0.5f;
     private bool update = false;
+    private GameObject parentObj;
     class KontrolPoint
     {
         public Vector3 nextPoint;
@@ -43,6 +45,8 @@ public class BlockObjectScript : MonoBehaviour {
         {
             GameObject.Destroy(obj, 0.1f);
         }
+        GameObject.Destroy(parentObj, 0.1f);
+
     }
     
     List<Vector3> controlPoints = new List<Vector3>();
@@ -64,7 +68,10 @@ public class BlockObjectScript : MonoBehaviour {
     }
     public void GenerateBlockMesh(List<Vector3> loading)
     {
-        
+
+        parentObj = new GameObject();
+        parentObj.transform.position = loading[0];
+        parentObj.name = "Block";
 
         subTriangles = new List<List<int>>();
         mesh = GetComponent<MeshFilter>().mesh;
@@ -78,6 +85,7 @@ public class BlockObjectScript : MonoBehaviour {
         controlPoints.AddRange(loading);
         if (ElegNagy(loading)) GenerateBlock01();
         GenerateNothing(loading);
+        
     }
     void AddTriangle(Vector3 A, Vector3 B, Vector3 C,int mat)
     {
@@ -107,15 +115,33 @@ public class BlockObjectScript : MonoBehaviour {
     void MakeWall(Vector3 A, Vector3 B, Vector3 up, float floor)
     {
         
-       // AddRectangle(A + up, B + up, B, A , 0);
-        //return;
-        GameObject obj = Instantiate(assetstore.window);
-        obj.transform.position = A;
-        float scaleY = floor;
-        float scaleZ = (A - B).magnitude;
-        obj.transform.localScale = new Vector3(100, scaleY * 100, scaleZ * 100);
-        obj.transform.rotation = Quaternion.LookRotation(A - B, up);
-        objs.Add(obj);
+        if ((A-B).magnitude > WindowSize)
+        {
+            GameObject obj = Instantiate(assetstore.window);
+            obj.transform.position = A;
+            float scaleY = floor;
+            float scaleZ = WindowSize;
+            obj.transform.localScale = new Vector3(101.0f, scaleY * 101.0f, scaleZ * 101.0f);
+            obj.transform.rotation = Quaternion.LookRotation(A - B, up);
+            obj.transform.SetParent(parentObj.transform);
+            objs.Add(obj);
+            
+            MakeWall(A + (B - A).normalized * WindowSize, B , up, floor);
+
+        } else
+        {
+
+            GameObject obj = Instantiate(assetstore.wall);
+            obj.transform.position = A;
+            float scaleY = floor;
+            float scaleZ = (A - B).magnitude;
+            obj.transform.localScale = new Vector3(100, scaleY * 100, scaleZ * 100);
+            obj.transform.rotation = Quaternion.LookRotation(A - B, up);
+            obj.transform.SetParent(parentObj.transform);
+            objs.Add(obj);
+        }
+
+        
     }
 
     void MakeBox(Vector3 A, Vector3 B, Vector3 C, Vector3 D)
@@ -132,15 +158,15 @@ public class BlockObjectScript : MonoBehaviour {
         //down
         AddRectangle(A + down, B + down, C + down, D + down, 0);
         //front
-        AddRectangle(A + up, B + up, B + down, A + down, color);
+        AddRectangle(A + up, B + up, B + down, A + down, 0);
         //up
         AddRectangle(A + up*floorCount, D + up * floorCount, C + up * floorCount, B + up * floorCount, 0);
         //right
-        AddRectangle(B + up, C + up, C + down, B + down, color);
+        AddRectangle(B + up, C + up, C + down, B + down, 0);
         //left
-        AddRectangle(D + up, A + up, A + down, D + down, color);
+        AddRectangle(D + up, A + up, A + down, D + down, 0);
         //back
-        AddRectangle(C + up, D + up, D + down, C + down, color);
+        AddRectangle(C + up, D + up, D + down, C + down, 0);
 
         color = (int)(Random.value * (materials.Count - FloorMaterialStart)) + FloorMaterialStart;
 
@@ -210,15 +236,15 @@ public class BlockObjectScript : MonoBehaviour {
     void GenerateBlock01()
     {
         KontrolPoint elozo = new KontrolPoint(controlPoints[0], controlPoints[0], controlPoints[0]);
-        for (int i=1; i < controlPoints.Count; i++)
+        for (int i = 1; i < controlPoints.Count; i++)
         {
             elozo = SarokPoint(elozo, i);
             utak.Add(elozo);
-            
+
         }
         elozo = SarokPoint(elozo, 0);
         utak.Add(elozo);
-        if (utak.Count >3)
+        if (utak.Count > 3)
         {
             for (int i = 0; i < utak.Count - 1; i++)
             {
@@ -226,7 +252,7 @@ public class BlockObjectScript : MonoBehaviour {
             }
             MakeSideROadHouses(utak[utak.Count - 1], utak[0]);
         }
-        
+        CreateMesh();
     }
 
     void GenerateNothing(List<Vector3> circle)
@@ -245,7 +271,7 @@ public class BlockObjectScript : MonoBehaviour {
             myUV.Add(new Vector2(1, 0));
             myUV.Add(new Vector2(0, 1));
         }
-        
+        CreateMesh();
     }
 
     void MakeSideROadHouses(KontrolPoint elozo, KontrolPoint kovetkezo)
@@ -400,16 +426,71 @@ public class BlockObjectScript : MonoBehaviour {
     public void CreateMesh()
     {
         if (!ok) return;
-        mesh.Clear();
-        mesh.vertices = meshVertexes.ToArray();
-        mesh.subMeshCount = subTriangles.Count;
-        for (int i=0; i<subTriangles.Count; i++)
+        MeshFilter[] filters = parentObj.GetComponentsInChildren<MeshFilter>();
+        Debug.Log(parentObj.name + " combine " + filters.Length + " mesh");
+        Mesh finalMesh = new Mesh();
+        List<CombineInstance> combiners = new List<CombineInstance>();
+
+        Matrix4x4 ourMatrix = transform.localToWorldMatrix;
+
+        for (int i = 0; i < filters.Length; i++)
         {
-            mesh.SetTriangles(subTriangles[i].ToArray(), i);
+
+            CombineInstance tmp = new CombineInstance();
+            tmp.subMeshIndex = 0;
+            tmp.mesh = filters[i].sharedMesh;
+            tmp.transform = filters[i].transform.localToWorldMatrix * ourMatrix.inverse;
+            combiners.Add(tmp);
+
         }
-        mesh.SetUVs(0, myUV);
-        mesh.RecalculateBounds();
-        mesh.RecalculateNormals();
+
+        CombineInstance instance = new CombineInstance();
+
+
+        Mesh generalt = new Mesh();
+        generalt.Clear();
+        generalt.vertices = meshVertexes.ToArray();
+        generalt.subMeshCount = subTriangles.Count;
+        for (int i = 0; i < subTriangles.Count; i++)
+        {
+            generalt.SetTriangles(subTriangles[i].ToArray(), i);
+        }
+        generalt.SetUVs(0, myUV);
+        generalt.RecalculateBounds();
+        generalt.RecalculateNormals();
         update = true;
+
+        instance.mesh = generalt;
+        instance.transform = Matrix4x4.identity;
+        instance.subMeshIndex = 0;
+        combiners.Add(instance);
+
+        finalMesh.CombineMeshes(combiners.ToArray());
+        GetComponent<MeshFilter>().sharedMesh = finalMesh;
+        GetComponent<MeshRenderer>().materials = parentObj.GetComponentInChildren<MeshRenderer>().materials;
+        
+        Debug.Log(parentObj.GetComponentInChildren<MeshRenderer>().materials[0].name + " material");
+        foreach (GameObject obj in objs)
+        {
+            GameObject.Destroy(obj, 0.01f);
+        }
+        
+
+
+        //mesh = GetComponent<MeshFilter>().sharedMesh;
+
+        //mesh.Clear();
+        //mesh.vertices = meshVertexes.ToArray();
+        //mesh.subMeshCount = subTriangles.Count;
+        //for (int i = 0; i < subTriangles.Count; i++)
+        //{
+        //    mesh.SetTriangles(subTriangles[i].ToArray(), i);
+        //}
+        //mesh.SetUVs(0, myUV);
+        //mesh.RecalculateBounds();
+        //mesh.RecalculateNormals();
+        //update = true;
+
+
     }
 }

@@ -122,7 +122,6 @@ public class MainRoadObjGenerator{
         rpo2.CreateMesh();
 
         bos.GenerateBlockMesh(beljebbCircle);
-        bos.CreateMesh();
     }
 
     List<Vector3> beljebb(List<RoadNode> eredeti)

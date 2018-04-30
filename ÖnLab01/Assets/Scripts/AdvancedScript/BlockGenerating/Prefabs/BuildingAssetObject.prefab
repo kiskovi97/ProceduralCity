@@ -51,3 +51,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b7dfb0c105e11b4a8ea056edb36b734, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  windows:
+  - {fileID: 1343192968925786, guid: fe1942e5b4a1ec147ae116a35265e6fe, type: 2}
+  walls:
+  - {fileID: 1611742421148098, guid: 038c3da65f946024fb386a1b887ba8d4, type: 2}
