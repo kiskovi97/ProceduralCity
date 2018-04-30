@@ -76,10 +76,10 @@ public class RoadPhysicalObject : MonoBehaviour {
 
             if (i == 0)
             {
-                GameObject obj = Instantiate(sideRoadObject, (tmpS1 + tmpS2) / 2, new Quaternion(0, 0, 0, 0));
-                obj.transform.localScale-=new Vector3(0.5f, 0.5f, 0.5f);
-                Vector3 irany = ((tmpK1 - tmpS1) + (tmpK2 - tmpS2)) / 2;
-                obj.transform.rotation = Quaternion.LookRotation(irany);
+                //GameObject obj = Instantiate(sideRoadObject, (tmpS1 + tmpS2) / 2, new Quaternion(0, 0, 0, 0));
+                //obj.transform.localScale-=new Vector3(0.5f, 0.5f, 0.5f);
+                //Vector3 irany = ((tmpK1 - tmpS1) + (tmpK2 - tmpS2)) / 2;
+                //obj.transform.rotation = Quaternion.LookRotation(irany);
             }
             
 
