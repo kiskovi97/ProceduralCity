@@ -271,7 +271,7 @@ public class BlockObjectScript : MonoBehaviour {
             myUV.Add(new Vector2(1, 0));
             myUV.Add(new Vector2(0, 1));
         }
-        CreateMesh();
+        CreateNothingMesh();
     }
 
     void MakeSideROadHouses(KontrolPoint elozo, KontrolPoint kovetkezo)
@@ -438,14 +438,13 @@ public class BlockObjectScript : MonoBehaviour {
 
             CombineInstance tmp = new CombineInstance();
             tmp.subMeshIndex = 0;
-            tmp.mesh = filters[i].sharedMesh;
+            tmp.mesh = filters[i].mesh;
             tmp.transform = filters[i].transform.localToWorldMatrix * ourMatrix.inverse;
             combiners.Add(tmp);
 
         }
 
         CombineInstance instance = new CombineInstance();
-
 
         Mesh generalt = new Mesh();
         generalt.Clear();
@@ -466,7 +465,7 @@ public class BlockObjectScript : MonoBehaviour {
         combiners.Add(instance);
 
         finalMesh.CombineMeshes(combiners.ToArray());
-        GetComponent<MeshFilter>().sharedMesh = finalMesh;
+        GetComponent<MeshFilter>().mesh = finalMesh;
         GetComponent<MeshRenderer>().materials = parentObj.GetComponentInChildren<MeshRenderer>().materials;
         
         Debug.Log(parentObj.GetComponentInChildren<MeshRenderer>().materials[0].name + " material");
@@ -474,23 +473,21 @@ public class BlockObjectScript : MonoBehaviour {
         {
             GameObject.Destroy(obj, 0.01f);
         }
-        
+    }
 
-
-        //mesh = GetComponent<MeshFilter>().sharedMesh;
-
-        //mesh.Clear();
-        //mesh.vertices = meshVertexes.ToArray();
-        //mesh.subMeshCount = subTriangles.Count;
-        //for (int i = 0; i < subTriangles.Count; i++)
-        //{
-        //    mesh.SetTriangles(subTriangles[i].ToArray(), i);
-        //}
-        //mesh.SetUVs(0, myUV);
-        //mesh.RecalculateBounds();
-        //mesh.RecalculateNormals();
-        //update = true;
-
-
+    public void CreateNothingMesh()
+    {
+        if (!ok) return;
+        mesh.Clear();
+        mesh.vertices = meshVertexes.ToArray();
+        mesh.subMeshCount = subTriangles.Count;
+        for (int i = 0; i < subTriangles.Count; i++)
+        {
+            mesh.SetTriangles(subTriangles[i].ToArray(), i);
+        }
+        mesh.SetUVs(0, myUV);
+        mesh.RecalculateBounds();
+        mesh.RecalculateNormals();
+        update = true;
     }
 }
