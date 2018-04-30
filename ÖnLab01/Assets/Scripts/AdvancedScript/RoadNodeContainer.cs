@@ -74,8 +74,8 @@ public class RoadNodeContainer : MonoBehaviour {
     void Step03()
     {
         Debug.Log("STEP03 -- Smooth Started");
-        Cut();
-        Cut();
+        //Cut();
+        //Cut();
         SmoothRoads();
         if (DebugLines)
             Visualization01();
@@ -89,10 +89,22 @@ public class RoadNodeContainer : MonoBehaviour {
         List<RoadNode> all = new List<RoadNode>();
         all.AddRange(roads);
         all.AddRange(sideroads);
-        generator.GenerateCircles(all, blockObject,roadObject,values.roadSize);
+        circles = generator.GenerateCircles(all, blockObject,roadObject,values.roadSize);
+        for (int i=0; i<circles.Count; i++)
+        {
+            Invoke("NextCircle", i *0.8f );
+        }
         Debug.Log("STEP04 -- Generating Blocks Ended");
     }
-    
+    List<List<RoadNode>> circles;
+    int z = 0;
+    void NextCircle()
+    {
+        generator.MakeABlock(circles[z]);
+        z++;
+    }
+
+
     void Cut()
     {
         List<RoadNode> expell = new List<RoadNode>();

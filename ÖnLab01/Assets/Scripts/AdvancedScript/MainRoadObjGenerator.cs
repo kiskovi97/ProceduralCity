@@ -11,7 +11,7 @@ public class MainRoadObjGenerator{
     public float MainRatio = 3;
     float roadSize;
     // The Main And First to Call Function
-    public void GenerateCircles(List<RoadNode> list, GameObject block, GameObject roadobj, float _roadSize)
+    public List<List<RoadNode>> GenerateCircles(List<RoadNode> list, GameObject block, GameObject roadobj, float _roadSize)
     {
         roadSize = _roadSize;
         blockObject = block;
@@ -20,11 +20,11 @@ public class MainRoadObjGenerator{
         if (roads == null)
         {
             Debug.Log("ERROR Not initializaled Roads");
-            return;
+            return null;
         }
-        if (list == null) return;
+        if (list == null) return null;
        
-        if (roads.Count <= 0) return;
+        if (roads.Count <= 0) return null;
         foreach (RoadNode road in list)
         {
             List<RoadNode> sz = road.Szomszedok;
@@ -33,10 +33,11 @@ public class MainRoadObjGenerator{
                 GenerateCircle(road, second, false);
             }
         }
-        foreach (List<RoadNode> circle in circles)
-        {
-            MakeABlock(circle);
-        }
+        //foreach (List<RoadNode> circle in circles)
+        //{
+        //    MakeABlock(circle);
+        //}
+        return circles;
     }
     // Search for a new Circle
     void GenerateCircle(RoadNode root, RoadNode second, bool jobbra)
@@ -99,7 +100,7 @@ public class MainRoadObjGenerator{
     }
 
 
-    void MakeABlock(List<RoadNode> circle)
+    public void MakeABlock(List<RoadNode> circle)
     {
         GameObject ki = Object.Instantiate(blockObject);
         BlockObjectScript bos = ki.GetComponent<BlockObjectScript>();
