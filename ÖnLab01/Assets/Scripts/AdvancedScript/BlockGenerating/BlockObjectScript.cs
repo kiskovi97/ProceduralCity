@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 [RequireComponent(typeof(MeshFilter))]
 public class BlockObjectScript : MonoBehaviour {
-    
+
+    public BuildingAssetStore assetstore;
     public RoadGeneratingValues values;
     public int FloorMaterialStart = 2;
     private bool update = false;
@@ -20,6 +21,7 @@ public class BlockObjectScript : MonoBehaviour {
         }
     }
     List<KontrolPoint> utak = new List<KontrolPoint>();
+    List<GameObject> objs = new List<GameObject>();
     Mesh mesh;
     List<Material> materials;
     bool ok = true;
@@ -37,6 +39,10 @@ public class BlockObjectScript : MonoBehaviour {
         meshVertexes.Clear();
         subTriangles.Clear();
         myUV.Clear();
+        foreach ( GameObject obj in objs)
+        {
+            GameObject.Destroy(obj, 0.1f);
+        }
     }
     
     List<Vector3> controlPoints = new List<Vector3>();
@@ -97,12 +103,68 @@ public class BlockObjectScript : MonoBehaviour {
         myUV.Add(new Vector2(1, 0));
         myUV.Add(new Vector2(1, 1));
     }
+
+    void MakeWall(Vector3 A, Vector3 B, Vector3 up, float floor)
+    {
+        
+       // AddRectangle(A + up, B + up, B, A , 0);
+        //return;
+        GameObject obj = Instantiate(assetstore.window);
+        obj.transform.position = A;
+        float scaleY = floor;
+        float scaleZ = (A - B).magnitude;
+        obj.transform.localScale = new Vector3(100, scaleY * 100, scaleZ * 100);
+        obj.transform.rotation = Quaternion.LookRotation(A - B, up);
+        objs.Add(obj);
+    }
+
     void MakeBox(Vector3 A, Vector3 B, Vector3 C, Vector3 D)
     {
+        
         float max = (Random.value*(values.HouseUpmax - values.HouseUpmin) + values.HouseUpmin );
         int floorCount = (int)max;
         float floor = values.minHouse*0.4f;
         int color = (int)(Random.value * (FloorMaterialStart-1)) + 1;
+
+
+        Vector3 up = new Vector3(0, floor, 0);
+        Vector3 down = new Vector3(0, 0, 0);
+        //down
+        AddRectangle(A + down, B + down, C + down, D + down, 0);
+        //front
+        AddRectangle(A + up, B + up, B + down, A + down, color);
+        //up
+        AddRectangle(A + up*floorCount, D + up * floorCount, C + up * floorCount, B + up * floorCount, 0);
+        //right
+        AddRectangle(B + up, C + up, C + down, B + down, color);
+        //left
+        AddRectangle(D + up, A + up, A + down, D + down, color);
+        //back
+        AddRectangle(C + up, D + up, D + down, C + down, color);
+
+        color = (int)(Random.value * (materials.Count - FloorMaterialStart)) + FloorMaterialStart;
+
+        for (int i=1; i<floorCount; i++)
+        {
+            up = new Vector3(0, floor * (i+1), 0);
+            down = new Vector3(0, floor * i, 0);
+            //front
+            //AddRectangle( A + up, B + up, B + down, A + down, color);
+            MakeWall(A + down, B + down, up/(i+1), floor);
+            //right
+            MakeWall(B + down, C + down, up / (i + 1), floor);
+            //left
+            MakeWall(D + down, A + down, up / (i + 1), floor);
+            //back
+            MakeWall(C + down, D + down, up / (i + 1), floor);
+        }
+    }
+    int MakeBoxTextured(Vector3 A, Vector3 B, Vector3 C, Vector3 D)
+    {
+        float max = (Random.value * (values.HouseUpmax - values.HouseUpmin) + values.HouseUpmin);
+        int floorCount = (int)max;
+        float floor = values.minHouse * 0.4f;
+        int color = (int)(Random.value * (FloorMaterialStart - 1)) + 1;
 
 
         Vector3 up = new Vector3(0, floor, 0);
@@ -124,14 +186,14 @@ public class BlockObjectScript : MonoBehaviour {
 
         color = (int)(Random.value * (materials.Count - FloorMaterialStart)) + FloorMaterialStart;
 
-        for (int i=1; i<floorCount; i++)
+        for (int i = 1; i < floorCount; i++)
         {
-            up = new Vector3(0, floor * (i+1), 0);
+            up = new Vector3(0, floor * (i + 1), 0);
             down = new Vector3(0, floor * i, 0);
             //down
-            AddRectangle(A + down, B + down, C + down, D + down,0);
+            AddRectangle(A + down, B + down, C + down, D + down, 0);
             //front
-            AddRectangle( A + up, B + up, B + down, A + down, color);
+            AddRectangle(A + up, B + up, B + down, A + down, color);
             //up
             AddRectangle(A + up, D + up, C + up, B + up, 0);
 
@@ -143,10 +205,7 @@ public class BlockObjectScript : MonoBehaviour {
             //back
             AddRectangle(C + up, D + up, D + down, C + down, color);
         }
-
-        
-
-
+        return floorCount;
     }
     void GenerateBlock01()
     {
