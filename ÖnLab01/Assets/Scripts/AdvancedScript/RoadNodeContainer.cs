@@ -92,7 +92,7 @@ public class RoadNodeContainer : MonoBehaviour {
         circles = generator.GenerateCircles(all, blockObject,roadObject,values.roadSize);
         for (int i=0; i<circles.Count; i++)
         {
-            Invoke("NextCircle", i *0.8f );
+            Invoke("NextCircle", i *0.2f );
         }
         Debug.Log("STEP04 -- Generating Blocks Ended");
     }

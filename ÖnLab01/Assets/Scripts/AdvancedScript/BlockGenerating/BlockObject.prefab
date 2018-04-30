@@ -118,3 +118,5 @@ MonoBehaviour:
   values: {fileID: 114612238295260302, guid: 4fa623546e0957a42a0885987de2fdf7, type: 2}
   FloorMaterialStart: 3
   WindowSize: 0.5
+  BuildingAlap: {fileID: 1365869826836838, guid: f2abffc89d278154baa35c7c746742ee,
+    type: 2}
