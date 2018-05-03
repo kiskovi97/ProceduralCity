@@ -1,0 +1,62 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1518182836221532}
+  m_IsPrefabParent: 1
+--- !u!1 &1518182836221532
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4556614530109738}
+  - component: {fileID: 114476994870735070}
+  m_Layer: 0
+  m_Name: SideRoadGameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4556614530109738
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1518182836221532}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.74164164, y: 0.16194686, z: -0.12904307}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114476994870735070
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1518182836221532}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30bc122a1c7a2fe4e92bda4e100b3b83, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  padok:
+  - {fileID: 1379935556451778, guid: 67603ab6fd7edf144ad72a6224bc69b8, type: 2}
+  - {fileID: 1140476326422886, guid: 192eec538034efe469ef1c0cbb4baf08, type: 2}
+  - {fileID: 1102415444148856, guid: 1ad2ca53927ef644f897d42c42cd5af8, type: 2}
+  - {fileID: 1671516998559394, guid: 2ddc911e22598ee4c8818886f8d432c0, type: 2}
+  - {fileID: 1147994722035894, guid: e05d2e7156700b5499a9e96a2a29ac6c, type: 2}
+  - {fileID: 1549542999830974, guid: ea63aad550f71e8408f36b817be0d1fa, type: 2}
+  lampa:
+  - {fileID: 1760145645979872, guid: fa92e6828dc4e7f4d906b4a6b415b295, type: 2}

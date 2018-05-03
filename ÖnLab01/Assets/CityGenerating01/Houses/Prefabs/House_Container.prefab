@@ -1,0 +1,73 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1356213424526492}
+  m_IsPrefabParent: 1
+--- !u!1 &1356213424526492
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4042622017647822}
+  - component: {fileID: 114529184866418066}
+  m_Layer: 0
+  m_Name: House_Container
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4042622017647822
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1356213424526492}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.21253204, y: 1.9938397e-18, z: -5.337343}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114529184866418066
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1356213424526492}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85797c3a4f2f8444e95a3b575cd526a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  alapHosues:
+  - {fileID: 1898796499580210, guid: 342650ab994ac7344aa9d661a5b500f8, type: 2}
+  - {fileID: 1444172403606808, guid: af34a767cad66a944bb1ab269305eaf1, type: 2}
+  - {fileID: 1341202318665486, guid: ff46c2a67a5c7d44bbe5ea55382626a7, type: 2}
+  - {fileID: 1656368591295574, guid: da1f850b71cc9a44eae40748a5fea587, type: 2}
+  lalapHosues:
+  - {fileID: 1209423958287998, guid: 8c73808141d04c84e8155827836c8516, type: 2}
+  tetoHosues: []
+  semmiHosues:
+  - {fileID: 1737324043681948, guid: 604c18546e26b034e856b628ccefe37a, type: 2}
+  - {fileID: 1986631753554822, guid: 5f6ddcbfac6d5a04896178311edece78, type: 2}
+  - {fileID: 1646884289317722, guid: 641400e6e9ac7fa46a98154bed05a817, type: 2}
+  - {fileID: 1042625520616496, guid: 22aba61e50c938942885a4eae5ce8a95, type: 2}
+  - {fileID: 1684253267928600, guid: 1fd6f803aefaad54c8ec79d54be2807b, type: 2}
+  - {fileID: 1217530736742754, guid: e8393e0187c6bd34fa746815a3ee7d61, type: 2}
+  xHosues:
+  - {fileID: 1198736285157154, guid: e6302bd2f39534b498e55d1c9bb608ff, type: 2}
+  - {fileID: 1164608091796256, guid: dee8b0d0407ccbc4c8cea4300c1da7c1, type: 2}
+  thouse:
+  - {fileID: 1252979732615986, guid: 99ae4e5ca63304c4b86c046004dbcea4, type: 2}
