@@ -51,7 +51,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b06f9e3b13dbcc74a8b34110e76af3de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ControlPointsVisualationObject: {fileID: 0}
+  ControlPointsVisualationObject: {fileID: 1245088598790462, guid: 33e5dd2052211e249b7b4ad5ddca0d00,
+    type: 2}
   blockObject: {fileID: 1179097907748356, guid: eacc2f1849964a542b7415cf3057fe9a,
     type: 2}
   roadObject: {fileID: 1268133786361746, guid: f1c58c83dae44f54baf3667b6de11860, type: 2}

@@ -57,7 +57,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 61f1df9dd2b6f5244a40003484cff8b5, type: 3}
+  - {fileID: 2100000, guid: d2f3c30494edc094898560013e6ae6bc, type: 2}
   - {fileID: 2100000, guid: 00fe16fd72bd6ab43adf99e173f10fe1, type: 2}
   - {fileID: 2100000, guid: ee134ac9a96612d4f9cf4c5172d66c48, type: 2}
   - {fileID: 2100000, guid: a43a530f2aae48249b3fa7b5aa5ae3e3, type: 2}
@@ -116,6 +116,8 @@ MonoBehaviour:
   assetstore: {fileID: 114505769918865958, guid: 8e0e4f7d63a2e6e489d8dd6a71e26057,
     type: 2}
   values: {fileID: 114612238295260302, guid: 4fa623546e0957a42a0885987de2fdf7, type: 2}
+  HighRes: 0
+  Kitoltendo: 0
   FloorMaterialStart: 3
   WindowSize: 0.5
   BuildingAlap: {fileID: 1365869826836838, guid: f2abffc89d278154baa35c7c746742ee,

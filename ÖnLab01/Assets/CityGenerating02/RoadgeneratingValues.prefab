@@ -51,21 +51,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d738a104fcfbca04d9c2560b98f27bea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sizeRatio: 4
+  sizeRatio: 10
   size:
-    sizeRatio: 4
+    sizeRatio: 10
     Sizes:
-    - -4
-    - -4
-    - 4
-    - 4
-  CollapseMainRoad: 0.6
-  CollapseSideRoad: 0.3
+    - -10
+    - -10
+    - 10
+    - 10
+  CollapseMainRoad: 1
+  CollapseSideRoad: 1
   RoadSize: 0.1
-  MainRoadDistance: 1.5
-  SideRoadsDistance: 1
+  MainRoadDistance: 2
+  SideRoadsDistance: 2
   straightFreqMainRoad: 0.816
-  straightFreqSideRoad: 0.579
+  straightFreqSideRoad: 0.49
   maxCrossings: 4
   rotationRandomMainRoad: 0.2
   rotationRandomSideRoad: 0
