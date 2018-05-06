@@ -6,6 +6,8 @@ public class BlockObjectScript : MonoBehaviour {
 
     public BuildingAssetStore assetstore;
     public RoadGeneratingValues values;
+    public bool HighRes = false;
+    public bool Kitoltendo = false;
     public int FloorMaterialStart = 2;
     public float WindowSize = 0.5f;
     private bool update = false;
@@ -64,8 +66,9 @@ public class BlockObjectScript : MonoBehaviour {
         controlPoints.AddRange(loading);
         if (ElegNagy(loading)) GenerateBlock01();
 
-        GenerateNothing(loading);
-        
+        if (Kitoltendo) GenerateNothing(loading);
+        else CreateMesh(); 
+
     }
     void AddTriangle(Vector3 A, Vector3 B, Vector3 C,int mat)
     {
@@ -126,6 +129,11 @@ public class BlockObjectScript : MonoBehaviour {
 
     void MakeBox(Vector3 A, Vector3 B, Vector3 C, Vector3 D)
     {
+        if (!HighRes)
+        {
+            MakeBoxTextured(A, B, C, D);
+            return;
+        }
         GameObject buildingobject = Instantiate(BuildingAlap);
         buildingobject.transform.position = new Vector3(0,0,0);
         float max = (Random.value*(values.HouseUpmax - values.HouseUpmin) + values.HouseUpmin );
@@ -234,7 +242,6 @@ public class BlockObjectScript : MonoBehaviour {
             }
             MakeSideROadHouses(utak[utak.Count - 1], utak[0]);
         }
-        //CreateMesh();
     }
 
     void GenerateNothing(List<Vector3> circle)
@@ -253,7 +260,7 @@ public class BlockObjectScript : MonoBehaviour {
             myUV.Add(new Vector2(1, 0));
             myUV.Add(new Vector2(0, 1));
         }
-        CreateNothingMesh();
+        CreateMesh();
     }
 
     public void CreateMesh(GameObject parentObj)
@@ -273,24 +280,6 @@ public class BlockObjectScript : MonoBehaviour {
             tmp.transform = filters[i].transform.localToWorldMatrix * ourMatrix.inverse;
             combiners.Add(tmp);
         }
-        //CombineInstance instance = new CombineInstance();
-        //Mesh generalt = new Mesh();
-        //generalt.Clear();
-        //generalt.vertices = meshVertexes.ToArray();
-        //generalt.subMeshCount = subTriangles.Count;
-        //for (int i = 0; i < subTriangles.Count; i++)
-        //{
-        //    generalt.SetTriangles(subTriangles[i].ToArray(), i);
-        //}
-        //generalt.SetUVs(0, myUV);
-        //generalt.RecalculateBounds();
-        //generalt.RecalculateNormals();
-        //update = true;
-
-        //instance.mesh = generalt;
-        //instance.transform = Matrix4x4.identity;
-        //instance.subMeshIndex = 0;
-        //combiners.Add(instance);
 
         parentObj.GetComponent<MeshFilter>().mesh.Clear();
         finalMesh.CombineMeshes(combiners.ToArray());
@@ -305,7 +294,7 @@ public class BlockObjectScript : MonoBehaviour {
         objs.Clear();
     }
 
-    public void CreateNothingMesh()
+    public void CreateMesh()
     {
         if (!ok) return;
         mesh.Clear();
@@ -320,10 +309,6 @@ public class BlockObjectScript : MonoBehaviour {
         mesh.RecalculateNormals();
         update = true;
     }
-
-
-
-
 
     bool ElegNagy(List<Vector3> circle)
     {

@@ -51,7 +51,7 @@ public class RoadNodeContainer : MonoBehaviour {
         sideroads.Clear();
         plusroads.Clear();
         RoadNode elso = new RoadNode(values.straightFreqMainRoad, values.maxCrossings, values.rotationRandomMainRoad);
-        elso.position = new Vector3(0, 0, values.size.zMin + 3);
+        elso.position = new Vector3(0, 0, values.size.zMin + 2);
         roads.Add(elso);
     }
 
@@ -92,7 +92,7 @@ public class RoadNodeContainer : MonoBehaviour {
         circles = generator.GenerateCircles(all, blockObject,roadObject,values.roadSize);
         for (int i=0; i<circles.Count; i++)
         {
-            Invoke("NextCircle", i *0.2f );
+            Invoke("NextCircle", i *0.05f );
         }
         Debug.Log("STEP04 -- Generating Blocks Ended");
     }
@@ -133,6 +133,11 @@ public class RoadNodeContainer : MonoBehaviour {
             {
                 if (Ellenorzes(root, road, true))  roads.Add(road);
                 else root.removeSzomszed(road);
+            }
+            if (roads.Count < 2)
+            {
+                ReqursiveMax--;
+                i--;
             }
         }
     }
