@@ -717,7 +717,7 @@ PlayerSettings:
   facebookSdkVersion: 7.9.4
   apiCompatibilityLevel: 2
   cloudProjectId: b5406b83-f391-42d7-9ed2-78f76e6421e1
-  projectName: 
+  projectName: "\xD6nLab01"
   organizationId: gegr-kov-cs
   cloudEnabled: 0
   enableNativePlatformBackendsForNewInputSystem: 0
