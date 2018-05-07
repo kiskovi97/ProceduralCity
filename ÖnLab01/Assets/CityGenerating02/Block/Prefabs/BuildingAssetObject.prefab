@@ -52,7 +52,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   windows:
-  - {fileID: 1700034474803430, guid: 66ac53d18881b3c4b993c3eeaba777bc, type: 2}
-  - {fileID: 1000851465970064, guid: eee614de491ed9a449bf4c4cd40cd4be, type: 2}
+  - {fileID: 1303239479520850, guid: f766c00a1c13c7347a54b1867da3e2cc, type: 2}
+  - {fileID: 1971858153120112, guid: 12fcf2d98f19c92468a77d5efa3b8f65, type: 2}
   walls:
-  - {fileID: 1433736573542128, guid: 34c030c21c97a5941822116f8cd3443d, type: 2}
+  - {fileID: 1266451031370334, guid: 157266fcea0495444a0f0f667af2a460, type: 2}
