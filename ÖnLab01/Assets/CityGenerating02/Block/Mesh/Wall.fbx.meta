@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 6b9b82504e7b88e4a9c432faf6661219
-timeCreated: 1525688855
+timeCreated: 1525692424
 licenseType: Free
 ModelImporter:
   serializedVersion: 22
@@ -11,12 +11,7 @@ ModelImporter:
     2300000: //RootNode
     3300000: //RootNode
     4300000: Plane.006
-  externalObjects:
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: WindowMaterial
-    second: {fileID: 2100000, guid: 677b78178df034d4984569220df77d88, type: 2}
+  externalObjects: {}
   materials:
     importMaterials: 1
     materialName: 0
