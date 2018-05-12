@@ -138,9 +138,8 @@ public class BlockObjectScript : MonoBehaviour {
         buildingobject.transform.position = new Vector3(0,0,0);
         float max = (Random.value*(values.HouseUpmax - values.HouseUpmin) + values.HouseUpmin );
         int floorCount = (int)max;
-        float floor = values.minHouse*0.4f;
         int color = (int)(Random.value * (FloorMaterialStart-1)) + 1;
-        Vector3 up = new Vector3(0, floor, 0);
+        Vector3 up = new Vector3(0, values.floor, 0);
         Vector3 down = new Vector3(0, 0, 0);
         //down
         AddRectangle(A + down, B + down, C + down, D + down, 0);
@@ -159,17 +158,17 @@ public class BlockObjectScript : MonoBehaviour {
 
         for (int i=1; i<floorCount; i++)
         {
-            up = new Vector3(0, floor * (i+1), 0);
-            down = new Vector3(0, floor * i, 0);
+            up = new Vector3(0, values.floor * (i+1), 0);
+            down = new Vector3(0, values.floor * i, 0);
             //front
             //AddRectangle( A + up, B + up, B + down, A + down, color);
-            MakeWall(A + down, B + down, up/(i+1), floor, buildingobject);
+            MakeWall(A + down, B + down, up/(i+1), values.floor, buildingobject);
             //right
-            MakeWall(B + down, C + down, up / (i + 1), floor, buildingobject);
+            MakeWall(B + down, C + down, up / (i + 1), values.floor, buildingobject);
             //left
-            MakeWall(D + down, A + down, up / (i + 1), floor, buildingobject);
+            MakeWall(D + down, A + down, up / (i + 1), values.floor, buildingobject);
             //back
-            MakeWall(C + down, D + down, up / (i + 1), floor, buildingobject);
+            MakeWall(C + down, D + down, up / (i + 1), values.floor, buildingobject);
         }
 
         CreateMesh(buildingobject);
@@ -179,11 +178,10 @@ public class BlockObjectScript : MonoBehaviour {
     {
         float max = (Random.value * (values.HouseUpmax - values.HouseUpmin) + values.HouseUpmin);
         int floorCount = (int)max;
-        float floor = values.minHouse * 0.4f;
         int color = (int)(Random.value * (FloorMaterialStart - 1)) + 1;
 
 
-        Vector3 up = new Vector3(0, floor, 0);
+        Vector3 up = new Vector3(0, values.floor, 0);
         Vector3 down = new Vector3(0, 0, 0);
         //down
         AddRectangle(A + down, B + down, C + down, D + down, 0);
@@ -204,8 +202,8 @@ public class BlockObjectScript : MonoBehaviour {
 
         for (int i = 1; i < floorCount; i++)
         {
-            up = new Vector3(0, floor * (i + 1), 0);
-            down = new Vector3(0, floor * i, 0);
+            up = new Vector3(0, values.floor * (i + 1), 0);
+            down = new Vector3(0, values.floor * i, 0);
             //down
             AddRectangle(A + down, B + down, C + down, D + down, 0);
             //front

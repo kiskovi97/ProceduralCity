@@ -126,6 +126,16 @@ public class RoadGeneratingValues : MonoBehaviour {
     public float HouseDeepminSize = 0.2f;
     public float HouseDeepmaxSize = 0.3f;
 
+
+    public float floorSize = 0.1f;
+    public float floor
+    {
+        get
+        {
+            return floorSize * sizeRatio;
+        }
+    }
+
     public float minHouse {
         get
         {
