@@ -20,6 +20,7 @@ public class RoadNode {
     {
         return sideroad;
     }
+
     // Generating Variables
     float straightFreq = 0.9f;
     float rotationRandom = 0.2f;
@@ -201,7 +202,32 @@ public class RoadNode {
         ki.Add(ad);
         szomszedok.Add(ad);
     }
-
+    public void Rendez()
+    {
+        for (int i=0; i<szomszedok.Count-1; i++)
+        {
+            Vector3 eddigiirany = szomszedok[i].position - position;
+            float eddigiszog = 360;
+            int z = i;
+            for (int j=i+1; j<szomszedok.Count; j++)
+            {
+                Vector3 masirany = szomszedok[j].position - position;
+                float szog = Vector3.SignedAngle(eddigiirany, masirany, new Vector3(0, 1, 0));
+                if (szog < 0) szog += 360;
+                if (eddigiszog > szog)
+                {
+                    z = j;
+                    eddigiszog = szog;
+                }
+            }
+            if (z > i + 1)
+            {
+                RoadNode tmp = szomszedok[i + 1];
+                szomszedok[i + 1] = szomszedok[z];
+                szomszedok[z] = tmp;
+            }
+        }
+    }
     // Road Generating Helper functions
     public void SetElozo(RoadNode setElozo)
     {
@@ -214,6 +240,7 @@ public class RoadNode {
     // Merge helper functions
     public void addSzomszed(RoadNode be)
     {
+        if (!szomszedok.Contains(be))
         szomszedok.Add(be);
     }
     public void removeSzomszed(RoadNode ki)

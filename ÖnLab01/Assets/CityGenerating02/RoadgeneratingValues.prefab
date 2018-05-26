@@ -73,6 +73,7 @@ MonoBehaviour:
   smootIntensity: 0.068
   minHouseSize: 0.3
   HouseUpminSize: 2
-  HouseUpmaxSize: 6
+  HouseUpmaxSize: 10
   HouseDeepminSize: 0.3
   HouseDeepmaxSize: 0.4
+  floorSize: 0.1

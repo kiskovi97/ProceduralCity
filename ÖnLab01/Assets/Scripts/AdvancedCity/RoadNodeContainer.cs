@@ -84,8 +84,15 @@ public class RoadNodeContainer : MonoBehaviour {
     }
     void Step04()
     {
+        List<RoadNode> all = new List<RoadNode>();
+        all.AddRange(roads);
+        all.AddRange(sideroads);
+        generator.GenerateRoadMesh(all);
+    }
+    void Step05()
+    {
+
         Debug.Log("STEP04 -- Generating Blocks Started");
-        
         List<RoadNode> all = new List<RoadNode>();
         all.AddRange(roads);
         all.AddRange(sideroads);

@@ -113,10 +113,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a95e73b593757d249b4bc117523d76da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  assetstore: {fileID: 114218875295078360, guid: 1141803a495668d4e826eba5d88a9caf,
+  assetstore: {fileID: 114505769918865958, guid: 8e0e4f7d63a2e6e489d8dd6a71e26057,
     type: 2}
   values: {fileID: 114612238295260302, guid: 4fa623546e0957a42a0885987de2fdf7, type: 2}
-  HighRes: 1
+  HighRes: 0
   Kitoltendo: 0
   FloorMaterialStart: 3
   WindowSize: 1

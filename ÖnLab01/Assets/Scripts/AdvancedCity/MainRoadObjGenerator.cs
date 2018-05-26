@@ -1,8 +1,10 @@
-﻿using System.Collections;
+﻿using Assets.Scripts.AdvancedCity;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 // : MonoBehaviour 
 public class MainRoadObjGenerator{
+    MyMath math = new MyMath();
     List<RoadNode> roads;
     List<List<RoadNode>> circles = new List<List<RoadNode>>();
     GameObject blockObject;
@@ -10,6 +12,44 @@ public class MainRoadObjGenerator{
     
     public float MainRatio = 3;
     float roadSize;
+
+    public void GenerateRoadMesh(List<RoadNode> inroads)
+    {
+        foreach (RoadNode road in inroads)
+        {
+            road.Rendez();
+            List<RoadNode> szomszedok = road.Szomszedok;
+
+            Vector3 ez = road.position;
+            bool ezbool = !road.IsSideRoad();
+            for (int i=0; i<szomszedok.Count; i++)
+            {
+                int kov = i + 1;
+                if (i == szomszedok.Count - 1) kov = 0;
+                Vector3 elozo = szomszedok[i].position;
+                Vector3 kovetkezo = szomszedok[kov].position;
+                float utelozo = 0.6f + ((!szomszedok[i].IsSideRoad() && ezbool) ? 0.5f : 0.0f);
+                float utekov = 0.6f + ((!szomszedok[kov].IsSideRoad() && ezbool) ? 0.5f : 0.0f);
+
+                Vector3 merolegeselozo = Meroleges(ez, elozo).normalized*utelozo;
+                Vector3 merolegeskovetkezo = Meroleges(kovetkezo, ez).normalized*utekov;
+
+                Vector3 tmpelozo = ez + (elozo - ez).normalized;
+                Vector3 tmpkovetkezo = ez + (kovetkezo - ez).normalized;
+
+                Vector3 P = tmpelozo + merolegeselozo;
+                Vector3 V = (elozo - ez).normalized;
+                Debug.DrawLine(P, P+V, Color.blue, 1000, false);
+
+                Vector3 Q  = tmpkovetkezo + merolegeskovetkezo;
+                Vector3 U = (kovetkezo - ez).normalized;
+                Debug.DrawLine(Q, Q+U, Color.blue, 1000, false);
+
+                Vector3 kereszt = math.Intersect(P, V, Q, U);
+                Debug.DrawLine(ez, kereszt, Color.green, 1000, false);
+            }
+        }
+    }
     // The Main And First to Call Function
     public List<List<RoadNode>> GenerateCircles(List<RoadNode> list, GameObject block, GameObject roadobj, float _roadSize)
     {
