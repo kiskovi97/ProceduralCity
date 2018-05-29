@@ -152,7 +152,8 @@ public class RoadNode {
             ad.SetElozo(this);
             ad.sideroad = true;
             ki.Add(ad);
-            szomszedok.Add(ad);
+            addSzomszed(ad);
+            //szomszedok.Add(ad);
         }
         return ki;
     }
@@ -181,7 +182,7 @@ public class RoadNode {
             ad.SetElozo(this);
             ad.sideroad = sideroad;
             ki.Add(ad);
-            szomszedok.Add(ad);
+            addSzomszed(ad);
         }
     }
     void GenerateStraight(List<RoadNode> ki, float distance)
@@ -200,7 +201,7 @@ public class RoadNode {
         ad.SetElozo(this);
         ad.sideroad = sideroad;
         ki.Add(ad);
-        szomszedok.Add(ad);
+        addSzomszed(ad);
     }
     public void Rendez()
     {
@@ -259,7 +260,10 @@ public class RoadNode {
             Debug.Log("CsereHiba");
             return;
         }
-        szomszedok[index] = uj;
+        if (szomszedok.Contains(uj))
+        {
+            szomszedok.Remove(regi);
+        } else szomszedok[index] = uj;
     }
 
 }

@@ -59,4 +59,4 @@ MonoBehaviour:
   values: {fileID: 114612238295260302, guid: 4fa623546e0957a42a0885987de2fdf7, type: 2}
   ReqursiveMax: 100
   ReqursiveMaxS: 300
-  DebugLines: 0
+  DebugLines: 1

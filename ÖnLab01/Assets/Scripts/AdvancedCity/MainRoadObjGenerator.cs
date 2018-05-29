@@ -15,11 +15,21 @@ public class MainRoadObjGenerator{
 
     public void GenerateRoadMesh(List<RoadNode> inroads)
     {
+
         foreach (RoadNode road in inroads)
         {
             road.Rendez();
             List<RoadNode> szomszedok = road.Szomszedok;
 
+            List<List<Vector3>> lista = new List<List<Vector3>>();
+            for (int i = 0; i < szomszedok.Count; i++)
+            {
+                lista.Add(new List<Vector3>());
+                for (int j=0; j<4; j++) lista[i].Add(new Vector3(0, 0, 0));
+            }
+
+            List<Vector3> kor = new List<Vector3>();
+            List<bool> ute = new List<bool>();
             Vector3 ez = road.position;
             bool ezbool = !road.IsSideRoad();
             for (int i=0; i<szomszedok.Count; i++)
@@ -33,20 +43,61 @@ public class MainRoadObjGenerator{
 
                 Vector3 merolegeselozo = Meroleges(ez, elozo).normalized*utelozo;
                 Vector3 merolegeskovetkezo = Meroleges(kovetkezo, ez).normalized*utekov;
-
                 Vector3 tmpelozo = ez + (elozo - ez).normalized;
                 Vector3 tmpkovetkezo = ez + (kovetkezo - ez).normalized;
 
                 Vector3 P = tmpelozo + merolegeselozo;
                 Vector3 V = (elozo - ez).normalized;
-                Debug.DrawLine(P, P+V, Color.blue, 1000, false);
-
                 Vector3 Q  = tmpkovetkezo + merolegeskovetkezo;
                 Vector3 U = (kovetkezo - ez).normalized;
-                Debug.DrawLine(Q, Q+U, Color.blue, 1000, false);
-
                 Vector3 kereszt = math.Intersect(P, V, Q, U);
-                Debug.DrawLine(ez, kereszt, Color.green, 1000, false);
+
+                Vector3 meroleges_elozo = math.Intersect(kereszt, merolegeselozo, ez, (elozo - ez).normalized);
+                lista[i][2] = meroleges_elozo;
+                lista[i][3] = kereszt;
+                
+                Vector3 meroleges_kov = math.Intersect(kereszt, merolegeskovetkezo, ez, (kovetkezo - ez).normalized);
+                lista[kov][0] = meroleges_kov;
+                lista[kov][1] = kereszt;
+            }
+            for (int i=0; i<lista.Count; i++)
+            {
+                Vector3 szomszed = szomszedok[i].position;
+                float a = Vector3.Dot((szomszed - ez).normalized, lista[i][0] - ez);
+                float b = Vector3.Dot((szomszed - ez).normalized, lista[i][2] - ez);
+                if (a>b)
+                {
+                    ute.Add(true);
+                    Vector3 masikkereszt = math.Intersect(lista[i][3], (szomszed - ez).normalized, lista[i][1], lista[i][0] - lista[i][1]);
+                    kor.Add(lista[i][1]);
+                    kor.Add(masikkereszt);
+                    //Debug.DrawLine(lista[i][3], masikkereszt, Color.blue, 1000, false);
+                    //Debug.DrawLine(lista[i][1], masikkereszt, Color.green, 1000, false);
+                } else
+                {
+                    Vector3 masikkereszt = math.Intersect(lista[i][1], (szomszed - ez).normalized, lista[i][3], lista[i][2] - lista[i][3]);
+                    ute.Add(false);
+                    kor.Add(lista[i][1]);
+                    kor.Add(masikkereszt);
+                    //Debug.DrawLine(lista[i][1], masikkereszt, Color.blue, 1000, false);
+                    //Debug.DrawLine(lista[i][3], masikkereszt, Color.green, 1000, false);
+                }
+            }
+            for (int i=0; i<kor.Count; i++)
+            {
+                int kov = i + 1;
+                if (kov>=kor.Count) kov = 0;
+                if (i % 2 == 0 && ute[i/2])
+                    Debug.DrawLine(kor[i],kor[kov], Color.blue, 1000, false);
+                else
+                if (i % 2 == 1 && !ute[i / 2])
+                    Debug.DrawLine(kor[i], kor[kov], Color.blue, 1000, false);
+                else
+                    Debug.DrawLine(kor[i], kor[kov], Color.green, 1000, false);
+                /*
+                    ute jelzi, hogy a kor listaban az elso vagy masdik ut amelyik az ut resze 
+                    a masik fele a kiegeszito resz
+                */
             }
         }
     }
