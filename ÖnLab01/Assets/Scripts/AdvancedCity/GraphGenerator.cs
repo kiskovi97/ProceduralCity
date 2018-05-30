@@ -127,7 +127,7 @@ namespace Assets.Scripts.AdvancedCity
 
             foreach (GraphPoint other_road in sideroads)
             {
-                if ((newroad.position - other_road.position).sqrMagnitude < values.collapseRangeSideRoad)
+                if ((newroad.position - other_road.position).magnitude < values.collapseRangeSideRoad)
                 {
                     if (Javitassal)
                     {
@@ -144,7 +144,7 @@ namespace Assets.Scripts.AdvancedCity
             }
             foreach (GraphPoint other_road in roads)
             {
-                if ((newroad.position - other_road.position).sqrMagnitude < values.collapseRangeMainRoad)
+                if ((newroad.position - other_road.position).magnitude < values.collapseRangeMainRoad)
                 {
                     if (Javitassal)
                     {
@@ -163,6 +163,7 @@ namespace Assets.Scripts.AdvancedCity
         }
         bool KeresztEllenorzes(Vector3 p1, Vector3 q1)
         {
+            if ((p1 - q1).magnitude < values.CollapseSideRoad) return false;
             foreach (PlusEdge plusroad in plusroads)
             {
                 if (p1 == plusroad.p || p1 == plusroad.q || plusroad.q == q1 || plusroad.p == q1) continue;

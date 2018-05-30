@@ -111,13 +111,13 @@ namespace Assets.Scripts.AdvancedCity
             if (Random.value < straightFreq)
             {
                 List<GraphPoint> kimenet = new List<GraphPoint>();
-                kimenet.Add(GenerateStraight(distance, rotationRandom));
+                kimenet.Add(generateStraight(distance, rotationRandom));
                 return kimenet;
             }
             else
             {
                 MakeIranyok(maxelagazas);
-                return GenerateCrossing(distance, straightFreq, rotationRandom);
+                return generateCrossing(distance, straightFreq, rotationRandom);
             }
         }
         GraphPoint generateStraight( float distance, float rotationRandom)

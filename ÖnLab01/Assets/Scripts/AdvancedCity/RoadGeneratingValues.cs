@@ -55,14 +55,14 @@ public class RoadGeneratingValues : MonoBehaviour {
     public float collapseRangeMainRoad {
         get
         {
-            return CollapseMainRoad * sizeRatio * sizeRatio ;
+            return CollapseMainRoad * sizeRatio;
         }
     }
     public float CollapseSideRoad = 0.3f;
     public float collapseRangeSideRoad {
         get
         {
-            return CollapseSideRoad * sizeRatio * sizeRatio;
+            return CollapseSideRoad * sizeRatio;
         }
     }
     
