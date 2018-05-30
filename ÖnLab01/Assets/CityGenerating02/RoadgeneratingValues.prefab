@@ -59,8 +59,8 @@ MonoBehaviour:
     - -10
     - 10
     - 10
-  CollapseMainRoad: 1
-  CollapseSideRoad: 1
+  CollapseMainRoad: 1.2
+  CollapseSideRoad: 1.2
   RoadSize: 0.1
   MainRoadDistance: 2
   SideRoadsDistance: 2
