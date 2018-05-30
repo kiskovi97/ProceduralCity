@@ -34,7 +34,7 @@ namespace Assets.Scripts.AdvancedCity
             GenerateGraph();
             Visualization01();
         }
-        void GenerateGraph()
+        List<GraphPoint> GenerateGraph()
         {
             ClearStart();
             Debug.Log("STEP01 -- Main Road Generating Started");
@@ -44,6 +44,16 @@ namespace Assets.Scripts.AdvancedCity
             GeneratingFirstSideRoads();
             GeneratingMoreSideRoads();
             Debug.Log("STEP02 -- Side Road Generating Ended");
+            List<GraphPoint> kimenet = new List<GraphPoint>();
+            foreach(GraphPoint point in roads)
+            {
+                kimenet.Add(point);
+            }
+            foreach(GraphPoint point in sideroads)
+            {
+                kimenet.Add(point);
+            }
+            return kimenet;
         }
         void ClearStart()
         {
@@ -53,22 +63,22 @@ namespace Assets.Scripts.AdvancedCity
         }
 
         
-        List<GraphPoint> roads = new List<GraphPoint>();
-        List<GraphPoint> sideroads = new List<GraphPoint>();
+        List<InteractiveGraphPoint> roads = new List<InteractiveGraphPoint>();
+        List<InteractiveGraphPoint> sideroads = new List<InteractiveGraphPoint>();
         // plus roads just for not to cross them
         List<PlusEdge> plusroads = new List<PlusEdge>();
 
         void GeneratingMainRoads()
         {
-            GraphPoint elso = new GraphPoint();
+            InteractiveGraphPoint elso = new InteractiveGraphPoint();
             elso.position = new Vector3(0, 0, values.size.zMin + 2);
             roads.Add(elso);
 
             for (int i = 0; i < ReqursiveMax && i < roads.Count; i++)
             {
-                GraphPoint root = roads[i];
-                List<GraphPoint> newRoads = root.generatePoints(values.roadsDistancesMainRoad,values.straightFreqMainRoad,values.rotationRandomMainRoad,values.maxCrossings);
-                foreach (GraphPoint road in newRoads)
+                InteractiveGraphPoint root = roads[i];
+                List<InteractiveGraphPoint> newRoads = root.generatePoints(values.roadsDistancesMainRoad,values.straightFreqMainRoad,values.rotationRandomMainRoad,values.maxCrossings);
+                foreach (InteractiveGraphPoint road in newRoads)
                 {
                     if (Ellenorzes(root, road, true)) roads.Add(road);
                     else root.removeSzomszed(road);
@@ -83,13 +93,13 @@ namespace Assets.Scripts.AdvancedCity
         void GeneratingFirstSideRoads()
         {
             sideroads.Clear();
-            foreach (GraphPoint road in roads)
+            foreach (InteractiveGraphPoint road in roads)
             {
-                List<GraphPoint> ki = new List<GraphPoint>();
+                List<InteractiveGraphPoint> ki = new List<InteractiveGraphPoint>();
                 if (Random.value < values.sideRoadFreq)
                     ki = road.generateSidePoints(values.roadsDistancesSideRoad);
 
-                foreach (GraphPoint newroad in ki)
+                foreach (InteractiveGraphPoint newroad in ki)
                 {
                     if (Ellenorzes(road, newroad, false)) sideroads.Add(newroad);
                     else road.removeSzomszed(newroad);
@@ -102,10 +112,10 @@ namespace Assets.Scripts.AdvancedCity
         {
             for (int i = 0; i < ReqursiveMaxS && i < sideroads.Count; i++)
             {
-                GraphPoint current_road = sideroads[i];
-                List<GraphPoint> newRoads = current_road.generatePoints(values.roadsDistancesSideRoad, values.straightFreqSideRoad, values.rotationRandomSideRoad,values.maxCrossings);
+                InteractiveGraphPoint current_road = sideroads[i];
+                List<InteractiveGraphPoint> newRoads = current_road.generatePoints(values.roadsDistancesSideRoad, values.straightFreqSideRoad, values.rotationRandomSideRoad,values.maxCrossings);
 
-                foreach (GraphPoint newroad in newRoads)
+                foreach (InteractiveGraphPoint newroad in newRoads)
                 {
                     if (Ellenorzes(current_road, newroad, true))
                     {
@@ -208,18 +218,18 @@ namespace Assets.Scripts.AdvancedCity
 
         void SmoothGraph()
         {
-            foreach (GraphPoint road in roads)
+            foreach (InteractiveGraphPoint road in roads)
             {
                 road.Smooth(values.smootIntensity);
             }
-            foreach (GraphPoint road in sideroads)
+            foreach (InteractiveGraphPoint road in sideroads)
             {
                 road.Smooth(values.smootIntensity);
             }
         }
         void Visualization01()
         {
-            foreach (GraphPoint road in roads)
+            foreach (InteractiveGraphPoint road in roads)
             {
                 if (ControlPointsVisualationObject != null)
                 {
@@ -228,7 +238,7 @@ namespace Assets.Scripts.AdvancedCity
                 }
                 road.DrawLines(Color.red);
             }
-            foreach (GraphPoint road in sideroads)
+            foreach (InteractiveGraphPoint road in sideroads)
             {
                 if (ControlPointsVisualationObject != null)
                 {

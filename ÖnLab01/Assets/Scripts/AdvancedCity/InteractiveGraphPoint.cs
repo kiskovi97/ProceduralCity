@@ -37,11 +37,11 @@ namespace Assets.Scripts.AdvancedCity
         }
 
         // ---------------- Generating -------------
-        public List<GraphPoint> generatePoints(float distance, float straightFreq, float rotationRandom, int maxelagazas)
+        public List<InteractiveGraphPoint> generatePoints(float distance, float straightFreq, float rotationRandom, int maxelagazas)
         {
             if (Random.value < straightFreq)
             {
-                List<GraphPoint> kimenet = new List<GraphPoint>();
+                List<InteractiveGraphPoint> kimenet = new List<InteractiveGraphPoint>();
                 kimenet.Add(generateStraight(distance, rotationRandom));
                 return kimenet;
             }
@@ -51,9 +51,9 @@ namespace Assets.Scripts.AdvancedCity
                 return generateCrossing(distance, straightFreq, rotationRandom);
             }
         }
-        GraphPoint generateStraight(float distance, float rotationRandom)
+        InteractiveGraphPoint generateStraight(float distance, float rotationRandom)
         {
-            GraphPoint uj = new GraphPoint();
+            InteractiveGraphPoint uj = new InteractiveGraphPoint();
             Vector3 irany = new Vector3(0, 0, 1.5f);
             if (szomszedok.Count > 0) irany = position - szomszedok[0].position;
 
@@ -69,12 +69,12 @@ namespace Assets.Scripts.AdvancedCity
             addSzomszed(uj);
             return uj;
         }
-        List<GraphPoint> generateCrossing(float distance, float straightFreq, float rotationRandom)
+        List<InteractiveGraphPoint> generateCrossing(float distance, float straightFreq, float rotationRandom)
         {
-            List<GraphPoint> kimenet = new List<GraphPoint>();
+            List<InteractiveGraphPoint> kimenet = new List<InteractiveGraphPoint>();
             foreach (Vector3 irany in tovabb_irany)
             {
-                GraphPoint ad = new GraphPoint();
+                InteractiveGraphPoint ad = new InteractiveGraphPoint();
                 ad.position = position + irany * distance;
                 ad.setElozo(this);
                 ad.setType(type);
@@ -83,13 +83,13 @@ namespace Assets.Scripts.AdvancedCity
             }
             return kimenet;
         }
-        public List<GraphPoint> generateSidePoints(float distance)
+        public List<InteractiveGraphPoint> generateSidePoints(float distance)
         {
-            List<GraphPoint> ki = new List<GraphPoint>();
+            List<InteractiveGraphPoint> ki = new List<InteractiveGraphPoint>();
             MakeSideIrany();
             foreach (Vector3 irany in tovabb_irany)
             {
-                GraphPoint ad = new GraphPoint();
+                InteractiveGraphPoint ad = new InteractiveGraphPoint();
                 ad.position = position + irany * distance;
                 ad.setElozo(this);
                 ad.setAsSideRoad();
