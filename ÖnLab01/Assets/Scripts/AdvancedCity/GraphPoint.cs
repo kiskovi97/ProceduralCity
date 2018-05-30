@@ -152,7 +152,7 @@ namespace Assets.Scripts.AdvancedCity
             }
             return kimenet;
         }    
-        public List<GraphPoint> generateSidePoints(float distance, float straightFreqS, float RotationRandomS)
+        public List<GraphPoint> generateSidePoints(float distance)
         {
             List<GraphPoint> ki = new List<GraphPoint>();
             MakeSideIrany();
