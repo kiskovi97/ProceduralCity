@@ -12,11 +12,19 @@ namespace Assets.Scripts.AdvancedCity
         ObjectGenerator objGen;
         void Start()
         {
-            if (graphGen != null)
-                graphGen = new GraphGenerator();
-            List<GraphPoint> points = graphGen.GenerateGraph();
-            objGen = new ObjectGenerator(points);
+            Debug.Log("Start");
 
+            List<GraphPoint> points = graphGen.GenerateGraph();
+            graphGen.Visualization01();
+            Debug.Log("Graph Generated");
+            objGen = new ObjectGenerator(points);
+            List<Crossing> crossings = objGen.GenerateRoadMesh();
+            foreach (Crossing cros in crossings)
+            {
+                cros.Draw();
+            }
         }
+
+
     }
 }

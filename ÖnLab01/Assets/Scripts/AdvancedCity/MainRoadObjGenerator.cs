@@ -304,4 +304,5 @@ public class MainRoadObjGenerator{
         Vector3 meroleges = (rotation * next_irany).normalized;
         return meroleges;
     }
+
 }

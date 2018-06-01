@@ -44,12 +44,14 @@ namespace Assets.Scripts.AdvancedCity
             GeneratingMoreSideRoads();
             Debug.Log("STEP02 -- Side Road Generating Ended");
             List<GraphPoint> kimenet = new List<GraphPoint>();
-            foreach(GraphPoint point in roads)
+            foreach(InteractiveGraphPoint point in roads)
             {
+                point.sorbaRendez();
                 kimenet.Add(point);
             }
-            foreach(GraphPoint point in sideroads)
+            foreach(InteractiveGraphPoint point in sideroads)
             {
+                point.sorbaRendez();
                 kimenet.Add(point);
             }
             return kimenet;
@@ -70,7 +72,8 @@ namespace Assets.Scripts.AdvancedCity
         void GeneratingMainRoads()
         {
             InteractiveGraphPoint elso = new InteractiveGraphPoint();
-            elso.position = new Vector3(0, 0, values.size.zMin + 2);
+            elso.position =
+                new Vector3(0, 0, values.size.zMin + 2);
             roads.Add(elso);
 
             for (int i = 0; i < ReqursiveMax && i < roads.Count; i++)

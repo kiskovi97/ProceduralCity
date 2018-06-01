@@ -51,7 +51,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4a6a91b6f3897b44a2e441e24b1d50d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ControlPointsVisualationObject: {fileID: 1365869826836838, guid: f2abffc89d278154baa35c7c746742ee,
+  ControlPointsVisualationObject: {fileID: 1719481770664032, guid: cae0d1198b032564ea7c72afba9a8165,
     type: 2}
   values: {fileID: 114612238295260302, guid: 4fa623546e0957a42a0885987de2fdf7, type: 2}
   ReqursiveMax: 400

@@ -30,6 +30,15 @@ namespace Assets.Scripts.AdvancedCity
         }
         // elso szomszed az a pont ami letrehozta
         protected List<GraphPoint> szomszedok;
+        public List<GraphPoint> Szomszedok
+        {
+            get
+            {
+                List<GraphPoint> uj = new List<GraphPoint>();
+                uj.AddRange(szomszedok);
+                return uj;
+            }
+        }
         public void addSzomszed(GraphPoint be)
         {
             if (!szomszedok.Contains(be))
