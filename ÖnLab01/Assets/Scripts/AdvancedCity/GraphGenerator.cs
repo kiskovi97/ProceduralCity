@@ -30,11 +30,10 @@ namespace Assets.Scripts.AdvancedCity
         
         void Start()
         {
-            ClearStart();
-            GenerateGraph();
-            Visualization01();
+            //GenerateGraph();
+            //Visualization01();
         }
-        List<GraphPoint> GenerateGraph()
+        public List<GraphPoint> GenerateGraph()
         {
             ClearStart();
             Debug.Log("STEP01 -- Main Road Generating Started");
@@ -227,7 +226,7 @@ namespace Assets.Scripts.AdvancedCity
                 road.Smooth(values.smootIntensity);
             }
         }
-        void Visualization01()
+        public void Visualization01()
         {
             foreach (InteractiveGraphPoint road in roads)
             {
