@@ -38,10 +38,21 @@ namespace Assets.Scripts.AdvancedCity
         public void Draw()
         {
             foreach (Vector3[] line in helplines)
-            {
                 if (line != null)
                     Debug.DrawLine(line[0], line[1], Color.black, 1000, false);
+            for ( int i= 0; i<lines.Count; i++)
+            {
+                Vector3[] line = lines[i];
+                if (line != null)
+                {
+                    Vector3 to = (szomszedok[i].NextCros(this).center.position - center.position).normalized*0.2f;
+                    Debug.DrawLine(line[0] + to, line[1]+ to, Color.white, 1000, false);
+                    Debug.DrawLine(line[0] + to*2, line[1] + to*2, Color.white, 1000, false);
+                }
             }
+                
+                    
+
         }
         public Road getSzomszedRoad(GraphPoint to)
         {
