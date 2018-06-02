@@ -41,10 +41,10 @@ namespace Assets.Scripts.AdvancedCity
         }
         public void Draw()
         {
-            if (line_egyik!=null)
-                Debug.DrawLine(line_egyik[0], line_egyik[1], Color.blue, 1000, false);
-            if (line_masik != null)
-                Debug.DrawLine(line_masik[0], line_masik[1], Color.blue, 1000, false);
+            //if (line_egyik!=null)
+            //    Debug.DrawLine(line_egyik[0], line_egyik[1], Color.blue, 1000, false);
+            //if (line_masik != null)
+            //    Debug.DrawLine(line_masik[0], line_masik[1], Color.blue, 1000, false);
             if (line_egyik != null && line_masik != null)
             {
                 Debug.DrawLine(line_egyik[0], line_masik[1], Color.blue, 1000, false);

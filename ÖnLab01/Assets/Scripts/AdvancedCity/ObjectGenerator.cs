@@ -73,8 +73,8 @@ namespace Assets.Scripts.AdvancedCity
                     if (i == szomszedok.Count - 1) kov = 0;
                     Vector3 elozo = szomszedok[i].position;
                     Vector3 kovetkezo = szomszedok[kov].position;
-                    float utelozo = 0.6f + ((!szomszedok[i].isSideRoad() && ezbool) ? 0.5f : 0.0f);
-                    float utekov = 0.6f + ((!szomszedok[kov].isSideRoad() && ezbool) ? 0.5f : 0.0f);
+                    float utelozo = 0.6f + ((!szomszedok[i].isSideRoad() && ezbool) ? 0.8f : 0.0f);
+                    float utekov = 0.6f + ((!szomszedok[kov].isSideRoad() && ezbool) ? 0.8f : 0.0f);
 
                     Vector3 merolegeselozo = math.Meroleges(ez, elozo).normalized * utelozo;
                     Vector3 merolegeskovetkezo = math.Meroleges(kovetkezo, ez).normalized * utekov;

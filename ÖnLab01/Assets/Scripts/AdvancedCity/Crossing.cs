@@ -37,9 +37,11 @@ namespace Assets.Scripts.AdvancedCity
         }
         public void Draw()
         {
+            
             foreach (Vector3[] line in helplines)
                 if (line != null)
                     Debug.DrawLine(line[0], line[1], Color.black, 1000, false);
+            if (lines.Count>2)
             for ( int i= 0; i<lines.Count; i++)
             {
                 Vector3[] line = lines[i];
