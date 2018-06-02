@@ -11,6 +11,7 @@ namespace Assets.Scripts.AdvancedCity
         List<Road> szomszedok;
         List<Vector3[]> lines;
         List<Vector3[]> helplines;
+        List<Vector3> crosPoints;
         public GraphPoint center;
         public Crossing(GraphPoint be)
         {
@@ -18,14 +19,16 @@ namespace Assets.Scripts.AdvancedCity
             szomszedok = new List<Road>();
             lines = new List<Vector3[]>();
             helplines = new List<Vector3[]>();
+            crosPoints = new List<Vector3>();
         }
         public void AddSzomszed(Road be)
         {
             szomszedok.Add(be);
             lines.Add(new Vector3[2]);
             helplines.Add(new Vector3[2]);
+            crosPoints.Add(new Vector3());
         }
-        public void AddLines(Vector3[] line, Vector3[] helpline, Road road)
+        public void AddLines(Vector3[] line, Vector3[] helpline, Vector3 crossingpoint, Road road)
         {
             if (line == null || helpline == null) return;
             int x = szomszedok.IndexOf(road);
@@ -33,6 +36,7 @@ namespace Assets.Scripts.AdvancedCity
             {
                 lines[x] = line;
                 helplines[x] = helpline;
+                crosPoints[x] = crossingpoint;
             }
         }
         public void Draw()
@@ -50,11 +54,14 @@ namespace Assets.Scripts.AdvancedCity
                     Vector3 to = (szomszedok[i].NextCros(this).center.position - center.position).normalized*0.2f;
                     Debug.DrawLine(line[0] + to, line[1]+ to, Color.white, 1000, false);
                     Debug.DrawLine(line[0] + to*2, line[1] + to*2, Color.white, 1000, false);
-                }
-            }
-                
                     
-
+                    Debug.DrawLine(crosPoints[i], center.position, Color.black, 1000, false);
+                    Vector3 felezo = (crosPoints[i] + center.position)/2;
+                    Vector3 nextfelezo = (line[0] + line[1]*3) / 4;
+                    Debug.DrawLine(felezo,nextfelezo,Color.black,1000,false);
+                }
+                
+            }
         }
         public Road getSzomszedRoad(GraphPoint to)
         {

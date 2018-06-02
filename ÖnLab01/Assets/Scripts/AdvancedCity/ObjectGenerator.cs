@@ -109,10 +109,10 @@ namespace Assets.Scripts.AdvancedCity
                         Vector3 masikkereszt = math.Intersect(lista[i][3], (szomszed - ez).normalized, lista[i][1], lista[i][0] - lista[i][1]);
                         kor.Add(lista[i][1]);
                         kor.Add(masikkereszt);
-                        r.addLine(cros, lista[i][1], masikkereszt);
-                        Vector3[] line = { lista[i][1], masikkereszt };
+                        r.addLine(cros, masikkereszt, lista[i][1]);
+                        Vector3[] line = {  masikkereszt , lista[i][1]};
                         Vector3[] helpline = { lista[i][3], masikkereszt };
-                        cros.AddLines(line, helpline, r);
+                        cros.AddLines(line, helpline, lista[i][1],r);
                         //Debug.DrawLine(lista[i][3], masikkereszt, Color.blue, 1000, false);
                         //Debug.DrawLine(lista[i][1], masikkereszt, Color.green, 1000, false);
                     }
@@ -124,8 +124,8 @@ namespace Assets.Scripts.AdvancedCity
                         kor.Add(masikkereszt);
                         Vector3[] line = { lista[i][3], masikkereszt };
                         Vector3[] helpline = { lista[i][1], masikkereszt };
-                        cros.AddLines(line, helpline, r);
-                        r.addLine(cros, masikkereszt, lista[i][3]);
+                        cros.AddLines(line, helpline, lista[i][1], r);
+                        r.addLine(cros, lista[i][3], masikkereszt);
                         //Debug.DrawLine(lista[i][1], masikkereszt, Color.blue, 1000, false);
                         //Debug.DrawLine(lista[i][3], masikkereszt, Color.green, 1000, false);
                     }
