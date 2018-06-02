@@ -11,18 +11,48 @@ namespace Assets.Scripts.AdvancedCity
     {
         MyMath math = new MyMath();
         List<GraphPoint> controlPoints;
-        
+        List<Crossing> crossings;
+        List<Road> roads;
         public ObjectGenerator(List<GraphPoint> points)
         {
             controlPoints = points;
         }
 
-        public List<Crossing> GenerateRoadMesh()
+        public void GenerateObjects()
         {
-            List<Crossing> crossings = new List<Crossing>();
-            foreach (GraphPoint road in controlPoints)
+            crossings = new List<Crossing>();
+            roads = new List<Road>();
+            for(int i=0; i<controlPoints.Count; i++)
             {
-                Crossing cros = new Crossing(road.position);
+                GraphPoint point = controlPoints[i];
+                Crossing cros = new Crossing(point);
+                crossings.Add(cros);
+            }
+            for(int i=0; i<controlPoints.Count; i++)
+            {
+                GraphPoint point = controlPoints[i];
+                List<GraphPoint> szomszedok = point.Szomszedok;
+                for (int j=0; j < szomszedok.Count; j++)
+                {
+                    int x = controlPoints.IndexOf(szomszedok[j]);
+                    if (x > i)
+                    {
+                        Road r = new Road();
+                        r.setSzomszedok(crossings[i], crossings[x]);
+                        crossings[i].AddSzomszed(r);
+                        crossings[x].AddSzomszed(r);
+                        roads.Add(r);
+                    }
+                }
+            }
+        }
+
+        public void GenerateRoadMesh()
+        {
+            for (int x = 0; x < controlPoints.Count; x++)
+            {
+                GraphPoint road = controlPoints[x];
+                Crossing cros = crossings[x];
                 List<GraphPoint> szomszedok = road.Szomszedok;
 
                 List<List<Vector3>> lista = new List<List<Vector3>>();
@@ -34,6 +64,7 @@ namespace Assets.Scripts.AdvancedCity
 
                 List<Vector3> kor = new List<Vector3>();
                 List<bool> ute = new List<bool>();
+
                 Vector3 ez = road.position;
                 bool ezbool = !road.isSideRoad();
                 for (int i = 0; i < szomszedok.Count; i++)
@@ -70,13 +101,18 @@ namespace Assets.Scripts.AdvancedCity
                     Vector3 szomszed = szomszedok[i].position;
                     float a = Vector3.Dot((szomszed - ez).normalized, lista[i][0] - ez);
                     float b = Vector3.Dot((szomszed - ez).normalized, lista[i][2] - ez);
+                    Road r = cros.getSzomszedRoad(szomszedok[i]);
+                    if (r!=null)
                     if (a > b)
                     {
                         ute.Add(true);
                         Vector3 masikkereszt = math.Intersect(lista[i][3], (szomszed - ez).normalized, lista[i][1], lista[i][0] - lista[i][1]);
                         kor.Add(lista[i][1]);
                         kor.Add(masikkereszt);
-                        cros.AddSzomszed(lista[i][1], masikkereszt, szomszedok[i]);
+                        r.addLine(cros, lista[i][1], masikkereszt);
+                        Vector3[] line = { lista[i][1], masikkereszt };
+                        Vector3[] helpline = { lista[i][3], masikkereszt };
+                        cros.AddLines(line, helpline, r);
                         //Debug.DrawLine(lista[i][3], masikkereszt, Color.blue, 1000, false);
                         //Debug.DrawLine(lista[i][1], masikkereszt, Color.green, 1000, false);
                     }
@@ -86,30 +122,27 @@ namespace Assets.Scripts.AdvancedCity
                         ute.Add(false);
                         kor.Add(lista[i][1]);
                         kor.Add(masikkereszt);
-                        cros.AddSzomszed(masikkereszt, lista[i][3], szomszedok[i]);
+                        Vector3[] line = { lista[i][3], masikkereszt };
+                        Vector3[] helpline = { lista[i][1], masikkereszt };
+                        cros.AddLines(line, helpline, r);
+                        r.addLine(cros, masikkereszt, lista[i][3]);
                         //Debug.DrawLine(lista[i][1], masikkereszt, Color.blue, 1000, false);
                         //Debug.DrawLine(lista[i][3], masikkereszt, Color.green, 1000, false);
                     }
                 }
-                //for (int i = 0; i < kor.Count; i++)
-                //{
-                //    int kov = i + 1;
-                //    if (kov >= kor.Count) kov = 0;
-                //    if (i % 2 == 0 && ute[i / 2])
-                //        Debug.DrawLine(kor[i], kor[kov], Color.blue, 1000, false);
-                //    else
-                //    if (i % 2 == 1 && !ute[i / 2])
-                //        Debug.DrawLine(kor[i], kor[kov], Color.blue, 1000, false);
-                //    else
-                //        Debug.DrawLine(kor[i], kor[kov], Color.green, 1000, false);
-                //    /*
-                //        ute jelzi, hogy a kor listaban az elso vagy masdik ut amelyik az ut resze 
-                //        a masik fele a kiegeszito resz
-                //    */
-                //}
-                crossings.Add(cros);
+                
             }
-            return crossings;
+        }
+        public void DrawRoads()
+        {
+            foreach(Road road in roads)
+            {
+                road.Draw();
+            }
+            foreach (Crossing cros in crossings)
+            {
+                cros.Draw();
+            }
         }
     }
 }

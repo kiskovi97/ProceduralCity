@@ -15,14 +15,12 @@ namespace Assets.Scripts.AdvancedCity
             Debug.Log("Start");
 
             List<GraphPoint> points = graphGen.GenerateGraph();
-            graphGen.Visualization01();
+            //graphGen.Visualization01();
             Debug.Log("Graph Generated");
             objGen = new ObjectGenerator(points);
-            List<Crossing> crossings = objGen.GenerateRoadMesh();
-            foreach (Crossing cros in crossings)
-            {
-                cros.Draw();
-            }
+            objGen.GenerateObjects();
+            objGen.GenerateRoadMesh();
+            objGen.DrawRoads();
         }
 
 

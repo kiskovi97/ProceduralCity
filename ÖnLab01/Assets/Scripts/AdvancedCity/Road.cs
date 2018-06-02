@@ -8,19 +8,64 @@ namespace Assets.Scripts.AdvancedCity
 {
     class Road
     {
-        Vector3 x1, x2;
-        Vector3 y1, y2;
-        public Road(Vector3 x1_,Vector3 x2_,Vector3 y1_, Vector3 y2_)
+        Crossing egyik;
+        Vector3[] line_egyik;
+        Vector3[] line_masik;
+        Crossing masik; 
+        public Road()
         {
-            x1 = x1_;
-            x2 = x2_;
-            y1 = y1_;
-            y2 = y2_;
+            egyik = null;
+            line_egyik = null; 
+            line_masik = null; 
+            masik = null; 
+        }
+        public void setSzomszedok(Crossing a, Crossing b)
+        {
+            egyik = a;
+            masik = b;
+        }
+        public void addLine(Crossing be, Vector3 a, Vector3 b)
+        {
+            if (be.Equals(egyik))
+            {
+                line_egyik = new Vector3[2];
+                line_egyik[0] = a;
+                line_egyik[1] = b;
+            } 
+            if (be.Equals(masik))
+            {
+                line_masik = new Vector3[2];
+                line_masik[0] = a;
+                line_masik[1] = b;
+            } 
         }
         public void Draw()
         {
-            Debug.DrawLine(x1, y1, Color.black, 1000, false);
-            Debug.DrawLine(x2, y2, Color.black, 1000, false);
+            if (line_egyik!=null)
+                Debug.DrawLine(line_egyik[0], line_egyik[1], Color.blue, 1000, false);
+            if (line_masik != null)
+                Debug.DrawLine(line_masik[0], line_masik[1], Color.blue, 1000, false);
+            if (line_egyik != null && line_masik != null)
+            {
+                Debug.DrawLine(line_egyik[0], line_masik[1], Color.blue, 1000, false);
+                Debug.DrawLine(line_masik[0], line_egyik[1], Color.blue, 1000, false);
+            }
+        }
+        public bool isSame(Crossing a, Crossing b)
+        {
+            return ((egyik == a && masik == b) || (egyik == b && masik == a));
+        }
+        public Crossing NextCros(Crossing a)
+        {
+            if (egyik.Equals(a))
+            {
+                return masik;
+            }
+            if (masik.Equals(a))
+            {
+                return egyik;
+            }
+            return null;
         }
     }
 }
