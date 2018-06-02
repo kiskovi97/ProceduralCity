@@ -113,8 +113,6 @@ namespace Assets.Scripts.AdvancedCity
                         Vector3[] line = {  masikkereszt , lista[i][1]};
                         Vector3[] helpline = { lista[i][3], masikkereszt };
                         cros.AddLines(line, helpline, lista[i][1],r);
-                        //Debug.DrawLine(lista[i][3], masikkereszt, Color.blue, 1000, false);
-                        //Debug.DrawLine(lista[i][1], masikkereszt, Color.green, 1000, false);
                     }
                     else
                     {
@@ -126,11 +124,13 @@ namespace Assets.Scripts.AdvancedCity
                         Vector3[] helpline = { lista[i][1], masikkereszt };
                         cros.AddLines(line, helpline, lista[i][1], r);
                         r.addLine(cros, lista[i][3], masikkereszt);
-                        //Debug.DrawLine(lista[i][1], masikkereszt, Color.blue, 1000, false);
-                        //Debug.DrawLine(lista[i][3], masikkereszt, Color.green, 1000, false);
                     }
                 }
-                
+            }
+            foreach (Crossing cros in crossings)
+            {
+                cros.ujraRendez();
+                cros.carLineSetting();
             }
         }
         public void DrawRoads()
