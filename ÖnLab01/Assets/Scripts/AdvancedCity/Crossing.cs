@@ -141,7 +141,7 @@ namespace Assets.Scripts.AdvancedCity
 
             foreach (HelpLine line in helplines)
                 if (line != null)
-                    Debug.DrawLine(line.sideline[0], line.sideline[1], Color.black, 1000, false);
+                    Debug.DrawLine(line.sideline[0], line.sideline[1], Color.black, 1000, true);
             foreach (CarPath carpath in carpaths)
             {
                 // carpath.felezo.Draw();

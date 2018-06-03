@@ -23,7 +23,7 @@ namespace Assets.Scripts.AdvancedCity
             objGen = new ObjectGenerator(points);
             objGen.GenerateObjects();
             objGen.GenerateRoadandCros();
-            //objGen.DrawRoads();
+            objGen.DrawRoads();
             List<GameObject> cars = new List<GameObject>();
             if (cameracar != null) cars.Add(Instantiate(cameracar));
             for (int i=0; i<30; i++)
@@ -33,6 +33,17 @@ namespace Assets.Scripts.AdvancedCity
                 cars.Add(realcar);
             }
             objGen.CreateCars(cars.ToArray());
+            for (int j=0; j<5; j++)
+            {
+                List<GameObject> cars2 = new List<GameObject>();
+                for (int i = 0; i < 30; i++)
+                {
+
+                    GameObject realcar = Instantiate(car);
+                    cars2.Add(realcar);
+                }
+                objGen.CreateCars(cars2.ToArray());
+            }
             GameObject instant = Instantiate(blockgenerator);
             objGen.MakeBlocks(instant.GetComponent<BlockGenerator>());
             

@@ -232,7 +232,7 @@ public class BlockObjectScript : MonoBehaviour {
         }
         elozo = SarokPoint(elozo, 0);
         utak.Add(elozo);
-        if (utak.Count > 3)
+        if (utak.Count > 2)
         {
             for (int i = 0; i < utak.Count - 1; i++)
             {

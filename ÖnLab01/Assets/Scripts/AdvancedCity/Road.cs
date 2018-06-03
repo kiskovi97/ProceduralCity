@@ -69,8 +69,8 @@ namespace Assets.Scripts.AdvancedCity
         {
             if (line_egyik != null && line_masik != null)
             {
-                Debug.DrawLine(line_egyik[0], line_masik[1], Color.blue, 1000, false);
-                Debug.DrawLine(line_egyik[1], line_masik[0], Color.blue, 1000, false);
+                Debug.DrawLine(line_egyik[0], line_masik[1], Color.blue, 1000, true);
+                Debug.DrawLine(line_egyik[1], line_masik[0], Color.blue, 1000, true);
 
                 Vector3[] baloldal = { (line_masik[0] + line_masik[1] * 3) / 4 , (line_egyik[0] * 3 + line_egyik[1]) / 4 };
                 Vector3[] jobboldal = {  (line_egyik[0] + line_egyik[1] * 3) / 4 , (line_masik[0] * 3 + line_masik[1]) / 4};
