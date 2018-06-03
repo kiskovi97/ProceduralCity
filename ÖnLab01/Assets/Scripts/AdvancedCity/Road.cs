@@ -10,8 +10,13 @@ namespace Assets.Scripts.AdvancedCity
     {
         Crossing egyik;
         Vector3[] line_egyik;
-        Vector3[] line_masik;
+        MovementPoint egyik_be;
+        MovementPoint egyik_ki;
+
         Crossing masik;
+        Vector3[] line_masik;
+        MovementPoint masik_be;
+        MovementPoint masik_ki;
         public Road()
         {
             egyik = null;
@@ -39,12 +44,29 @@ namespace Assets.Scripts.AdvancedCity
                 line_masik[1] = b;
             } 
         }
+        public void addMovePoint(Crossing be, MovementPoint befele, MovementPoint kifele)
+        {
+            if (be.Equals(egyik))
+            {
+                egyik_be = befele;
+                egyik_ki = kifele;
+            }
+            if (be.Equals(masik))
+            {
+                masik_be = befele;
+                masik_ki = kifele;
+            }
+            if (egyik_be != null && masik_ki != null)
+            {
+                egyik_be.ConnectPoint(masik_ki);
+            }
+            if (egyik_ki != null && masik_be != null)
+            {
+                masik_be.ConnectPoint(egyik_ki);
+            }
+        }
         public void Draw()
         {
-            //if (line_egyik!=null)
-            //    Debug.DrawLine(line_egyik[0], line_egyik[1], Color.blue, 1000, false);
-            //if (line_masik != null)
-            //    Debug.DrawLine(line_masik[0], line_masik[1], Color.blue, 1000, false);
             if (line_egyik != null && line_masik != null)
             {
                 Debug.DrawLine(line_egyik[0], line_masik[1], Color.blue, 1000, false);
@@ -52,8 +74,10 @@ namespace Assets.Scripts.AdvancedCity
 
                 Vector3[] baloldal = { (line_masik[0] + line_masik[1] * 3) / 4 , (line_egyik[0] * 3 + line_egyik[1]) / 4 };
                 Vector3[] jobboldal = {  (line_egyik[0] + line_egyik[1] * 3) / 4 , (line_masik[0] * 3 + line_masik[1]) / 4};
-                Debug.DrawLine(baloldal[0], (baloldal[1] + baloldal[0])/2, Color.black, 1000, false);
-                Debug.DrawLine(jobboldal[0], (jobboldal[1] + jobboldal[0])/2, Color.black, 1000, false);
+                //Debug.DrawLine(baloldal[0], (baloldal[1] + baloldal[0])/2, Color.black, 1000, false);
+                //Debug.DrawLine(jobboldal[0], (jobboldal[1] + jobboldal[0])/2, Color.black, 1000, false);
+               // Debug.DrawLine(egyik_ki.center, masik_be.center, Color.red, 1000, false);
+               // Debug.DrawLine(masik_ki.center, egyik_be.center, Color.red, 1000, false);
             }
         }
         public bool isSame(Crossing a, Crossing b)

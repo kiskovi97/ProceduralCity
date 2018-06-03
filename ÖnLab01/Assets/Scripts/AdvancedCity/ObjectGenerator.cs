@@ -144,5 +144,25 @@ namespace Assets.Scripts.AdvancedCity
                 cros.Draw();
             }
         }
+        public void CreateCars(GameObject[] cars)
+        {
+
+            int i = 0;
+            if (crossings == null) return;
+            foreach (Crossing cros in crossings)
+            {
+                if (i<cars.Length)
+                {
+                    Vehicle vehicle = cars[i].GetComponent<Vehicle>();
+                    if (cros.isCrossing())
+                    {
+                        cros.AddVehicle(vehicle);
+                        cars[i].transform.position = cros.center.position;
+                        i++;
+                    }
+                }
+                
+            }
+        }
     }
 }

@@ -9,6 +9,7 @@ namespace Assets.Scripts.AdvancedCity
     class MainCityGenerator: MonoBehaviour
     {
         public GraphGenerator graphGen;
+        public GameObject car;
         ObjectGenerator objGen;
         void Start()
         {
@@ -21,6 +22,15 @@ namespace Assets.Scripts.AdvancedCity
             objGen.GenerateObjects();
             objGen.GenerateRoadMesh();
             objGen.DrawRoads();
+            List<GameObject> cars = new List<GameObject>();
+            for (int i=0; i<50; i++)
+            {
+                
+                GameObject realcar = Instantiate(car);
+                cars.Add(realcar);
+            }
+            
+            objGen.CreateCars(cars.ToArray());
         }
 
 

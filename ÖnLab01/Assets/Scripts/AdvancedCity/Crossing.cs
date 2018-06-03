@@ -9,16 +9,13 @@ namespace Assets.Scripts.AdvancedCity
     class Crossing
     {
         List<Road> szomszedok;
-        //List<Vector3[]> lines;
-        //List<Vector3[]> helplines;
-        //List<Vector3> crosPoints;
         List<CarPath> carpaths;
         List<HelpLine> helplines;
         public class CarPath
         {
-            public Vector3 felezo;
-            public Vector3 bemenet;
-            public Vector3 kimenet;
+            public MovementPoint felezo;
+            public MovementPoint bemenet;
+            public MovementPoint kimenet;
         }
         public class HelpLine
         {
@@ -26,7 +23,10 @@ namespace Assets.Scripts.AdvancedCity
             public Vector3[] sideline;
             public Vector3 crosPoint;
         }
-
+        public bool isCrossing()
+        {
+            return szomszedok.Count > 2;
+        }
         public GraphPoint center;
         public Crossing(GraphPoint be)
         {
@@ -40,7 +40,6 @@ namespace Assets.Scripts.AdvancedCity
             szomszedok.Add(be);
             helplines.Add(new HelpLine());
         }
-        
         public void AddLines(Vector3[] mainline, Vector3[] sideline, Vector3 crossingpoint, Road road)
         {
             if (mainline == null || sideline == null) return;
@@ -65,21 +64,16 @@ namespace Assets.Scripts.AdvancedCity
                 if (line != null)
                 {
                     CarPath carpath = new CarPath();
-                    carpath.felezo = (helplines[i].crosPoint + center.position) / 2;
-                    carpath.bemenet = (line[0] + line[1] * 3) / 4;
-                    carpath.kimenet = (line[0] * 3 + line[1]) / 4;
+                    carpath.felezo = new MovementPoint( (helplines[i].crosPoint + center.position) / 2);
+                    carpath.bemenet = new MovementPoint((line[0] + line[1] * 3) / 4);
+                    carpath.kimenet = new MovementPoint((line[0] * 3 + line[1]) / 4);
+                    szomszedok[i].addMovePoint(this, carpath.kimenet, carpath.bemenet);
                     carpaths.Add(carpath);
                 }
             }
-        }
-        public void Draw()
-        {
 
-            foreach (HelpLine line in helplines)
-                if (line != null)
-                    Debug.DrawLine(line.sideline[0], line.sideline[1], Color.black, 1000, false);
-            if (helplines.Count > 2)
-                for (int i = 0; i < helplines.Count-1; i++)
+            
+                for (int i = 0; i < helplines.Count; i++)
                 {
                     int j = i - 1;
                     if (j < 0) j = helplines.Count - 1;
@@ -93,14 +87,29 @@ namespace Assets.Scripts.AdvancedCity
                         Vector3 to = (szomszedok[i].NextCros(this).center.position - center.position).normalized * 0.2f;
                         Debug.DrawLine(line[0] + to, line[1] + to, Color.white, 1000, false);
                         Debug.DrawLine(line[0] + to * 2, line[1] + to * 2, Color.white, 1000, false);
-                        Vector3 nextfelezo = carpaths[j].felezo;
-                        Vector3 elozofelezo = carpaths[x].felezo;
-                        Debug.DrawLine(carpath.felezo, carpath.bemenet, Color.black, 1000, false);
-                        Debug.DrawLine(carpath.felezo, (nextfelezo+ carpath.felezo) /2, Color.red, 1000, false);
-                        Debug.DrawLine(elozofelezo, carpath.kimenet, Color.cyan, 1000, false);
+                        MovementPoint nextfelezo = carpaths[j].felezo;
+                        MovementPoint elozofelezo = carpaths[x].felezo;
+
+                        carpath.bemenet.ConnectPoint(carpath.felezo);
+                        carpath.felezo.ConnectPoint(nextfelezo);
+                        elozofelezo.ConnectPoint(carpath.kimenet);
                     }
 
                 }
+
+        }
+        public void Draw()
+        {
+
+            foreach (HelpLine line in helplines)
+                if (line != null)
+                    Debug.DrawLine(line.sideline[0], line.sideline[1], Color.black, 1000, false);
+            foreach (CarPath carpath in carpaths)
+            {
+               // carpath.felezo.Draw();
+               // carpath.kimenet.Draw();
+               // carpath.bemenet.Draw();
+            }
         }
         public Road getSzomszedRoad(GraphPoint to)
         {
@@ -119,7 +128,6 @@ namespace Assets.Scripts.AdvancedCity
             else
                 return null;
         }
-
         public void ujraRendez()
         {
             
@@ -151,6 +159,12 @@ namespace Assets.Scripts.AdvancedCity
                     helplines[z] = tmphelpline;
                 }
             }
+        }
+        public void AddVehicle(Vehicle car)
+        {
+            if (carpaths == null) return;
+            if (carpaths.Count>0)
+            car.setPoint(carpaths[0].bemenet);
         }
     }
 }
