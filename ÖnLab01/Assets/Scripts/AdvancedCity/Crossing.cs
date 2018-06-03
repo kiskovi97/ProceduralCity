@@ -1,4 +1,5 @@
 ﻿
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -50,6 +51,34 @@ namespace Assets.Scripts.AdvancedCity
                 helplines[x].sideline = sideline;
                 helplines[x].crosPoint = crossingpoint;
             }
+        }
+
+        public Crossing Kovetkezo(Crossing crossing, bool jobbra)
+        {
+            if (crossing == null) return null;
+            List<Crossing> list = getSzomszedok();
+            if (list == null) return null;
+            if (list.Contains(crossing))
+            {
+                int i = list.IndexOf(crossing);
+                int x = i + 1;
+                if (x > list.Count - 1) x = 0;
+                return list[x];
+            }
+            else return null;
+        }
+        public Vector3 Kereszt(Crossing crossing)
+        {
+            if (crossing == null) return center.position;
+            List<Crossing> list = getSzomszedok();
+            if (list == null) return center.position;
+            if (list.Contains(crossing))
+            {
+                int i = list.IndexOf(crossing);
+                return helplines[i].crosPoint;
+            }
+            else
+                return center.position;
         }
         public void carLineSetting()
         {
@@ -174,6 +203,13 @@ namespace Assets.Scripts.AdvancedCity
             if (carpaths == null) return;
             if (carpaths.Count > 0)
                 car.setPoint(carpaths[0].bemenet);
+        }
+        public List<Crossing> getSzomszedok()
+        {
+            List<Crossing> kimenet = new List<Crossing>();
+            for (int i=0; i<szomszedok.Count; i++)
+                kimenet.Add(szomszedok[i].NextCros(this));
+            return kimenet;
         }
     }
 }

@@ -76,4 +76,4 @@ MonoBehaviour:
   HouseUpmaxSize: 10
   HouseDeepminSize: 0.3
   HouseDeepmaxSize: 0.4
-  floorSize: 0.1
+  floorSize: 0.08

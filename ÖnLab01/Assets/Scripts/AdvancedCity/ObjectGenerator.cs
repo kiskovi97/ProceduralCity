@@ -46,7 +46,7 @@ namespace Assets.Scripts.AdvancedCity
                 }
             }
         }
-        public void GenerateRoadMesh()
+        public void GenerateRoadandCros()
         {
             for (int x = 0; x < controlPoints.Count; x++)
             {
@@ -132,6 +132,7 @@ namespace Assets.Scripts.AdvancedCity
                 cros.carLineSetting();
             }
         }
+
         public void DrawRoads()
         {
             foreach(Road road in roads)
@@ -142,6 +143,10 @@ namespace Assets.Scripts.AdvancedCity
             {
                 cros.Draw();
             }
+        }
+        public void MakeBlocks(BlockGenerator generator)
+        {
+            generator.GenerateBlocks(crossings);
         }
         public void CreateCars(GameObject[] cars)
         {
@@ -163,5 +168,6 @@ namespace Assets.Scripts.AdvancedCity
                 
             }
         }
+
     }
 }

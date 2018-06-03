@@ -34,8 +34,8 @@ namespace Assets.Scripts.AdvancedCity
             {
                 
                 Vector3 newDir = Vector3.RotateTowards(transform.forward, toward * (-1.0f), 0.1f, 0.0f);
-                transform.rotation = Quaternion.LookRotation(newDir);
-                transform.position += newDir.normalized * (-1.0f)* actualspeed * 0.01f;
+                transform.rotation = Quaternion.LookRotation(toward * (-1.0f));
+                transform.position += toward.normalized* speed * 0.01f;
             } 
         }
 
