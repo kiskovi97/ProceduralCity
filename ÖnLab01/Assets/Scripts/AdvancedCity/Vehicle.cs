@@ -8,6 +8,7 @@ namespace Assets.Scripts.AdvancedCity
     class Vehicle : MonoBehaviour
     {
         public MovementPoint nextPoint;
+        public float speed = 10.0f;
         public void setPoint(MovementPoint next)
         {
             nextPoint = next;
@@ -22,9 +23,15 @@ namespace Assets.Scripts.AdvancedCity
             Vector3 toward = (nextPoint.center - transform.position);
             float length = toward.magnitude;
             if (length < 0.2f)
+            {
                 nextPoint = nextPoint.getNextPoint();
+            }
             else
-                transform.position += toward.normalized * 0.1f;
+            {
+                transform.position += toward.normalized * speed*0.01f;
+                Vector3 newDir = Vector3.RotateTowards(transform.forward, toward * (-1.0f), 0.3f, 0.0f);
+                transform.rotation = Quaternion.LookRotation(newDir);
+            } 
         }
 
     }

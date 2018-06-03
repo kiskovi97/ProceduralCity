@@ -9,6 +9,7 @@ namespace Assets.Scripts.AdvancedCity
     class MainCityGenerator: MonoBehaviour
     {
         public GraphGenerator graphGen;
+        public GameObject cameracar;
         public GameObject car;
         ObjectGenerator objGen;
         void Start()
@@ -16,14 +17,15 @@ namespace Assets.Scripts.AdvancedCity
             Debug.Log("Start");
 
             List<GraphPoint> points = graphGen.GenerateGraph();
-            //graphGen.Visualization01();
+            graphGen.Visualization01();
             Debug.Log("Graph Generated");
             objGen = new ObjectGenerator(points);
             objGen.GenerateObjects();
             objGen.GenerateRoadMesh();
             objGen.DrawRoads();
             List<GameObject> cars = new List<GameObject>();
-            for (int i=0; i<50; i++)
+            if (cameracar != null) cars.Add(Instantiate(cameracar));
+            for (int i=0; i<30; i++)
             {
                 
                 GameObject realcar = Instantiate(car);

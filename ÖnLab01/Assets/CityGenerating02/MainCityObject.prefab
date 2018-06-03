@@ -52,3 +52,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   graphGen: {fileID: 114249100602707854, guid: bb12cc9a8aa0a2745b2801e376728216, type: 2}
+  cameracar: {fileID: 1773903615976740, guid: 659b61e706420d54e9a43a999f9b60c9, type: 2}
+  car: {fileID: 1138009276363876, guid: 8b79454e76bcfdf44adae02291accaba, type: 2}
