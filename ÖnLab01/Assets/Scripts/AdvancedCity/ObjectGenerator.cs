@@ -46,7 +46,6 @@ namespace Assets.Scripts.AdvancedCity
                 }
             }
         }
-
         public void GenerateRoadMesh()
         {
             for (int x = 0; x < controlPoints.Count; x++)
