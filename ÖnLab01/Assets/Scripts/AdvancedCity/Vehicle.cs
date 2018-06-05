@@ -9,7 +9,7 @@ namespace Assets.Scripts.AdvancedCity
     {
         public MovementPoint nextPoint;
         public float speed = 10.0f;
-        private float actualspeed = 0;
+        private float actualspeed = 2.0f;
         public void setPoint(MovementPoint next)
         {
             nextPoint = next;
@@ -21,22 +21,31 @@ namespace Assets.Scripts.AdvancedCity
         public void Update()
         {
             if (nextPoint == null) return;
-            Vector3 toward = (nextPoint.center - transform.position);
-            float length = toward.magnitude;
-            actualspeed += (length * speed  - actualspeed)/30;
-            if (actualspeed > speed) actualspeed = speed;
-            if (length < 0.2f)
+            float length = (nextPoint.center - transform.position).magnitude;
+            if (length < 0.4f)
             {
                 nextPoint = nextPoint.getNextPoint();
-                actualspeed = 0.0f;
             }
-            else
+            else {
+                Move();
+            }
+            if (length > 5.0f)
             {
-                
-                Vector3 newDir = Vector3.RotateTowards(transform.forward, toward * (-1.0f), 0.1f, 0.0f);
-                transform.rotation = Quaternion.LookRotation(toward * (-1.0f));
-                transform.position += toward.normalized* speed * 0.01f;
-            } 
+                actualspeed += 0.03f;
+            } else
+            {
+                actualspeed -= 0.03f;
+            }
+            if (actualspeed > speed) actualspeed = speed;
+            if (actualspeed < 2.0f) actualspeed = 2.0f;
+        }
+        public void Move()
+        {
+            Vector3 toward = (nextPoint.center - transform.position);
+            Vector3 newDir = Vector3.RotateTowards(transform.forward, toward, 0.05f, 0.0f);
+            transform.rotation = Quaternion.LookRotation(newDir);
+            transform.position += newDir.normalized * actualspeed * 0.01f;
+            
         }
 
     }
