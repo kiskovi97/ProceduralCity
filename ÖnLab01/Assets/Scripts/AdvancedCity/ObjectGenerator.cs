@@ -25,7 +25,7 @@ namespace Assets.Scripts.AdvancedCity
             for(int i=0; i<controlPoints.Count; i++)
             {
                 GraphPoint point = controlPoints[i];
-                Crossing cros = new Crossing(point);
+                Crossing cros = new Crossing(point.position);
                 crossings.Add(cros);
             }
             for(int i=0; i<controlPoints.Count; i++)
@@ -100,7 +100,7 @@ namespace Assets.Scripts.AdvancedCity
                     Vector3 szomszed = szomszedok[i].position;
                     float a = Vector3.Dot((szomszed - ez).normalized, lista[i][0] - ez);
                     float b = Vector3.Dot((szomszed - ez).normalized, lista[i][2] - ez);
-                    Road r = cros.getSzomszedRoad(szomszedok[i]);
+                    Road r = cros.getSzomszedRoad(szomszedok[i].position);
                     if (r!=null)
                     if (a > b)
                     {
@@ -128,20 +128,19 @@ namespace Assets.Scripts.AdvancedCity
             }
             foreach (Crossing cros in crossings)
             {
-                cros.ujraRendez();
-                cros.carLineSetting();
+                cros.carsPathSetting();
             }
         }
 
-        public void DrawRoads()
+        public void DrawRoads(bool draw_helplines, bool depthtest)
         {
             foreach(Road road in roads)
             {
-                road.Draw();
+                road.Draw(depthtest);
             }
             foreach (Crossing cros in crossings)
             {
-                cros.Draw();
+                cros.Draw(draw_helplines,depthtest);
             }
         }
         public void MakeBlocks(BlockGenerator generator)
@@ -161,7 +160,7 @@ namespace Assets.Scripts.AdvancedCity
                     if (cros.isCrossing())
                     {
                         cros.AddVehicle(vehicle);
-                        cars[i].transform.position = cros.center.position;
+                        cars[i].transform.position = cros.center;
                         i++;
                     }
                 }

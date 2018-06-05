@@ -30,11 +30,11 @@ namespace Assets.Scripts.AdvancedCity
             int i = (int)(Random.value * (outPoints.Count));
             return outPoints[i];
         }
-        public void Draw()
+        public void Draw(bool depthtest)
         {
             if (outPoints == null) return;
             for (int i=0; i<outPoints.Count; i++)
-                Debug.DrawLine(center, (outPoints[i].center*3 + center)/4, Color.green, 1000, false);
+                Debug.DrawLine(center, (outPoints[i].center*3 + center)/4, Color.green, 1000, depthtest);
         }
     }
 }

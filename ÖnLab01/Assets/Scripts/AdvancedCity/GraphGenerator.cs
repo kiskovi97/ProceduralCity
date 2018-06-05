@@ -36,13 +36,9 @@ namespace Assets.Scripts.AdvancedCity
         public List<GraphPoint> GenerateGraph()
         {
             ClearStart();
-            Debug.Log("STEP01 -- Main Road Generating Started");
             GeneratingMainRoads();
-            Debug.Log("STEP01 -- Main Road Generating Ended");
-            Debug.Log("STEP02 -- Side Road Generating Started");
             GeneratingFirstSideRoads();
             GeneratingMoreSideRoads();
-            Debug.Log("STEP02 -- Side Road Generating Ended");
             List<GraphPoint> kimenet = new List<GraphPoint>();
             foreach(InteractiveGraphPoint point in roads)
             {
