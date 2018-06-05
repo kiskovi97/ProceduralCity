@@ -21,9 +21,7 @@ public class RoadPhysicalObject : MonoBehaviour {
         Vector2[] tomb =
         {
             new Vector2(0,0),
-            new Vector2(0.8f,0),
-            new Vector2(0.8f,0.05f),
-            new Vector2(1.0f,0.05f)
+            new Vector2(1.0f,0)
         };
         ControlPoints.AddRange(tomb);
         subTriangles = new List<List<int>>();
@@ -38,9 +36,6 @@ public class RoadPhysicalObject : MonoBehaviour {
         S2 = s2;
         K1 = k1;
         K2 = k2;
-
-        
-    
         GenerateMesh();
     }
     void AddTriangle(Vector3 A, Vector3 B, Vector3 C, int mat)
@@ -66,14 +61,10 @@ public class RoadPhysicalObject : MonoBehaviour {
         Vector3 fel = new Vector3(0, 1, 0);
         for (int i=0; i<ControlPoints.Count-1; i++)
         {
-
-            
-
             Vector3 tmpK1 = K1 + irany1 * ControlPoints[i].x + fel * ControlPoints[i].y;
             Vector3 tmpK2 = K2 + irany2 * ControlPoints[i].x + fel * ControlPoints[i].y;
             Vector3 tmpS1 = K1 + irany1 * ControlPoints[i + 1].x + fel * ControlPoints[i + 1].y;
             Vector3 tmpS2 = K2 + irany2 * ControlPoints[i + 1].x + fel * ControlPoints[i + 1].y;
-
             if (i == 0)
             {
                 //GameObject obj = Instantiate(sideRoadObject, (tmpS1 + tmpS2) / 2, new Quaternion(0, 0, 0, 0));
@@ -81,38 +72,33 @@ public class RoadPhysicalObject : MonoBehaviour {
                 //Vector3 irany = ((tmpK1 - tmpS1) + (tmpK2 - tmpS2)) / 2;
                 //obj.transform.rotation = Quaternion.LookRotation(irany);
             }
-            
-
-            float hoszK = (K1-K2).magnitude*2;
-            float hoszS = (S1-S2).magnitude*2;
+            float hoszK = (K1-K2).magnitude*0.5f;
+            float hoszS = (S1-S2).magnitude*0.5f;
             
             AddTriangle(tmpS2, tmpS1,  tmpK1,  0);
             AddTriangle(tmpK1, tmpK2, tmpS2,  0);
 
             if (!elore)
             {
-                myUV.Add(new Vector2(0.5f - ControlPoints[i + 1].x * 0.5f, hoszS));
-                myUV.Add(new Vector2(0.5f - ControlPoints[i + 1].x * 0.5f, 0));
-                myUV.Add(new Vector2(0.5f - ControlPoints[i].x * 0.5f, 0));
+                myUV.Add(new Vector2(0.5f - ControlPoints[i + 1].x * 0.4f, hoszS));
+                myUV.Add(new Vector2(0.5f - ControlPoints[i + 1].x * 0.4f, 0));
+                myUV.Add(new Vector2(0.5f - ControlPoints[i].x * 0.4f, 0));
 
-                myUV.Add(new Vector2(0.5f - ControlPoints[i].x * 0.5f, 0));
-                myUV.Add(new Vector2(0.5f - ControlPoints[i].x * 0.5f, hoszK));
-                myUV.Add(new Vector2(0.5f - ControlPoints[i + 1].x * 0.5f, hoszS));
+                myUV.Add(new Vector2(0.5f - ControlPoints[i].x * 0.4f, 0));
+                myUV.Add(new Vector2(0.5f - ControlPoints[i].x * 0.4f, hoszK));
+                myUV.Add(new Vector2(0.5f - ControlPoints[i + 1].x * 0.4f, hoszS));
             }
             else
             {
-                myUV.Add(new Vector2(0.5f - ControlPoints[i + 1].x * 0.5f, 0));
-                myUV.Add(new Vector2(0.5f - ControlPoints[i + 1].x * 0.5f, hoszS));
-                myUV.Add(new Vector2(0.5f - ControlPoints[i].x * 0.5f, hoszK));
+                myUV.Add(new Vector2(0.5f - ControlPoints[i + 1].x * 0.4f, 0));
+                myUV.Add(new Vector2(0.5f - ControlPoints[i + 1].x * 0.4f, hoszS));
+                myUV.Add(new Vector2(0.5f - ControlPoints[i].x * 0.4f, hoszK));
 
-                myUV.Add(new Vector2(0.5f - ControlPoints[i].x * 0.5f, hoszK));
-                myUV.Add(new Vector2(0.5f - ControlPoints[i].x * 0.5f, 0));
-                myUV.Add(new Vector2(0.5f - ControlPoints[i + 1].x * 0.5f, 0));
+                myUV.Add(new Vector2(0.5f - ControlPoints[i].x * 0.4f, hoszK));
+                myUV.Add(new Vector2(0.5f - ControlPoints[i].x * 0.4f, 0));
+                myUV.Add(new Vector2(0.5f - ControlPoints[i + 1].x * 0.4f, 0));
             }
-           
         }
-
-        
     }
     public void CreateMesh()
     {

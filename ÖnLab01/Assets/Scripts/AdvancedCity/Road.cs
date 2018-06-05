@@ -17,16 +17,18 @@ namespace Assets.Scripts.AdvancedCity
         Vector3[] line_masik;
         MovementPoint[] masik_be;
         MovementPoint[] masik_ki;
+        GameObjectGenerator generator;
         public int Savok()
         {
             return sav;
         }
-        public Road()
+        public Road(GameObjectGenerator generatorbe)
         {
             egyik = null;
             line_egyik = null; 
             line_masik = null; 
-            masik = null; 
+            masik = null;
+            generator = generatorbe;
         }
         public void setSzomszedok(Crossing a, Crossing b)
         {
@@ -95,8 +97,11 @@ namespace Assets.Scripts.AdvancedCity
             {
                 Debug.DrawLine(line_egyik[0], line_masik[1], Color.blue, 1000, depthtest);
                 Debug.DrawLine(line_egyik[1], line_masik[0], Color.blue, 1000, depthtest);
+                generator.CreateRoad(line_egyik[0], line_masik[1], (line_egyik[1] + line_egyik[0]) / 2, (line_masik[0] + line_masik[1]) / 2);
+                generator.CreateRoad( line_masik[0], line_egyik[1], (line_masik[0] + line_masik[1]) / 2, (line_egyik[1] + line_egyik[0]) / 2);
                 Debug.DrawLine((line_egyik[1] + line_egyik[0])/2, (line_masik[0] + line_masik[1])/2, Color.white, 1000, depthtest);
             }
+            
         }
         public bool isSame(Crossing a, Crossing b)
         {

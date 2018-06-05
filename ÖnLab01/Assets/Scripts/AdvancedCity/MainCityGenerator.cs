@@ -25,7 +25,8 @@ namespace Assets.Scripts.AdvancedCity
             Debug.Log("Start Generating");
             List<GraphPoint> points = graphGen.GenerateGraph();
             objGen = new ObjectGenerator(points);
-            objGen.GenerateObjects();
+            GameObject instant = Instantiate(blockgenerator);
+            objGen.GenerateObjects(instant.GetComponent<GameObjectGenerator>());
             objGen.GenerateRoadandCros();
             if (VisualGraph)
                 graphGen.Visualization01(depthtest);
@@ -36,8 +37,7 @@ namespace Assets.Scripts.AdvancedCity
             
             if (makeblocks)
             {
-                GameObject instant = Instantiate(blockgenerator);
-                objGen.MakeBlocks(instant.GetComponent<BlockGenerator>());
+                objGen.MakeBlocks(instant.GetComponent<GameObjectGenerator>());
             }
             
         }

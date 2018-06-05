@@ -18,7 +18,7 @@ namespace Assets.Scripts.AdvancedCity
             controlPoints = points;
         }
 
-        public void GenerateObjects()
+        public void GenerateObjects(GameObjectGenerator generator)
         {
             crossings = new List<Crossing>();
             roads = new List<Road>();
@@ -37,7 +37,7 @@ namespace Assets.Scripts.AdvancedCity
                     int x = controlPoints.IndexOf(szomszedok[j]);
                     if (x > i)
                     {
-                        Road r = new Road();
+                        Road r = new Road(generator);
                         r.setSzomszedok(crossings[i], crossings[x]);
                         crossings[i].AddSzomszed(r);
                         crossings[x].AddSzomszed(r);
@@ -145,7 +145,7 @@ namespace Assets.Scripts.AdvancedCity
                 cros.Draw(draw_helplines,depthtest);
             }
         }
-        public void MakeBlocks(BlockGenerator generator)
+        public void MakeBlocks(GameObjectGenerator generator)
         {
             generator.GenerateBlocks(crossings);
         }
@@ -171,6 +171,8 @@ namespace Assets.Scripts.AdvancedCity
             }
             
         }
+
+        
 
     }
 }

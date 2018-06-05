@@ -19,7 +19,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4632644903529524}
-  - component: {fileID: 114268799065289442}
+  - component: {fileID: 114949438323861384}
   m_Layer: 0
   m_Name: BlockGenerator
   m_TagString: Untagged
@@ -40,7 +40,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114268799065289442
+--- !u!114 &114949438323861384
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -48,8 +48,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1833306791391978}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7901073c0bcf68642a98f3a1fad3d484, type: 3}
+  m_Script: {fileID: 11500000, guid: a7c9bf3862605c349b17da36777b1d80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   blockObject: {fileID: 1179097907748356, guid: eacc2f1849964a542b7415cf3057fe9a,
     type: 2}
+  roadObject: {fileID: 1268133786361746, guid: f1c58c83dae44f54baf3667b6de11860, type: 2}
