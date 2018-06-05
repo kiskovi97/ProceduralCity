@@ -225,7 +225,7 @@ namespace Assets.Scripts.AdvancedCity
                 road.Smooth(values.smootIntensity);
             }
         }
-        public void Visualization01()
+        public void Visualization01(bool depthtest)
         {
             foreach (InteractiveGraphPoint road in roads)
             {
@@ -234,7 +234,7 @@ namespace Assets.Scripts.AdvancedCity
                     GameObject ki = Instantiate(ControlPointsVisualationObject);
                     ki.transform.position = road.position;
                 }
-                road.DrawLines(Color.red);
+                road.DrawLines(Color.red, depthtest);
             }
             foreach (InteractiveGraphPoint road in sideroads)
             {
@@ -243,7 +243,7 @@ namespace Assets.Scripts.AdvancedCity
                     GameObject ki = Instantiate(ControlPointsVisualationObject);
                     ki.transform.position = road.position;
                 }
-                road.DrawLines(Color.yellow);
+                road.DrawLines(Color.yellow, depthtest);
             }
 
         }

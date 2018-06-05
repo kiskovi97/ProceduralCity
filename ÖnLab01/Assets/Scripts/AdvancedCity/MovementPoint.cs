@@ -32,9 +32,16 @@ namespace Assets.Scripts.AdvancedCity
         }
         public void Draw(bool depthtest)
         {
-            if (outPoints == null) return;
+            
+            if (outPoints == null)
+            {
+                Debug.DrawLine(center, center + new Vector3(0, 1, 0), Color.red, 1000, depthtest);
+                return;
+            }
+                
             for (int i=0; i<outPoints.Count; i++)
-                Debug.DrawLine(center, (outPoints[i].center*3 + center)/4, Color.green, 1000, depthtest);
+                Debug.DrawLine(center, (outPoints[i].center*4 + center*0)/4, Color.green, 1000, depthtest);
+            
         }
     }
 }

@@ -7,9 +7,15 @@ namespace Assets.Scripts.AdvancedCity
 {
     class Vehicle : MonoBehaviour
     {
+        public Vehicle()
+        {
+            enterd = new List<GameObject>();
+        }
         public MovementPoint nextPoint;
         public float speed = 10.0f;
         private float actualspeed = 2.0f;
+        bool stop = false;
+        List<GameObject> enterd;
         public void setPoint(MovementPoint next)
         {
             nextPoint = next;
@@ -18,16 +24,34 @@ namespace Assets.Scripts.AdvancedCity
         {
 
         }
+        void OnTriggerEnter(Collider other)
+        {
+            stop = true;
+            enterd.Add(other.gameObject);
+            other.gameObject.GetComponent<Vehicle>().Go(this.gameObject);
+        }
+        void OnTriggerExit(Collider other)
+        {
+            stop = false;
+            enterd.Remove(other.gameObject);
+        }
+        public void Go(GameObject said)
+        {
+            enterd.Remove(said);
+            if (enterd.Count == 0)
+                stop = false; 
+        }
         public void Update()
         {
             if (nextPoint == null) return;
             float length = (nextPoint.center - transform.position).magnitude;
-            if (length < 0.4f)
+            if (length < 0.3f)
             {
                 nextPoint = nextPoint.getNextPoint();
             }
             else {
-                Move();
+                if (!stop)
+                    Move();
             }
             if (length > 5.0f)
             {
@@ -41,8 +65,9 @@ namespace Assets.Scripts.AdvancedCity
         }
         public void Move()
         {
+
             Vector3 toward = (nextPoint.center - transform.position);
-            Vector3 newDir = Vector3.RotateTowards(transform.forward, toward, 0.05f, 0.0f);
+            Vector3 newDir = Vector3.RotateTowards(transform.forward, toward, 0.1f, 0.0f);
             transform.rotation = Quaternion.LookRotation(newDir);
             transform.position += newDir.normalized * actualspeed * 0.01f;
             

@@ -28,7 +28,7 @@ namespace Assets.Scripts.AdvancedCity
             objGen.GenerateObjects();
             objGen.GenerateRoadandCros();
             if (VisualGraph)
-                graphGen.Visualization01();
+                graphGen.Visualization01(depthtest);
             if (VisualRoads)
                 objGen.DrawRoads(helplines_draw, depthtest);
             if (makecars)
@@ -45,24 +45,12 @@ namespace Assets.Scripts.AdvancedCity
         {
             List<GameObject> cars = new List<GameObject>();
             if (cameracar != null) cars.Add(Instantiate(cameracar));
-            for (int i = 0; i < 25; i++)
+            for (int i = 0; i < cars_number; i++)
             {
-
                 GameObject realcar = Instantiate(car);
                 cars.Add(realcar);
             }
             objGen.CreateCars(cars.ToArray());
-            for (int j = 0; j < (cars_number/25); j++)
-            {
-                List<GameObject> cars2 = new List<GameObject>();
-                for (int i = 0; i < 25; i++)
-                {
-
-                    GameObject realcar = Instantiate(car);
-                    cars2.Add(realcar);
-                }
-                objGen.CreateCars(cars2.ToArray());
-            }
             
         }
 

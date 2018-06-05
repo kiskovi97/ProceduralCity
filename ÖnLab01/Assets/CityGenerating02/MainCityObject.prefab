@@ -56,3 +56,10 @@ MonoBehaviour:
   car: {fileID: 1210759708686972, guid: 74838015af7c17645a9338551e22bc5a, type: 2}
   blockgenerator: {fileID: 1833306791391978, guid: 9af0cc289706ddc4187aedcd03993756,
     type: 2}
+  VisualGraph: 0
+  VisualRoads: 1
+  makecars: 1
+  helplines_draw: 0
+  cars_number: 200
+  depthtest: 1
+  makeblocks: 1

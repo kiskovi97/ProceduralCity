@@ -135,11 +135,11 @@ namespace Assets.Scripts.AdvancedCity
         }
 
         // ---------------- Debug DrawLine ---------
-        public void DrawLines(Color c)
+        public void DrawLines(Color c, bool depthtest)
         {
             foreach (GraphPoint road in szomszedok)
             {
-                Debug.DrawLine(position, road.position, c, 100, false);
+                Debug.DrawLine(position, road.position, c, 100, depthtest);
             }
         }
 

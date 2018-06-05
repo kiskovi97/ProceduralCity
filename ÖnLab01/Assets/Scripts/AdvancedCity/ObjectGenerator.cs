@@ -25,7 +25,7 @@ namespace Assets.Scripts.AdvancedCity
             for(int i=0; i<controlPoints.Count; i++)
             {
                 GraphPoint point = controlPoints[i];
-                Crossing cros = new Crossing(point.position);
+                Crossing cros = new Crossing(point.position,point.isMainRoad());
                 crossings.Add(cros);
             }
             for(int i=0; i<controlPoints.Count; i++)
@@ -53,16 +53,13 @@ namespace Assets.Scripts.AdvancedCity
                 GraphPoint road = controlPoints[x];
                 Crossing cros = crossings[x];
                 List<GraphPoint> szomszedok = road.Szomszedok;
-
+                List<Vector3> sidewalks = new List<Vector3>();
                 List<List<Vector3>> lista = new List<List<Vector3>>();
                 for (int i = 0; i < szomszedok.Count; i++)
                 {
                     lista.Add(new List<Vector3>());
                     for (int j = 0; j < 4; j++) lista[i].Add(new Vector3(0, 0, 0));
                 }
-
-                List<Vector3> kor = new List<Vector3>();
-                List<bool> ute = new List<bool>();
 
                 Vector3 ez = road.position;
                 bool ezbool = !road.isSideRoad();
@@ -72,20 +69,27 @@ namespace Assets.Scripts.AdvancedCity
                     if (i == szomszedok.Count - 1) kov = 0;
                     Vector3 elozo = szomszedok[i].position;
                     Vector3 kovetkezo = szomszedok[kov].position;
+
                     float utelozo = 0.6f + ((!szomszedok[i].isSideRoad() && ezbool) ? 0.8f : 0.0f);
                     float utekov = 0.6f + ((!szomszedok[kov].isSideRoad() && ezbool) ? 0.8f : 0.0f);
-
+                    float sidewalk = 0.4f;
                     Vector3 merolegeselozo = math.Meroleges(ez, elozo).normalized * utelozo;
                     Vector3 merolegeskovetkezo = math.Meroleges(kovetkezo, ez).normalized * utekov;
-                    Vector3 tmpelozo = ez + (elozo - ez).normalized;
-                    Vector3 tmpkovetkezo = ez + (kovetkezo - ez).normalized;
+                    Vector3 merolegeselozo_side = math.Meroleges(ez, elozo).normalized * (utelozo + sidewalk);
+                    Vector3 merolegeskovetkezo_side = math.Meroleges(kovetkezo, ez).normalized * (utekov + sidewalk);
 
-                    Vector3 P = tmpelozo + merolegeselozo;
-                    Vector3 V = (elozo - ez).normalized;
-                    Vector3 Q = tmpkovetkezo + merolegeskovetkezo;
-                    Vector3 U = (kovetkezo - ez).normalized;
-                    Vector3 kereszt = math.Intersect(P, V, Q, U);
-                    
+                    Vector3 kereszt = math.Intersect(
+                        ez + merolegeselozo
+                        , (elozo - ez).normalized
+                        , ez + merolegeskovetkezo
+                        , (kovetkezo - ez).normalized);
+                    Vector3 kereszt_side = math.Intersect(
+                        ez + merolegeselozo_side
+                        , (elozo - ez).normalized
+                        , ez + merolegeskovetkezo_side
+                        , (kovetkezo - ez).normalized);
+                    sidewalks.Add(kereszt_side);
+
                     Vector3 meroleges_elozo = math.Intersect(kereszt, merolegeselozo, ez, (elozo - ez).normalized);
                     lista[i][2] = meroleges_elozo;
                     lista[i][3] = kereszt;
@@ -101,27 +105,25 @@ namespace Assets.Scripts.AdvancedCity
                     float a = Vector3.Dot((szomszed - ez).normalized, lista[i][0] - ez);
                     float b = Vector3.Dot((szomszed - ez).normalized, lista[i][2] - ez);
                     Road r = cros.getSzomszedRoad(szomszedok[i].position);
+
+                    int elozo = i - 1;
+                    if (elozo < 0) elozo = lista.Count - 1;
+
                     if (r!=null)
                     if (a > b)
                     {
-                        ute.Add(true);
                         Vector3 masikkereszt = math.Intersect(lista[i][3], (szomszed - ez).normalized, lista[i][1], lista[i][0] - lista[i][1]);
-                        kor.Add(lista[i][1]);
-                        kor.Add(masikkereszt);
                         r.addLine(cros, masikkereszt, lista[i][1]);
                         Vector3[] line = {  masikkereszt , lista[i][1]};
                         Vector3[] helpline = { lista[i][3], masikkereszt };
-                        cros.AddLines(line, helpline, lista[i][1],r);
+                        cros.AddLines(line, helpline, lista[i][1], sidewalks[elozo], r);
                     }
                     else
                     {
                         Vector3 masikkereszt = math.Intersect(lista[i][1], (szomszed - ez).normalized, lista[i][3], lista[i][2] - lista[i][3]);
-                        ute.Add(false);
-                        kor.Add(lista[i][1]);
-                        kor.Add(masikkereszt);
                         Vector3[] line = { lista[i][3], masikkereszt };
                         Vector3[] helpline = { lista[i][1], masikkereszt };
-                        cros.AddLines(line, helpline, lista[i][1], r);
+                        cros.AddLines(line, helpline, lista[i][1], sidewalks[elozo], r);
                         r.addLine(cros, lista[i][3], masikkereszt);
                     }
                 }
@@ -152,20 +154,22 @@ namespace Assets.Scripts.AdvancedCity
 
             int i = 0;
             if (crossings == null) return;
-            foreach (Crossing cros in crossings)
+            while( i < cars.Length)
             {
-                if (i<cars.Length)
+                foreach (Crossing cros in crossings)
                 {
-                    Vehicle vehicle = cars[i].GetComponent<Vehicle>();
-                    if (cros.isCrossing())
+                    if (i < cars.Length)
                     {
+                        Vehicle vehicle = cars[i].GetComponent<Vehicle>();
+
                         cros.AddVehicle(vehicle);
                         cars[i].transform.position = cros.center;
                         i++;
                     }
+                    else break;
                 }
-                
             }
+            
         }
 
     }
