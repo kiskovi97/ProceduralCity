@@ -102,161 +102,76 @@ namespace Assets.Scripts.AdvancedCity
             {
                 int jobbra = i - 1;
                 if (jobbra < 0) jobbra = szomszedok.Count - 1;
-                int balra = i + 1;
-                if (balra > szomszedok.Count - 1) balra = 0;
-                Vector3[] line = szomszedok[i].helpline.mainline;
-                if (line != null)
-                {
-                    CarPath carpath = new CarPath();
-                    if (szomszedok[i].szomszedRoad.NextCros(this).main && main)
-                    {
-                        carpath.bemenet = new MovementPoint[2];
-                        carpath.kimenet = new MovementPoint[2];
-                        carpath.felezo = new MovementPoint[2];
-                        carpath.felezo[0] = new MovementPoint((szomszedok[i].helpline.roadedgecross * 3 + center) / 4);
-                        carpath.felezo[1] = new MovementPoint((szomszedok[i].helpline.roadedgecross + center * 3) / 4);
-                        carpath.bemenet[0] = new MovementPoint((line[0] + line[1] * 7) / 8);
-                        carpath.kimenet[0] = new MovementPoint((line[0] * 7 + line[1]) / 8);
-                        carpath.bemenet[1] = new MovementPoint((line[0] * 3 + line[1] * 5) / 8);
-                        carpath.kimenet[1] = new MovementPoint((line[0] * 5 + line[1] * 3) / 8);
-                    }
-                    else
-                    {
-                        if (szomszedok[jobbra].szomszedRoad.NextCros(this).main && main)
-                        {
-                            carpath.felezo = new MovementPoint[2];
-                            carpath.felezo[0] = new MovementPoint((szomszedok[i].helpline.roadedgecross * 3 + center) / 4);
-                            carpath.felezo[1] = new MovementPoint((szomszedok[i].helpline.roadedgecross + center * 3) / 4);
-                        }
-                        else
-                        {
-                            carpath.felezo = new MovementPoint[1];
-                            carpath.felezo[0] = new MovementPoint((szomszedok[i].helpline.roadedgecross + center) / 2);
-                        }
-                        carpath.bemenet = new MovementPoint[1];
-                        carpath.kimenet = new MovementPoint[1];
-                        carpath.bemenet[0] = new MovementPoint((line[0] + line[1] * 3) / 4);
-                        carpath.kimenet[0] = new MovementPoint((line[0] * 3 + line[1]) / 4);
-                    }
-                    
-                    szomszedok[i].szomszedRoad.addMovePoint(this, carpath.kimenet, carpath.bemenet);
-                    szomszedok[i].carpath = carpath;
-                }
+                MakeMovePoints(i, jobbra);
             }
 
             if (szomszedok.Count > 2)
                 for (int i = 0; i < szomszedok.Count; i++)
                 {
-                    int j = i - 1;
-                    if (j < 0) j = szomszedok.Count - 1;
-
-                    int x = i + 1;
-                    if (x > szomszedok.Count - 1) x = 0;
-                    Vector3[] line = szomszedok[i].helpline.mainline;
-                    if (line != null)
-                    {
-                        CarPath carpath = szomszedok[i].carpath;
-                        Vector3 to = (szomszedok[i].szomszedRoad.NextCros(this).center - center).normalized * 0.2f;
-                        MovementPoint nextfelezo = szomszedok[j].carpath.felezo[0];
-                        MovementPoint elozofelezo = szomszedok[x].carpath.felezo[0];
-                        carpath.bemenet[0].ConnectPoint(carpath.felezo[0]);
-                        carpath.felezo[0].ConnectPoint(nextfelezo);
-                        elozofelezo.ConnectPoint(carpath.kimenet[0]);
-                        if (carpath.bemenet.Length > 1 && carpath.felezo.Length > 1)
-                        {
-                            carpath.bemenet[1].ConnectPoint(carpath.felezo[1]);
-                        }
-                        if (szomszedok[x].carpath.felezo.Length > 1)
-                        {
-                            if (carpath.kimenet.Length > 1)
-                                szomszedok[x].carpath.felezo[1].ConnectPoint(carpath.kimenet[1]);
-                        }
-                        if (szomszedok[j].carpath.felezo.Length > 1)
-                        {
-                            if (carpath.felezo.Length > 1)
-                                carpath.felezo[1].ConnectPoint(szomszedok[j].carpath.felezo[1]);
-                            else
-                                carpath.felezo[0].ConnectPoint(szomszedok[j].carpath.felezo[1]);
-                        } else if (carpath.felezo.Length > 1)
-                            carpath.felezo[1].ConnectPoint(szomszedok[j].carpath.felezo[0]);
-
-                    }
+                    int jobbra = i - 1;
+                    if (jobbra < 0) jobbra = szomszedok.Count - 1;
+                    int balra = i + 1;
+                    if (balra > szomszedok.Count - 1) balra = 0;
+                    MovementPoint.Connect(szomszedok[i].carpath.bemenet, szomszedok[i].carpath.felezo);
+                    MovementPoint.Connect(szomszedok[i].carpath.felezo, szomszedok[jobbra].carpath.felezo);
+                    MovementPoint.Connect(szomszedok[balra].carpath.felezo, szomszedok[i].carpath.kimenet);
                 }
             if (szomszedok.Count == 2)
             {
-                bool nullmain = szomszedok[0].carpath.bemenet.Length > 1;
-                bool egymain = szomszedok[1].carpath.bemenet.Length > 1;
-                szomszedok[0].carpath.bemenet[0].ConnectPoint(szomszedok[0].carpath.felezo[0]);
-                szomszedok[0].carpath.felezo[0].ConnectPoint(szomszedok[1].carpath.kimenet[0]);
-                szomszedok[1].carpath.bemenet[0].ConnectPoint(szomszedok[1].carpath.felezo[0]);
-                szomszedok[1].carpath.felezo[0].ConnectPoint(szomszedok[0].carpath.kimenet[0]);
-                if (nullmain && egymain)
-                {
-                    szomszedok[0].carpath.bemenet[1].ConnectPoint(szomszedok[0].carpath.felezo[1]);
-                    szomszedok[0].carpath.felezo[1].ConnectPoint(szomszedok[1].carpath.kimenet[1]);
-                    szomszedok[1].carpath.bemenet[1].ConnectPoint(szomszedok[1].carpath.felezo[1]);
-                    szomszedok[1].carpath.felezo[1].ConnectPoint(szomszedok[0].carpath.kimenet[1]);
-                }
-                else if(nullmain)
-                {
-                    if (szomszedok[0].carpath.felezo.Length > 1)
-                    {
-                        szomszedok[0].carpath.bemenet[1].ConnectPoint(szomszedok[0].carpath.felezo[1]);
-                        szomszedok[0].carpath.felezo[1].ConnectPoint(szomszedok[1].carpath.kimenet[0]);
-                    } else
-                    {
-                        szomszedok[0].carpath.bemenet[1].ConnectPoint(szomszedok[0].carpath.felezo[0]);
-                        szomszedok[0].carpath.felezo[0].ConnectPoint(szomszedok[1].carpath.kimenet[0]);
-                    }
-                    if (szomszedok[1].carpath.felezo.Length > 1)
-                    {
-                        szomszedok[1].carpath.bemenet[0].ConnectPoint(szomszedok[1].carpath.felezo[1]);
-                        szomszedok[1].carpath.felezo[1].ConnectPoint(szomszedok[0].carpath.kimenet[1]);
-                    } else
-                    {
-                        szomszedok[1].carpath.bemenet[0].ConnectPoint(szomszedok[1].carpath.felezo[0]);
-                        szomszedok[1].carpath.felezo[0].ConnectPoint(szomszedok[0].carpath.kimenet[1]);
-                    }
-                }
-                else if (egymain)
-                {
-                    if (szomszedok[0].carpath.felezo.Length > 1)
-                    {
-                        szomszedok[0].carpath.bemenet[0].ConnectPoint(szomszedok[0].carpath.felezo[1]);
-                        szomszedok[0].carpath.felezo[1].ConnectPoint(szomszedok[1].carpath.kimenet[1]);
-                    } else
-                    {
-                        szomszedok[0].carpath.bemenet[0].ConnectPoint(szomszedok[0].carpath.felezo[0]);
-                        szomszedok[0].carpath.felezo[0].ConnectPoint(szomszedok[1].carpath.kimenet[1]);
-                    }
-                    if (szomszedok[1].carpath.felezo.Length > 1)
-                    {
-                        szomszedok[1].carpath.bemenet[1].ConnectPoint(szomszedok[1].carpath.felezo[1]);
-                        szomszedok[1].carpath.felezo[1].ConnectPoint(szomszedok[0].carpath.kimenet[0]);
-                    } else
-                    {
-                        szomszedok[1].carpath.bemenet[1].ConnectPoint(szomszedok[1].carpath.felezo[0]);
-                        szomszedok[1].carpath.felezo[0].ConnectPoint(szomszedok[0].carpath.kimenet[0]);
-                    }
-                }
+                MovementPoint.Connect(szomszedok[0].carpath.bemenet, szomszedok[0].carpath.felezo);
+                MovementPoint.Connect(szomszedok[1].carpath.felezo, szomszedok[0].carpath.kimenet);
+
+                MovementPoint.Connect(szomszedok[1].carpath.bemenet, szomszedok[1].carpath.felezo);
+                MovementPoint.Connect(szomszedok[0].carpath.felezo, szomszedok[1].carpath.kimenet);
             }
             if (szomszedok.Count == 1)
             {
-                szomszedok[0].carpath.bemenet[0].ConnectPoint(szomszedok[0].carpath.kimenet[0]);
-                if (szomszedok[0].carpath.bemenet.Length > 1)
-                szomszedok[0].carpath.bemenet[1].ConnectPoint(szomszedok[0].carpath.kimenet[1]);
+                MovementPoint.Connect(szomszedok[0].carpath.bemenet, szomszedok[0].carpath.felezo);
+                MovementPoint.Connect(szomszedok[0].carpath.felezo, szomszedok[0].carpath.kimenet);
             }
         }
+
         
+
+        void MakeMovePoints(int i, int jobbra)
+        {
+            Vector3[] line = szomszedok[i].helpline.mainline;
+            if (line != null)
+            {
+                CarPath carpath = new CarPath();
+                int thissavok = szomszedok[i].szomszedRoad.Savok();
+                int thatsavok = Math.Max(szomszedok[jobbra].szomszedRoad.Savok(),thissavok);
+                carpath.bemenet = new MovementPoint[thissavok];
+                carpath.kimenet = new MovementPoint[thissavok];
+                carpath.felezo = new MovementPoint[thatsavok];
+                for (int j = 0; j < thissavok; j++)
+                {
+                    int a = (1 + j * 2);
+                    int b = thissavok * 4 - a;
+                    carpath.bemenet[j] = new MovementPoint((line[0] * a + line[1] * b) / (thissavok * 4));
+                    carpath.kimenet[j] = new MovementPoint((line[0] * b + line[1] * a) / (thissavok * 4));
+                }
+                for (int j = 0; j < thatsavok; j++)
+                {
+                    int a = (1 + j * 2);
+                    int b = thatsavok * 2 - a;
+                    carpath.felezo[j] = new MovementPoint((szomszedok[i].helpline.roadedgecross * b + center * a) / (thatsavok * 2));
+                }
+                szomszedok[i].szomszedRoad.addMovePoint(this, carpath.kimenet, carpath.bemenet);
+                szomszedok[i].carpath = carpath;
+            }
+        }
 
         public void Draw(bool helplines_draw, bool depthtest)
         {
             foreach (Neighbor szomszed in szomszedok)
             {
                 Debug.DrawLine(szomszed.helpline.sideline[0], szomszed.helpline.sideline[1], Color.black, 1000, depthtest);
+                Debug.DrawLine(szomszed.helpline.mainline[0], szomszed.helpline.mainline[1], Color.black, 1000, depthtest);
+                Debug.DrawLine(szomszed.helpline.roadedgecross, center, Color.black, 1000, depthtest);
                 if (helplines_draw)
                 {
-                    for (int i=0; i< szomszed.carpath.felezo.Length; i++)
+                    for (int i = 0; i < szomszed.carpath.felezo.Length; i++)
                         szomszed.carpath.felezo[i].Draw(depthtest);
                     for (int i = 0; i < szomszed.carpath.kimenet.Length; i++)
                         szomszed.carpath.kimenet[i].Draw(depthtest);
@@ -264,6 +179,7 @@ namespace Assets.Scripts.AdvancedCity
                         szomszed.carpath.bemenet[i].Draw(depthtest);
                 }
             }
+
         }
 
         public void AddVehicle(Vehicle car)
@@ -331,6 +247,6 @@ namespace Assets.Scripts.AdvancedCity
             }
             else return null;
         }
-        
+
     }
 }

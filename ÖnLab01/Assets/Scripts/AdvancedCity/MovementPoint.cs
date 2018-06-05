@@ -43,5 +43,23 @@ namespace Assets.Scripts.AdvancedCity
                 Debug.DrawLine(center, (outPoints[i].center*4 + center*0)/4, Color.green, 1000, depthtest);
             
         }
+        public static void Connect(MovementPoint[] be, MovementPoint[] ki)
+        {
+            int kulonbseg = System.Math.Abs(be.Length - ki.Length);
+            if (be.Length < ki.Length)
+            {
+                for (int j = 0; j < kulonbseg; j++)
+                    be[0].ConnectPoint(ki[j]);
+                for (int j = 0; j < be.Length; j++)
+                    be[j].ConnectPoint(ki[j + kulonbseg]);
+            }
+            else
+            {
+                for (int j = 0; j < ki.Length; j++)
+                    be[j].ConnectPoint(ki[j]);
+                for (int j = ki.Length; j < be.Length; j++)
+                    be[j].ConnectPoint(ki[ki.Length - 1]);
+            }
+        }
     }
 }

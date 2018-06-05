@@ -12,11 +12,15 @@ namespace Assets.Scripts.AdvancedCity
         Vector3[] line_egyik;
         MovementPoint[] egyik_be;
         MovementPoint[] egyik_ki;
-
+        int sav = 0;
         Crossing masik;
         Vector3[] line_masik;
         MovementPoint[] masik_be;
         MovementPoint[] masik_ki;
+        public int Savok()
+        {
+            return sav;
+        }
         public Road()
         {
             egyik = null;
@@ -28,6 +32,11 @@ namespace Assets.Scripts.AdvancedCity
         {
             egyik = a;
             masik = b;
+            if (a.main && b.main)
+            {
+                sav = 3;
+            }
+            else sav = 1;
         }
         public void addLine(Crossing be, Vector3 a, Vector3 b)
         {
@@ -58,55 +67,35 @@ namespace Assets.Scripts.AdvancedCity
             }
             if (egyik_be != null && masik_ki != null)
             {
-                egyik_be[0].ConnectPoint(masik_ki[0]);
-                if (egyik_be.Length>1)
+                for (int i=sav; i>0; i--)
                 {
-                    if (masik_ki.Length > 1)
-                        egyik_be[1].ConnectPoint(masik_ki[1]);
-                    else
-                        egyik_be[1].ConnectPoint(masik_ki[0]);
-                }
-                else if (masik_ki.Length > 1)
-                {
-                    egyik_be[0].ConnectPoint(masik_ki[1]);
-                }
-            }
-            if (egyik_ki != null && masik_be != null)
-            {
-                masik_be[0].ConnectPoint(egyik_ki[0]);
-                if (egyik_ki.Length > 1)
-                {
-                    if (masik_be.Length > 1)
-                        masik_be[1].ConnectPoint(egyik_ki[1]);
-                    else
-                        masik_be[0].ConnectPoint(egyik_ki[1]);
-                }
-                else if (masik_be.Length > 1)
-                {
-                    masik_be[1].ConnectPoint(egyik_ki[0]);
+                    int j = egyik_be.Length - i;
+                    if (j < 0) j = 0;
+                    int x = masik_ki.Length - i;
+                    if (x < 0) j = 0;
+                    egyik_be[j].ConnectPoint(masik_ki[x]);
+
+                    j = egyik_ki.Length - i;
+                    if (j < 0) j = 0;
+                    x = masik_be.Length - i;
+                    if (x < 0) j = 0;
+                    masik_be[x].ConnectPoint(egyik_ki[j]);
                 }
             }
         }
         public void Draw(bool depthtest)
         {
+            int a = egyik_be.Length > masik_ki.Length ? masik_ki.Length : egyik_ki.Length;
+            for (int i=0; i< a -1; i++)
+            {
+                Debug.DrawLine((egyik_be[i].center + egyik_be[i+1].center)/2, (masik_ki[i].center + masik_ki[i+1].center)/2, Color.white, 1000, depthtest);
+                Debug.DrawLine((egyik_ki[i].center + egyik_ki[i + 1].center) / 2, (masik_be[i].center + masik_be[i + 1].center) / 2, Color.white, 1000, depthtest);
+            }
             if (line_egyik != null && line_masik != null)
             {
                 Debug.DrawLine(line_egyik[0], line_masik[1], Color.blue, 1000, depthtest);
                 Debug.DrawLine(line_egyik[1], line_masik[0], Color.blue, 1000, depthtest);
                 Debug.DrawLine((line_egyik[1] + line_egyik[0])/2, (line_masik[0] + line_masik[1])/2, Color.white, 1000, depthtest);
-            }
-            if (egyik_be.Length > 1 && masik_ki.Length > 1)
-            {
-                Debug.DrawLine((egyik_be[1].center + egyik_be[0].center)/2,
-                    (masik_ki[1].center + masik_ki[0].center) / 2,
-                    Color.white, 1000, depthtest);
-            }
-            if (egyik_ki.Length > 1 && masik_be.Length > 1)
-            {
-                
-                Debug.DrawLine((egyik_ki[1].center + egyik_ki[0].center) / 2,
-                    (masik_be[1].center + masik_be[0].center) / 2,
-                    Color.white, 1000, depthtest);
             }
         }
         public bool isSame(Crossing a, Crossing b)
