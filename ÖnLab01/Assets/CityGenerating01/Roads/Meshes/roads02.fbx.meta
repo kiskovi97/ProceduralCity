@@ -1,7 +1,5 @@
 fileFormatVersion: 2
 guid: 6d1243ecaaf3f1342988fe6cf09c1227
-timeCreated: 1520170743
-licenseType: Free
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
@@ -81,6 +79,7 @@ ModelImporter:
     4300020: road_intersection_T
     4300022: road_intersection_X
     4300024: road_stop
+    2186277476908879412: ImportLogs
   externalObjects:
   - first:
       type: UnityEngine:Material
@@ -145,6 +144,7 @@ ModelImporter:
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
+    importConstraints: 0
     animationCompression: 1
     animationRotationError: 0.5
     animationPositionError: 0.5

@@ -9,71 +9,51 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1007814428893788}
+  m_RootGameObject: {fileID: 1750810590812294}
   m_IsPrefabParent: 1
---- !u!1 &1007814428893788
+--- !u!1 &1750810590812294
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4070975538873658}
-  - component: {fileID: 114612238295260302}
+  - component: {fileID: 4781352924119570}
+  - component: {fileID: 114249100602707854}
   m_Layer: 0
-  m_Name: RoadgeneratingValues
+  m_Name: GraphObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4070975538873658
+--- !u!4 &4781352924119570
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1007814428893788}
+  m_GameObject: {fileID: 1750810590812294}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.07701353, y: -20.558624, z: 2.429212}
+  m_LocalPosition: {x: -99.10566, y: 6.9300203, z: -49.633705}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114612238295260302
+--- !u!114 &114249100602707854
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1007814428893788}
+  m_GameObject: {fileID: 1750810590812294}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d738a104fcfbca04d9c2560b98f27bea, type: 3}
+  m_Script: {fileID: 11500000, guid: e4a6a91b6f3897b44a2e441e24b1d50d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sizeRatio: 5
-  size:
-    sizeRatio: 5
-    Sizes:
-    - -5
-    - -5
-    - 5
-    - 5
-  CollapseMainRoad: 1.9
-  CollapseSideRoad: 1.9
-  RoadSize: 0.1
-  MainRoadDistance: 2
-  SideRoadsDistance: 2
-  straightFreqMainRoad: 0.898
-  straightFreqSideRoad: 0.49
-  maxCrossings: 4
-  rotationRandomMainRoad: 0.2
-  rotationRandomSideRoad: 0
-  sideRoadFreq: 1
-  smootIntensity: 0.068
-  minHouseSize: 0.3
-  HouseUpminSize: 2
-  HouseUpmaxSize: 10
-  HouseDeepminSize: 0.3
-  HouseDeepmaxSize: 0.4
-  floorSize: 0.08
+  ControlPointsVisualationObject: {fileID: 1719481770664032, guid: cae0d1198b032564ea7c72afba9a8165,
+    type: 2}
+  values: {fileID: 114612238295260302, guid: 4fa623546e0957a42a0885987de2fdf7, type: 2}
+  ReqursiveMax: 400
+  ReqursiveMaxS: 1000
+  DebugLines: 1

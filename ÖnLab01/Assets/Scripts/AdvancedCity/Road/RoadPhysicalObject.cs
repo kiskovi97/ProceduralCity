@@ -16,14 +16,12 @@ public class RoadPhysicalObject : MonoBehaviour {
     // Szelso es Kozepso pontok
     Vector3 S1, S2, K1, K2;
 
-    public void GenerateBlockMesh(Vector3 s1, Vector3 s2, Vector3 k1, Vector3 k2)
+    public void GenerateBlockMesh(Vector3 s1, Vector3 s2, Vector3 k1, Vector3 k2, int mat)
     {
         Vector2[] tomb =
         {
             new Vector2(0,0),
-            new Vector2(0.8f,0),
-            new Vector2(0.8f,0.05f),
-            new Vector2(1.0f,0.05f)
+            new Vector2(1.0f,0)
         };
         ControlPoints.AddRange(tomb);
         subTriangles = new List<List<int>>();
@@ -38,14 +36,11 @@ public class RoadPhysicalObject : MonoBehaviour {
         S2 = s2;
         K1 = k1;
         K2 = k2;
-
-        
-    
-        GenerateMesh();
+        GenerateMesh(mat);
     }
-    void AddTriangle(Vector3 A, Vector3 B, Vector3 C, int mat)
+    bool AddTriangle(Vector3 A, Vector3 B, Vector3 C, int mat)
     {
-
+        if (A == B || B == C || C == A) return false;
         subTriangles[mat].Add(meshVertexes.Count);
         meshVertexes.Add(A);
 
@@ -54,9 +49,10 @@ public class RoadPhysicalObject : MonoBehaviour {
 
         subTriangles[mat].Add(meshVertexes.Count);
         meshVertexes.Add(C);
+        return true;
 
     }
-    void GenerateMesh()
+    void GenerateMesh(int mat)
     {
         bool elore = true;
         if (K1.x < K2.x) elore = false;
@@ -66,14 +62,10 @@ public class RoadPhysicalObject : MonoBehaviour {
         Vector3 fel = new Vector3(0, 1, 0);
         for (int i=0; i<ControlPoints.Count-1; i++)
         {
-
-            
-
             Vector3 tmpK1 = K1 + irany1 * ControlPoints[i].x + fel * ControlPoints[i].y;
             Vector3 tmpK2 = K2 + irany2 * ControlPoints[i].x + fel * ControlPoints[i].y;
             Vector3 tmpS1 = K1 + irany1 * ControlPoints[i + 1].x + fel * ControlPoints[i + 1].y;
             Vector3 tmpS2 = K2 + irany2 * ControlPoints[i + 1].x + fel * ControlPoints[i + 1].y;
-
             if (i == 0)
             {
                 //GameObject obj = Instantiate(sideRoadObject, (tmpS1 + tmpS2) / 2, new Quaternion(0, 0, 0, 0));
@@ -81,42 +73,54 @@ public class RoadPhysicalObject : MonoBehaviour {
                 //Vector3 irany = ((tmpK1 - tmpS1) + (tmpK2 - tmpS2)) / 2;
                 //obj.transform.rotation = Quaternion.LookRotation(irany);
             }
+            float hoszK = (K1-K2).magnitude*0.5f;
+            float hoszS = (S1-S2).magnitude*0.5f;
             
-
-            float hoszK = (K1-K2).magnitude*2;
-            float hoszS = (S1-S2).magnitude*2;
-            
-            AddTriangle(tmpS2, tmpS1,  tmpK1,  0);
-            AddTriangle(tmpK1, tmpK2, tmpS2,  0);
+            bool egyik = AddTriangle(tmpS2, tmpS1,  tmpK1, mat);
+            bool masik = AddTriangle(tmpK1, tmpK2, tmpS2, mat);
 
             if (!elore)
             {
-                myUV.Add(new Vector2(0.5f - ControlPoints[i + 1].x * 0.5f, hoszS));
-                myUV.Add(new Vector2(0.5f - ControlPoints[i + 1].x * 0.5f, 0));
-                myUV.Add(new Vector2(0.5f - ControlPoints[i].x * 0.5f, 0));
-
-                myUV.Add(new Vector2(0.5f - ControlPoints[i].x * 0.5f, 0));
-                myUV.Add(new Vector2(0.5f - ControlPoints[i].x * 0.5f, hoszK));
-                myUV.Add(new Vector2(0.5f - ControlPoints[i + 1].x * 0.5f, hoszS));
+                if (egyik)
+                {
+                    myUV.Add(new Vector2(ControlPoints[i + 1].x, hoszS));
+                    myUV.Add(new Vector2(ControlPoints[i + 1].x, 0));
+                    myUV.Add(new Vector2(ControlPoints[i].x, 0));
+                }
+                
+                if (masik)
+                {
+                    myUV.Add(new Vector2(ControlPoints[i].x, 0));
+                    myUV.Add(new Vector2(ControlPoints[i].x, hoszK));
+                    myUV.Add(new Vector2(ControlPoints[i + 1].x, hoszS));
+                }
+               
             }
             else
             {
-                myUV.Add(new Vector2(0.5f - ControlPoints[i + 1].x * 0.5f, 0));
-                myUV.Add(new Vector2(0.5f - ControlPoints[i + 1].x * 0.5f, hoszS));
-                myUV.Add(new Vector2(0.5f - ControlPoints[i].x * 0.5f, hoszK));
-
-                myUV.Add(new Vector2(0.5f - ControlPoints[i].x * 0.5f, hoszK));
-                myUV.Add(new Vector2(0.5f - ControlPoints[i].x * 0.5f, 0));
-                myUV.Add(new Vector2(0.5f - ControlPoints[i + 1].x * 0.5f, 0));
+                if (egyik)
+                {
+                    myUV.Add(new Vector2(ControlPoints[i + 1].x, 0));
+                    myUV.Add(new Vector2(ControlPoints[i + 1].x, hoszS));
+                    myUV.Add(new Vector2(ControlPoints[i].x, hoszK));
+                }
+                if (masik)
+                {
+                    myUV.Add(new Vector2(ControlPoints[i].x, hoszK));
+                    myUV.Add(new Vector2(ControlPoints[i].x, 0));
+                    myUV.Add(new Vector2(ControlPoints[i + 1].x, 0));
+                }
             }
-           
         }
-
-        
     }
     public void CreateMesh()
     {
+        if (meshVertexes == null) return;
+        
+
+       
         mesh.Clear();
+        if (meshVertexes.Count < 3) return;
         mesh.vertices = meshVertexes.ToArray();
         mesh.subMeshCount = subTriangles.Count;
         for (int i = 0; i < subTriangles.Count; i++)

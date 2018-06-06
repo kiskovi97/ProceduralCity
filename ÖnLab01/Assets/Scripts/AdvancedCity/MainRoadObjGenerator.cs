@@ -205,12 +205,12 @@ public class MainRoadObjGenerator{
         {
            GameObject road = Object.Instantiate(roadObject);
             RoadPhysicalObject rpo = road.GetComponent<RoadPhysicalObject>();
-            rpo.GenerateBlockMesh(beljebbCircle[i], beljebbCircle[i + 1], circle[i].position, circle[i + 1].position);
+            rpo.GenerateBlockMesh(beljebbCircle[i], beljebbCircle[i + 1], circle[i].position, circle[i + 1].position,0 );
             rpo.CreateMesh();
         }
         GameObject road2 = Object.Instantiate(roadObject);
         RoadPhysicalObject rpo2 = road2.GetComponent<RoadPhysicalObject>();
-        rpo2.GenerateBlockMesh(beljebbCircle[circle.Count - 1], beljebbCircle[0], circle[circle.Count - 1].position, circle[0].position);
+        rpo2.GenerateBlockMesh(beljebbCircle[circle.Count - 1], beljebbCircle[0], circle[circle.Count - 1].position, circle[0].position, 0);
         rpo2.CreateMesh();
 
         bos.GenerateBlockMesh(beljebbCircle);
@@ -304,4 +304,5 @@ public class MainRoadObjGenerator{
         Vector3 meroleges = (rotation * next_irany).normalized;
         return meroleges;
     }
+
 }
