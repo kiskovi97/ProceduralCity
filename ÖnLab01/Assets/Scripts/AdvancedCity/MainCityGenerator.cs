@@ -10,7 +10,7 @@ namespace Assets.Scripts.AdvancedCity
     {
         public GraphGenerator graphGen;
         public GameObject cameracar;
-        public GameObject car;
+        public Vehicles car;
         public GameObject blockgenerator;
         public bool VisualGraph = false;
         public bool VisualRoads = false;
@@ -49,7 +49,7 @@ namespace Assets.Scripts.AdvancedCity
             if (cameracar != null) cars.Add(Instantiate(cameracar));
             for (int i = 0; i < cars_number; i++)
             {
-                GameObject realcar = Instantiate(car);
+                GameObject realcar = Instantiate(car.Car);
                 cars.Add(realcar);
             }
             objGen.CreateCars(cars.ToArray());
