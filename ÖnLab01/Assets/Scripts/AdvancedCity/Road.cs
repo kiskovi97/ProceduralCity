@@ -17,6 +17,7 @@ namespace Assets.Scripts.AdvancedCity
         Vector3[] line_masik;
         MovementPoint[] masik_be;
         MovementPoint[] masik_ki;
+
         GameObjectGenerator generator;
         public int Savok()
         {
@@ -90,16 +91,38 @@ namespace Assets.Scripts.AdvancedCity
             int a = egyik_be.Length > masik_ki.Length ? masik_ki.Length : egyik_ki.Length;
             for (int i=0; i< a -1; i++)
             {
-                Debug.DrawLine((egyik_be[i].center + egyik_be[i+1].center)/2, (masik_ki[i].center + masik_ki[i+1].center)/2, Color.white, 1000, depthtest);
-                Debug.DrawLine((egyik_ki[i].center + egyik_ki[i + 1].center) / 2, (masik_be[i].center + masik_be[i + 1].center) / 2, Color.white, 1000, depthtest);
+                //Debug.DrawLine((egyik_be[i].center + egyik_be[i+1].center)/2, (masik_ki[i].center + masik_ki[i+1].center)/2, Color.white, 1000, depthtest);
+                //Debug.DrawLine((egyik_ki[i].center + egyik_ki[i + 1].center) / 2, (masik_be[i].center + masik_be[i + 1].center) / 2, Color.white, 1000, depthtest);
             }
             if (line_egyik != null && line_masik != null)
             {
-                Debug.DrawLine(line_egyik[0], line_masik[1], Color.blue, 1000, depthtest);
-                Debug.DrawLine(line_egyik[1], line_masik[0], Color.blue, 1000, depthtest);
-                generator.CreateRoad(line_egyik[0], line_masik[1], (line_egyik[1] + line_egyik[0]) / 2, (line_masik[0] + line_masik[1]) / 2);
-                generator.CreateRoad( line_masik[0], line_egyik[1], (line_masik[0] + line_masik[1]) / 2, (line_egyik[1] + line_egyik[0]) / 2);
-                Debug.DrawLine((line_egyik[1] + line_egyik[0])/2, (line_masik[0] + line_masik[1])/2, Color.white, 1000, depthtest);
+                //Debug.DrawLine(line_egyik[0], line_masik[1], Color.blue, 1000, depthtest);
+                //Debug.DrawLine(line_egyik[1], line_masik[0], Color.blue, 1000, depthtest);
+                if (sav == 1 || sav == 0)
+                {
+                    generator.CreateRoad(line_egyik[0], line_masik[1], (line_egyik[1] + line_egyik[0]) / 2, (line_masik[0] + line_masik[1]) / 2, 2);
+                    generator.CreateRoad(line_masik[0], line_egyik[1], (line_masik[0] + line_masik[1]) / 2, (line_egyik[1] + line_egyik[0]) / 2, 2);
+                }
+                else
+                {
+                    generator.CreateRoad(line_egyik[0], line_masik[1], (egyik_be[0].center + egyik_be[1].center) / 2, (masik_ki[0].center + masik_ki[1].center) / 2, 2);
+                    generator.CreateRoad(line_masik[0], line_egyik[1], (masik_be[0].center + masik_be[1].center) / 2, (egyik_ki[0].center + egyik_ki[1].center) / 2, 2);
+                    for (int i=1; i<sav-1; i++)
+                    {
+                        generator.CreateRoad((masik_ki[i + 1].center + masik_ki[i].center) / 2, (egyik_be[i].center + egyik_be[i + 1].center) / 2,
+                         (masik_ki[i - 1].center + masik_ki[i].center) / 2, (egyik_be[i].center + egyik_be[i - 1].center) / 2, 1);
+                        generator.CreateRoad( (egyik_ki[i].center + egyik_ki[i + 1].center) / 2, (masik_be[i + 1].center + masik_be[i].center) / 2,
+                        (egyik_ki[i].center + egyik_ki[i - 1].center) / 2, (masik_be[i - 1].center + masik_be[i].center) / 2, 1);
+                    }
+                    generator.CreateRoad((line_masik[0] + line_masik[1]) / 2, (line_egyik[1] + line_egyik[0]) / 2,
+                         (masik_ki[sav - 2].center + masik_ki[sav - 1].center) / 2, (egyik_be[sav - 2].center + egyik_be[sav - 1].center) / 2, 2);
+
+                    generator.CreateRoad( (line_egyik[1] + line_egyik[0]) / 2, (line_masik[0] + line_masik[1]) / 2,
+                          (egyik_ki[sav - 2].center + egyik_ki[sav - 1].center) / 2, (masik_be[sav - 2].center + masik_be[sav - 1].center) / 2,
+                          2);
+
+                }
+                //Debug.DrawLine((line_egyik[1] + line_egyik[0])/2, (line_masik[0] + line_masik[1])/2, Color.white, 1000, depthtest);
             }
             
         }

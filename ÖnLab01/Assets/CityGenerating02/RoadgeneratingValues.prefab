@@ -55,10 +55,10 @@ MonoBehaviour:
   size:
     sizeRatio: 5
     Sizes:
-    - -10
-    - -10
-    - 10
-    - 10
+    - -5
+    - -5
+    - 5
+    - 5
   CollapseMainRoad: 1.9
   CollapseSideRoad: 1.9
   RoadSize: 0.1

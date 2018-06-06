@@ -105,11 +105,11 @@ namespace Assets.Scripts.AdvancedCity
             if (j == egyik.Count) return true;
             return false;
         }
-        public void CreateRoad(Vector3 a, Vector3 b, Vector3 c, Vector3 d)
+        public void CreateRoad(Vector3 a, Vector3 b, Vector3 c, Vector3 d, int mat)
         {
            GameObject road = Instantiate(roadObject);
             RoadPhysicalObject roadobj =  road.GetComponent<RoadPhysicalObject>();
-            roadobj.GenerateBlockMesh(a, b, c, d);
+            roadobj.GenerateBlockMesh(a, b, c, d, mat);
             roadobj.CreateMesh();
         }
     }

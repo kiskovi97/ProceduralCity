@@ -52,7 +52,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   graphGen: {fileID: 114249100602707854, guid: bb12cc9a8aa0a2745b2801e376728216, type: 2}
-  cameracar: {fileID: 1093404503131794, guid: db8e045877c880249afc4731db476876, type: 2}
+  cameracar: {fileID: 0}
   car: {fileID: 1210759708686972, guid: 74838015af7c17645a9338551e22bc5a, type: 2}
   blockgenerator: {fileID: 1833306791391978, guid: 9af0cc289706ddc4187aedcd03993756,
     type: 2}
@@ -60,6 +60,6 @@ MonoBehaviour:
   VisualRoads: 1
   makecars: 1
   helplines_draw: 0
-  cars_number: 200
+  cars_number: 50
   depthtest: 1
-  makeblocks: 1
+  makeblocks: 0

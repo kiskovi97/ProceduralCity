@@ -27,19 +27,17 @@ namespace Assets.Scripts.AdvancedCity
         void OnTriggerEnter(Collider other)
         {
             stop = true;
-            enterd.Add(other.gameObject);
-            other.gameObject.GetComponent<Vehicle>().Go(this.gameObject);
+            if (other == null) return;
+            Vehicle car = other.gameObject.GetComponent<Vehicle>();
+            if (car != null) car.Go(this.gameObject);
         }
         void OnTriggerExit(Collider other)
         {
             stop = false;
-            enterd.Remove(other.gameObject);
         }
         public void Go(GameObject said)
         {
-            enterd.Remove(said);
-            if (enterd.Count == 0)
-                stop = false; 
+            stop = false;
         }
         public void Update()
         {
@@ -53,7 +51,7 @@ namespace Assets.Scripts.AdvancedCity
                 if (!stop)
                     Move();
             }
-            if (length > 5.0f)
+            if (length > 3.0f)
             {
                 actualspeed += 0.03f;
             } else

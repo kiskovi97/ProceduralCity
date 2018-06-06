@@ -25,7 +25,7 @@ namespace Assets.Scripts.AdvancedCity
             for(int i=0; i<controlPoints.Count; i++)
             {
                 GraphPoint point = controlPoints[i];
-                Crossing cros = new Crossing(point.position,point.isMainRoad());
+                Crossing cros = new Crossing(point.position,point.isMainRoad(),generator);
                 crossings.Add(cros);
             }
             for(int i=0; i<controlPoints.Count; i++)
@@ -122,7 +122,7 @@ namespace Assets.Scripts.AdvancedCity
                     {
                         Vector3 masikkereszt = math.Intersect(lista[i][1], (szomszed - ez).normalized, lista[i][3], lista[i][2] - lista[i][3]);
                         Vector3[] line = { lista[i][3], masikkereszt };
-                        Vector3[] helpline = { lista[i][1], masikkereszt };
+                        Vector3[] helpline = { masikkereszt,lista[i][1] };
                         cros.AddLines(line, helpline, lista[i][1], sidewalks[elozo], r);
                         r.addLine(cros, lista[i][3], masikkereszt);
                     }

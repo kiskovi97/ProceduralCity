@@ -12,6 +12,7 @@ namespace Assets.Scripts.AdvancedCity
         public bool main;
         public Vector3 center;
         List<Neighbor> szomszedok;
+        GameObjectGenerator generator;
         public class Neighbor
         {
             public Neighbor(Road road)
@@ -36,11 +37,12 @@ namespace Assets.Scripts.AdvancedCity
             public Vector3 sidecross;
         }
 
-        public Crossing(Vector3 centerpoint, bool inputmain)
+        public Crossing(Vector3 centerpoint, bool inputmain, GameObjectGenerator generatorbe)
         {
             center = centerpoint;
             szomszedok = new List<Neighbor>();
             main = inputmain;
+            generator = generatorbe;
         }
 
         public void AddSzomszed(Road ujszomszed)
@@ -120,7 +122,6 @@ namespace Assets.Scripts.AdvancedCity
             {
                 MovementPoint.Connect(szomszedok[0].carpath.bemenet, szomszedok[0].carpath.felezo);
                 MovementPoint.Connect(szomszedok[1].carpath.felezo, szomszedok[0].carpath.kimenet);
-
                 MovementPoint.Connect(szomszedok[1].carpath.bemenet, szomszedok[1].carpath.felezo);
                 MovementPoint.Connect(szomszedok[0].carpath.felezo, szomszedok[1].carpath.kimenet);
             }
@@ -164,11 +165,14 @@ namespace Assets.Scripts.AdvancedCity
 
         public void Draw(bool helplines_draw, bool depthtest)
         {
-            foreach (Neighbor szomszed in szomszedok)
+            for (int j = 0; j < szomszedok.Count; j++)
             {
-                Debug.DrawLine(szomszed.helpline.sideline[0], szomszed.helpline.sideline[1], Color.black, 1000, depthtest);
-                Debug.DrawLine(szomszed.helpline.mainline[0], szomszed.helpline.mainline[1], Color.black, 1000, depthtest);
-                Debug.DrawLine(szomszed.helpline.roadedgecross, center, Color.black, 1000, depthtest);
+                Neighbor szomszed = szomszedok[j];
+                int x = j + 1;
+                if (x >= szomszedok.Count) x = 0;
+                //Debug.DrawLine(szomszed.helpline.sideline[0], szomszed.helpline.sideline[1], Color.black, 1000, depthtest);
+                //Debug.DrawLine(szomszed.helpline.mainline[0], szomszed.helpline.mainline[1], Color.black, 1000, depthtest);
+                //Debug.DrawLine(szomszed.helpline.roadedgecross, center, Color.black, 1000, depthtest);
                 if (helplines_draw)
                 {
                     for (int i = 0; i < szomszed.carpath.felezo.Length; i++)
@@ -178,6 +182,20 @@ namespace Assets.Scripts.AdvancedCity
                     for (int i = 0; i < szomszed.carpath.bemenet.Length; i++)
                         szomszed.carpath.bemenet[i].Draw(depthtest);
                 }
+                int sav = szomszedok[x].carpath.felezo.Length;
+                if (szomszed.helpline.mainline[0] != szomszed.helpline.sideline[1])
+                {
+                    generator.CreateRoad(szomszed.helpline.mainline[0], szomszed.helpline.mainline[1], center, szomszed.helpline.sideline[1], 
+                          1);
+                }
+                else
+                {
+                    generator.CreateRoad(szomszed.helpline.mainline[0], szomszed.helpline.mainline[1], 
+                        szomszed.helpline.sideline[0],center, 1);
+                }
+                
+                
+                    
             }
 
         }

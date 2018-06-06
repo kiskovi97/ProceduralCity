@@ -23,6 +23,8 @@ namespace Assets.Scripts.AdvancedCity
         void Start()
         {
             Debug.Log("Start Generating");
+            Vector3 a = new Vector3(0, 0, 1);
+            Vector3 b = new Vector3(0, 0, 1);
             List<GraphPoint> points = graphGen.GenerateGraph();
             objGen = new ObjectGenerator(points);
             GameObject instant = Instantiate(blockgenerator);
