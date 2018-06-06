@@ -122,6 +122,7 @@ namespace Assets.Scripts.AdvancedCity
                           2);
 
                 }
+                
                 //Debug.DrawLine((line_egyik[1] + line_egyik[0])/2, (line_masik[0] + line_masik[1])/2, Color.white, 1000, depthtest);
             }
             

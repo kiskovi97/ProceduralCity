@@ -51,4 +51,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 810c070bbd4fe934c89229121cc56dff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cars: []
+  cars:
+  - {fileID: 1210759708686972, guid: 74838015af7c17645a9338551e22bc5a, type: 2}
+  - {fileID: 1945544950138872, guid: ed07cbff364e2864ebe340e0ef85d35f, type: 2}
+  - {fileID: 1080794907766836, guid: 03bcb2e1ae0cd864896b917d20e8a153, type: 2}
