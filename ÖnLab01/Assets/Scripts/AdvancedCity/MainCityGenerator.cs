@@ -49,8 +49,8 @@ namespace Assets.Scripts.AdvancedCity
             if (cameracar != null) cars.Add(Instantiate(cameracar));
             for (int i = 0; i < cars_number; i++)
             {
-                GameObject realcar = Instantiate(car.Car);
-                cars.Add(realcar);
+                
+                cars.Add(car.Car);
             }
             objGen.CreateCars(cars.ToArray());
             

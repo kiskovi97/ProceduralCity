@@ -59,7 +59,7 @@ MonoBehaviour:
   VisualGraph: 1
   VisualRoads: 1
   makecars: 1
-  helplines_draw: 1
+  helplines_draw: 0
   cars_number: 300
   depthtest: 1
   makeblocks: 1

@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.AdvancedCity
 {
-    
+
     class ObjectGenerator
     {
         MyMath math = new MyMath();
@@ -22,17 +22,17 @@ namespace Assets.Scripts.AdvancedCity
         {
             crossings = new List<Crossing>();
             roads = new List<Road>();
-            for(int i=0; i<controlPoints.Count; i++)
+            for (int i = 0; i < controlPoints.Count; i++)
             {
                 GraphPoint point = controlPoints[i];
-                Crossing cros = new Crossing(point.position,point.isMainRoad(),generator);
+                Crossing cros = new Crossing(point.position, point.isMainRoad(), generator);
                 crossings.Add(cros);
             }
-            for(int i=0; i<controlPoints.Count; i++)
+            for (int i = 0; i < controlPoints.Count; i++)
             {
                 GraphPoint point = controlPoints[i];
                 List<GraphPoint> szomszedok = point.Szomszedok;
-                for (int j=0; j < szomszedok.Count; j++)
+                for (int j = 0; j < szomszedok.Count; j++)
                 {
                     int x = controlPoints.IndexOf(szomszedok[j]);
                     if (x > i)
@@ -100,7 +100,7 @@ namespace Assets.Scripts.AdvancedCity
                 }
                 for (int i = 0; i < lista.Count; i++)
                 {
-                    
+
                     Vector3 szomszed = szomszedok[i].position;
                     float a = Vector3.Dot((szomszed - ez).normalized, lista[i][0] - ez);
                     float b = Vector3.Dot((szomszed - ez).normalized, lista[i][2] - ez);
@@ -109,23 +109,23 @@ namespace Assets.Scripts.AdvancedCity
                     int elozo = i - 1;
                     if (elozo < 0) elozo = lista.Count - 1;
 
-                    if (r!=null)
-                    if (a > b)
-                    {
-                        Vector3 masikkereszt = math.Intersect(lista[i][3], (szomszed - ez).normalized, lista[i][1], lista[i][0] - lista[i][1]);
-                        r.addLine(cros, masikkereszt, lista[i][1]);
-                        Vector3[] line = {  masikkereszt , lista[i][1]};
-                        Vector3[] helpline = { lista[i][3], masikkereszt };
-                        cros.AddLines(line, helpline, lista[i][1], sidewalks[elozo], r);
-                    }
-                    else
-                    {
-                        Vector3 masikkereszt = math.Intersect(lista[i][1], (szomszed - ez).normalized, lista[i][3], lista[i][2] - lista[i][3]);
-                        Vector3[] line = { lista[i][3], masikkereszt };
-                        Vector3[] helpline = { masikkereszt,lista[i][1] };
-                        cros.AddLines(line, helpline, lista[i][1], sidewalks[elozo], r);
-                        r.addLine(cros, lista[i][3], masikkereszt);
-                    }
+                    if (r != null)
+                        if (a > b)
+                        {
+                            Vector3 masikkereszt = math.Intersect(lista[i][3], (szomszed - ez).normalized, lista[i][1], lista[i][0] - lista[i][1]);
+                            r.addLine(cros, masikkereszt, lista[i][1]);
+                            Vector3[] line = { masikkereszt, lista[i][1] };
+                            Vector3[] helpline = { lista[i][3], masikkereszt };
+                            cros.AddLines(line, helpline, lista[i][1], sidewalks[elozo], r);
+                        }
+                        else
+                        {
+                            Vector3 masikkereszt = math.Intersect(lista[i][1], (szomszed - ez).normalized, lista[i][3], lista[i][2] - lista[i][3]);
+                            Vector3[] line = { lista[i][3], masikkereszt };
+                            Vector3[] helpline = { masikkereszt, lista[i][1] };
+                            cros.AddLines(line, helpline, lista[i][1], sidewalks[elozo], r);
+                            r.addLine(cros, lista[i][3], masikkereszt);
+                        }
                 }
             }
             foreach (Crossing cros in crossings)
@@ -136,13 +136,13 @@ namespace Assets.Scripts.AdvancedCity
 
         public void DrawRoads(bool draw_helplines, bool depthtest)
         {
-            foreach(Road road in roads)
+            foreach (Road road in roads)
             {
                 road.Draw(depthtest);
             }
             foreach (Crossing cros in crossings)
             {
-                cros.Draw(draw_helplines,depthtest);
+                cros.Draw(draw_helplines, depthtest);
             }
         }
         public void MakeBlocks(GameObjectGenerator generator)
@@ -154,25 +154,36 @@ namespace Assets.Scripts.AdvancedCity
 
             int i = 0;
             if (crossings == null) return;
-            while( i < cars.Length)
+
+            foreach (Crossing cros in crossings)
             {
-                foreach (Crossing cros in crossings)
+
+                while (cros.HavePlace())
                 {
+                    Vehicle vehicle = cars[i].GetComponent<Vehicle>();
                     if (i < cars.Length)
                     {
-                        Vehicle vehicle = cars[i].GetComponent<Vehicle>();
-
-                        cros.AddVehicle(vehicle);
-                        cars[i].transform.position = cros.center;
-                        i++;
+                        bool sikeres = cros.AddVehicle(vehicle);
+                        if (sikeres)
+                        {
+                            cars[i].transform.position = vehicle.nextPoint.center;
+                            i++;
+                            vehicle = cars[i].GetComponent<Vehicle>();
+                        }
                     }
                     else break;
                 }
             }
-            
+            for (int j = i; j < cars.Length; j++)
+            {
+                cars[j].transform.position += new Vector3(0, 10, 0);
+                GameObject.Destroy(cars[j]);
+                Debug.Log("Fasz");
+            }
+
         }
 
-        
+
 
     }
 }

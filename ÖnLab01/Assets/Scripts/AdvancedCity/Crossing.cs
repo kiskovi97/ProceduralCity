@@ -199,12 +199,21 @@ namespace Assets.Scripts.AdvancedCity
             }
 
         }
-
-        public void AddVehicle(Vehicle car)
+        private int cars = 0;
+        public bool AddVehicle(Vehicle car)
         {
-            if (szomszedok == null) return;
-            if (szomszedok.Count > 0)
-                car.setPoint(szomszedok[0].carpath.bemenet[0]);
+            if (szomszedok == null) return false;
+            if (szomszedok.Count > cars)
+                {
+                    car.setPoint(szomszedok[cars].carpath.bemenet[0]);
+                    cars++;
+                    return true;
+                }
+            return false;
+        }
+        public bool HavePlace()
+        {
+            return szomszedok.Count > cars && szomszedok.Count > 1;
         }
 
         public bool isCrossing()
