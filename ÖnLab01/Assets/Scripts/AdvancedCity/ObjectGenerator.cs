@@ -149,6 +149,10 @@ namespace Assets.Scripts.AdvancedCity
         {
             generator.GenerateBlocks(crossings);
         }
+        public void CrossingSetup(GameObjectGenerator generator)
+        {
+            generator.SetScrossings(crossings);
+        }
         public void CreateCars(GameObject[] cars)
         {
 

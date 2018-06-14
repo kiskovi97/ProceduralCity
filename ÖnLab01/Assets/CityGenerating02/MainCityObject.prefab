@@ -56,7 +56,7 @@ MonoBehaviour:
   car: {fileID: 114953336449457774, guid: 50080373056715741adae62dc014f21b, type: 2}
   blockgenerator: {fileID: 1833306791391978, guid: 9af0cc289706ddc4187aedcd03993756,
     type: 2}
-  VisualGraph: 1
+  VisualGraph: 0
   VisualRoads: 1
   makecars: 1
   helplines_draw: 0

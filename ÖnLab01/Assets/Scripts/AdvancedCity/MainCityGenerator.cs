@@ -41,6 +41,10 @@ namespace Assets.Scripts.AdvancedCity
             {
                 objGen.MakeBlocks(instant.GetComponent<GameObjectGenerator>());
             }
+            else
+            {
+                objGen.CrossingSetup(instant.GetComponent<GameObjectGenerator>());
+            }
             
         }
         void GenerateCars()

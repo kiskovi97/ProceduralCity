@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System;
 
 namespace Assets.Scripts.AdvancedCity
 {
@@ -107,7 +108,7 @@ namespace Assets.Scripts.AdvancedCity
         }
         public void CreateRoad(Vector3 a, Vector3 b, Vector3 c, Vector3 d, int mat)
         {
-           GameObject road = Instantiate(roadObject);
+            GameObject road = Instantiate(roadObject);
             RoadPhysicalObject roadobj =  road.GetComponent<RoadPhysicalObject>();
             roadobj.GenerateBlockMesh(a, b, c, d, mat);
             roadobj.CreateMesh();
@@ -116,7 +117,7 @@ namespace Assets.Scripts.AdvancedCity
         void Update()
         {
             i++;
-            if (i%500 == 0)
+            if (i%100 == 0)
             {
                 foreach(Crossing cros in roads)
                 {
@@ -125,6 +126,11 @@ namespace Assets.Scripts.AdvancedCity
                 i = 1;
                 Debug.Log("Valtott");
             }
+        }
+
+        internal void SetScrossings(List<Crossing> crossings)
+        {
+            roads = crossings;
         }
     }
 }
