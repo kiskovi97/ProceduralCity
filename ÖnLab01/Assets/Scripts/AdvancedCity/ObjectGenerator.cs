@@ -182,8 +182,7 @@ namespace Assets.Scripts.AdvancedCity
             }
 
         }
-
-
+        
 
     }
 }

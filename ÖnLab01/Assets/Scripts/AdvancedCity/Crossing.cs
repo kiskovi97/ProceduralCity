@@ -132,7 +132,27 @@ namespace Assets.Scripts.AdvancedCity
             }
         }
 
-        
+        public int nyitott = 0;
+
+        public void Valt()
+        {
+            foreach (Neighbor szomszed in szomszedok)
+            {
+                foreach (MovementPoint point in szomszed.carpath.bemenet)
+                {
+                    point.Nyitott(false);
+                }
+            }
+            nyitott++;
+            if (nyitott > szomszedok.Count-1) nyitott = 0;
+
+            Neighbor neighbour = szomszedok[nyitott];
+            
+            foreach (MovementPoint point in neighbour.carpath.bemenet)
+            {
+                point.Nyitott(true);
+            }
+        }
 
         void MakeMovePoints(int i, int jobbra)
         {
@@ -193,9 +213,6 @@ namespace Assets.Scripts.AdvancedCity
                     generator.CreateRoad(szomszed.helpline.mainline[0], szomszed.helpline.mainline[1], 
                         szomszed.helpline.sideline[0],center, 1);
                 }
-                
-                
-                    
             }
 
         }

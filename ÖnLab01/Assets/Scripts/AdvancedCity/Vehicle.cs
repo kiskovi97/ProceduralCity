@@ -30,9 +30,6 @@ namespace Assets.Scripts.AdvancedCity
             float angle = Vector3.Angle(transform.forward, toward);
             if (angle > 30) return;
             stop = true;
-            if (other == null) return;
-            Vehicle car = other.gameObject.GetComponent<Vehicle>();
-            if (car != null) car.Go(this.gameObject);
         }
         void OnTriggerExit(Collider other)
         {

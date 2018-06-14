@@ -13,6 +13,11 @@ namespace Assets.Scripts.AdvancedCity
             center = mov;
         }
         private List<MovementPoint> outPoints;
+        private bool onmaga = false;
+        public void Nyitott(bool nyitott)
+        {
+            onmaga = !nyitott;
+        }
         public void ConnectPoint(MovementPoint point)
         {
             if (outPoints == null) outPoints = new List<MovementPoint>();
@@ -27,8 +32,13 @@ namespace Assets.Scripts.AdvancedCity
         {
             if (outPoints == null) return null;
             if (outPoints.Count < 1) return null;
-            int i = (int)(Random.value * (outPoints.Count));
-            return outPoints[i];
+            if (!onmaga)
+            {
+                int i = (int)(Random.value * (outPoints.Count));
+                return outPoints[i];
+            }
+            else return this;
+               
         }
         public void Draw(bool depthtest)
         {
