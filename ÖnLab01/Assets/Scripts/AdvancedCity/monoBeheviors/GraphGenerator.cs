@@ -6,10 +6,11 @@ using UnityEngine;
 
 namespace Assets.Scripts.AdvancedCity
 {
+    [RequireComponent(typeof(RoadGeneratingValues))]
     class GraphGenerator : MonoBehaviour
     {
         public GameObject ControlPointsVisualationObject;
-        public RoadGeneratingValues values;
+        private RoadGeneratingValues values;
         [Header("MainRoads max")]
         public int ReqursiveMax = 400;
         [Space(5)]
@@ -30,8 +31,8 @@ namespace Assets.Scripts.AdvancedCity
         
         void Start()
         {
-            //GenerateGraph();
-            //Visualization01();
+            values = GetComponent<RoadGeneratingValues>();
+            if (values == null) throw new System.Exception("No Values Binded");
         }
         public List<GraphPoint> GenerateGraph()
         {

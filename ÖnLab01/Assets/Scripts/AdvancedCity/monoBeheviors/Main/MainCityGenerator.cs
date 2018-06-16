@@ -1,22 +1,16 @@
 ﻿
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using UnityEngine;
+
 
 namespace Assets.Scripts.AdvancedCity
 {
     class MainCityGenerator: MonoBehaviour
     {
-        // ------- Generating Objects -----------
-        public GraphGenerator graphGen;
-        GameObjectGenerator gameObjectGenerator;
+        
         RoadandCrossingGenerator objGen;
         // ------- Instantinate Objects
-        public GameObject cameracar;
-        public Vehicles car;
-        public GameObject blockgenerator;
-
+        public Vehicles vehicles;
         public bool VisualGraph = false;
         public bool VisualRoads = false;
         public bool makecars = true;
@@ -28,15 +22,17 @@ namespace Assets.Scripts.AdvancedCity
         private List<Crossing> crossings = null;
         void Start()
         {
-            Debug.Log("Start Generating");
-            // ------------ Generate Graph -----------
+            GraphGenerator graphGen = GetComponent<GraphGenerator>();
+            if (graphGen == null) return;
+            if (!graphGen.isActiveAndEnabled) return;
+            
             List<GraphPoint> points = graphGen.GenerateGraph();
             if (VisualGraph)
                 graphGen.Visualization01(depthtest);
 
-            
-            GameObject instant = Instantiate(blockgenerator);
-            gameObjectGenerator = instant.GetComponent<GameObjectGenerator>();
+            GameObjectGenerator gameObjectGenerator = GetComponent<GameObjectGenerator>();
+            if (gameObjectGenerator == null) return;
+            if (!gameObjectGenerator.isActiveAndEnabled) return;
 
             objGen = new RoadandCrossingGenerator();
             if (gameObjectGenerator != null)
@@ -55,11 +51,11 @@ namespace Assets.Scripts.AdvancedCity
         void GenerateCars()
         {
             List<GameObject> cars = new List<GameObject>();
-            if (cameracar != null) cars.Add(Instantiate(cameracar));
+            if (vehicles.cameraCar != null) cars.Add(Instantiate(vehicles.cameraCar));
             for (int i = 0; i < cars_number; i++)
             {
                 
-                cars.Add(car.Car);
+                cars.Add(vehicles.Car);
             }
             objGen.SetCarsStartingPosition(cars.ToArray());
             

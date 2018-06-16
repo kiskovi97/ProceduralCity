@@ -9,7 +9,7 @@ namespace Assets.Scripts.AdvancedCity
     {
         public List<GameObject> cars;
         public List<GameObject> trailers;
-        
+        public GameObject cameraCar;
         public GameObject Car {
             get
             {

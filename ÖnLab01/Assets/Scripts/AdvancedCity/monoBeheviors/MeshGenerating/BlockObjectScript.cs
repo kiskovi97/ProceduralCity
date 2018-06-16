@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 [RequireComponent(typeof(MeshFilter))]
+[RequireComponent(typeof(RoadGeneratingValues))]
 public class BlockObjectScript : MonoBehaviour {
 
     public BuildingAssetStore assetstore;
-    public RoadGeneratingValues values;
+    private RoadGeneratingValues values;
     public bool HighRes = false;
     public bool Kitoltendo = false;
     public int FloorMaterialStart = 2;
@@ -29,7 +30,7 @@ public class BlockObjectScript : MonoBehaviour {
     Mesh mesh;
     List<Material> materials;
     bool ok = true;
-   
+
     public void Clear()
     {
         utak.Clear();
@@ -52,8 +53,13 @@ public class BlockObjectScript : MonoBehaviour {
    
     List<List<int>> subTriangles;
     List<Vector2> myUV = new List<Vector2>();
+    public void  addValues(RoadGeneratingValues inputvalues)
+    {
+        values = inputvalues;
+    }
     public void GenerateBlockMesh(List<Vector3> loading)
     {
+        
         subTriangles = new List<List<int>>();
         mesh = GetComponent<MeshFilter>().mesh;
         materials = new List<Material>();

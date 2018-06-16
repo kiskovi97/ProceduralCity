@@ -4,8 +4,10 @@ using System.Linq;
 using System.Text;
 using System;
 
+
 namespace Assets.Scripts.AdvancedCity
 {
+    [RequireComponent(typeof(RoadGeneratingValues))]
     class GameObjectGenerator : MonoBehaviour
     {
         public GameObject blockObject;
@@ -45,6 +47,9 @@ namespace Assets.Scripts.AdvancedCity
                 GameObject real = Instantiate(blockObject);
                 BlockObjectScript blockscript = real.GetComponent<BlockObjectScript>();
                 controlPoints.Reverse();
+                RoadGeneratingValues values = GetComponent<RoadGeneratingValues>();
+                if (values== null) throw  new System.Exception("No Values Connected");
+                blockscript.addValues(values);
                 blockscript.GenerateBlockMesh(controlPoints);
             }
         }

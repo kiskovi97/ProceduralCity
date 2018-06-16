@@ -19,7 +19,10 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4055480370328876}
-  - component: {fileID: 114629140681307542}
+  - component: {fileID: 114540087894697062}
+  - component: {fileID: 114702943412692204}
+  - component: {fileID: 114987458724125090}
+  - component: {fileID: 114441052606758114}
   m_Layer: 0
   m_Name: MainCityObject
   m_TagString: Untagged
@@ -40,7 +43,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114629140681307542
+--- !u!114 &114441052606758114
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -48,18 +51,81 @@ MonoBehaviour:
   m_GameObject: {fileID: 1171539287468024}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 315fd13c6c38d4242879b2aa8459e296, type: 3}
+  m_Script: {fileID: 11500000, guid: ad935ea22d8efbc47b1041e1e94fd62b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  graphGen: {fileID: 114666090558639912, guid: bb12cc9a8aa0a2745b2801e376728216, type: 2}
-  cameracar: {fileID: 1093404503131794, guid: db8e045877c880249afc4731db476876, type: 2}
-  car: {fileID: 114650428067430184, guid: 50080373056715741adae62dc014f21b, type: 2}
-  blockgenerator: {fileID: 1833306791391978, guid: 9af0cc289706ddc4187aedcd03993756,
-    type: 2}
-  VisualGraph: 1
-  VisualRoads: 1
+  sizeRatio: 10
+  size:
+    sizeRatio: 10
+    Sizes:
+    - -6
+    - -6
+    - 6
+    - 6
+  CollapseMainRoad: 1
+  CollapseSideRoad: 1
+  RoadSize: 0.1
+  MainRoadDistance: 1.5
+  SideRoadsDistance: 1.5
+  straightFreqMainRoad: 0.9
+  straightFreqSideRoad: 0.35
+  maxCrossings: 4
+  rotationRandomMainRoad: 0.2
+  rotationRandomSideRoad: 0
+  sideRoadFreq: 0.5
+  smootIntensity: 0.1
+  minHouseSize: 0.2
+  HouseUpminSize: 5
+  HouseUpmaxSize: 10
+  HouseDeepminSize: 0.2
+  HouseDeepmaxSize: 0.3
+  floorSize: 0.05
+--- !u!114 &114540087894697062
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1171539287468024}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d132fc11b2943c34da648261f9607dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  vehicles: {fileID: 114650428067430184, guid: 50080373056715741adae62dc014f21b, type: 2}
+  VisualGraph: 0
+  VisualRoads: 0
   makecars: 1
   helplines_draw: 1
   cars_number: 100
-  depthtest: 1
+  depthtest: 0
   makeblocks: 1
+--- !u!114 &114702943412692204
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1171539287468024}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6477ee5de29e7fa46b73619d4ae4885e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ControlPointsVisualationObject: {fileID: 1365869826836838, guid: f2abffc89d278154baa35c7c746742ee,
+    type: 2}
+  ReqursiveMax: 400
+  ReqursiveMaxS: 1000
+  DebugLines: 1
+--- !u!114 &114987458724125090
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1171539287468024}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7c9bf3862605c349b17da36777b1d80, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  blockObject: {fileID: 1179097907748356, guid: eacc2f1849964a542b7415cf3057fe9a,
+    type: 2}
+  roadObject: {fileID: 1268133786361746, guid: f1c58c83dae44f54baf3667b6de11860, type: 2}
