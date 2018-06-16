@@ -20,10 +20,6 @@ namespace Assets.Scripts.AdvancedCity
         {
             nextPoint = next;
         }
-        public void Start()
-        {
-
-        }
         void OnTriggerEnter(Collider other)
         {
             Vector3 toward = other.transform.position - transform.position;
@@ -39,8 +35,19 @@ namespace Assets.Scripts.AdvancedCity
         {
             stop = false;
         }
+
+        int stopTime = 0;
         public void Update()
         {
+            if (stop)
+            {
+                stopTime++;
+                if (stopTime > 400)
+                {
+                    stop = false;
+                    stopTime = 0;
+                }
+            } 
             if (nextPoint == null) return;
             float length = (nextPoint.center - transform.position).magnitude;
             if (length < 0.3f)
@@ -63,12 +70,14 @@ namespace Assets.Scripts.AdvancedCity
         }
         public void Move()
         {
-
             Vector3 toward = (nextPoint.center - transform.position);
             Vector3 newDir = Vector3.RotateTowards(transform.forward, toward, 0.1f, 0.0f);
+            float angle = Vector3.Angle(toward, transform.forward);
+            float slower;
+            if (angle < 5.0f) slower = 1.0f;
+            else slower = 1.0f / (angle*10.0f);
             transform.rotation = Quaternion.LookRotation(newDir);
-            transform.position += newDir.normalized * actualspeed * 0.01f;
-            
+            transform.position += newDir.normalized * actualspeed * 0.01f * slower;
         }
 
     }

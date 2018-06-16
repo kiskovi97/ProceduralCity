@@ -191,9 +191,6 @@ namespace Assets.Scripts.AdvancedCity
                 Neighbor szomszed = szomszedok[j];
                 int x = j + 1;
                 if (x >= szomszedok.Count) x = 0;
-                //Debug.DrawLine(szomszed.helpline.sideline[0], szomszed.helpline.sideline[1], Color.black, 1000, depthtest);
-                //Debug.DrawLine(szomszed.helpline.mainline[0], szomszed.helpline.mainline[1], Color.black, 1000, depthtest);
-                //Debug.DrawLine(szomszed.helpline.roadedgecross, center, Color.black, 1000, depthtest);
                 if (helplines_draw)
                 {
                     for (int i = 0; i < szomszed.carpath.felezo.Length; i++)
@@ -218,15 +215,20 @@ namespace Assets.Scripts.AdvancedCity
 
         }
         private int cars = 0;
+        private int kimenetIndex = 0;
         public bool AddVehicle(Vehicle car)
         {
             if (szomszedok == null) return false;
             if (szomszedok.Count > cars)
+            {
+                car.setPoint(szomszedok[cars].carpath.kimenet[kimenetIndex++]);
+                if (kimenetIndex>= szomszedok[cars].carpath.kimenet.Length)
                 {
-                    car.setPoint(szomszedok[cars].carpath.kimenet[0]);
                     cars++;
-                    return true;
+                    kimenetIndex = 0;
                 }
+                return true;
+            }
             return false;
         }
         public bool HavePlace()

@@ -7,25 +7,23 @@ namespace Assets.Scripts.AdvancedCity
 
     class RoadandCrossingGenerator
     {
+        float RoadSize = 0.05f;
         MyMath math = new MyMath();
         List<Crossing> crossings;
         List<Road> roads;
 
-        public List<Crossing> GenerateObjects(GameObjectGenerator generator, List<GraphPoint> points)
+        public List<Crossing> GenerateObjects(GameObjectGenerator generator, List<GraphPoint> controlPoints, float sizeRatio)
         {
-            List<GraphPoint> controlPoints = points;
             crossings = new List<Crossing>();
             roads = new List<Road>();
             for (int i = 0; i < controlPoints.Count; i++)
             {
                 GraphPoint point = controlPoints[i];
-                Crossing cros = new Crossing(point.position, point.isMainRoad(), generator);
-                crossings.Add(cros);
+                crossings.Add(new Crossing(point.position, point.isMainRoad(), generator));
             }
             for (int i = 0; i < controlPoints.Count; i++)
             {
-                GraphPoint point = controlPoints[i];
-                List<GraphPoint> szomszedok = point.Szomszedok;
+                List<GraphPoint> szomszedok = controlPoints[i].Szomszedok;
                 for (int j = 0; j < szomszedok.Count; j++)
                 {
                     int x = controlPoints.IndexOf(szomszedok[j]);
@@ -39,10 +37,10 @@ namespace Assets.Scripts.AdvancedCity
                     }
                 }
             }
-            MakeMovementPoint(points);
+            MakeMovementPoint(controlPoints, sizeRatio);
             return crossings;
         }
-        private void MakeMovementPoint(List<GraphPoint> controlPoints)
+        private void MakeMovementPoint(List<GraphPoint> controlPoints, float sizeRatio)
         {
             for (int x = 0; x < controlPoints.Count; x++)
             {
@@ -66,9 +64,14 @@ namespace Assets.Scripts.AdvancedCity
                     Vector3 elozo = szomszedok[i].position;
                     Vector3 kovetkezo = szomszedok[kov].position;
 
-                    float utelozo = 0.6f + ((!szomszedok[i].isSideRoad() && ezbool) ? 0.8f : 0.0f);
-                    float utekov = 0.6f + ((!szomszedok[kov].isSideRoad() && ezbool) ? 0.8f : 0.0f);
-                    float sidewalk = 0.4f;
+
+                    float utelozo = RoadSize * sizeRatio;
+                    if (!szomszedok[i].isSideRoad() && ezbool) utelozo += sizeRatio * RoadSize * 2;
+
+                    float utekov = RoadSize * sizeRatio;
+                    if (!szomszedok[kov].isSideRoad() && ezbool) utekov += sizeRatio * RoadSize * 2;
+                    float sidewalk = RoadSize * sizeRatio;
+
                     Vector3 merolegeselozo = math.Meroleges(ez, elozo).normalized * utelozo;
                     Vector3 merolegeskovetkezo = math.Meroleges(kovetkezo, ez).normalized * utekov;
                     Vector3 merolegeselozo_side = math.Meroleges(ez, elozo).normalized * (utelozo + sidewalk);

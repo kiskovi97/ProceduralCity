@@ -5,10 +5,12 @@ using UnityEngine;
 
 namespace Assets.Scripts.AdvancedCity
 {
+    [RequireComponent(typeof(RoadGeneratingValues))]
     class MainCityGenerator: MonoBehaviour
     {
         
         RoadandCrossingGenerator objGen;
+        RoadGeneratingValues values;
         // ------- Instantinate Objects
         public Vehicles vehicles;
         public bool VisualGraph = false;
@@ -22,6 +24,10 @@ namespace Assets.Scripts.AdvancedCity
         private List<Crossing> crossings = null;
         void Start()
         {
+            RoadGeneratingValues values = GetComponent<RoadGeneratingValues>();
+            if (values == null) return;
+            if (!values.isActiveAndEnabled) return;
+
             GraphGenerator graphGen = GetComponent<GraphGenerator>();
             if (graphGen == null) return;
             if (!graphGen.isActiveAndEnabled) return;
@@ -37,7 +43,7 @@ namespace Assets.Scripts.AdvancedCity
             objGen = new RoadandCrossingGenerator();
             if (gameObjectGenerator != null)
             {
-                crossings = objGen.GenerateObjects(gameObjectGenerator, points);
+                crossings = objGen.GenerateObjects(gameObjectGenerator, points, values.sizeRatio);
                 if (VisualRoads)
                     objGen.DrawRoads(helplines_draw, depthtest);
                 if (makeblocks)
