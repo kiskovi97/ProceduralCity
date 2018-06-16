@@ -57,12 +57,19 @@ namespace Assets.Scripts.AdvancedCity
         void GenerateCars()
         {
             List<GameObject> cars = new List<GameObject>();
-            if (vehicles.cameraCar != null) cars.Add(Instantiate(vehicles.cameraCar));
+            
             for (int i = 0; i < cars_number; i++)
             {
-                
+                if (i == 5   || (i==0 && cars_number >= 50))
+                {
+                    if (vehicles.cameraCar != null)
+                    {
+                        cars.Add(Instantiate(vehicles.cameraCar));
+                    }
+                }
                 cars.Add(vehicles.Car);
             }
+            
             objGen.SetCarsStartingPosition(cars.ToArray());
             
         }

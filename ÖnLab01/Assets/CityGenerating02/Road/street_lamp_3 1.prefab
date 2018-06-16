@@ -37,7 +37,6 @@ GameObject:
   - component: {fileID: 4351729774271264}
   - component: {fileID: 33032870632053602}
   - component: {fileID: 23064582364638250}
-  - component: {fileID: 95794464334105560}
   m_Layer: 0
   m_Name: street_lamp_3 1
   m_TagString: Untagged
@@ -85,6 +84,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 4294967295
   m_Materials:
   - {fileID: 2100000, guid: 66e7933ccacdb544883c93e68a76cc84, type: 2}
   - {fileID: 2100000, guid: d4a0fb29aa81c1b4abfcc4af5eab98b7, type: 2}
@@ -114,23 +114,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1528639543772244}
   m_Mesh: {fileID: 4300000, guid: 0a4e70f10d5ae9643878997861cd8b80, type: 3}
---- !u!95 &95794464334105560
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1528639543772244}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 0a4e70f10d5ae9643878997861cd8b80, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
 --- !u!108 &108862830084907050
 Light:
   m_ObjectHideFlags: 1

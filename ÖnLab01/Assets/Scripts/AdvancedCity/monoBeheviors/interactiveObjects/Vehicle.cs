@@ -50,7 +50,7 @@ namespace Assets.Scripts.AdvancedCity
             } 
             if (nextPoint == null) return;
             float length = (nextPoint.center - transform.position).magnitude;
-            if (length < 0.3f)
+            if (length < 0.1f)
             {
                 nextPoint = nextPoint.getNextPoint();
             }

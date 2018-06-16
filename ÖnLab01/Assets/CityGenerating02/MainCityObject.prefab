@@ -54,9 +54,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad935ea22d8efbc47b1041e1e94fd62b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sizeRatio: 10
+  sizeRatio: 6
   size:
-    sizeRatio: 10
+    sizeRatio: 6
     Sizes:
     - -6
     - -6
@@ -75,8 +75,8 @@ MonoBehaviour:
   sideRoadFreq: 0.5
   smootIntensity: 0.1
   minHouseSize: 0.2
-  HouseUpminSize: 5
-  HouseUpmaxSize: 10
+  HouseUpminSize: 1
+  HouseUpmaxSize: 25
   HouseDeepminSize: 0.2
   HouseDeepmaxSize: 0.3
   floorSize: 0.05
@@ -93,11 +93,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   vehicles: {fileID: 114650428067430184, guid: 50080373056715741adae62dc014f21b, type: 2}
   VisualGraph: 0
-  VisualRoads: 0
+  VisualRoads: 1
   makecars: 1
-  helplines_draw: 1
-  cars_number: 100
-  depthtest: 0
+  helplines_draw: 0
+  cars_number: 500
+  depthtest: 1
   makeblocks: 1
 --- !u!114 &114702943412692204
 MonoBehaviour:
