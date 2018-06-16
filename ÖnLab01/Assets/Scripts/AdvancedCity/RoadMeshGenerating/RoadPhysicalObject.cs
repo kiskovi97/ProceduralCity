@@ -15,7 +15,6 @@ public class RoadPhysicalObject : MonoBehaviour {
 
     // Szelso es Kozepso pontok
     Vector3 S1, S2, K1, K2;
-
     public void GenerateBlockMesh(Vector3 s1, Vector3 s2, Vector3 k1, Vector3 k2, int mat)
     {
         Vector2[] tomb =
@@ -66,13 +65,6 @@ public class RoadPhysicalObject : MonoBehaviour {
             Vector3 tmpK2 = K2 + irany2 * ControlPoints[i].x + fel * ControlPoints[i].y;
             Vector3 tmpS1 = K1 + irany1 * ControlPoints[i + 1].x + fel * ControlPoints[i + 1].y;
             Vector3 tmpS2 = K2 + irany2 * ControlPoints[i + 1].x + fel * ControlPoints[i + 1].y;
-            if (i == 0)
-            {
-                //GameObject obj = Instantiate(sideRoadObject, (tmpS1 + tmpS2) / 2, new Quaternion(0, 0, 0, 0));
-                //obj.transform.localScale-=new Vector3(0.5f, 0.5f, 0.5f);
-                //Vector3 irany = ((tmpK1 - tmpS1) + (tmpK2 - tmpS2)) / 2;
-                //obj.transform.rotation = Quaternion.LookRotation(irany);
-            }
             float hoszK = (K1-K2).magnitude*0.5f;
             float hoszS = (S1-S2).magnitude*0.5f;
             
@@ -116,9 +108,6 @@ public class RoadPhysicalObject : MonoBehaviour {
     public void CreateMesh()
     {
         if (meshVertexes == null) return;
-        
-
-       
         mesh.Clear();
         if (meshVertexes.Count < 3) return;
         mesh.vertices = meshVertexes.ToArray();

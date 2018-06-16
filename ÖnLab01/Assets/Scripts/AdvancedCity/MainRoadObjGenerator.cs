@@ -71,16 +71,12 @@ public class MainRoadObjGenerator{
                     Vector3 masikkereszt = math.Intersect(lista[i][3], (szomszed - ez).normalized, lista[i][1], lista[i][0] - lista[i][1]);
                     kor.Add(lista[i][1]);
                     kor.Add(masikkereszt);
-                    //Debug.DrawLine(lista[i][3], masikkereszt, Color.blue, 1000, false);
-                    //Debug.DrawLine(lista[i][1], masikkereszt, Color.green, 1000, false);
                 } else
                 {
                     Vector3 masikkereszt = math.Intersect(lista[i][1], (szomszed - ez).normalized, lista[i][3], lista[i][2] - lista[i][3]);
                     ute.Add(false);
                     kor.Add(lista[i][1]);
                     kor.Add(masikkereszt);
-                    //Debug.DrawLine(lista[i][1], masikkereszt, Color.blue, 1000, false);
-                    //Debug.DrawLine(lista[i][3], masikkereszt, Color.green, 1000, false);
                 }
             }
             for (int i=0; i<kor.Count; i++)
@@ -94,10 +90,6 @@ public class MainRoadObjGenerator{
                     Debug.DrawLine(kor[i], kor[kov], Color.blue, 1000, false);
                 else
                     Debug.DrawLine(kor[i], kor[kov], Color.green, 1000, false);
-                /*
-                    ute jelzi, hogy a kor listaban az elso vagy masdik ut amelyik az ut resze 
-                    a masik fele a kiegeszito resz
-                */
             }
         }
     }
@@ -124,10 +116,6 @@ public class MainRoadObjGenerator{
                 GenerateCircle(road, second, false);
             }
         }
-        //foreach (List<RoadNode> circle in circles)
-        //{
-        //    MakeABlock(circle);
-        //}
         return circles;
     }
     // Search for a new Circle
@@ -189,8 +177,6 @@ public class MainRoadObjGenerator{
         if (j == egyik.Count) return true;
         return false;
     }
-
-
     public void MakeABlock(List<RoadNode> circle)
     {
         GameObject ki = Object.Instantiate(blockObject);
@@ -296,7 +282,6 @@ public class MainRoadObjGenerator{
 
         //return A;
     }
-
     Vector3 Meroleges(Vector3 actual_point, Vector3 next_point)
     {
         Vector3 next_irany = (next_point - actual_point).normalized;

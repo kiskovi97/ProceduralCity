@@ -19,9 +19,9 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4675841149495234}
-  - component: {fileID: 114824603472421362}
   - component: {fileID: 65701014509162460}
   - component: {fileID: 54064719870702550}
+  - component: {fileID: 114372714841448700}
   m_Layer: 0
   m_Name: MotorWithCamer
   m_TagString: Untagged
@@ -220,7 +220,7 @@ AudioListener:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1202824446951476}
   m_Enabled: 1
---- !u!114 &114824603472421362
+--- !u!114 &114372714841448700
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -228,10 +228,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1093404503131794}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 70c180080a88a8c42a308c12fa433ca2, type: 3}
+  m_Script: {fileID: 11500000, guid: 4f10dec762737304d964c946ab4167d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
+  speed: 10
 --- !u!124 &124123776784234358
 Behaviour:
   m_ObjectHideFlags: 1

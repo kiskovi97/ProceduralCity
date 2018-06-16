@@ -19,7 +19,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4055480370328876}
-  - component: {fileID: 114935856065417982}
+  - component: {fileID: 114629140681307542}
   m_Layer: 0
   m_Name: MainCityObject
   m_TagString: Untagged
@@ -40,7 +40,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114935856065417982
+--- !u!114 &114629140681307542
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -48,18 +48,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 1171539287468024}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e8b4e09f3893cc9409a11ceada1f5acb, type: 3}
+  m_Script: {fileID: 11500000, guid: 315fd13c6c38d4242879b2aa8459e296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  graphGen: {fileID: 114249100602707854, guid: bb12cc9a8aa0a2745b2801e376728216, type: 2}
+  graphGen: {fileID: 114666090558639912, guid: bb12cc9a8aa0a2745b2801e376728216, type: 2}
   cameracar: {fileID: 1093404503131794, guid: db8e045877c880249afc4731db476876, type: 2}
-  car: {fileID: 114953336449457774, guid: 50080373056715741adae62dc014f21b, type: 2}
+  car: {fileID: 114650428067430184, guid: 50080373056715741adae62dc014f21b, type: 2}
   blockgenerator: {fileID: 1833306791391978, guid: 9af0cc289706ddc4187aedcd03993756,
     type: 2}
-  VisualGraph: 0
+  VisualGraph: 1
   VisualRoads: 1
   makecars: 1
-  helplines_draw: 0
-  cars_number: 300
+  helplines_draw: 1
+  cars_number: 100
   depthtest: 1
   makeblocks: 1

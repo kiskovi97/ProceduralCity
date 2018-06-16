@@ -1,25 +1,19 @@
 ﻿
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using UnityEngine;
 
 namespace Assets.Scripts.AdvancedCity
 {
 
-    class ObjectGenerator
+    class RoadandCrossingGenerator
     {
         MyMath math = new MyMath();
-        List<GraphPoint> controlPoints;
         List<Crossing> crossings;
         List<Road> roads;
-        public ObjectGenerator(List<GraphPoint> points)
-        {
-            controlPoints = points;
-        }
 
-        public void GenerateObjects(GameObjectGenerator generator)
+        public List<Crossing> GenerateObjects(GameObjectGenerator generator, List<GraphPoint> points)
         {
+            List<GraphPoint> controlPoints = points;
             crossings = new List<Crossing>();
             roads = new List<Road>();
             for (int i = 0; i < controlPoints.Count; i++)
@@ -45,8 +39,10 @@ namespace Assets.Scripts.AdvancedCity
                     }
                 }
             }
+            MakeMovementPoint(points);
+            return crossings;
         }
-        public void GenerateRoadandCros()
+        private void MakeMovementPoint(List<GraphPoint> controlPoints)
         {
             for (int x = 0; x < controlPoints.Count; x++)
             {
@@ -145,48 +141,32 @@ namespace Assets.Scripts.AdvancedCity
                 cros.Draw(draw_helplines, depthtest);
             }
         }
-        public void MakeBlocks(GameObjectGenerator generator)
-        {
-            generator.GenerateBlocks(crossings);
-        }
-        public void CrossingSetup(GameObjectGenerator generator)
-        {
-            generator.SetScrossings(crossings);
-        }
-        public void CreateCars(GameObject[] cars)
-        {
 
+        public void SetCarsStartingPosition(GameObject[] cars)
+        {
             int i = 0;
             if (crossings == null) return;
-
             foreach (Crossing cros in crossings)
             {
-
+                Vehicle vehicle;
                 while (cros.HavePlace())
                 {
-                    Vehicle vehicle = cars[i].GetComponent<Vehicle>();
-                    if (i < cars.Length)
+                    if (i < cars.Length) vehicle = cars[i].GetComponent<Vehicle>();
+                    else return;
+                    if (cros.AddVehicle(vehicle))
                     {
-                        bool sikeres = cros.AddVehicle(vehicle);
-                        if (sikeres)
-                        {
-                            cars[i].transform.position = vehicle.nextPoint.center;
-                            i++;
-                            vehicle = cars[i].GetComponent<Vehicle>();
-                        }
+                        cars[i].transform.position = vehicle.nextPoint.center;
+                        i++;
                     }
-                    else break;
                 }
             }
             for (int j = i; j < cars.Length; j++)
             {
                 cars[j].transform.position += new Vector3(0, 10, 0);
                 GameObject.Destroy(cars[j]);
-                Debug.Log("Fasz");
             }
 
         }
         
-
     }
 }

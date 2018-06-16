@@ -113,24 +113,6 @@ namespace Assets.Scripts.AdvancedCity
             roadobj.GenerateBlockMesh(a, b, c, d, mat);
             roadobj.CreateMesh();
         }
-        int i = 1;
-        void Update()
-        {
-            i++;
-            if (i%100 == 0)
-            {
-                foreach(Crossing cros in roads)
-                {
-                    cros.Valt();
-                }
-                i = 1;
-                Debug.Log("Valtott");
-            }
-        }
-
-        internal void SetScrossings(List<Crossing> crossings)
-        {
-            roads = crossings;
-        }
+        
     }
 }
