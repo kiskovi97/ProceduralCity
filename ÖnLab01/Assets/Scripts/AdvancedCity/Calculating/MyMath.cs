@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.AdvancedCity
 {
-    class MyMath
+    public class MyMath
     {
         public MyMath()
         {
@@ -28,6 +28,12 @@ namespace Assets.Scripts.AdvancedCity
             Quaternion rotation = Quaternion.Euler(0, 90, 0);
             Vector3 meroleges = (rotation * next_irany).normalized;
             return meroleges;
+        }
+
+        public static float Area(Vector3 a, Vector3 b, Vector3 c)
+        {
+            return Mathf.Abs((a.x * b.z + b.x * c.z + c.x * a.z
+                - a.z * b.x - b.z * c.x - c.z * a.x) / 2.0f);
         }
 
     }
