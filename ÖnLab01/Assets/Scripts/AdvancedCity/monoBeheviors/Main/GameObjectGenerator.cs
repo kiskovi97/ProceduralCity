@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System;
-
+using System.Collections;
 
 namespace Assets.Scripts.AdvancedCity
 {
@@ -34,11 +34,16 @@ namespace Assets.Scripts.AdvancedCity
                     GenerateCircle(cros, second, false);
                 }
             }
+            StartCoroutine(GenerateFromCircles());
+            
+        }
 
+        IEnumerator GenerateFromCircles()
+        {
             foreach (List<Crossing> circle in circles)
             {
                 List<Vector3> controlPoints = new List<Vector3>();
-                for (int i=0; i< circle.Count; i++)
+                for (int i = 0; i < circle.Count; i++)
                 {
                     int x = i + 1;
                     if (x > circle.Count - 1) x = 0;
@@ -48,9 +53,10 @@ namespace Assets.Scripts.AdvancedCity
                 BlockObjectScript blockscript = real.GetComponent<BlockObjectScript>();
                 controlPoints.Reverse();
                 RoadGeneratingValues values = GetComponent<RoadGeneratingValues>();
-                if (values== null) throw  new System.Exception("No Values Connected");
+                if (values == null) throw new System.Exception("No Values Connected");
                 blockscript.addValues(values);
                 blockscript.GenerateBlockMesh(controlPoints);
+                yield return new WaitForSeconds(0.2f);
             }
         }
 

@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(RoadGeneratingValues))]
 public class TestBlockGenerating : MonoBehaviour {
 
     public List<GameObject> vertexObjects;
+    private RoadGeneratingValues values;
     private bool update = false;
     public bool something = false;
     public GameObject blockObject;
@@ -12,6 +14,13 @@ public class TestBlockGenerating : MonoBehaviour {
     BlockObjectScript bos;
     // Use this for initialization
     void Start () {
+        if (values == null)
+        {
+            values = GetComponent<RoadGeneratingValues>();
+            if (values == null || !values.isActiveAndEnabled) throw new System.Exception("Need Values");
+            
+        }
+        
         actual = GameObject.Instantiate(blockObject);
         bos = actual.GetComponent<BlockObjectScript>();
         List<Vector3> vertexes = new List<Vector3>();
@@ -25,6 +34,7 @@ public class TestBlockGenerating : MonoBehaviour {
             kozeppont += road.transform.position;
         }
         kozeppont /= vertexes.Count;
+        bos.addValues(values);
         bos.GenerateBlockMesh(vertexes);
         update = true;
     }

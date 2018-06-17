@@ -136,6 +136,7 @@ namespace Assets.Scripts.AdvancedCity
 
         public void Valt()
         {
+            if (szomszedok.Count < 3) return;
             foreach (Neighbor szomszed in szomszedok)
             {
                 foreach (MovementPoint point in szomszed.carpath.bemenet)
@@ -170,7 +171,8 @@ namespace Assets.Scripts.AdvancedCity
                     int a = (1 + j * 2);
                     int b = thissavok * 4 - a;
                     carpath.bemenet[j] = new MovementPoint((line[0] * a + line[1] * b) / (thissavok * 4));
-                    carpath.bemenet[j].Nyitott(false);
+                    if (szomszedok.Count > 2) 
+                        carpath.bemenet[j].Nyitott(false);
                     carpath.kimenet[j] = new MovementPoint((line[0] * b + line[1] * a) / (thissavok * 4));
                 }
                 for (int j = 0; j < thatsavok; j++)

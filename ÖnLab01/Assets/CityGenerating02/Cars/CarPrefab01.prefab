@@ -53,7 +53,7 @@ GameObject:
   - component: {fileID: 4936437242962398}
   - component: {fileID: 65648615247085288}
   - component: {fileID: 54149596203974150}
-  - component: {fileID: 114956167189491370}
+  - component: {fileID: 114580817467115248}
   m_Layer: 0
   m_Name: CarPrefab01
   m_TagString: Untagged
@@ -117,7 +117,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100024, guid: 9c1cdde653e67d145929e5f8e4d14f09, type: 3}
+  - {fileID: 2100018, guid: 9c1cdde653e67d145929e5f8e4d14f09, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -143,7 +143,7 @@ MeshFilter:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1494764842183486}
-  m_Mesh: {fileID: 4300024, guid: 9c1cdde653e67d145929e5f8e4d14f09, type: 3}
+  m_Mesh: {fileID: 4300018, guid: 9c1cdde653e67d145929e5f8e4d14f09, type: 3}
 --- !u!54 &54149596203974150
 Rigidbody:
   m_ObjectHideFlags: 1
@@ -171,7 +171,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.20358047, y: 0.2719568, z: 0.48115638}
   m_Center: {x: -0.001917392, y: 0.1633032, z: 0.10596718}
---- !u!114 &114956167189491370
+--- !u!114 &114580817467115248
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -179,7 +179,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1947337989532640}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f10dec762737304d964c946ab4167d4, type: 3}
+  m_Script: {fileID: 11500000, guid: b44d2e014f2c46b4a9f85ae615cac416, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 10

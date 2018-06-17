@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 [RequireComponent(typeof(MeshFilter))]
-[RequireComponent(typeof(RoadGeneratingValues))]
+[RequireComponent(typeof(BuildingAssetStore))]
 public class BlockObjectScript : MonoBehaviour {
 
-    public BuildingAssetStore assetstore;
+    private BuildingAssetStore assetstore;
     private RoadGeneratingValues values;
     public bool HighRes = false;
     public bool Kitoltendo = false;
@@ -31,6 +31,11 @@ public class BlockObjectScript : MonoBehaviour {
     List<Material> materials;
     bool ok = true;
 
+    public void Start()
+    {
+        
+    }
+
     public void Clear()
     {
         utak.Clear();
@@ -49,7 +54,6 @@ public class BlockObjectScript : MonoBehaviour {
     
     List<Vector3> controlPoints = new List<Vector3>();
     List<Vector3> meshVertexes = new List<Vector3>();
-    //List<int> triangles = new List<int>();
    
     List<List<int>> subTriangles;
     List<Vector2> myUV = new List<Vector2>();
@@ -59,7 +63,8 @@ public class BlockObjectScript : MonoBehaviour {
     }
     public void GenerateBlockMesh(List<Vector3> loading)
     {
-        
+        assetstore = GetComponent<BuildingAssetStore>();
+        if (assetstore == null || !assetstore.isActiveAndEnabled) throw new System.Exception("No Building asset Component");
         subTriangles = new List<List<int>>();
         mesh = GetComponent<MeshFilter>().mesh;
         materials = new List<Material>();
@@ -135,6 +140,7 @@ public class BlockObjectScript : MonoBehaviour {
 
     void MakeBox(Vector3 A, Vector3 B, Vector3 C, Vector3 D)
     {
+        
         if (!HighRes)
         {
             MakeBoxTextured(A, B, C, D);
@@ -183,11 +189,12 @@ public class BlockObjectScript : MonoBehaviour {
     int MakeBoxTextured(Vector3 A, Vector3 B, Vector3 C, Vector3 D)
     {
         float max = (Random.value * (values.HouseUpmax - values.HouseUpmin) + values.HouseUpmin);
+        float groundPlus = 0.4f * values.floor;
         int floorCount = (int)max;
         int color = (int)(Random.value * (FloorMaterialStart - 1)) + 1;
 
 
-        Vector3 up = new Vector3(0, values.floor, 0);
+        Vector3 up = new Vector3(0, values.floor + groundPlus, 0);
         Vector3 down = new Vector3(0, 0, 0);
         //down
         AddRectangle(A + down, B + down, C + down, D + down, 0);
@@ -208,8 +215,8 @@ public class BlockObjectScript : MonoBehaviour {
 
         for (int i = 1; i < floorCount; i++)
         {
-            up = new Vector3(0, values.floor * (i + 1), 0);
-            down = new Vector3(0, values.floor * i, 0);
+            up = new Vector3(0, values.floor * (i + 1) + groundPlus, 0);
+            down = new Vector3(0, values.floor * i + groundPlus, 0);
             //down
             AddRectangle(A + down, B + down, C + down, D + down, 0);
             //front
@@ -276,6 +283,7 @@ public class BlockObjectScript : MonoBehaviour {
         finalMesh.Clear();
         List<CombineInstance> combiners = new List<CombineInstance>();
         Matrix4x4 ourMatrix = parentObj.transform.localToWorldMatrix;
+        //ourMatrix = Matrix4x4.identity;
         for (int i = 0; i < filters.Length; i++)
         {
             CombineInstance tmp = new CombineInstance();
@@ -288,9 +296,11 @@ public class BlockObjectScript : MonoBehaviour {
         parentObj.GetComponent<MeshFilter>().mesh.Clear();
         finalMesh.CombineMeshes(combiners.ToArray());
         parentObj.GetComponent<MeshFilter>().sharedMesh = finalMesh;
-
-        parentObj.GetComponent<MeshRenderer>().materials = objs[0].GetComponent<MeshRenderer>().materials;
-        Debug.Log("name: " + objs[0].GetComponent<MeshRenderer>().materials[0].name);
+        if (objs.Count > 0)
+        {
+            parentObj.GetComponent<MeshRenderer>().materials = objs[0].GetComponent<MeshRenderer>().materials;
+            Debug.Log("name: " + objs[0].GetComponent<MeshRenderer>().materials[0].name);
+        }
         foreach (GameObject obj in objs)
         {
             GameObject.Destroy(obj, 0.1f);

@@ -38,7 +38,7 @@ GameObject:
   - component: {fileID: 4284663512969132}
   - component: {fileID: 65379618604043772}
   - component: {fileID: 54707586320499608}
-  - component: {fileID: 114781644861709094}
+  - component: {fileID: 114792085626871304}
   m_Layer: 0
   m_Name: CarPrefabWithCamera
   m_TagString: Untagged
@@ -246,7 +246,7 @@ AudioListener:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1943255876881632}
   m_Enabled: 1
---- !u!114 &114781644861709094
+--- !u!114 &114792085626871304
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -254,7 +254,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1785875336639370}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f10dec762737304d964c946ab4167d4, type: 3}
+  m_Script: {fileID: 11500000, guid: b44d2e014f2c46b4a9f85ae615cac416, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 10

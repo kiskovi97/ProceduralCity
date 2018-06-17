@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4289321120775904}
   - component: {fileID: 114218875295078360}
   m_Layer: 0
-  m_Name: BuildingAssetObject02
+  m_Name: TextureWithPlanes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -52,6 +52,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   windows:
-  - {fileID: 1611742421148098, guid: 038c3da65f946024fb386a1b887ba8d4, type: 2}
+  - {fileID: 1611742421148098, guid: c34b4b1e61a33de488cdf32e29ee343b, type: 2}
   walls:
-  - {fileID: 1611742421148098, guid: 038c3da65f946024fb386a1b887ba8d4, type: 2}
+  - {fileID: 1611742421148098, guid: 2d65af511da4eb54eb0db735f2d1e087, type: 2}
