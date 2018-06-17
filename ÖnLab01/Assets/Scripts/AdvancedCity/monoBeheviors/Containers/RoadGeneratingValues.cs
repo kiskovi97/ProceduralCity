@@ -4,51 +4,25 @@ using UnityEngine;
 
 public class RoadGeneratingValues : MonoBehaviour {
 
-    [System.Serializable]
-    public class Size
-    {
-        public float sizeRatio = 10;
-        public float[] Sizes =
+    [Header("Size of the city")]
+    public float[] Sizes =
         {
-            -10,
-            -10,
-            10,
-            10
+            -10, -10,  10, 10
         };
-        public float xMin
-        {
-            get
-            {
-                return Sizes[0] * sizeRatio;
-            }
-        }
-        public float zMin
-        {
-            get
-            {
-                return Sizes[1] * sizeRatio;
-            }
-        }
-        public float xMax
-        {
-            get
-            {
-                return Sizes[2] * sizeRatio;
-            }
-        }
-        public float zMax
-        {
-            get
-            {
-                return Sizes[3] * sizeRatio;
-            }
-        }
+    public Vector3 StartingPoint()
+    {
+        return new Vector3(0, 0, Sizes[1] * sizeRatio + 2);
     }
+    public bool PalyanBelulVane(Vector3 position)
+    {
+        return !(position.x < Sizes[0] * sizeRatio || position.x > Sizes[2] * sizeRatio
+              || position.z < Sizes[1] * sizeRatio || position.z > Sizes[3] * sizeRatio);
+    }
+
     [Header("Size of the city")]
     public float sizeRatio = 10;
     [Space(10)]
-    [Header("Size of the city")]
-    public Size size;
+    
     [Space(10)]
     [Header("Two Point collapse, when its this close")]
     public float CollapseMainRoad = 0.5f;

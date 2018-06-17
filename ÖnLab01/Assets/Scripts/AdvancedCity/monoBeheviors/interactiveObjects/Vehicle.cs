@@ -9,7 +9,7 @@ namespace Assets.Scripts.AdvancedCity
     {
 
         public MovementPoint nextPoint;
-        private float actualspeed = 10.0f;
+        protected float actualspeed = 10.0f;
         public void setPoint(MovementPoint next)
         {
             nextPoint = next;

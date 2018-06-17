@@ -60,7 +60,7 @@ namespace Assets.Scripts.AdvancedCity
             
             for (int i = 0; i < cars_number; i++)
             {
-                if (i == 5   || (i==0 && cars_number >= 50))
+                if ((i == 5 && cars_number > 50)   || (i==0 && cars_number <= 50))
                 {
                     if (vehicles.cameraCar != null)
                     {

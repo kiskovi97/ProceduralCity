@@ -53,6 +53,29 @@ namespace Assets.Scripts.AdvancedCity
             }
             return kimenet;
         }
+        public void Visualization01(bool depthtest)
+        {
+            foreach (InteractiveGraphPoint road in roads)
+            {
+                if (ControlPointsVisualationObject != null)
+                {
+                    GameObject ki = Instantiate(ControlPointsVisualationObject);
+                    ki.transform.position = road.position;
+                }
+                road.DrawLines(Color.red, depthtest);
+            }
+            foreach (InteractiveGraphPoint road in sideroads)
+            {
+                if (ControlPointsVisualationObject != null)
+                {
+                    GameObject ki = Instantiate(ControlPointsVisualationObject);
+                    ki.transform.position = road.position;
+                }
+                road.DrawLines(Color.yellow, depthtest);
+            }
+
+        }
+
         void ClearStart()
         {
             roads.Clear();
@@ -69,8 +92,7 @@ namespace Assets.Scripts.AdvancedCity
         void GeneratingMainRoads()
         {
             InteractiveGraphPoint elso = new InteractiveGraphPoint();
-            elso.position =
-                new Vector3(0, 0, values.size.zMin + 2);
+            elso.position = values.StartingPoint();
             roads.Add(elso);
 
             for (int i = 0; i < ReqursiveMax && i < roads.Count; i++)
@@ -132,7 +154,7 @@ namespace Assets.Scripts.AdvancedCity
         bool Ellenorzes(GraphPoint current_road, GraphPoint newroad, bool Javitassal)
         {
 
-            if (!PalyanBelulVane(newroad)) return false;
+            if (!values.PalyanBelulVane(newroad.position)) return false;
 
             foreach (GraphPoint other_road in sideroads)
             {
@@ -209,11 +231,7 @@ namespace Assets.Scripts.AdvancedCity
 
             return true;
         }
-        bool PalyanBelulVane(GraphPoint r)
-        {
-            return !(r.position.x < values.size.xMin || r.position.x > values.size.xMax
-                  || r.position.z < values.size.zMin || r.position.z > values.size.zMax);
-        }
+        
 
         void SmoothGraph()
         {
@@ -226,28 +244,7 @@ namespace Assets.Scripts.AdvancedCity
                 road.Smooth(values.smootIntensity);
             }
         }
-        public void Visualization01(bool depthtest)
-        {
-            foreach (InteractiveGraphPoint road in roads)
-            {
-                if (ControlPointsVisualationObject != null)
-                {
-                    GameObject ki = Instantiate(ControlPointsVisualationObject);
-                    ki.transform.position = road.position;
-                }
-                road.DrawLines(Color.red, depthtest);
-            }
-            foreach (InteractiveGraphPoint road in sideroads)
-            {
-                if (ControlPointsVisualationObject != null)
-                {
-                    GameObject ki = Instantiate(ControlPointsVisualationObject);
-                    ki.transform.position = road.position;
-                }
-                road.DrawLines(Color.yellow, depthtest);
-            }
-
-        }
+       
     }
 }
 

@@ -12,7 +12,6 @@ namespace Assets.Scripts.AdvancedCity.monoBeheviors.interactiveObjects
             
         }
         public float speed = 10.0f;
-        private float actualspeed = 2.0f;
         bool stop = false;
         void OnTriggerEnter(Collider other)
         {
