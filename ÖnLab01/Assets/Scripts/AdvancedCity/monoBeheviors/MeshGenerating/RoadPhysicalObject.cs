@@ -12,6 +12,7 @@ public class RoadPhysicalObject : MonoBehaviour {
     List<List<int>> subTriangles;
     List<Vector2> myUV = new List<Vector2>();
     List<Material> materials;
+    
 
     // Szelso es Kozepso pontok
     Vector3 S1, S2, K1, K2;
@@ -40,6 +41,8 @@ public class RoadPhysicalObject : MonoBehaviour {
     bool AddTriangle(Vector3 A, Vector3 B, Vector3 C, int mat)
     {
         if (A == B || B == C || C == A) return false;
+        float area= Assets.Scripts.AdvancedCity.MyMath.Area(A, B, C);
+        if (area < 0.0001f) return false;
         subTriangles[mat].Add(meshVertexes.Count);
         meshVertexes.Add(A);
 
@@ -109,7 +112,11 @@ public class RoadPhysicalObject : MonoBehaviour {
     {
         if (meshVertexes == null) return;
         mesh.Clear();
-        if (meshVertexes.Count < 3) return;
+        if (meshVertexes.Count < 3)
+        {
+            Destroy(this.gameObject, 0.1f);
+            return;
+        }
         mesh.vertices = meshVertexes.ToArray();
         mesh.subMeshCount = subTriangles.Count;
         for (int i = 0; i < subTriangles.Count; i++)

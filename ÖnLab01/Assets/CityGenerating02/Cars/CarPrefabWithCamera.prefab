@@ -57,6 +57,7 @@ GameObject:
   - component: {fileID: 20337927873594362}
   - component: {fileID: 124444990124787812}
   - component: {fileID: 81387709487129746}
+  - component: {fileID: 114255496580641500}
   m_Layer: 0
   m_Name: Camera
   m_TagString: Untagged
@@ -237,8 +238,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.20358047, y: 0.2719568, z: 0.48115638}
-  m_Center: {x: -0.001917392, y: 0.1633032, z: 0.10596718}
+  m_Size: {x: 0.20358047, y: 0.12787712, z: 0.36560717}
+  m_Center: {x: -0.001917392, y: 0.091263354, z: 0.06322919}
 --- !u!81 &81387709487129746
 AudioListener:
   m_ObjectHideFlags: 1
@@ -246,6 +247,18 @@ AudioListener:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1943255876881632}
   m_Enabled: 1
+--- !u!114 &114255496580641500
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1943255876881632}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff26db721962cdf4a8edcdfa9a767d2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  profile: {fileID: 11400000, guid: aed47bf7e268a1a439a6c9f8be46bf74, type: 2}
 --- !u!114 &114792085626871304
 MonoBehaviour:
   m_ObjectHideFlags: 1
