@@ -101,7 +101,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a95e73b593757d249b4bc117523d76da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HighRes: 1
+  HighRes: 0
   Kitoltendo: 0
   FloorMaterialStart: 3
   WindowSize: 0.3
@@ -120,5 +120,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   windows:
   - {fileID: 1611742421148098, guid: c34b4b1e61a33de488cdf32e29ee343b, type: 2}
+  - {fileID: 1611742421148098, guid: 83269190a750668479f809efb97ce494, type: 2}
   walls:
   - {fileID: 1611742421148098, guid: 2d65af511da4eb54eb0db735f2d1e087, type: 2}

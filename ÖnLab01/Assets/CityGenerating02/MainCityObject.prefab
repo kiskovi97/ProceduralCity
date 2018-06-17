@@ -58,25 +58,25 @@ MonoBehaviour:
   size:
     sizeRatio: 6
     Sizes:
-    - -5
-    - -5
-    - 5
-    - 5
+    - -4
+    - -4
+    - 4
+    - 4
   CollapseMainRoad: 1
   CollapseSideRoad: 1
   RoadSize: 0.1
-  MainRoadDistance: 1.5
-  SideRoadsDistance: 1.5
+  MainRoadDistance: 1.1
+  SideRoadsDistance: 1.1
   straightFreqMainRoad: 0.9
-  straightFreqSideRoad: 0.607
+  straightFreqSideRoad: 0.327
   maxCrossings: 4
   rotationRandomMainRoad: 0.2
   rotationRandomSideRoad: 0
   sideRoadFreq: 0.5
   smootIntensity: 0.1
   minHouseSize: 0.2
-  HouseUpminSize: 1
-  HouseUpmaxSize: 10
+  HouseUpminSize: 2
+  HouseUpmaxSize: 15
   HouseDeepminSize: 0.2
   HouseDeepmaxSize: 0.3
   floorSize: 0.05
