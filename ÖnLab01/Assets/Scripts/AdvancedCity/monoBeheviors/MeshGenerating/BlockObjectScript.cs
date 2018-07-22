@@ -367,8 +367,6 @@ public class BlockObjectScript : MonoBehaviour {
     
     KontrolPoint SarokPoint(KontrolPoint elozo, int index)
     {
-        
-
         Vector3 actual_point = controlPoints[index];
         Vector3 next_point;
         if (index + 1 < controlPoints.Count) next_point = controlPoints[index + 1];
@@ -379,7 +377,6 @@ public class BlockObjectScript : MonoBehaviour {
         float szog  = Vector3.SignedAngle(next_irany, elozo_irany,new Vector3(0,1,0));
         if (szog > 0 && 120 > szog)
         {
-            
             float hosz = (elozo.nextPoint - actual_point).magnitude;
             float newHouse = hosz / 2;
             if (values.minHouse < newHouse)

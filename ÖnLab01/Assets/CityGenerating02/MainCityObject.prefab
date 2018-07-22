@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 114702943412692204}
   - component: {fileID: 114987458724125090}
   - component: {fileID: 114441052606758114}
+  - component: {fileID: 114716519156173054}
   m_Layer: 0
   m_Name: MainCityObject
   m_TagString: Untagged
@@ -54,14 +55,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad935ea22d8efbc47b1041e1e94fd62b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Sizes:
+  - -5
+  - -5
+  - 5
+  - 5
   sizeRatio: 6
-  size:
-    sizeRatio: 6
-    Sizes:
-    - -4
-    - -4
-    - 4
-    - 4
   CollapseMainRoad: 1
   CollapseSideRoad: 1
   RoadSize: 0.1
@@ -76,7 +75,7 @@ MonoBehaviour:
   smootIntensity: 0.1
   minHouseSize: 0.2
   HouseUpminSize: 2
-  HouseUpmaxSize: 15
+  HouseUpmaxSize: 5
   HouseDeepminSize: 0.2
   HouseDeepmaxSize: 0.3
   floorSize: 0.05
@@ -115,6 +114,19 @@ MonoBehaviour:
   ReqursiveMax: 400
   ReqursiveMaxS: 1000
   DebugLines: 1
+--- !u!114 &114716519156173054
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1171539287468024}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee070f6f0b5abcd4aa5df39d67ec4b09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buildings:
+  - {fileID: 1863853056459178, guid: a21b284bd8ad58c47b2a4a260ac07dde, type: 2}
 --- !u!114 &114987458724125090
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -126,6 +138,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7c9bf3862605c349b17da36777b1d80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  blockObject: {fileID: 1107562295602554, guid: 82f6b5f9759c479479457bb9a79d5d4a,
-    type: 2}
   roadObject: {fileID: 1268133786361746, guid: f1c58c83dae44f54baf3667b6de11860, type: 2}

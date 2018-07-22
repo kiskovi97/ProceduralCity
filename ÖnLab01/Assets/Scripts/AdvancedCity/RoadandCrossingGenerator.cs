@@ -72,28 +72,28 @@ namespace Assets.Scripts.AdvancedCity
                     if (!szomszedok[kov].isSideRoad() && ezbool) utekov += sizeRatio * RoadSize * 2;
                     float sidewalk = RoadSize * sizeRatio;
 
-                    Vector3 merolegeselozo = math.Meroleges(ez, elozo).normalized * utelozo;
-                    Vector3 merolegeskovetkezo = math.Meroleges(kovetkezo, ez).normalized * utekov;
-                    Vector3 merolegeselozo_side = math.Meroleges(ez, elozo).normalized * (utelozo + sidewalk);
-                    Vector3 merolegeskovetkezo_side = math.Meroleges(kovetkezo, ez).normalized * (utekov + sidewalk);
+                    Vector3 merolegeselozo = MyMath.Meroleges(ez, elozo).normalized * utelozo;
+                    Vector3 merolegeskovetkezo = MyMath.Meroleges(kovetkezo, ez).normalized * utekov;
+                    Vector3 merolegeselozo_side = MyMath.Meroleges(ez, elozo).normalized * (utelozo + sidewalk);
+                    Vector3 merolegeskovetkezo_side = MyMath.Meroleges(kovetkezo, ez).normalized * (utekov + sidewalk);
 
-                    Vector3 kereszt = math.Intersect(
+                    Vector3 kereszt = MyMath.Intersect(
                         ez + merolegeselozo
                         , (elozo - ez).normalized
                         , ez + merolegeskovetkezo
                         , (kovetkezo - ez).normalized);
-                    Vector3 kereszt_side = math.Intersect(
+                    Vector3 kereszt_side = MyMath.Intersect(
                         ez + merolegeselozo_side
                         , (elozo - ez).normalized
                         , ez + merolegeskovetkezo_side
                         , (kovetkezo - ez).normalized);
                     sidewalks.Add(kereszt_side);
 
-                    Vector3 meroleges_elozo = math.Intersect(kereszt, merolegeselozo, ez, (elozo - ez).normalized);
+                    Vector3 meroleges_elozo = MyMath.Intersect(kereszt, merolegeselozo, ez, (elozo - ez).normalized);
                     lista[i][2] = meroleges_elozo;
                     lista[i][3] = kereszt;
 
-                    Vector3 meroleges_kov = math.Intersect(kereszt, merolegeskovetkezo, ez, (kovetkezo - ez).normalized);
+                    Vector3 meroleges_kov = MyMath.Intersect(kereszt, merolegeskovetkezo, ez, (kovetkezo - ez).normalized);
                     lista[kov][0] = meroleges_kov;
                     lista[kov][1] = kereszt;
                 }
@@ -111,7 +111,7 @@ namespace Assets.Scripts.AdvancedCity
                     if (r != null)
                         if (a > b)
                         {
-                            Vector3 masikkereszt = math.Intersect(lista[i][3], (szomszed - ez).normalized, lista[i][1], lista[i][0] - lista[i][1]);
+                            Vector3 masikkereszt = MyMath.Intersect(lista[i][3], (szomszed - ez).normalized, lista[i][1], lista[i][0] - lista[i][1]);
                             r.addLine(cros, masikkereszt, lista[i][1]);
                             Vector3[] line = { masikkereszt, lista[i][1] };
                             Vector3[] helpline = { lista[i][3], masikkereszt };
@@ -119,7 +119,7 @@ namespace Assets.Scripts.AdvancedCity
                         }
                         else
                         {
-                            Vector3 masikkereszt = math.Intersect(lista[i][1], (szomszed - ez).normalized, lista[i][3], lista[i][2] - lista[i][3]);
+                            Vector3 masikkereszt = MyMath.Intersect(lista[i][1], (szomszed - ez).normalized, lista[i][3], lista[i][2] - lista[i][3]);
                             Vector3[] line = { lista[i][3], masikkereszt };
                             Vector3[] helpline = { masikkereszt, lista[i][1] };
                             cros.AddLines(line, helpline, lista[i][1], sidewalks[elozo], r);

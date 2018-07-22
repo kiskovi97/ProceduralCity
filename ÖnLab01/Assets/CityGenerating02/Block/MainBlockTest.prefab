@@ -1,0 +1,113 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1850195047164416}
+  m_IsPrefabParent: 1
+--- !u!1 &1850195047164416
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4240821730541122}
+  - component: {fileID: 114138406922340426}
+  - component: {fileID: 114482276687391572}
+  - component: {fileID: 114046355533939180}
+  m_Layer: 0
+  m_Name: MainBlockTest
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4240821730541122
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1850195047164416}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 3.307273, y: 3.576207, z: -2.9277475}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114046355533939180
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1850195047164416}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee070f6f0b5abcd4aa5df39d67ec4b09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buildings:
+  - {fileID: 1263751605774330, guid: df4889e9470a40d4f81d238095d9be3b, type: 2}
+  - {fileID: 1863853056459178, guid: a21b284bd8ad58c47b2a4a260ac07dde, type: 2}
+--- !u!114 &114138406922340426
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1850195047164416}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab9b9e9d1bf28594f97fd59b3bcdd4fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  vertexObjects:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  buildingContainer: {fileID: 0}
+  something: 0
+--- !u!114 &114482276687391572
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1850195047164416}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad935ea22d8efbc47b1041e1e94fd62b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Sizes:
+  - -10
+  - -10
+  - 10
+  - 10
+  sizeRatio: 8
+  CollapseMainRoad: 0.5
+  CollapseSideRoad: 0.3
+  RoadSize: 0.1
+  MainRoadDistance: 2
+  SideRoadsDistance: 1
+  straightFreqMainRoad: 0.9
+  straightFreqSideRoad: 0.9
+  maxCrossings: 4
+  rotationRandomMainRoad: 0.2
+  rotationRandomSideRoad: 0
+  sideRoadFreq: 0.5
+  smootIntensity: 0.1
+  minHouseSize: 0.2
+  HouseUpminSize: 5
+  HouseUpmaxSize: 10
+  HouseDeepminSize: 0.2
+  HouseDeepmaxSize: 0.3
+  floorSize: 0.05

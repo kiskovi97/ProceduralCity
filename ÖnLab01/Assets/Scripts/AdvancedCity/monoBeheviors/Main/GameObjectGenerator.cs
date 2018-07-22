@@ -1,8 +1,5 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System;
 using System.Collections;
 
 namespace Assets.Scripts.AdvancedCity
@@ -10,10 +7,10 @@ namespace Assets.Scripts.AdvancedCity
     [RequireComponent(typeof(RoadGeneratingValues))]
     class GameObjectGenerator : MonoBehaviour
     {
-        public GameObject blockObject;
         public GameObject roadObject;
         List<Crossing> roads;
         List<List<Crossing>> circles;
+        BuildingContainer buildingContainer;
         
         public void GenerateBlocks(List<Crossing> crossings)
         {
@@ -23,6 +20,12 @@ namespace Assets.Scripts.AdvancedCity
             {
                 Debug.Log("ERROR Not initializaled Roads");
                 return ;
+            }
+            buildingContainer = GetComponent<BuildingContainer>();
+            if (buildingContainer == null)
+            {
+                Debug.Log("Need Building Container");
+                return;
             }
 
             if (roads.Count <= 0) return;
@@ -49,13 +52,12 @@ namespace Assets.Scripts.AdvancedCity
                     if (x > circle.Count - 1) x = 0;
                     controlPoints.Add(circle[i].Kereszt(circle[x]));
                 }
-                GameObject real = Instantiate(blockObject);
-                BlockObjectScript blockscript = real.GetComponent<BlockObjectScript>();
+                BlockGenerator generator = new BlockGeneratorBasic();
                 controlPoints.Reverse();
                 RoadGeneratingValues values = GetComponent<RoadGeneratingValues>();
                 if (values == null) throw new System.Exception("No Values Connected");
-                blockscript.addValues(values);
-                blockscript.GenerateBlockMesh(controlPoints);
+                generator.SetValues(values);
+                generator.GenerateBuildings(controlPoints, buildingContainer);
                 yield return new WaitForSeconds(0.2f);
             }
         }

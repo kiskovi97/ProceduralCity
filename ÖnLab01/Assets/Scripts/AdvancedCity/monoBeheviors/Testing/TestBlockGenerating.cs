@@ -1,17 +1,17 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(RoadGeneratingValues))]
+[RequireComponent(typeof(BuildingContainer))]
 public class TestBlockGenerating : MonoBehaviour {
 
     public List<GameObject> vertexObjects;
     private RoadGeneratingValues values;
-    private bool update = false;
-    public bool something = false;
-    public GameObject blockObject;
+    public BuildingContainer buildingContainer;
+    private bool update = true;
+    public bool something = true;
     GameObject actual;
-    BlockObjectScript bos;
+    BlockGenerator generator;
     // Use this for initialization
     void Start () {
         if (values == null)
@@ -20,9 +20,12 @@ public class TestBlockGenerating : MonoBehaviour {
             if (values == null || !values.isActiveAndEnabled) throw new System.Exception("Need Values");
             
         }
-        
-        actual = GameObject.Instantiate(blockObject);
-        bos = actual.GetComponent<BlockObjectScript>();
+        if (buildingContainer == null)
+        {
+            buildingContainer = GetComponent<BuildingContainer>();
+            if (buildingContainer == null || !buildingContainer.isActiveAndEnabled) throw new System.Exception("Need BuildingContainer");
+        }
+        generator = new BlockGeneratorBasic();
         List<Vector3> vertexes = new List<Vector3>();
         foreach (GameObject road in vertexObjects)
         {
@@ -34,8 +37,8 @@ public class TestBlockGenerating : MonoBehaviour {
             kozeppont += road.transform.position;
         }
         kozeppont /= vertexes.Count;
-        bos.addValues(values);
-        bos.GenerateBlockMesh(vertexes);
+        generator.SetValues(values);
+        generator.GenerateBuildings(vertexes, buildingContainer);
         update = true;
     }
 	
@@ -54,7 +57,7 @@ public class TestBlockGenerating : MonoBehaviour {
             }
             if (update)
             {
-                bos.Clear();
+                generator.Clear();
                 List<Vector3> vertexes = new List<Vector3>();
                 foreach (GameObject road in vertexObjects)
                 {
@@ -66,7 +69,7 @@ public class TestBlockGenerating : MonoBehaviour {
                     kozeppont += road.transform.position;
                 }
                 kozeppont /= vertexes.Count;
-                //bos.GenerateBlockMesh(vertexes);
+                generator.GenerateBuildings(vertexes, buildingContainer);
             }
         }
         

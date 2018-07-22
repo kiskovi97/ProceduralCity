@@ -41,7 +41,7 @@ public class RoadPhysicalObject : MonoBehaviour {
     bool AddTriangle(Vector3 A, Vector3 B, Vector3 C, int mat)
     {
         if (A == B || B == C || C == A) return false;
-        float area= Assets.Scripts.AdvancedCity.MyMath.Area(A, B, C);
+        float area= MyMath.Area(A, B, C);
         if (area < 0.0001f) return false;
         subTriangles[mat].Add(meshVertexes.Count);
         meshVertexes.Add(A);
