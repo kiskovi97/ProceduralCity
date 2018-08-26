@@ -154,5 +154,17 @@ namespace Assets.Scripts.AdvancedCity
             position += irany * intensity;
         }
 
+        public bool isDeadEnd()
+        {
+            return szomszedok == null || szomszedok.Count < 2;
+        }
+
+        public void removeFromSzomszed()
+        {
+            foreach (GraphPoint szomszed in szomszedok)
+            {
+                szomszed.removeSzomszed(this);
+            }
+        }
     }
 }

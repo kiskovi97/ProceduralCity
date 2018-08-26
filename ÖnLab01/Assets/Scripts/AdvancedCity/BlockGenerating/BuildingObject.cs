@@ -4,6 +4,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(MeshFilter))]
 public class BuildingObject : MonoBehaviour {
+    public Texture2D texture;
     MeshFilter meshfilter;
     Mesh mesh;
     List<Vector3> meshVertexes;
@@ -28,7 +29,12 @@ public class BuildingObject : MonoBehaviour {
     public void MakeBuilding(List<Vector3> kontrolpoints, int min, int max, float floor)
     {
         Start();
-        int floorNumber = (int)(Random.value * (max - min)) + min;
+        Color color = texture.GetPixel((int)(kontrolpoints[0].x * 10), (int)(kontrolpoints[0].z * 10));
+        float positionValue = (color.r* 7);
+        Debug.Log("color: "+ color.ToString());
+        // 
+        int floorNumber = (int)(Random.value * (max - min) * positionValue) + min;
+
         float magasMax = floorNumber * floor;
         Building building = new Building(kontrolpoints, floor, floorNumber);
         foreach (Triangle triangle in building.getTriangles())

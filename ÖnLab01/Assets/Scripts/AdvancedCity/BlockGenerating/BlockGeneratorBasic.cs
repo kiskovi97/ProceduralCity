@@ -113,6 +113,7 @@ class BlockGeneratorBasic : BlockGenerator
                     kontrolpoints.Add(nextDeep);
                     kontrolpoints.Add(nextHousePoint);
                     kontrolpoints.Add(vertexes[i]);
+                    kontrolpoints.Reverse();
                     elozoLine.Add(new KontrolLine(vertexes[i], elozoHousePoint));
                     nextLine.Add(new KontrolLine(vertexes[i], nextHousePoint));
                 }

@@ -28,7 +28,12 @@ namespace Assets.Scripts.AdvancedCity
             public Vector3 p;
             public Vector3 q;
         }
-        
+
+        List<InteractiveGraphPoint> roads = new List<InteractiveGraphPoint>();
+        List<InteractiveGraphPoint> sideroads = new List<InteractiveGraphPoint>();
+        // plus roads just for not to cross them
+        List<PlusEdge> plusroads = new List<PlusEdge>();
+
         void Start()
         {
             values = GetComponent<RoadGeneratingValues>();
@@ -40,6 +45,7 @@ namespace Assets.Scripts.AdvancedCity
             GeneratingMainRoads();
             GeneratingFirstSideRoads();
             GeneratingMoreSideRoads();
+            ClearDeadEnds();
             List<GraphPoint> kimenet = new List<GraphPoint>();
             foreach(InteractiveGraphPoint point in roads)
             {
@@ -82,12 +88,6 @@ namespace Assets.Scripts.AdvancedCity
             sideroads.Clear();
             plusroads.Clear();
         }
-
-        
-        List<InteractiveGraphPoint> roads = new List<InteractiveGraphPoint>();
-        List<InteractiveGraphPoint> sideroads = new List<InteractiveGraphPoint>();
-        // plus roads just for not to cross them
-        List<PlusEdge> plusroads = new List<PlusEdge>();
 
         void GeneratingMainRoads()
         {
@@ -181,7 +181,6 @@ namespace Assets.Scripts.AdvancedCity
                     {
                         if (KeresztEllenorzes(current_road.position, other_road.position))
                         {
-                            // -- Javitas --
                             current_road.csere(other_road, newroad);
                             other_road.addSzomszed(current_road);
                             plusroads.Add(new PlusEdge(current_road.position, other_road.position));
@@ -245,6 +244,41 @@ namespace Assets.Scripts.AdvancedCity
             }
         }
        
+        void ClearDeadEnds()
+        {
+            if (roads.Count == 0 && sideroads.Count == 0) return;
+            bool torles = false;
+            List<InteractiveGraphPoint> list = new List<InteractiveGraphPoint>();
+            foreach (InteractiveGraphPoint point in roads)
+            {
+                if (point.isDeadEnd())
+                {
+                    point.removeFromSzomszed();
+                    torles = true;
+                    list.Add(point);
+                }
+            }
+            foreach(InteractiveGraphPoint point in list)
+            {
+                roads.Remove(point);
+            }
+            list.Clear();
+            foreach (InteractiveGraphPoint point in sideroads)
+            {
+                if (point.isDeadEnd())
+                {
+                    point.removeFromSzomszed();
+                    torles = true;
+                    list.Add(point);
+                }
+            }
+            foreach (InteractiveGraphPoint point in list)
+            {
+                sideroads.Remove(point);
+            }
+            list.Clear();
+            if (torles) ClearDeadEnds();
+        }
     }
 }
 

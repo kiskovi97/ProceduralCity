@@ -18,27 +18,38 @@ class Building : GeneratorImpl
         {
             magasMax += floor * 1.5f;
         }
-        MakeRoof(kontrolpoints.ToArray(), new Vector3(0, magasMax, 0));
+        MakeRoof(kontrolpoints.ToArray(), new Vector3(0, magasMax, 0), (megHouse <= 0 || (floorNumber/2) < 1));
         if (megHouse > 0)
         {
             List<Vector3> newControlPoints = new List<Vector3>();
             newControlPoints.AddRange(kontrolpoints);
-            Vector3 kozeppont = new Vector3(0,0,0);
-            for (int i=0; i< newControlPoints.Count; i++)
+            int indexStart = (int) (Random.value * newControlPoints.Count);
+            int index2 = indexStart + 1;
+            int index3 = indexStart + 2;
+            int index4 = indexStart + 3;
+            if (index4 >= newControlPoints.Count)
             {
-                kozeppont += newControlPoints[i];
+                index4 = index4 - newControlPoints.Count;
+                if (index3 >= newControlPoints.Count)
+                {
+                    index3 = index3 - newControlPoints.Count;
+                    if (index2 >= newControlPoints.Count)
+                    {
+                        index2 = index2 - newControlPoints.Count;
+                    }
+                 }
             }
-            kozeppont = kozeppont * (1.0f / newControlPoints.Count);
+            newControlPoints[index2] = (newControlPoints[index2] * 3 + newControlPoints[indexStart]) / 4;
+            newControlPoints[index3] = (newControlPoints[index3] * 3 + newControlPoints[index4]) / 4;
             for (int i = 0; i < newControlPoints.Count; i++)
             {
-                newControlPoints[i] += (kozeppont - newControlPoints[i])*(1.0f/5.0f);
                 newControlPoints[i] += new Vector3(0, magasMax, 0);
             }
             generators.Add(new Building(newControlPoints, floor, floorNumber/2, megHouse-1, false));
         }
     }
 
-    private void MakeRoof(Vector3[] roofPoints, Vector3 up)
+    private void MakeRoof(Vector3[] roofPoints, Vector3 up, bool last)
     {
         List<Vector3> controlPoints = new List<Vector3>();
         controlPoints.AddRange(roofPoints);
@@ -46,6 +57,6 @@ class Building : GeneratorImpl
         {
             controlPoints[i] += up;
         }
-        elements.Add(new Roof(controlPoints));
+        elements.Add(new Roof(controlPoints, last));
     }
 }

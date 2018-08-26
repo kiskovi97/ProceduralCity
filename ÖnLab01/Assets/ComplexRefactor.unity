@@ -14,7 +14,7 @@ OcclusionCullingSettings:
 RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
-  m_Fog: 1
+  m_Fog: 0
   m_FogColor: {r: 0.7058824, g: 0.79215693, b: 0.8313726, a: 1}
   m_FogMode: 1
   m_FogDensity: 0.01
@@ -116,9 +116,9 @@ NavMeshSettings:
 --- !u!1 &1006902959
 GameObject:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
+  serializedVersion: 6
   m_Component:
   - component: {fileID: 1006902961}
   - component: {fileID: 1006902960}
@@ -132,7 +132,7 @@ GameObject:
 --- !u!108 &1006902960
 Light:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1006902959}
   m_Enabled: 1
@@ -159,6 +159,7 @@ Light:
     serializedVersion: 2
     m_Bits: 4294967295
   m_Lightmapping: 4
+  m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
@@ -168,7 +169,7 @@ Light:
 --- !u!4 &1006902961
 Transform:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1006902959}
   m_LocalRotation: {x: 0.40821788, y: -0.23456968, z: 0.10938163, w: 0.8754261}
@@ -181,9 +182,9 @@ Transform:
 --- !u!1 &1535575474
 GameObject:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
+  serializedVersion: 6
   m_Component:
   - component: {fileID: 1535575478}
   - component: {fileID: 1535575477}
@@ -198,7 +199,7 @@ GameObject:
 --- !u!23 &1535575476
 MeshRenderer:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1535575474}
   m_Enabled: 1
@@ -233,19 +234,19 @@ MeshRenderer:
 --- !u!33 &1535575477
 MeshFilter:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1535575474}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!4 &1535575478
 Transform:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1535575474}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.1, z: 0}
-  m_LocalScale: {x: 5.9573483, y: 5.9573517, z: 5.9573517}
+  m_LocalPosition: {x: 24.1, y: -0.01, z: 25.8}
+  m_LocalScale: {x: 9.437036, y: 5.9573517, z: 9.417382}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
@@ -289,42 +290,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 114441052606758114, guid: f22bf4b8f9d101740ab663cfe3ba5d0f,
-        type: 2}
-      propertyPath: Sizes.Array.data[0]
-      value: -5
-      objectReference: {fileID: 0}
-    - target: {fileID: 114441052606758114, guid: f22bf4b8f9d101740ab663cfe3ba5d0f,
-        type: 2}
-      propertyPath: Sizes.Array.data[1]
-      value: -5
-      objectReference: {fileID: 0}
-    - target: {fileID: 114441052606758114, guid: f22bf4b8f9d101740ab663cfe3ba5d0f,
-        type: 2}
-      propertyPath: Sizes.Array.data[2]
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 114441052606758114, guid: f22bf4b8f9d101740ab663cfe3ba5d0f,
-        type: 2}
-      propertyPath: Sizes.Array.data[3]
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 114987458724125090, guid: f22bf4b8f9d101740ab663cfe3ba5d0f,
-        type: 2}
-      propertyPath: blockObject
-      value: 
-      objectReference: {fileID: 1107562295602554, guid: 82f6b5f9759c479479457bb9a79d5d4a,
-        type: 2}
-    - target: {fileID: 114441052606758114, guid: f22bf4b8f9d101740ab663cfe3ba5d0f,
-        type: 2}
-      propertyPath: HouseUpmaxSize
-      value: 25
-      objectReference: {fileID: 0}
-    - target: {fileID: 114441052606758114, guid: f22bf4b8f9d101740ab663cfe3ba5d0f,
-        type: 2}
-      propertyPath: HouseUpminSize
-      value: 10
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 100100000, guid: f22bf4b8f9d101740ab663cfe3ba5d0f, type: 2}
-  m_IsPrefabParent: 0
+  m_SourcePrefab: {fileID: 100100000, guid: f22bf4b8f9d101740ab663cfe3ba5d0f, type: 2}
+  m_IsPrefabAsset: 0

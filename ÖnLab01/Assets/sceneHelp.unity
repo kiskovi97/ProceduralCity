@@ -954,6 +954,18 @@ Prefab:
       propertyPath: vertexObjects.Array.data[5]
       value: 
       objectReference: {fileID: 1801317032}
+    - target: {fileID: 114046355533939180, guid: 7b5f77ad40d3f5140a08068ecab1e244,
+        type: 2}
+      propertyPath: buildings.Array.data[1]
+      value: 
+      objectReference: {fileID: 1863853056459178, guid: d697f80d7f0d85e4caac13f0b312e419,
+        type: 2}
+    - target: {fileID: 114046355533939180, guid: 7b5f77ad40d3f5140a08068ecab1e244,
+        type: 2}
+      propertyPath: buildings.Array.data[0]
+      value: 
+      objectReference: {fileID: 1863853056459178, guid: d697f80d7f0d85e4caac13f0b312e419,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 7b5f77ad40d3f5140a08068ecab1e244, type: 2}
   m_IsPrefabParent: 0

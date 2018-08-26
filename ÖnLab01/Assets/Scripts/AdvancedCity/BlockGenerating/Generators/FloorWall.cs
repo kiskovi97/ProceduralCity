@@ -23,6 +23,6 @@ class FloorWall : GeneratorImpl
             elements.Add(new Window(LD + width * i, LU + width * i, LD + width * (i + 1), LU + width * (i + 1)));
             i++;
         }
-        elements.Add(new SimpleWall(RD - leftToRight * (leftOver / 2), RU - leftToRight * (leftOver / 2), RD, RU));
+        elements.Add(new SimpleWall(RU,RD,RU- leftToRight * (leftOver / 2), RD - leftToRight * (leftOver / 2)));
     }
 }
