@@ -5,12 +5,12 @@ using System.Text;
 
 namespace Assets.Scripts.AdvancedCity
 {
-    class Vehicle : MonoBehaviour
+    public class Vehicle : MonoBehaviour
     {
 
         public MovementPoint nextPoint;
         protected float actualspeed = 10.0f;
-        public void setPoint(MovementPoint next)
+        public virtual void setPoint(MovementPoint next)
         {
             nextPoint = next;
         }

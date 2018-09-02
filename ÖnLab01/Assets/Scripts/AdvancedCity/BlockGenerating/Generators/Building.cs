@@ -21,32 +21,38 @@ class Building : GeneratorImpl
         MakeRoof(kontrolpoints.ToArray(), new Vector3(0, magasMax, 0), (megHouse <= 0 || (floorNumber/2) < 1));
         if (megHouse > 0)
         {
-            List<Vector3> newControlPoints = new List<Vector3>();
-            newControlPoints.AddRange(kontrolpoints);
-            int indexStart = (int) (Random.value * newControlPoints.Count);
-            int index2 = indexStart + 1;
-            int index3 = indexStart + 2;
-            int index4 = indexStart + 3;
-            if (index4 >= newControlPoints.Count)
-            {
-                index4 = index4 - newControlPoints.Count;
-                if (index3 >= newControlPoints.Count)
-                {
-                    index3 = index3 - newControlPoints.Count;
-                    if (index2 >= newControlPoints.Count)
-                    {
-                        index2 = index2 - newControlPoints.Count;
-                    }
-                 }
-            }
-            newControlPoints[index2] = (newControlPoints[index2] * 3 + newControlPoints[indexStart]) / 4;
-            newControlPoints[index3] = (newControlPoints[index3] * 3 + newControlPoints[index4]) / 4;
+            List<Vector3> newControlPoints = controlChange(kontrolpoints);
             for (int i = 0; i < newControlPoints.Count; i++)
             {
                 newControlPoints[i] += new Vector3(0, magasMax, 0);
             }
             generators.Add(new Building(newControlPoints, floor, floorNumber/2, megHouse-1, false));
         }
+    }
+
+    private List<Vector3> controlChange(List<Vector3> kontrolpoints)
+    {
+        List<Vector3> newControlPoints = new List<Vector3>();
+        newControlPoints.AddRange(kontrolpoints);
+        int indexStart = (int)(Random.value * newControlPoints.Count);
+        int index2 = indexStart + 1;
+        int index3 = indexStart + 2;
+        int index4 = indexStart + 3;
+        if (index4 >= newControlPoints.Count)
+        {
+            index4 = index4 - newControlPoints.Count;
+            if (index3 >= newControlPoints.Count)
+            {
+                index3 = index3 - newControlPoints.Count;
+                if (index2 >= newControlPoints.Count)
+                {
+                    index2 = index2 - newControlPoints.Count;
+                }
+            }
+        }
+        newControlPoints[index2] = (newControlPoints[index2] * 3 + newControlPoints[indexStart]) / 4;
+        newControlPoints[index3] = (newControlPoints[index3] * 3 + newControlPoints[index4]) / 4;
+        return newControlPoints;
     }
 
     private void MakeRoof(Vector3[] roofPoints, Vector3 up, bool last)

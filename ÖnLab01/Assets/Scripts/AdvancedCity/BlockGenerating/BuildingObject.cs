@@ -26,14 +26,12 @@ public class BuildingObject : MonoBehaviour {
     }
 
     // Update is called once per frame
-    public void MakeBuilding(List<Vector3> kontrolpoints, int min, int max, float floor)
+    public void MakeBuilding(List<Vector3> kontrolpoints, int min, int max, float floor, RoadGeneratingValues values)
     {
         Start();
-        Color color = texture.GetPixel((int)(kontrolpoints[0].x * 10), (int)(kontrolpoints[0].z * 10));
-        float positionValue = (color.r* 7);
-        Debug.Log("color: "+ color.ToString());
+        float positionValue = (values.getTextureValue(kontrolpoints[0])* 2);
         // 
-        int floorNumber = (int)(Random.value * (max - min) * positionValue) + min;
+        int floorNumber = (int)((Random.value*0.25 + 0.75) * (max - min) * positionValue) + min;
 
         float magasMax = floorNumber * floor;
         Building building = new Building(kontrolpoints, floor, floorNumber);

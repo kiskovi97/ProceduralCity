@@ -33,6 +33,7 @@ namespace Assets.Scripts.AdvancedCity
         List<InteractiveGraphPoint> sideroads = new List<InteractiveGraphPoint>();
         // plus roads just for not to cross them
         List<PlusEdge> plusroads = new List<PlusEdge>();
+        List<GraphPoint> circle;
 
         void Start()
         {
@@ -56,6 +57,12 @@ namespace Assets.Scripts.AdvancedCity
             {
                 point.sorbaRendez();
                 kimenet.Add(point);
+            }
+            CircleGenerator circleGenerator = new CircleGenerator();
+            circle = circleGenerator.maxCircle(kimenet);
+            foreach (GraphPoint point in circle)
+            {
+                point.setAsTram();
             }
             return kimenet;
         }
@@ -81,6 +88,8 @@ namespace Assets.Scripts.AdvancedCity
             }
 
         }
+
+       
 
         void ClearStart()
         {

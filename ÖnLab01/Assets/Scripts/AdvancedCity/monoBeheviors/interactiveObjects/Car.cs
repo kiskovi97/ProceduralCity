@@ -13,25 +13,6 @@ namespace Assets.Scripts.AdvancedCity.monoBeheviors.interactiveObjects
         }
         public float speed = 10.0f;
         bool stop = false;
-        void OnTriggerEnter(Collider other)
-        {
-            Vector3 toward = other.transform.position - transform.position;
-            float angle = Vector3.Angle(transform.forward, toward);
-            if (angle > 30) return;
-            stop = true;
-        }
-        void OnTriggerExit(Collider other)
-        {
-            stop = false;
-            stopTime = 0;
-        }
-        public void Go(GameObject said)
-        {
-            stop = false;
-            stopTime = 0;
-        }
-
-        int stopTime = 0;
 
         public override void Step()
         {
@@ -41,18 +22,31 @@ namespace Assets.Scripts.AdvancedCity.monoBeheviors.interactiveObjects
             if (length < 0.1f)
                 nextPoint = nextPoint.getNextPoint();
             else
-                if (!stop)
+                if (!stop && canMove())
                     Move();
             SpeedAdjustments(length);
         }
+
+        private bool canMove()
+        {
+
+            Vector3 toward = (nextPoint.center - transform.position).normalized;
+            Vector3 newDir = Vector3.RotateTowards(transform.forward, toward, 0.1f, 0.0f).normalized;
+            Collider[] hits = Physics.OverlapBox(transform.position + newDir * 0.2f, new Vector3(0.01f, 0.01f, 0.05f), Quaternion.LookRotation(newDir, new Vector3(0, 1, 0)));
+           
+            foreach (Collider hit in hits)
+            {
+                if (hit.gameObject != gameObject)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
         protected virtual void isStopNecessarry()
         {
-            stopTime++;
-            if (stopTime > 400)
-            {
-                stop = false;
-                stopTime = 0;
-            }
+            
         }
         protected virtual void SpeedAdjustments(float length)
         {
@@ -69,7 +63,7 @@ namespace Assets.Scripts.AdvancedCity.monoBeheviors.interactiveObjects
         }
         public override void Move()
         {
-            Vector3 toward = (nextPoint.center - transform.position);
+            Vector3 toward = (nextPoint.center - (transform.position));
             Vector3 newDir = Vector3.RotateTowards(transform.forward, toward, 0.1f, 0.0f);
             float angle = Vector3.Angle(toward, transform.forward);
             float slower;

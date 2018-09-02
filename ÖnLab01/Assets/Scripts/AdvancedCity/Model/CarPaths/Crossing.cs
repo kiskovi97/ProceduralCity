@@ -10,6 +10,7 @@ namespace Assets.Scripts.AdvancedCity
     class Crossing
     {
         public bool main;
+        public bool tram = false;
         public Vector3 center;
         List<Neighbor> szomszedok;
         GameObjectGenerator generator;
@@ -37,11 +38,12 @@ namespace Assets.Scripts.AdvancedCity
             public Vector3 sidecross;
         }
 
-        public Crossing(Vector3 centerpoint, bool inputmain, GameObjectGenerator generatorbe)
+        public Crossing(Vector3 centerpoint, bool inputmain, bool tramInput, GameObjectGenerator generatorbe)
         {
             center = centerpoint;
             szomszedok = new List<Neighbor>();
             main = inputmain;
+            tram = tramInput;
             generator = generatorbe;
         }
 
@@ -110,6 +112,72 @@ namespace Assets.Scripts.AdvancedCity
             if (szomszedok.Count > 2)
                 for (int i = 0; i < szomszedok.Count; i++)
                 {
+                    for (int j= 0; j< szomszedok.Count; j++)
+                    {
+                        if (j == i) continue;
+                        MovementPoint.Connect(szomszedok[i].carpath.bemenet, szomszedok[i].carpath.felezo);
+                        MovementPoint.Connect(szomszedok[i].carpath.felezo, szomszedok[j].carpath.kimenet);
+                        if (szomszedok[i].szomszedRoad.tram && szomszedok[j].szomszedRoad.tram)
+                        {
+                            int max = szomszedok[i].carpath.felezo.Length - 1;
+                            for (int x = 0; x < szomszedok[j].carpath.kimenet.Length - 1; x++)
+                            {
+                                szomszedok[i].carpath.felezo[max].DisConnectPoint(szomszedok[j].carpath.kimenet[x]);
+                                szomszedok[j].carpath.kimenet[x].DisConnectPoint(szomszedok[i].carpath.felezo[max]);
+                            }
+                        }
+
+                        if (szomszedok[i].szomszedRoad.tram && !szomszedok[j].szomszedRoad.tram)
+                        {
+                            int max = szomszedok[i].carpath.felezo.Length - 1;
+                            for (int x = 0; x < szomszedok[j].carpath.kimenet.Length; x++)
+                            {
+                                szomszedok[i].carpath.felezo[max].DisConnectPoint(szomszedok[j].carpath.kimenet[x]);
+                                szomszedok[j].carpath.kimenet[x].DisConnectPoint(szomszedok[i].carpath.felezo[max]);
+                            }
+                        }
+
+                        if (!szomszedok[i].szomszedRoad.tram && szomszedok[j].szomszedRoad.tram)
+                        {
+                            int max = szomszedok[j].carpath.kimenet.Length - 1;
+                            for (int x = 0; x < szomszedok[i].carpath.felezo.Length; x++)
+                            {
+                                szomszedok[j].carpath.kimenet[max].DisConnectPoint(szomszedok[i].carpath.felezo[x]);
+                                szomszedok[i].carpath.felezo[x].DisConnectPoint(szomszedok[j].carpath.kimenet[max]);
+                            }
+                            for (int x = 1; x < szomszedok[i].carpath.felezo.Length; x++)
+                            {
+                                szomszedok[i].carpath.felezo[x].ConnectPoint(szomszedok[i].carpath.felezo[x - 1]);
+                            }
+                        }
+                    }
+                }
+            if (szomszedok.Count == 2)
+            {
+                MovementPoint.Connect(szomszedok[0].carpath.bemenet, szomszedok[0].carpath.felezo);
+                MovementPoint.Connect(szomszedok[0].carpath.felezo, szomszedok[1].carpath.kimenet);
+                MovementPoint.Connect(szomszedok[1].carpath.bemenet, szomszedok[1].carpath.felezo);
+                MovementPoint.Connect(szomszedok[1].carpath.felezo, szomszedok[0].carpath.kimenet);
+            }
+            if (szomszedok.Count == 1)
+            {
+                MovementPoint.Connect(szomszedok[0].carpath.bemenet, szomszedok[0].carpath.kimenet);
+            }
+        }
+
+        public void carsPathSetting2()
+        {
+            ujraRendez();
+            for (int i = 0; i < szomszedok.Count; i++)
+            {
+                int jobbra = i - 1;
+                if (jobbra < 0) jobbra = szomszedok.Count - 1;
+                MakeMovePoints(i, jobbra);
+            }
+
+            if (szomszedok.Count > 2)
+                for (int i = 0; i < szomszedok.Count; i++)
+                {
                     int jobbra = i - 1;
                     if (jobbra < 0) jobbra = szomszedok.Count - 1;
                     int balra = i + 1;
@@ -133,31 +201,38 @@ namespace Assets.Scripts.AdvancedCity
         }
 
         public int nyitott = 0;
-
+        public bool stop = false;
         public void Valt()
         {
             if (szomszedok.Count < 3) return;
             foreach (Neighbor szomszed in szomszedok)
             {
-                foreach (MovementPoint point in szomszed.carpath.bemenet)
+                for (int i=0; i< szomszed.carpath.bemenet.Length; i++)
                 {
-                    point.Nyitott(false);
+                    MovementPoint point = szomszed.carpath.bemenet[i];
+                        point.Nyitott(false);
+                    if (szomszed.szomszedRoad.tram && i == szomszed.carpath.bemenet.Length-1)
+                        point.Nyitott(true);
                 }
             }
-            nyitott++;
-            if (nyitott > szomszedok.Count-1) nyitott = 0;
-
-            Neighbor neighbour = szomszedok[nyitott];
-            
-            foreach (MovementPoint point in neighbour.carpath.bemenet)
+            if (!stop)
             {
-                point.Nyitott(true);
+                nyitott++;
+                if (nyitott > szomszedok.Count - 1) nyitott = 0;
+                Neighbor neighbour = szomszedok[nyitott];
+                foreach (MovementPoint point in neighbour.carpath.bemenet)
+                {
+                    point.Nyitott(true);
+                }
             }
+            stop = !stop;
         }
 
         void MakeMovePoints(int i, int jobbra)
         {
             Vector3[] line = szomszedok[i].helpline.mainline;
+            Vector3 othercenter = szomszedok[i].szomszedRoad.NextCros(this).center;
+            Vector3 direction = (othercenter - center).normalized;
             if (line != null)
             {
                 CarPath carpath = new CarPath();
@@ -170,10 +245,9 @@ namespace Assets.Scripts.AdvancedCity
                 {
                     int a = (1 + j * 2);
                     int b = thissavok * 4 - a;
-                    carpath.bemenet[j] = new MovementPoint((line[0] * a + line[1] * b) / (thissavok * 4));
-                    if (szomszedok.Count > 2) 
-                        carpath.bemenet[j].Nyitott(false);
-                    carpath.kimenet[j] = new MovementPoint((line[0] * b + line[1] * a) / (thissavok * 4));
+                    carpath.bemenet[j] = new MovementPoint((line[0] * a + line[1] * b) / (thissavok * 4) + direction * 0.2f);
+                    if (szomszedok.Count > 2) carpath.bemenet[j].Nyitott(false);
+                    carpath.kimenet[j] = new MovementPoint((line[0] * b + line[1] * a) / (thissavok * 4) + direction * 0.2f);
                 }
                 for (int j = 0; j < thatsavok; j++)
                 {
@@ -224,7 +298,7 @@ namespace Assets.Scripts.AdvancedCity
             if (szomszedok.Count > cars)
             {
                 car.setPoint(szomszedok[cars].carpath.kimenet[kimenetIndex++]);
-                if (kimenetIndex>= szomszedok[cars].carpath.kimenet.Length)
+                if (kimenetIndex>= szomszedok[cars].carpath.kimenet.Length || (kimenetIndex >= szomszedok[cars].carpath.kimenet.Length - 1 && szomszedok[cars].szomszedRoad.tram))
                 {
                     cars++;
                     kimenetIndex = 0;
@@ -232,6 +306,27 @@ namespace Assets.Scripts.AdvancedCity
                 return true;
             }
             return false;
+        }
+
+        public void AddTram(Vehicle car, Vehicle car2)
+        {
+            bool carbool = false;
+            foreach (Neighbor szomszed in szomszedok)
+            {
+                if (szomszed.szomszedRoad.tram && !carbool)
+                {
+                    carbool = true;
+                    int max = szomszed.carpath.kimenet.Length-1;
+                    car.setPoint(szomszed.carpath.kimenet[max]);
+                    continue;
+                }
+                if (szomszed.szomszedRoad.tram && carbool)
+                {
+                    int max = szomszed.carpath.kimenet.Length - 1;
+                    car2.setPoint(szomszed.carpath.kimenet[max]);
+                    return;
+                }
+            }
         }
         public bool HavePlace()
         {

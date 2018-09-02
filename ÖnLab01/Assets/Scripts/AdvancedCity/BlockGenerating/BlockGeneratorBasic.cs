@@ -122,7 +122,7 @@ class BlockGeneratorBasic : BlockGenerator
             GameObject gameObject = buildingContainer.building;
             gameObject.transform.position = vertexes[0];
             BuildingObject building = gameObject.GetComponent<BuildingObject>();
-            building.MakeBuilding(kontrolpoints, (int)values.HouseUpmin, (int)values.HouseUpmax, values.floor);
+            building.MakeBuilding(kontrolpoints, (int)values.HouseUpmin, (int)values.HouseUpmax, values.floor, values);
             buildings.Add(building);
         }
         for (int i=0; i< vertexes.Count; i++)
@@ -166,7 +166,7 @@ class BlockGeneratorBasic : BlockGenerator
         GameObject gameObject = buildingContainer.building;
         gameObject.transform.position = elozo.normalPoint;
         BuildingObject building = gameObject.GetComponent<BuildingObject>();
-        building.MakeBuilding(kontrolpoints, (int)values.HouseUpmin, (int)values.HouseUpmax, values.floor);
+        building.MakeBuilding(kontrolpoints, (int)values.HouseUpmin, (int)values.HouseUpmax, values.floor, values);
         buildings.Add(building);
     }
    

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Assets.Scripts.AdvancedCity
 {
-    class MovementPoint
+    public class MovementPoint
     {
         public Vector3 center;
         public MovementPoint(Vector3 mov)

@@ -1,4 +1,5 @@
 ﻿
+using Assets.Scripts.AdvancedCity.monoBeheviors.interactiveObjects;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,15 +12,17 @@ namespace Assets.Scripts.AdvancedCity
         MyMath math = new MyMath();
         List<Crossing> crossings;
         List<Road> roads;
+        
 
         public List<Crossing> GenerateObjects(GameObjectGenerator generator, List<GraphPoint> controlPoints, float sizeRatio)
         {
             crossings = new List<Crossing>();
+
             roads = new List<Road>();
             for (int i = 0; i < controlPoints.Count; i++)
             {
                 GraphPoint point = controlPoints[i];
-                crossings.Add(new Crossing(point.position, point.isMainRoad(), generator));
+                crossings.Add(new Crossing(point.position, point.isMainRoad(), point.isTram(), generator));
             }
             for (int i = 0; i < controlPoints.Count; i++)
             {
@@ -170,6 +173,28 @@ namespace Assets.Scripts.AdvancedCity
             }
 
         }
-        
+
+        public void SetTram(GameObject cars, GameObject cars2)
+        {
+            int i = 0;
+            if (crossings == null) return;
+            foreach (Crossing cros in crossings)
+            {
+                if (cros.tram)
+                {
+                    Tram vehicle = cars.GetComponent<Tram>();
+                    Tram vehicle2 = cars2.GetComponent<Tram>();
+                    cros.AddTram(vehicle, vehicle2);
+                    cars.transform.position = cros.center;
+                    cars2.transform.position = cros.center;
+                    vehicle.setDirection();
+                    vehicle.generateMore(5);
+                    vehicle2.setDirection();
+                    vehicle2.generateMore(5);
+                    return;
+                }
+            }
+        }
+
     }
 }

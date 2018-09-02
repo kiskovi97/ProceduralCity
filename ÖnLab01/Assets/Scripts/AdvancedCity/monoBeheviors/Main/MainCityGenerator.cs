@@ -20,6 +20,7 @@ namespace Assets.Scripts.AdvancedCity
         public int cars_number = 100;
         public bool depthtest = false;
         public bool makeblocks = true;
+        public bool trams = true;
 
         private List<Crossing> crossings = null;
         void Start()
@@ -71,7 +72,13 @@ namespace Assets.Scripts.AdvancedCity
             }
             
             objGen.SetCarsStartingPosition(cars.ToArray());
-            
+            if (trams)
+            {
+                GameObject obj = vehicles.Tram;
+                GameObject obj2 = vehicles.Tram;
+                objGen.SetTram(obj, obj2);
+            }
+
         }
         
         int i = 1;
@@ -79,7 +86,7 @@ namespace Assets.Scripts.AdvancedCity
         {
             if (crossings == null) return;
             i++;
-            if (i % 100 == 0)
+            if (i % 300 == 0)
             {
                 foreach (Crossing cros in crossings)
                 {

@@ -23,8 +23,9 @@ public class ReactRectangle : Shape
         List<Triangle> list = new List<Triangle>();
         float sizeUD = (LeftDown - LeftUp).magnitude;
         float sizeLR = (LeftDown - RightDown).magnitude;
-        list.Add(new Triangle(LeftDown, RightUp, LeftUp, material, new Vector2[] { new Vector2(0, 0), new Vector2(sizeLR/sizeUD, 1), new Vector2(0, 1) }));
-        list.Add(new Triangle(RightUp, LeftDown, RightDown, material, new Vector2[] { new Vector2(sizeLR / sizeUD, 1), new Vector2(0, 0), new Vector2(sizeLR / sizeUD, 0) }));
+        float sizeULR = (LeftUp - RightUp).magnitude;
+        list.Add(new Triangle(LeftDown, RightUp, LeftUp, material, new Vector2[] { new Vector2(0, 0), new Vector2(sizeULR / sizeUD, 1), new Vector2(0, 1) }));
+        list.Add(new Triangle(RightUp, LeftDown, RightDown, material, new Vector2[] { new Vector2(sizeULR / sizeUD, 1), new Vector2(0, 0), new Vector2(sizeLR / sizeUD, 0) }));
         return list;
     }
 }

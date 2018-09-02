@@ -6,11 +6,11 @@ using UnityEngine;
 
 namespace Assets.Scripts.AdvancedCity
 {
-    class GraphPoint
+    public class GraphPoint
     {
         // ---------------- Basic Initialization -----------
         public Vector3 position;
-        public enum POINTTYPE { MAIN, SIDE};
+        public enum POINTTYPE { MAIN, SIDE, TRAM, TRAM_MAIN};
         protected POINTTYPE type;
         public bool isMainRoad()
         {
@@ -20,9 +20,18 @@ namespace Assets.Scripts.AdvancedCity
         {
             return type == POINTTYPE.SIDE;
         }
+        public bool isTram()
+        {
+            return type == POINTTYPE.TRAM || type == POINTTYPE.TRAM_MAIN;
+        }
         public void setAsSideRoad()
         {
             type = POINTTYPE.SIDE;
+        }
+        public void setAsTram()
+        {
+            if (type == POINTTYPE.MAIN) type = POINTTYPE.TRAM_MAIN;
+            if (type == POINTTYPE.SIDE) type = POINTTYPE.TRAM;
         }
         public void setType(POINTTYPE in_type)
         {
@@ -84,12 +93,17 @@ namespace Assets.Scripts.AdvancedCity
         {
             szomszedok = new List<GraphPoint>();
         }
+
         public GraphPoint kovetkezo(GraphPoint elozo, bool jobbra)
         {
             if (szomszedok == null) return null;
             if (szomszedok.Count < 1) return null;
             if (szomszedok.Count == 1) return szomszedok[0];
-            if (!szomszedok.Contains(elozo)) return null;
+            if (elozo == null)
+            {
+                return szomszedok[0];
+            }
+            if (!szomszedok.Contains(elozo)) { return null; }
 
             GraphPoint ki = szomszedok[0];
             Vector3 ki_irany = (ki.position - position).normalized;

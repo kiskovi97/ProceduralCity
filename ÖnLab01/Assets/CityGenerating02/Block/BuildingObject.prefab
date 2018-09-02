@@ -21,7 +21,6 @@ GameObject:
   - component: {fileID: 4511790737675956}
   - component: {fileID: 33934785408994996}
   - component: {fileID: 23203896239139966}
-  - component: {fileID: 65040061332087362}
   - component: {fileID: 114366580458237136}
   m_Layer: 0
   m_Name: BuildingObject
@@ -92,18 +91,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1263751605774330}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!65 &65040061332087362
-BoxCollider:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1263751605774330}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &114366580458237136
 MonoBehaviour:
   m_ObjectHideFlags: 1

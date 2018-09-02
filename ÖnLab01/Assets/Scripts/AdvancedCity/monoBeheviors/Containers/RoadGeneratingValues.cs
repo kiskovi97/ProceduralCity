@@ -4,6 +4,14 @@ using UnityEngine;
 
 public class RoadGeneratingValues : MonoBehaviour {
 
+    public Texture2D map;
+    public float getTextureValue(Vector3 position)
+    {
+        float x_arany = (position.x - Sizes[0] * sizeRatio) / (Sizes[2] * sizeRatio - Sizes[0] * sizeRatio);
+        float y_arany = (position.z - Sizes[1] * sizeRatio) / (Sizes[3] * sizeRatio - Sizes[1] * sizeRatio);
+        return map.GetPixel((int)(map.width * x_arany), (int)(map.height * y_arany)).r;
+    }
+
     [Header("Size of the city")]
     public float[] Sizes =
         {
@@ -11,7 +19,8 @@ public class RoadGeneratingValues : MonoBehaviour {
         };
     public Vector3 StartingPoint()
     {
-        return new Vector3(0, 0, Sizes[1] * sizeRatio + 2);
+        return new Vector3((Sizes[0] * sizeRatio + Sizes[2] * sizeRatio)/2, 0, Sizes[1] * sizeRatio + 1);
+
     }
     public bool PalyanBelulVane(Vector3 position)
     {
