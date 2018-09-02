@@ -16,6 +16,10 @@ namespace Assets.Scripts.AdvancedCity.monoBeheviors.interactiveObjects
 
         public override void Step()
         {
+            if (isLoop(new List<Car>() { this }))
+            {
+                Destroy(gameObject, 0.1f);
+            }
             if (stop)
                 isStopNecessarry();
             float length = (nextPoint.center - transform.position).magnitude;
@@ -25,6 +29,16 @@ namespace Assets.Scripts.AdvancedCity.monoBeheviors.interactiveObjects
                 if (!stop && canMove())
                     Move();
             SpeedAdjustments(length);
+        }
+
+        Car waitedcar = null;
+
+        private bool isLoop(List<Car> cars)
+        {
+            if (waitedcar == null) return false;
+            if (cars.Contains(waitedcar)) return true;
+            cars.Add(this);
+            return waitedcar.isLoop(cars);
         }
 
         private bool canMove()
@@ -38,9 +52,19 @@ namespace Assets.Scripts.AdvancedCity.monoBeheviors.interactiveObjects
             {
                 if (hit.gameObject != gameObject)
                 {
+                    Car[] cars = hit.gameObject.GetComponents<Car>();
+                    if (cars!=null && cars.Length>0)
+                    {
+                        waitedcar = cars[0];
+
+                    } else
+                    {
+                        waitedcar = null;
+                    }
                     return false;
                 }
             }
+            waitedcar = null;
             return true;
         }
 

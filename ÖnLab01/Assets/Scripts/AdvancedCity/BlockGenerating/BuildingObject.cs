@@ -32,10 +32,19 @@ public class BuildingObject : MonoBehaviour {
         float positionValue = (values.getTextureValue(kontrolpoints[0])* 2);
         // 
         int floorNumber = (int)((Random.value*0.25 + 0.75) * (max - min) * positionValue) + min;
-
-        float magasMax = floorNumber * floor;
         Building building = new Building(kontrolpoints, floor, floorNumber);
         foreach (Triangle triangle in building.getTriangles())
+        {
+            AddTriangle(triangle);
+        }
+        CreateMesh();
+    }
+
+    public void MakeBase(Vector3 a, Vector3 b, Vector3 c)
+    {
+        Start();
+        TriangleShape triangleShape = new TriangleShape(a, b, c, (int)MaterialEnum.BASE);
+        foreach (Triangle triangle in triangleShape.getTriangles())
         {
             AddTriangle(triangle);
         }

@@ -61,7 +61,7 @@ MonoBehaviour:
   - 0
   - 5
   - 5
-  sizeRatio: 6
+  sizeRatio: 5
   CollapseMainRoad: 1
   CollapseSideRoad: 1
   RoadSize: 0.1
@@ -98,7 +98,7 @@ MonoBehaviour:
   helplines_draw: 0
   cars_number: 100
   depthtest: 1
-  makeblocks: 0
+  makeblocks: 1
   trams: 1
 --- !u!114 &114702943412692204
 MonoBehaviour:

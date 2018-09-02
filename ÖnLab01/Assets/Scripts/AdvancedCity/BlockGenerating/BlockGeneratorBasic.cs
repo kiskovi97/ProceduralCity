@@ -99,6 +99,13 @@ class BlockGeneratorBasic : BlockGenerator
                     kontrolpoints.Add(nextDeep);
                     kontrolpoints.Add(nextHousePoint);
                     kontrolpoints.Add(crossingPoint);
+                        GameObject me = buildingContainer.building;
+                        me.name = "BASE";
+                        me.transform.position = vertexes[i];
+                        BuildingObject baseBuild = me.GetComponent<BuildingObject>();
+                        baseBuild.MakeBase(elozoDeep, vertexes[i], nextDeep);
+                    buildings.Add(baseBuild);
+                    Debug.Log("BASE");
                     elozoLine.Add(new KontrolLine(elozoHousePoint, crossingPoint));
                     nextLine.Add(new KontrolLine(nextHousePoint, crossingPoint));
 

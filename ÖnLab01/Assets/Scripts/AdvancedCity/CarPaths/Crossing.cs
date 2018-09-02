@@ -369,6 +369,51 @@ namespace Assets.Scripts.AdvancedCity
             else
                 return center;
         }
+        public Vector3 KeresztRoad(Crossing crossing)
+        {
+            if (crossing == null) return center;
+            List<Crossing> list = getSzomszedok();
+            if (list == null) return center;
+            if (list.Contains(crossing))
+            {
+                int i = list.IndexOf(crossing);
+                return szomszedok[i].helpline.roadedgecross;
+            }
+            else
+                return center;
+        }
+        public Vector3 KeresztMasik(Crossing crossing)
+        {
+            if (crossing == null) return center;
+            List<Crossing> list = getSzomszedok();
+            if (list == null) return center;
+            if (list.Contains(crossing))
+            {
+                int i = list.IndexOf(crossing);
+                if (i < szomszedok.Count-1)
+                    return szomszedok[i+1].helpline.sidecross;
+                else
+                    return szomszedok[0].helpline.sidecross;
+            }
+            else
+                return center;
+        }
+        public Vector3 KeresztRoadMasik(Crossing crossing)
+        {
+            if (crossing == null) return center;
+            List<Crossing> list = getSzomszedok();
+            if (list == null) return center;
+            if (list.Contains(crossing))
+            {
+                int i = list.IndexOf(crossing);
+                if (i < szomszedok.Count - 1)
+                    return szomszedok[i + 1].helpline.roadedgecross;
+                else
+                    return szomszedok[0].helpline.roadedgecross;
+            }
+            else
+                return center;
+        }
         public List<Crossing> getSzomszedok()
         {
             if (szomszedok == null) return null;

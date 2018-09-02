@@ -11,7 +11,6 @@ class Roof : MeshElementImpl
         if (last && controlpoints.Count == 4) {
             Vector3 tetopontA = (controlpoints[0] + controlpoints[1]) / 2 + new Vector3(0, 0.3f, 0);
             Vector3 tetopontB = (controlpoints[3] + controlpoints[2]) / 2 + new Vector3(0, 0.3f, 0);
-            Vector3 kozeppont = (tetopontA + tetopontB) / 2;
             shapes.Add(new ReactRectangle(controlpoints[1], controlpoints[2],   tetopontA, tetopontB, MATERIAL));
             shapes.Add(new ReactRectangle(controlpoints[3], controlpoints[0],  tetopontB, tetopontA, MATERIAL));
             shapes.Add(new TriangleShape(controlpoints[3], tetopontB, controlpoints[2], MATERIALSIMPLEWALL));
@@ -21,7 +20,6 @@ class Roof : MeshElementImpl
             {
                 Vector3 tetopontA = (controlpoints[1] + controlpoints[2]) / 2 + new Vector3(0, 0.3f, 0);
                 Vector3 tetopontB = (controlpoints[0] + controlpoints[3]) / 2 + new Vector3(0, 0.3f, 0);
-                Vector3 kozeppont = (tetopontA + tetopontB) / 2;
                 shapes.Add(new ReactRectangle(controlpoints[2], controlpoints[3], tetopontA, tetopontB, MATERIAL));
                 shapes.Add(new ReactRectangle(tetopontA, tetopontB, controlpoints[1], controlpoints[0], MATERIAL));
                 shapes.Add(new TriangleShape(controlpoints[0], tetopontB, controlpoints[3], MATERIALSIMPLEWALL));

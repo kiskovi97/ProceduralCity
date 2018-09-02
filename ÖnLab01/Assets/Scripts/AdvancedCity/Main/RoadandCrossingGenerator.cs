@@ -9,7 +9,6 @@ namespace Assets.Scripts.AdvancedCity
     class RoadandCrossingGenerator
     {
         float RoadSize = 0.05f;
-        MyMath math = new MyMath();
         List<Crossing> crossings;
         List<Road> roads;
         

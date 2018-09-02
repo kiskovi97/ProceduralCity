@@ -15,7 +15,6 @@ namespace Assets.Scripts.AdvancedCity
             get
             {
                 GameObject ki = Instantiate(tram);
-                GameObject masolat = ki;
                 return ki;
             }
         }

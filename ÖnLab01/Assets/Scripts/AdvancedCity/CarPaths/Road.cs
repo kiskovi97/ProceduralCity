@@ -91,9 +91,11 @@ namespace Assets.Scripts.AdvancedCity
         }
         public void Draw(bool depthtest)
         {
-            int a = egyik_be.Length > masik_ki.Length ? masik_ki.Length : egyik_ki.Length;
             if (line_egyik != null && line_masik != null)
             {
+                
+                generator.CreateRoad( masik.KeresztRoad(egyik), egyik.KeresztRoadMasik(masik), masik.Kereszt(egyik), egyik.KeresztMasik(masik),0);
+                generator.CreateRoad( egyik.KeresztRoad(masik), masik.KeresztRoadMasik(egyik), egyik.Kereszt(masik), masik.KeresztMasik(egyik), 0);
                 if (sav == 1 || sav == 0)
                 {
                     generator.CreateRoad(line_egyik[0], line_masik[1], (line_egyik[1] + line_egyik[0]) / 2, (line_masik[0] + line_masik[1]) / 2, 2);
@@ -111,8 +113,7 @@ namespace Assets.Scripts.AdvancedCity
                         generator.CreateRoad( (egyik_ki[i].center + egyik_ki[i + 1].center) / 2 + dir, (masik_be[i + 1].center + masik_be[i].center) / 2 - dir,
                         (egyik_ki[i].center + egyik_ki[i - 1].center) / 2 + dir, (masik_be[i - 1].center + masik_be[i].center) / 2 - dir, 1);
                     }
-                    //if (!(egyik.tram && masik.tram))
-                    {
+                    
                         generator.CreateRoad((line_masik[0] + line_masik[1]) / 2, (line_egyik[1] + line_egyik[0]) / 2,
                          (masik_ki[sav - 2].center + masik_ki[sav - 1].center) / 2 - dir, (egyik_be[sav - 2].center + egyik_be[sav - 1].center) / 2 + dir, 
                          (egyik.tram && masik.tram) ? 3: 2);
@@ -120,12 +121,7 @@ namespace Assets.Scripts.AdvancedCity
                         generator.CreateRoad((line_egyik[1] + line_egyik[0]) / 2, (line_masik[0] + line_masik[1]) / 2,
                               (egyik_ki[sav - 2].center + egyik_ki[sav - 1].center) / 2 + dir, (masik_be[sav - 2].center + masik_be[sav - 1].center) / 2 - dir,
                               (egyik.tram && masik.tram) ? 3 : 2);
-                    }
-                    
-
                 }
-                
-                //Debug.DrawLine((line_egyik[1] + line_egyik[0])/2, (line_masik[0] + line_masik[1])/2, Color.white, 1000, depthtest);
             }
             
         }

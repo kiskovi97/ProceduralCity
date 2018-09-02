@@ -7,5 +7,6 @@ public enum MaterialEnum
     SIMPLEWALL = 2,
     GROUNDWALL = 3,
     DOOR = 4,
-    WINDOWSTART = 5
+    WINDOWSTART = 5,
+    BASE = 8,
 }
