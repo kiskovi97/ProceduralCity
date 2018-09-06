@@ -116,21 +116,21 @@ namespace Assets.Scripts.AdvancedCity
                     for (int j= 0; j< szomszedok.Count; j++)
                     {
                         if (j == i) continue;
-                        Vector3 iDir = szomszedok[i].szomszedRoad.getDir(this);
-                        Vector3 jDir = szomszedok[j].szomszedRoad.getDir(this);
+                        Vector3 iDir = szomszedok[i].szomszedRoad.getDir();
+                        Vector3 jDir = szomszedok[j].szomszedRoad.getDir();
                         szomszedok[i].carpath.others = szomszedok[i].carpath.others.Concat(
-                            MovementPoint.Connect(szomszedok[i].carpath.bemenet, szomszedok[j].carpath.kimenet, szomszedok[i].szomszedRoad.tram, szomszedok[j].szomszedRoad.tram, iDir, jDir * -1))
+                            MovementPoint.Connect(szomszedok[i].carpath.bemenet, szomszedok[j].carpath.kimenet, szomszedok[i].szomszedRoad.tram, szomszedok[j].szomszedRoad.tram, iDir, jDir))
                             .ToArray();
                     }
                 }
             if (szomszedok.Count == 2)
             {
-                Vector3 iDir = szomszedok[0].szomszedRoad.getDir(this);
-                Vector3 jDir = szomszedok[1].szomszedRoad.getDir(this);
+                Vector3 iDir = szomszedok[0].szomszedRoad.getDir();
+                Vector3 jDir = szomszedok[1].szomszedRoad.getDir();
                 szomszedok[0].carpath.others =
-                    MovementPoint.Connect(szomszedok[0].carpath.bemenet, szomszedok[1].carpath.kimenet, szomszedok[0].szomszedRoad.tram, szomszedok[1].szomszedRoad.tram, iDir, jDir * -1);
+                    MovementPoint.Connect(szomszedok[0].carpath.bemenet, szomszedok[1].carpath.kimenet, szomszedok[0].szomszedRoad.tram, szomszedok[1].szomszedRoad.tram, iDir, jDir);
                 szomszedok[1].carpath.others =
-                    MovementPoint.Connect(szomszedok[1].carpath.bemenet, szomszedok[0].carpath.kimenet, szomszedok[1].szomszedRoad.tram, szomszedok[0].szomszedRoad.tram, jDir, iDir * -1);
+                    MovementPoint.Connect(szomszedok[1].carpath.bemenet, szomszedok[0].carpath.kimenet, szomszedok[1].szomszedRoad.tram, szomszedok[0].szomszedRoad.tram, jDir, iDir);
             }
            /* if (szomszedok.Count == 1)
             {
@@ -279,49 +279,12 @@ namespace Assets.Scripts.AdvancedCity
                 //generator.AddLine(trams[1].carpath.bemenet.Last().center + up, trams[1].carpath.kimenet.Last().center + up, 0.2f);
                 MovementPoint egyik = trams[0].carpath.bemenet.Last();
                 MovementPoint masik = trams[1].carpath.kimenet.Last();
-                List<Vector3> egyikList = new List<Vector3>();
-                List<Vector3> masikList = new List<Vector3>();
-                int max = 10;
-                while (egyik != masik && max > 0)
+                while(egyik != masik)
                 {
-                    max--;
-                    generator.AddLine(egyik.center + up, egyik.getPoint().center + up, 0.2f);
-                    egyikList.Add(egyik.center);
+                    Debug.DrawLine(egyik.center, egyik.getPoint().center, Color.blue, 1000, false);
                     egyik = egyik.getPoint();
                 }
-                egyikList.Add(egyik.center);
-                egyik = trams[1].carpath.bemenet.Last();
-                masik = trams[0].carpath.kimenet.Last();
-                max = 10;
-                while (egyik != masik && max > 0)
-                {
-                    max--;
-                    generator.AddLine(egyik.center + up, egyik.getPoint().center + up, 0.2f);
-                    masikList.Add(egyik.center);
-                    egyik = egyik.getPoint();
-                }
-                masikList.Add(egyik.center);
-                for (int i = 0; i < egyikList.Count; i++)
-                {
-                    Vector3 tmpEgyik = egyikList[i];
-                    Vector3 tmpMasik = masikList[masikList.Count - 1 - i];
-                    Vector3 tmpCenter = (tmpEgyik + tmpMasik) / 2;
-                    tmpEgyik = tmpEgyik + (tmpEgyik - tmpCenter);
-                    tmpMasik = tmpMasik + (tmpMasik - tmpCenter);
-                    egyikList[i] = tmpEgyik;
-                    masikList[masikList.Count- 1 - i] = tmpMasik;
-                }
-                for (int i = 0; i < egyikList.Count - 1; i++)
-                {
-                    Vector3 tmpEgyik = egyikList[i];
-                    Vector3 tmpMasik = masikList[masikList.Count - i - 1];
-                    Vector3 tmpCenter = (tmpEgyik + tmpMasik) / 2;
-                    Vector3 tmpEgyik2 = egyikList[i + 1];
-                    Vector3 tmpMasik2 = masikList[masikList.Count - i - 2];
-                    Vector3 tmpCenter2 = (tmpEgyik2 + tmpMasik2) / 2;
-                    generator.CreateRoad(tmpCenter2,  tmpCenter, tmpEgyik2, tmpEgyik, 3);
-                   generator.CreateRoad(tmpCenter, tmpCenter2, tmpMasik, tmpMasik2, 3);
-                }
+
             }
         }
 

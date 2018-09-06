@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 23049371103428246}
   - component: {fileID: 114987338789921520}
   m_Layer: 0
-  m_Name: BuildingObject 1
+  m_Name: BuildingObject 5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -57,15 +57,15 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: e8d725c5a0c13294295ee9c72bd5d362, type: 2}
+  - {fileID: 2100000, guid: 7114b1cbf74e9aa48a78c5a51b2f25b9, type: 2}
   - {fileID: 2100000, guid: ac49a6653ef2f1b4994f143d7a02295d, type: 2}
-  - {fileID: 2100000, guid: e8d725c5a0c13294295ee9c72bd5d362, type: 2}
-  - {fileID: 2100000, guid: 3cfd03ad3f727314fb0fd44d6aa5d6fb, type: 2}
-  - {fileID: 2100000, guid: 858a6b47c100da34e88414a036e3699f, type: 2}
-  - {fileID: 2100000, guid: 25184ea8ab6d03745b5a3ba7df1729fc, type: 2}
-  - {fileID: 2100000, guid: 23f973ee79ea88c4db36bf6d9d80f844, type: 2}
-  - {fileID: 2100000, guid: af4a0fa962207524787d1913c6669ee7, type: 2}
-  - {fileID: 2100000, guid: af4a0fa962207524787d1913c6669ee7, type: 2}
+  - {fileID: 2100000, guid: fcca9c2102043774da16f9d21479c3ff, type: 2}
+  - {fileID: 2100000, guid: c7d555fa84b29b241bd58cce41c3d6d5, type: 2}
+  - {fileID: 2100000, guid: ff669ee070b7ad846962e9a9570db329, type: 2}
+  - {fileID: 2100000, guid: 50204669bc327a34296a286a1bf8cdf4, type: 2}
+  - {fileID: 2100000, guid: 50204669bc327a34296a286a1bf8cdf4, type: 2}
+  - {fileID: 2100000, guid: 50204669bc327a34296a286a1bf8cdf4, type: 2}
+  - {fileID: 2100000, guid: 58648517b70a60c4d81c31ac7bbbf9bd, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -103,4 +103,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6588643fbef050e49a0ee015bfeae810, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  texture: {fileID: 0}
+  texture: {fileID: 2800000, guid: 47f295d5a1936124fa77a6aefacf68ca, type: 3}

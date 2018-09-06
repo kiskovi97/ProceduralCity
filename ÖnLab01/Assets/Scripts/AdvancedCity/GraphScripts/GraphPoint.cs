@@ -14,11 +14,11 @@ namespace Assets.Scripts.AdvancedCity
         protected POINTTYPE type;
         public bool isMainRoad()
         {
-            return type == POINTTYPE.MAIN;
+            return type == POINTTYPE.MAIN || type == POINTTYPE.TRAM_MAIN;
         }
         public bool isSideRoad()
         {
-            return type == POINTTYPE.SIDE;
+            return type == POINTTYPE.SIDE || type == POINTTYPE.TRAM;
         }
         public bool isTram()
         {

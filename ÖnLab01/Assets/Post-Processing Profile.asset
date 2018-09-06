@@ -3,7 +3,7 @@
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
@@ -72,7 +72,7 @@ MonoBehaviour:
     m_Enabled: 1
     m_Settings:
       focusDistance: 1
-      aperture: 1.92
+      aperture: 2.4
       focalLength: 36.3
       useCameraFov: 1
       kernelSize: 3
@@ -113,12 +113,12 @@ MonoBehaviour:
     m_Settings:
       tonemapping:
         tonemapper: 2
-        neutralBlackIn: 0.0189
-        neutralWhiteIn: 10.84
-        neutralBlackOut: -0.0254
-        neutralWhiteOut: 9.22
-        neutralWhiteLevel: 2.04
-        neutralWhiteClip: 8.4
+        neutralBlackIn: 0.046
+        neutralWhiteIn: 10
+        neutralBlackOut: -0.021
+        neutralWhiteOut: 1
+        neutralWhiteLevel: 5.5
+        neutralWhiteClip: 6.17
       basic:
         postExposure: 0
         temperature: 26.3
@@ -323,7 +323,7 @@ MonoBehaviour:
       color: {r: 0, g: 0, b: 0, a: 1}
       center: {x: 0.5, y: 0.5}
       intensity: 0.117
-      smoothness: 0.486
+      smoothness: 0.593
       roundness: 1
       mask: {fileID: 0}
       opacity: 1

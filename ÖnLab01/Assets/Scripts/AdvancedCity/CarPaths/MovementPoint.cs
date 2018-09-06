@@ -28,6 +28,12 @@ namespace Assets.Scripts.AdvancedCity
             if (outPoints == null) return;
             outPoints.Remove(point);
         }
+        public MovementPoint getPoint()
+        {
+            if (outPoints == null) return null;
+            if (outPoints.Count < 1) return null;
+            return outPoints[0];
+        }
         public MovementPoint getNextPoint()
         {
             if (outPoints == null) return null;
@@ -53,23 +59,77 @@ namespace Assets.Scripts.AdvancedCity
                 Debug.DrawLine(center, (outPoints[i].center*4 + center*0)/4, Color.green, 1000, depthtest);
             
         }
-        public static void Connect(MovementPoint[] be, MovementPoint[] ki)
+        public static MovementPoint[] Connect(MovementPoint[] be, MovementPoint[] ki, bool beTram, bool kiTram, Vector3 beDir, Vector3 kiDir)
         {
+            List<MovementPoint> output = new List<MovementPoint>();
             int kulonbseg = System.Math.Abs(be.Length - ki.Length);
+            if (beTram && !kiTram)
+            {
+                be = be.Take(be.Count() - 1).ToArray();
+                return Connect(be, ki, false, false, beDir, kiDir);
+            }
+            if (!beTram && kiTram)
+            {
+                ki = ki.Take(ki.Count() - 1).ToArray();
+                return Connect(be, ki, false, false, beDir, kiDir);
+            }
+            if (beTram && kiTram)
+            {
+                output.AddRange(CurveAndConnect(be.Last(), ki.Last(), beDir, kiDir));
+                be = be.Take(be.Count() - 1).ToArray();
+                ki = ki.Take(ki.Count() - 1).ToArray();
+                return Connect(be, ki, false, false, beDir, kiDir).Concat(output.ToArray()).ToArray();
+            }
+
             if (be.Length < ki.Length)
             {
+                int length = be.Length;
                 for (int j = 0; j < kulonbseg; j++)
-                    be[0].ConnectPoint(ki[j]);
-                for (int j = 0; j < be.Length; j++)
-                    be[j].ConnectPoint(ki[j + kulonbseg]);
+                    output.AddRange(CurveAndConnect(be[0], ki[j], beDir, kiDir));
+                for (int j = 0; j < length; j++)
+                    output.AddRange(CurveAndConnect(be[j], ki[j + kulonbseg], beDir, kiDir));
             }
             else
             {
-                for (int j = 0; j < ki.Length; j++)
-                    be[j].ConnectPoint(ki[j]);
-                for (int j = ki.Length; j < be.Length; j++)
-                    be[j].ConnectPoint(ki[ki.Length - 1]);
+                int length = ki.Length;
+                for (int j = 0; j < kulonbseg; j++)
+                    output.AddRange(CurveAndConnect(be[j], ki[0], beDir, kiDir));
+                for (int j = 0; j < length; j++)
+                    output.AddRange(CurveAndConnect(be[j + kulonbseg], ki[j], beDir, kiDir));
             }
+            return output.ToArray();
         }
+
+        static MovementPoint[] CurveAndConnect(MovementPoint be, MovementPoint ki, Vector3 beDir, Vector3 kiDir, int iterationMax = 5)
+        {
+           
+            if (iterationMax < 1 || Vector3.Angle(beDir,kiDir) < 30)
+            {
+                be.ConnectPoint(ki);
+                return new MovementPoint[0];
+            }
+            Vector3 cross = MyMath.Intersect(be.center, beDir, ki.center, kiDir);
+            List<MovementPoint> movementPoints = new List<MovementPoint>();
+            bool elso = true;
+            for (float i=0.25f; i<1; i+= 0.25f)
+            {
+                MovementPoint point = new MovementPoint(
+                    BezierCurve(be.center, cross, ki.center, i));
+                if (elso) be.ConnectPoint(point);
+                else movementPoints.Last().ConnectPoint(point);
+                movementPoints.Add(point);
+                elso = false;
+            }
+            movementPoints.Last().ConnectPoint(ki);
+            return movementPoints.ToArray();
+        }
+
+        public static Vector3 BezierCurve(Vector3 P0, Vector3 P1, Vector3 P2, float time)
+        {
+            return (1 - time) * (1 - time) * P0 +
+                2 * (1 - time) * time * P1 +
+                time * time * P2;
+        }
+
     }
 }

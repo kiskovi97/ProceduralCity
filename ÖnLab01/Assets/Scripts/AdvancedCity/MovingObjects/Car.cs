@@ -7,27 +7,49 @@ namespace Assets.Scripts.AdvancedCity.monoBeheviors.interactiveObjects
 {
     class Car : Vehicle
     {
+        public AudioSource audioSource;
         public Car()
         {
             
         }
         public float speed = 10.0f;
+        public bool hasCamera = false;
         bool stop = false;
-
+        public int time = 0;
         public override void Step()
         {
+            
             if (isLoop(new List<Car>() { this }))
             {
-                Destroy(gameObject, 0.1f);
+                if (!hasCamera)
+                    Destroy(gameObject, 0.1f);
             }
-            if (stop)
-                isStopNecessarry();
             float length = (nextPoint.center - transform.position).magnitude;
             if (length < 0.1f)
                 nextPoint = nextPoint.getNextPoint();
             else
-                if (!stop && canMove())
+            {
+                if (canMove())
+                {
                     Move();
+                }
+                else
+                {
+                    time++;
+                    if (time > 200)
+                    {
+                        audioSource = gameObject.GetComponent<AudioSource>();
+                        time = 100;
+                        if (audioSource != null)
+                        {
+                            audioSource.Play();
+                            Debug.Log("play");
+                        }
+                    }
+                }
+            }
+               
+              
             SpeedAdjustments(length);
         }
 
@@ -67,11 +89,6 @@ namespace Assets.Scripts.AdvancedCity.monoBeheviors.interactiveObjects
             waitedcar = null;
             return true;
         }
-
-        protected virtual void isStopNecessarry()
-        {
-            
-        }
         protected virtual void SpeedAdjustments(float length)
         {
             if (length > 3.0f)
@@ -91,10 +108,10 @@ namespace Assets.Scripts.AdvancedCity.monoBeheviors.interactiveObjects
             Vector3 newDir = Vector3.RotateTowards(transform.forward, toward, 0.1f, 0.0f);
             float angle = Vector3.Angle(toward, transform.forward);
             float slower;
-            if (angle < 5.0f) slower = 1.0f;
-            else slower = 1.0f / (angle * 10.0f);
+            if (angle < 10.0f) slower = 1.0f;
+            else slower = 1.0f / (angle * 1.0f);
             transform.rotation = Quaternion.LookRotation(newDir);
-            transform.position += newDir.normalized * actualspeed * 0.01f * slower;
+            transform.position += toward.normalized * speed * 0.1f * Time.deltaTime;
         }
     }
 }

@@ -24,7 +24,7 @@ namespace Assets.Scripts.AdvancedCity.monoBeheviors.interactiveObjects
             nextPoint = next;
             A_nextPoint = new MovementCurve(next,next.getNextPoint(),speed*0.01f);
             B_nextPoint = new MovementCurve(next, next.getNextPoint(), speed * 0.01f);
-            A_nextPoint.addTime(0.6f);
+            A_nextPoint.addTime(0.8f);
         }
 
         public void setDirection()
@@ -51,8 +51,9 @@ namespace Assets.Scripts.AdvancedCity.monoBeheviors.interactiveObjects
 
         private void CalculateA()
         {
-            if (next_tram == null || ((next_tram.B_point - A_point).magnitude > 0.05f && ((next_tram.A_point - A_point).magnitude > 0.4f)))
-                A_point = A_nextPoint.getPosition();
+            if (next_tram == null || ((next_tram.B_point - A_point).magnitude > 0 && ((next_tram.A_point - A_point).magnitude > 0.7f)))
+                 A_point = A_nextPoint.getPosition();
+           
         }
 
         private void CalculateB()
@@ -63,6 +64,8 @@ namespace Assets.Scripts.AdvancedCity.monoBeheviors.interactiveObjects
 
         public override void Move()
         {
+            /*Debug.DrawLine(A_point, A_point + new Vector3(0, 1, 0), Color.red);
+            Debug.DrawLine(B_point, B_point + new Vector3(0, 1, 0), Color.blue);*/
             Vector3 toward = (A_point - B_point).normalized;
             transform.rotation = Quaternion.LookRotation(toward);
             transform.position = (A_point + B_point)/2;

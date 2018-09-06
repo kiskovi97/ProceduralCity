@@ -40,12 +40,16 @@ namespace Assets.Scripts.AdvancedCity
             values = GetComponent<RoadGeneratingValues>();
             if (values == null) throw new System.Exception("No Values Binded");
         }
-        public List<GraphPoint> GenerateGraph()
+        public List<GraphPoint> GenerateGraph(bool visual, bool depth)
         {
             ClearStart();
             GeneratingMainRoads();
             GeneratingFirstSideRoads();
             GeneratingMoreSideRoads();
+            if (visual)
+            {
+                Visualization01(depth);
+            }
             ClearDeadEnds();
             List<GraphPoint> kimenet = new List<GraphPoint>();
             foreach(InteractiveGraphPoint point in roads)

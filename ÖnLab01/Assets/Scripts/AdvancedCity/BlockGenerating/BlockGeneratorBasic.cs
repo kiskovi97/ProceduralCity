@@ -105,7 +105,6 @@ class BlockGeneratorBasic : BlockGenerator
                         BuildingObject baseBuild = me.GetComponent<BuildingObject>();
                         baseBuild.MakeBase(elozoDeep, vertexes[i], nextDeep);
                     buildings.Add(baseBuild);
-                    Debug.Log("BASE");
                     elozoLine.Add(new KontrolLine(elozoHousePoint, crossingPoint));
                     nextLine.Add(new KontrolLine(nextHousePoint, crossingPoint));
 

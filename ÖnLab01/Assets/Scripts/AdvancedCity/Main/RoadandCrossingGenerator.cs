@@ -58,7 +58,8 @@ namespace Assets.Scripts.AdvancedCity
                 }
 
                 Vector3 ez = road.position;
-                bool ezbool = !road.isSideRoad();
+                bool elozoMain = road.isMainRoad();
+                bool elozoTram = road.isTram();
                 for (int i = 0; i < szomszedok.Count; i++)
                 {
                     int kov = i + 1;
@@ -68,10 +69,12 @@ namespace Assets.Scripts.AdvancedCity
 
 
                     float utelozo = RoadSize * sizeRatio;
-                    if (!szomszedok[i].isSideRoad() && ezbool) utelozo += sizeRatio * RoadSize * 2;
+                    if (szomszedok[i].isMainRoad() && elozoMain) utelozo += sizeRatio * RoadSize * 2;
+                    if (szomszedok[i].isTram() && elozoTram) utelozo += sizeRatio * RoadSize * 1;
 
                     float utekov = RoadSize * sizeRatio;
-                    if (!szomszedok[kov].isSideRoad() && ezbool) utekov += sizeRatio * RoadSize * 2;
+                    if (szomszedok[kov].isMainRoad() && elozoMain) utekov += sizeRatio * RoadSize * 2;
+                    if (szomszedok[kov].isTram() && elozoTram) utekov += sizeRatio * RoadSize * 1;
                     float sidewalk = RoadSize * sizeRatio;
 
                     Vector3 merolegeselozo = MyMath.Meroleges(ez, elozo).normalized * utelozo;

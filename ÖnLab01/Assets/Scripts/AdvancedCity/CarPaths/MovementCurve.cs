@@ -45,5 +45,27 @@ namespace Assets.Scripts.AdvancedCity
 
             return elozo.center + dir.normalized * time;
         }
+
+        public Vector3 getPlusPosition(float timeplus)
+        {
+            float tmpTime = time;
+            if (elozo != kovetkezo)
+            {
+                tmpTime += timeplus; 
+            }
+            Vector3 dir = kovetkezo.center - elozo.center;
+            if (dir.magnitude < tmpTime)
+            {
+                tmpTime -= dir.magnitude;
+                MovementPoint tmpElozo = kovetkezo;
+                MovementPoint tmpKovetkezo = kovetkezo.getNextPoint();
+                if (tmpElozo == tmpKovetkezo)
+                {
+                    return tmpKovetkezo.center;
+                }
+                dir = tmpKovetkezo.center - tmpElozo.center;
+            }
+            return elozo.center + dir.normalized * tmpTime;
+        }
     }
 }

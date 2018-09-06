@@ -59,24 +59,24 @@ MonoBehaviour:
   Sizes:
   - 0
   - 0
-  - 5
-  - 5
-  sizeRatio: 5
+  - 14
+  - 14
+  sizeRatio: 6
   CollapseMainRoad: 1
   CollapseSideRoad: 1
-  RoadSize: 0.1
+  RoadSize: 0.15
   MainRoadDistance: 1.1
   SideRoadsDistance: 1.1
   straightFreqMainRoad: 0.9
-  straightFreqSideRoad: 0.177
+  straightFreqSideRoad: 0.68
   maxCrossings: 4
   rotationRandomMainRoad: 0.111
-  rotationRandomSideRoad: 0
-  sideRoadFreq: 0.471
+  rotationRandomSideRoad: 0.045
+  sideRoadFreq: 0.321
   smootIntensity: 0.435
   minHouseSize: 0.2
   HouseUpminSize: 1
-  HouseUpmaxSize: 4
+  HouseUpmaxSize: 8
   HouseDeepminSize: 0.2
   HouseDeepmaxSize: 0.3
   floorSize: 0.05
@@ -97,7 +97,7 @@ MonoBehaviour:
   makecars: 1
   helplines_draw: 0
   cars_number: 100
-  depthtest: 1
+  depthtest: 0
   makeblocks: 1
   trams: 1
 --- !u!114 &114702943412692204
@@ -128,9 +128,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buildings:
-  - {fileID: 1863853056459178, guid: d697f80d7f0d85e4caac13f0b312e419, type: 2}
-  - {fileID: 1863853056459178, guid: 762644fbe4a264746945f07ad9b2f454, type: 2}
   - {fileID: 1863853056459178, guid: fa45dc007c5cf954cbfc7f1f03297fb7, type: 2}
+  - {fileID: 1863853056459178, guid: 762644fbe4a264746945f07ad9b2f454, type: 2}
+  - {fileID: 1863853056459178, guid: d697f80d7f0d85e4caac13f0b312e419, type: 2}
 --- !u!114 &114987458724125090
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -143,3 +143,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roadObject: {fileID: 1268133786361746, guid: f1c58c83dae44f54baf3667b6de11860, type: 2}
+  crossLamp: {fileID: 1136329489521962, guid: 0f6e573d25a8045488bb497a047f6883, type: 2}
+  wireObject: {fileID: 1956822081182336, guid: 8c7ceae03ceb8274b80f9125f0b66357, type: 2}

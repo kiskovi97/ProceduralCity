@@ -31,7 +31,7 @@ public class BuildingObject : MonoBehaviour {
         Start();
         float positionValue = (values.getTextureValue(kontrolpoints[0])* 2);
         // 
-        int floorNumber = (int)((Random.value*0.25 + 0.75) * (max - min) * positionValue) + min;
+        int floorNumber = (int)((Random.value*0.75 + 0.25) * (max - min) * positionValue) + min;
         Building building = new Building(kontrolpoints, floor, floorNumber);
         foreach (Triangle triangle in building.getTriangles())
         {

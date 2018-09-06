@@ -53,5 +53,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cars:
   - {fileID: 1947337989532640, guid: 0cb8f416e5e41da43b9811b5ca0e5981, type: 2}
-  cameraCar: {fileID: 1947337989532640, guid: 0cb8f416e5e41da43b9811b5ca0e5981, type: 2}
+  cameraCar: {fileID: 1158126104182288, guid: e7c3fd37b8898614fa1ffd42fc816c3b, type: 2}
   tram: {fileID: 1144836741589656, guid: 10d0634f0cb50814c8e1a47e69063857, type: 2}

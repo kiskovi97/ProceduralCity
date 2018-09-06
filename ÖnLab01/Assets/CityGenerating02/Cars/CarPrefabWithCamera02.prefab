@@ -37,10 +37,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4426496251564116}
-  - component: {fileID: 20641471425711222}
-  - component: {fileID: 124220432449693770}
   - component: {fileID: 81272764157682792}
-  - component: {fileID: 114988004409608844}
+  - component: {fileID: 20282466630041852}
   m_Layer: 0
   m_Name: Camera
   m_TagString: Untagged
@@ -116,7 +114,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1483538892054078}
   m_LocalRotation: {x: -0.035598587, y: -0, z: -0, w: 0.99936616}
-  m_LocalPosition: {x: 0, y: 0.193, z: -0.457}
+  m_LocalPosition: {x: 0, y: 0.306, z: -0.457}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4130271614522758}
@@ -135,7 +133,7 @@ Transform:
   m_Father: {fileID: 4130271614522758}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!20 &20641471425711222
+--- !u!20 &20282466630041852
 Camera:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -155,9 +153,9 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
+  near clip plane: 0.1
   far clip plane: 1000
-  field of view: 60
+  field of view: 95
   orthographic: 0
   orthographic size: 5
   m_Depth: 0
@@ -262,23 +260,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b44d2e014f2c46b4a9f85ae615cac416, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
---- !u!114 &114988004409608844
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1483538892054078}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ff26db721962cdf4a8edcdfa9a767d2a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  profile: {fileID: 11400000, guid: aed47bf7e268a1a439a6c9f8be46bf74, type: 2}
---- !u!124 &124220432449693770
-Behaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1483538892054078}
-  m_Enabled: 1
+  audioSource: {fileID: 0}
+  speed: 20
+  hasCamera: 1
+  time: 0

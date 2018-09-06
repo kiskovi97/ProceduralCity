@@ -8,10 +8,30 @@ namespace Assets.Scripts.AdvancedCity
     class GameObjectGenerator : MonoBehaviour
     {
         public GameObject roadObject;
+        public GameObject crossLamp;
+        public GameObject wireObject;
         List<Crossing> roads;
         List<List<Crossing>> circles;
         BuildingContainer buildingContainer;
-        
+        List<Vector3> AList = new List<Vector3>();
+        List<Vector3> BList = new List<Vector3>();
+
+        public void AddLine(Vector3 a, Vector3 b, float scale)
+        {
+            GameObject wire = Instantiate(wireObject);
+            wire.transform.position = (a + b) / 2;
+            wire.transform.rotation = Quaternion.LookRotation(a - b);
+            wire.transform.localScale = new Vector3(scale, scale, (a - b).magnitude * 50);
+        }
+
+        public GameObject createCrossLamp(Vector3 position, Vector3 forward)
+        {
+            GameObject output = Instantiate(crossLamp);
+            output.transform.position = position;
+            output.transform.rotation = Quaternion.LookRotation(forward, new Vector3(0, 1, 0));
+            return output;
+        }
+
         public void GenerateBlocks(List<Crossing> crossings)
         {
             circles = new List<List<Crossing>>();

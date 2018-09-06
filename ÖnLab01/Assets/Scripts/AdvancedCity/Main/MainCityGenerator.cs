@@ -33,10 +33,15 @@ namespace Assets.Scripts.AdvancedCity
             if (graphGen == null) return;
             if (!graphGen.isActiveAndEnabled) return;
             
-            List<GraphPoint> points = graphGen.GenerateGraph();
-            if (VisualGraph)
-                graphGen.Visualization01(depthtest);
-
+            List<GraphPoint> points = graphGen.GenerateGraph(VisualGraph,depthtest);
+            int max = 10;
+            while (max > 0 && points.Count <= 0)
+            {
+                int i = 10-max+1;
+                Debug.Log("The " + i + ". try was an empty graph");
+                max--;
+                points = graphGen.GenerateGraph(VisualGraph, depthtest);
+            }
             GameObjectGenerator gameObjectGenerator = GetComponent<GameObjectGenerator>();
             if (gameObjectGenerator == null) return;
             if (!gameObjectGenerator.isActiveAndEnabled) return;
@@ -51,6 +56,10 @@ namespace Assets.Scripts.AdvancedCity
                     gameObjectGenerator.GenerateBlocks(crossings);
                 if (makecars)
                     GenerateCars();
+            }
+            foreach (Crossing cros in crossings)
+            {
+                cros.Valt();
             }
         }
 
@@ -92,7 +101,8 @@ namespace Assets.Scripts.AdvancedCity
                 {
                     cros.Valt();
                 }
-                i = 1;
+                if (i == 300) i = 500;
+                else i = 1;
                 Debug.Log("Valtott");
             }
         }
