@@ -106,13 +106,19 @@ namespace Assets.Scripts.AdvancedCity.monoBeheviors.interactiveObjects
         public override void Move()
         {
             Vector3 toward = (nextPoint.center - (transform.position));
-            Vector3 newDir = Vector3.RotateTowards(transform.forward, toward, 0.4f, 0.0f);
+            Vector3 newDir = Vector3.RotateTowards(transform.forward, toward, speed * Time.deltaTime * 0.2f, 0.0f);
             float angle = Vector3.Angle(toward, transform.forward);
             float slower;
-            if (angle < 10.0f) slower = 1.0f;
-            else slower = 1.0f / (angle * 1.0f);
-            transform.rotation = Quaternion.LookRotation(newDir);
-            transform.position += newDir.normalized * speed * 0.1f * Time.deltaTime;
+            if (angle < 30.0f)
+            {
+                transform.rotation = Quaternion.LookRotation(newDir);
+                transform.position += newDir.normalized * speed * 0.1f * Time.deltaTime;
+            }
+            else {
+                transform.rotation = Quaternion.LookRotation(newDir);
+                transform.position += toward.normalized * 20 * 0.1f * Time.deltaTime;
+            }
+            
         }
     }
 }

@@ -34,6 +34,10 @@ class BlockGeneratorBasic : BlockGenerator
 
     public void GenerateBuildings(List<Vector3> vertexes, BuildingContainer buildingContainer)
     {
+        GameObject placeObject = buildingContainer.place;
+        placeObject.transform.position = vertexes[0];
+        GreenPlace place = placeObject.GetComponent<GreenPlace>();
+        place.MakePlace(vertexes);
         bool sikeres = true;
         if (vertexes.Count == 3)
         {
@@ -93,18 +97,22 @@ class BlockGeneratorBasic : BlockGenerator
                     {
                         Debug.DrawLine(nextDeep, nextHousePoint, Color.black, 100.0f);
                         sikeres = false;
-                    } 
+                    }
+                    if (nextLine.Count > 0 && MyMath.Between(nextLine.Last().normalPoint,vertexes[elozo],elozoHousePoint)) {
+                        Debug.DrawLine(nextLine.Last().normalPoint, elozoHousePoint, Color.red, 100.0f);
+                        sikeres = false;
+                    }
                     kontrolpoints.Add(elozoHousePoint);
                     kontrolpoints.Add(elozoDeep);
                     kontrolpoints.Add(nextDeep);
                     kontrolpoints.Add(nextHousePoint);
                     kontrolpoints.Add(crossingPoint);
-                        GameObject me = buildingContainer.building;
-                        me.name = "BASE";
-                        me.transform.position = vertexes[i];
-                        BuildingObject baseBuild = me.GetComponent<BuildingObject>();
-                        baseBuild.MakeBase(elozoDeep, vertexes[i], nextDeep);
-                    buildings.Add(baseBuild);
+                    /*  GameObject me = buildingContainer.building;
+                      me.name = "BASE";
+                      me.transform.position = vertexes[i];
+                      BuildingObject baseBuild = me.GetComponent<BuildingObject>();
+                      baseBuild.MakeBase(elozoDeep, vertexes[i], nextDeep);
+                  buildings.Add(baseBuild);*/
                     elozoLine.Add(new KontrolLine(elozoHousePoint, crossingPoint));
                     nextLine.Add(new KontrolLine(nextHousePoint, crossingPoint));
 

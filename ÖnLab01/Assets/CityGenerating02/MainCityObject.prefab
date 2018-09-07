@@ -59,8 +59,8 @@ MonoBehaviour:
   Sizes:
   - 0
   - 0
-  - 10
-  - 10
+  - 7
+  - 7
   sizeRatio: 6
   CollapseMainRoad: 1
   CollapseSideRoad: 1
@@ -68,12 +68,12 @@ MonoBehaviour:
   MainRoadDistance: 1.1
   SideRoadsDistance: 1.1
   straightFreqMainRoad: 0.9
-  straightFreqSideRoad: 0.68
+  straightFreqSideRoad: 0.251
   maxCrossings: 4
   rotationRandomMainRoad: 0.111
   rotationRandomSideRoad: 0.045
-  sideRoadFreq: 0.321
-  smootIntensity: 0.435
+  sideRoadFreq: 0.644
+  smootIntensity: 0.089
   minHouseSize: 0.2
   HouseUpminSize: 1
   HouseUpmaxSize: 5
@@ -131,6 +131,8 @@ MonoBehaviour:
   - {fileID: 1863853056459178, guid: fa45dc007c5cf954cbfc7f1f03297fb7, type: 2}
   - {fileID: 1863853056459178, guid: 762644fbe4a264746945f07ad9b2f454, type: 2}
   - {fileID: 1863853056459178, guid: d697f80d7f0d85e4caac13f0b312e419, type: 2}
+  greenPlace:
+  - {fileID: 1137879034718380, guid: 3b70acdcae87a9643bc8a20f2bc63ca6, type: 2}
 --- !u!114 &114987458724125090
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -183,7 +183,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioSource: {fileID: 0}
-  speed: 20
+  speed: 25
   hasCamera: 0
   time: 0
   carsize: 1
