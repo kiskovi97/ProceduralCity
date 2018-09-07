@@ -10,6 +10,7 @@ namespace Assets.Scripts.AdvancedCity
         public GameObject roadObject;
         public GameObject crossLamp;
         public GameObject wireObject;
+        public GameObject railObject;
         List<Crossing> roads;
         List<List<Crossing>> circles;
         BuildingContainer buildingContainer;
@@ -22,6 +23,30 @@ namespace Assets.Scripts.AdvancedCity
             wire.transform.position = (a + b) / 2;
             wire.transform.rotation = Quaternion.LookRotation(a - b);
             wire.transform.localScale = new Vector3(scale, scale, (a - b).magnitude * 50);
+        }
+
+
+        public void CreateRails(Vector3 a, Vector3 b, Vector3 c, Vector3 d, int mat)
+        {
+            AddRail((a * 3 + c * 2) / 5, (b * 3 + d * 2) / 5, 0.4f);
+            AddRail((a * 2 + c * 3) / 5, (b * 2 + d * 3) / 5, 0.4f);
+        }
+
+        private void AddRail(Vector3 a, Vector3 b, float scale)
+        {
+            GameObject rail = Instantiate(railObject);
+            rail.transform.position = (a + b) / 2;
+            rail.transform.rotation = Quaternion.LookRotation(a - b);
+            rail.transform.localScale = new Vector3(scale, scale, (a - b).magnitude * 50);
+        }
+
+
+        public void CreateCrossing(List<Vector3> polygon, int mat)
+        {
+            GameObject road = Instantiate(roadObject);
+            RoadPhysicalObject roadobj = road.GetComponent<RoadPhysicalObject>();
+            roadobj.CreateCrossingMesh(polygon, mat);
+            roadobj.CreateMesh();
         }
 
         public GameObject createCrossLamp(Vector3 position, Vector3 forward)
@@ -39,7 +64,7 @@ namespace Assets.Scripts.AdvancedCity
             if (roads == null)
             {
                 Debug.Log("ERROR Not initializaled Roads");
-                return ;
+                return;
             }
             buildingContainer = GetComponent<BuildingContainer>();
             if (buildingContainer == null)
@@ -58,7 +83,7 @@ namespace Assets.Scripts.AdvancedCity
                 }
             }
             StartCoroutine(GenerateFromCircles());
-            
+
         }
 
         IEnumerator GenerateFromCircles()
@@ -142,10 +167,10 @@ namespace Assets.Scripts.AdvancedCity
         public void CreateRoad(Vector3 a, Vector3 b, Vector3 c, Vector3 d, int mat)
         {
             GameObject road = Instantiate(roadObject);
-            RoadPhysicalObject roadobj =  road.GetComponent<RoadPhysicalObject>();
-            roadobj.GenerateBlockMesh(a, b, c, d, mat);
+            RoadPhysicalObject roadobj = road.GetComponent<RoadPhysicalObject>();
+            roadobj.CreateRoadMesh(a, b, c, d, mat);
             roadobj.CreateMesh();
         }
-        
+
     }
 }

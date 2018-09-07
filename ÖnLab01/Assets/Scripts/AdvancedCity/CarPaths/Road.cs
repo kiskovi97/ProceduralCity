@@ -26,8 +26,8 @@ namespace Assets.Scripts.AdvancedCity
         public Road(GameObjectGenerator generatorbe)
         {
             egyik = null;
-            line_egyik = null; 
-            line_masik = null; 
+            line_egyik = null;
+            line_masik = null;
             masik = null;
             generator = generatorbe;
         }
@@ -37,10 +37,10 @@ namespace Assets.Scripts.AdvancedCity
             masik = b;
             if (a.main && b.main)
             {
-                    sav = 3;
+                sav = 3;
             }
             else
-               sav = 1;
+                sav = 1;
             if (a.tram && b.tram) sav++;
             tram = (a.tram && b.tram);
         }
@@ -51,13 +51,13 @@ namespace Assets.Scripts.AdvancedCity
                 line_egyik = new Vector3[2];
                 line_egyik[0] = a;
                 line_egyik[1] = b;
-            } 
+            }
             if (be.Equals(masik))
             {
                 line_masik = new Vector3[2];
                 line_masik[0] = a;
                 line_masik[1] = b;
-            } 
+            }
         }
         public void addMovePoint(Crossing be, MovementPoint[] befele, MovementPoint[] kifele)
         {
@@ -73,7 +73,7 @@ namespace Assets.Scripts.AdvancedCity
             }
             if (egyik_be != null && masik_ki != null)
             {
-                for (int i=sav; i>0; i--)
+                for (int i = sav; i > 0; i--)
                 {
                     int j = egyik_be.Length - i;
                     if (j < 0) j = 0;
@@ -123,9 +123,9 @@ namespace Assets.Scripts.AdvancedCity
         {
             if (line_egyik != null && line_masik != null)
             {
-                
-                generator.CreateRoad( masik.KeresztRoad(egyik), egyik.KeresztRoadMasik(masik), masik.Kereszt(egyik), egyik.KeresztMasik(masik),0);
-                generator.CreateRoad( egyik.KeresztRoad(masik), masik.KeresztRoadMasik(egyik), egyik.Kereszt(masik), masik.KeresztMasik(egyik), 0);
+
+                generator.CreateRoad(masik.KeresztRoad(egyik), egyik.KeresztRoadMasik(masik), masik.Kereszt(egyik), egyik.KeresztMasik(masik), 0);
+                generator.CreateRoad(egyik.KeresztRoad(masik), masik.KeresztRoadMasik(egyik), egyik.Kereszt(masik), masik.KeresztMasik(egyik), 0);
                 Vector3 centerMasik = (line_masik[0] + line_masik[1]) / 2;
                 Vector3 centerEgyik = (line_egyik[0] + line_egyik[1]) / 2;
                 if (sav == 1 || sav == 0)
@@ -138,15 +138,15 @@ namespace Assets.Scripts.AdvancedCity
                     Vector3 dir = (line_egyik[0] - line_masik[1]).normalized * 0.2f;
                     generator.CreateRoad(line_egyik[0], line_masik[1], (egyik_be[0].center + egyik_be[1].center) / 2 + dir, (masik_ki[0].center + masik_ki[1].center) / 2 - dir, 2);
                     generator.CreateRoad(line_masik[0], line_egyik[1], (masik_be[0].center + masik_be[1].center) / 2 - dir, (egyik_ki[0].center + egyik_ki[1].center) / 2 + dir, 2);
-                    for (int i=1; i<sav-1; i++)
+                    for (int i = 1; i < sav - 1; i++)
                     {
                         generator.CreateRoad((masik_ki[i + 1].center + masik_ki[i].center) / 2 - dir, (egyik_be[i].center + egyik_be[i + 1].center) / 2 + dir,
                          (masik_ki[i - 1].center + masik_ki[i].center) / 2 - dir, (egyik_be[i].center + egyik_be[i - 1].center) / 2 + dir, 1);
-                        generator.CreateRoad( (egyik_ki[i].center + egyik_ki[i + 1].center) / 2 + dir, (masik_be[i + 1].center + masik_be[i].center) / 2 - dir,
+                        generator.CreateRoad((egyik_ki[i].center + egyik_ki[i + 1].center) / 2 + dir, (masik_be[i + 1].center + masik_be[i].center) / 2 - dir,
                         (egyik_ki[i].center + egyik_ki[i - 1].center) / 2 + dir, (masik_be[i - 1].center + masik_be[i].center) / 2 - dir, 1);
                     }
 
-                    if (!tram)
+
                     {
                         generator.CreateRoad(centerMasik, centerEgyik,
                          (masik_ki[sav - 2].center + masik_ki[sav - 1].center) / 2 - dir, (egyik_be[sav - 2].center + egyik_be[sav - 1].center) / 2 + dir,
@@ -155,17 +155,19 @@ namespace Assets.Scripts.AdvancedCity
                         generator.CreateRoad(centerEgyik, centerMasik,
                               (egyik_ki[sav - 2].center + egyik_ki[sav - 1].center) / 2 + dir, (masik_be[sav - 2].center + masik_be[sav - 1].center) / 2 - dir,
                               2);
-                    } else
+                    }
+                    if (tram)
                     {
-                        generator.CreateRoad(centerMasik + dir, centerEgyik - dir,
+                        generator.CreateRails(centerMasik + dir, centerEgyik - dir,
                          (masik_ki[sav - 2].center + masik_ki[sav - 1].center) / 2, (egyik_be[sav - 2].center + egyik_be[sav - 1].center) / 2,
-                         3 );
+                         3);
 
-                        generator.CreateRoad(centerEgyik - dir, centerMasik + dir,
+                        generator.CreateRails(centerEgyik - dir, centerMasik + dir,
                               (egyik_ki[sav - 2].center + egyik_ki[sav - 1].center) / 2, (masik_be[sav - 2].center + masik_be[sav - 1].center) / 2,
                               3);
+
                     }
-                        
+
                     if (egyik.tram && masik.tram)
                     {
                         Vector3 up = new Vector3(0, 0.4f, 0);
@@ -174,12 +176,13 @@ namespace Assets.Scripts.AdvancedCity
                     }
                 }
             }
-            
         }
+
         public bool isSame(Crossing a, Crossing b)
         {
             return ((egyik == a && masik == b) || (egyik == b && masik == a));
         }
+
         public Crossing NextCros(Crossing a)
         {
             if (egyik.Equals(a))

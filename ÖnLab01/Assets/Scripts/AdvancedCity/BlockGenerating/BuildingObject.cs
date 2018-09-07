@@ -75,7 +75,7 @@ public class BuildingObject : MonoBehaviour {
     void CreateMesh()
     {
         mesh.Clear();
-        if (meshVertexes.Count < 3)
+        if (meshVertexes == null || meshVertexes.Count < 3)
         {
             Destroy(this.gameObject, 0.1f);
             return;

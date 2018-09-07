@@ -14,7 +14,7 @@ OcclusionCullingSettings:
 RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
-  m_Fog: 1
+  m_Fog: 0
   m_FogColor: {r: 0.54901963, g: 0.654902, b: 0.72156864, a: 1}
   m_FogMode: 1
   m_FogDensity: 0.01
@@ -217,31 +217,6 @@ Prefab:
     - target: {fileID: 4055480370328876, guid: f22bf4b8f9d101740ab663cfe3ba5d0f, type: 2}
       propertyPath: m_RootOrder
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114540087894697062, guid: f22bf4b8f9d101740ab663cfe3ba5d0f,
-        type: 2}
-      propertyPath: makeblocks
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114441052606758114, guid: f22bf4b8f9d101740ab663cfe3ba5d0f,
-        type: 2}
-      propertyPath: HouseUpmaxSize
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 114441052606758114, guid: f22bf4b8f9d101740ab663cfe3ba5d0f,
-        type: 2}
-      propertyPath: Sizes.Array.data[2]
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 114441052606758114, guid: f22bf4b8f9d101740ab663cfe3ba5d0f,
-        type: 2}
-      propertyPath: Sizes.Array.data[3]
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 114540087894697062, guid: f22bf4b8f9d101740ab663cfe3ba5d0f,
-        type: 2}
-      propertyPath: helplines_draw
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f22bf4b8f9d101740ab663cfe3ba5d0f, type: 2}

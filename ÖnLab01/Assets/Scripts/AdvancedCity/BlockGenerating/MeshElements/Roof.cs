@@ -8,6 +8,7 @@ class Roof : MeshElementImpl
     public Roof(List<Vector3> controlpoints, bool last)
     {
         shapes.Add(new Polygon(controlpoints, MATERIALSIMPLEWALL));
+        
         if (last && controlpoints.Count == 4) {
             Vector3 tetopontA = (controlpoints[0] + controlpoints[1]) / 2 + new Vector3(0, 0.3f, 0);
             Vector3 tetopontB = (controlpoints[3] + controlpoints[2]) / 2 + new Vector3(0, 0.3f, 0);

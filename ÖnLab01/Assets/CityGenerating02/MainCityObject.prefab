@@ -59,8 +59,8 @@ MonoBehaviour:
   Sizes:
   - 0
   - 0
-  - 14
-  - 14
+  - 10
+  - 10
   sizeRatio: 6
   CollapseMainRoad: 1
   CollapseSideRoad: 1
@@ -76,7 +76,7 @@ MonoBehaviour:
   smootIntensity: 0.435
   minHouseSize: 0.2
   HouseUpminSize: 1
-  HouseUpmaxSize: 8
+  HouseUpmaxSize: 5
   HouseDeepminSize: 0.2
   HouseDeepmaxSize: 0.3
   floorSize: 0.05
@@ -145,3 +145,4 @@ MonoBehaviour:
   roadObject: {fileID: 1268133786361746, guid: f1c58c83dae44f54baf3667b6de11860, type: 2}
   crossLamp: {fileID: 1136329489521962, guid: 0f6e573d25a8045488bb497a047f6883, type: 2}
   wireObject: {fileID: 1956822081182336, guid: 8c7ceae03ceb8274b80f9125f0b66357, type: 2}
+  railObject: {fileID: 1956822081182336, guid: b8eb0d6b8d6a9a84f89a4e74c14fb069, type: 2}
