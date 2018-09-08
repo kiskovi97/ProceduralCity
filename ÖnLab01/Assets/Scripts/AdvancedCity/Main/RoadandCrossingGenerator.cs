@@ -178,7 +178,6 @@ namespace Assets.Scripts.AdvancedCity
 
         public void SetTram(GameObject cars, GameObject cars2)
         {
-            int i = 0;
             if (crossings == null) return;
             foreach (Crossing cros in crossings)
             {
@@ -190,9 +189,9 @@ namespace Assets.Scripts.AdvancedCity
                     cars.transform.position = cros.center;
                     cars2.transform.position = cros.center;
                     vehicle.setDirection();
-                    vehicle.generateMore(5);
+                    vehicle.generateMore(8);
                     vehicle2.setDirection();
-                    vehicle2.generateMore(5);
+                    vehicle2.generateMore(8);
                     return;
                 }
             }

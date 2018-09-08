@@ -174,7 +174,7 @@ namespace Assets.Scripts.AdvancedCity
 
                     if (egyik.tram && masik.tram)
                     {
-                        Vector3 up = new Vector3(0, 0.4f, 0);
+                        Vector3 up = new Vector3(0, 0.35f, 0);
                         generator.AddLine(egyik_be.Last().center + up, masik_ki.Last().center + up, 0.15f);
                         generator.AddLine(masik_be.Last().center + up, egyik_ki.Last().center + up, 0.15f);
                     }

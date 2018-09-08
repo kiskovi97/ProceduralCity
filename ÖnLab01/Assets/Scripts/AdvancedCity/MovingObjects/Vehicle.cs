@@ -23,11 +23,12 @@ namespace Assets.Scripts.AdvancedCity
 
         public virtual void Update()
         {
-            if (nextPoint == null) return;
+            
             Step();
         }
         public virtual void Step()
         {
+            if (nextPoint == null) return;
             float length = (nextPoint.center - transform.position).magnitude;
             if (length < 0.1f)
             {

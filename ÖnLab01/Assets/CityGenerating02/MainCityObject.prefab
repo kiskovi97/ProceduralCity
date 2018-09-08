@@ -59,8 +59,8 @@ MonoBehaviour:
   Sizes:
   - 0
   - 0
-  - 7
-  - 7
+  - 10
+  - 10
   sizeRatio: 6
   CollapseMainRoad: 1
   CollapseSideRoad: 1
@@ -76,10 +76,10 @@ MonoBehaviour:
   smootIntensity: 0.089
   minHouseSize: 0.2
   HouseUpminSize: 1
-  HouseUpmaxSize: 5
+  HouseUpmaxSize: 8
   HouseDeepminSize: 0.2
   HouseDeepmaxSize: 0.3
-  floorSize: 0.05
+  floorSize: 0.04
 --- !u!114 &114540087894697062
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -96,8 +96,8 @@ MonoBehaviour:
   VisualRoads: 1
   makecars: 1
   helplines_draw: 0
-  cars_number: 100
-  depthtest: 0
+  cars_number: 500
+  depthtest: 1
   makeblocks: 1
   trams: 1
 --- !u!114 &114702943412692204

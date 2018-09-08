@@ -24,7 +24,7 @@ namespace Assets.Scripts.AdvancedCity.monoBeheviors.interactiveObjects
             nextPoint = next;
             A_nextPoint = new MovementCurve(next,next.getNextPoint(),speed*0.01f);
             B_nextPoint = new MovementCurve(next, next.getNextPoint(), speed * 0.01f);
-            A_nextPoint.addTime(0.8f);
+            A_nextPoint.addTime(0.6f);
         }
 
         public void setDirection()
@@ -51,7 +51,7 @@ namespace Assets.Scripts.AdvancedCity.monoBeheviors.interactiveObjects
 
         private void CalculateA()
         {
-            if (next_tram == null || ((next_tram.B_point - A_point).magnitude > 0 && ((next_tram.A_point - A_point).magnitude > 0.7f)))
+            if (next_tram == null || ((next_tram.B_point - A_point).magnitude > 0 && ((next_tram.A_point - A_point).magnitude > 0.5f)))
                  A_point = A_nextPoint.getPosition();
            
         }

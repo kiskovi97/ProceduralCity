@@ -12,8 +12,10 @@ namespace Assets.Scripts.AdvancedCity.monoBeheviors.interactiveObjects
         public bool hasCamera = false;
         public int time = 0;
         public float carsize = 1.0f;
+        
         public override void Step()
         {
+            if (nextPoint == null) return;
             if (isLoop(new List<Car>() { this }))
             {
                 if (!hasCamera)

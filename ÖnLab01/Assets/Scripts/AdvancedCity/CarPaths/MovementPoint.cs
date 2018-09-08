@@ -53,17 +53,30 @@ namespace Assets.Scripts.AdvancedCity
         }
         public void Draw(bool depthtest)
         {
-            
             if (outPoints == null)
             {
                 Debug.DrawLine(center, center + new Vector3(0, 1, 0), Color.red, 1000, depthtest);
                 return;
             }
-                
-            for (int i=0; i<outPoints.Count; i++)
-                Debug.DrawLine(center, (outPoints[i].center*4 + center*0)/4, Color.green, 1000, depthtest);
-            
+
+            for (int i = 0; i < outPoints.Count; i++)
+            {
+                Vector3 cross;
+                if (Vector3.Angle(direction, outPoints[i].direction) < 30)
+                {
+                    cross = (center + outPoints[i].center) / 2;
+                }
+                else
+                {
+                    cross = MyMath.Intersect(center, direction, outPoints[i].center, outPoints[i].direction);
+                }
+                for (float time = 0; time < 1; time += 0.1f)
+                {
+                    Debug.DrawLine(BezierCurve(center,cross, outPoints[i].center, time), BezierCurve(center, cross, outPoints[i].center, time+0.1f), Color.green, 1000, depthtest);
+                }
+            } 
         }
+
         public static MovementPoint[] Connect(MovementPoint[] be, MovementPoint[] ki, bool beTram, bool kiTram, Vector3 beDir, Vector3 kiDir)
         {
             List<MovementPoint> output = new List<MovementPoint>();
@@ -115,7 +128,7 @@ namespace Assets.Scripts.AdvancedCity
             Vector3 cross = MyMath.Intersect(be.center, beDir, ki.center, kiDir);
             List<MovementPoint> movementPoints = new List<MovementPoint>();
             bool elso = true;
-            for (float i=0.25f; i<1; i+= 0.25f)
+            for (float i=0.1f; i<1; i+= 0.1f)
             {
                 MovementPoint point = new MovementPoint(
                     BezierCurve(be.center, cross, ki.center, i));

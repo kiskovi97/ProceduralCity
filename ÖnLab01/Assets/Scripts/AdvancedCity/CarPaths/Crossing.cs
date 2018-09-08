@@ -154,7 +154,7 @@ namespace Assets.Scripts.AdvancedCity
                     if (szomszed.szomszedRoad.tram && i == szomszed.carpath.bemenet.Length - 1)
                         point.Nyitott(true);
                 }
-
+                if (szomszed.carpath.lamps != null)
                 foreach (MeshRenderer renderer in szomszed.carpath.lamps)
                 {
                     Material[] tomb = renderer.materials;
@@ -173,6 +173,7 @@ namespace Assets.Scripts.AdvancedCity
                 {
                     point.Nyitott(true);
                 }
+                if (szomszed.carpath.lamps != null)
                 foreach (MeshRenderer renderer in szomszed.carpath.lamps)
                 {
                     Material[] tomb = renderer.materials;
@@ -185,6 +186,7 @@ namespace Assets.Scripts.AdvancedCity
             else
             {
                 Neighbor szomszed = szomszedok[nyitott];
+                if (szomszed.carpath.lamps != null)
                 foreach (MeshRenderer renderer in szomszed.carpath.lamps)
                 {
                     Material[] tomb = renderer.materials;
@@ -196,6 +198,7 @@ namespace Assets.Scripts.AdvancedCity
                 int next = nyitott + 1;
                 if (next > szomszedok.Count - 1) next = 0;
                 szomszed = szomszedok[next];
+                if (szomszed.carpath.lamps != null)
                 foreach (MeshRenderer renderer in szomszed.carpath.lamps)
                 {
                     Material[] tomb = renderer.materials;
@@ -229,11 +232,6 @@ namespace Assets.Scripts.AdvancedCity
                     if (szomszedok.Count > 2) carpath.bemenet[j].Nyitott(false);
                     carpath.kimenet[j] = new MovementPoint((line[0] * b + line[1] * a) / (thissavok * 4) + direction * 0.2f);
                 }
-                for (int j = 0; j < thatsavok; j++)
-                {
-                    int a = (1 + j * 2);
-                    int b = thatsavok * 2 - a;
-                }
                 szomszedok[i].szomszedRoad.addMovePoint(this, carpath.kimenet, carpath.bemenet);
                 szomszedok[i].carpath = carpath;
             }
@@ -250,12 +248,12 @@ namespace Assets.Scripts.AdvancedCity
                 if (x >= szomszedok.Count) x = 0;
                 if (helplines_draw)
                 {
-                    for (int i = 0; i < szomszed.carpath.others.Length; i++)
-                        szomszed.carpath.others[i].Draw(depthtest);
                     for (int i = 0; i < szomszed.carpath.kimenet.Length; i++)
                         szomszed.carpath.kimenet[i].Draw(depthtest);
                     for (int i = 0; i < szomszed.carpath.bemenet.Length; i++)
                         szomszed.carpath.bemenet[i].Draw(depthtest);
+                    for (int i = 0; i < szomszed.carpath.others.Length; i++)
+                        szomszed.carpath.others[i].Draw(depthtest);
                 }
                 if (szomszed.helpline.sideline[0] != szomszed.helpline.sideline[1])
                 {
@@ -290,11 +288,7 @@ namespace Assets.Scripts.AdvancedCity
             if (tram)
             {
                 List<Neighbor> trams = szomszedok.FindAll(TramNeighbour);
-                Vector3[] tram01 = trams[0].szomszedRoad.getTram(this);
-                Vector3[] tram02 = trams[1].szomszedRoad.getTram(this);
-                Vector3 egyikkozep = (trams[1].helpline.roadedgecross + center) / 2;
-                Vector3 masikkozep = (trams[0].helpline.roadedgecross + center) / 2;
-                Vector3 up = new Vector3(0, 0.4f, 0);
+                Vector3 up = new Vector3(0, 0.35f, 0);
                 MovementPoint egyik = trams[0].carpath.bemenet.Last();
                 MovementPoint masik = trams[1].carpath.kimenet.Last();
                 List<Vector3> egyikList = new List<Vector3>();

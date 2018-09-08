@@ -14,8 +14,6 @@ namespace Assets.Scripts.AdvancedCity
         List<Crossing> roads;
         List<List<Crossing>> circles;
         BuildingContainer buildingContainer;
-        List<Vector3> AList = new List<Vector3>();
-        List<Vector3> BList = new List<Vector3>();
 
         public void AddLine(Vector3 a, Vector3 b, float scale)
         {
