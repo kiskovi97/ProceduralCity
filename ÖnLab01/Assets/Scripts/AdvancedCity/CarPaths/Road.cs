@@ -80,12 +80,16 @@ namespace Assets.Scripts.AdvancedCity
                     int x = masik_ki.Length - i;
                     if (x < 0) j = 0;
                     egyik_be[j].ConnectPoint(masik_ki[x]);
+                    egyik_be[j].setDirection(masik.center - egyik.center);
+                    masik_ki[x].setDirection(masik.center - egyik.center);
 
                     j = egyik_ki.Length - i;
                     if (j < 0) j = 0;
                     x = masik_be.Length - i;
                     if (x < 0) j = 0;
                     masik_be[x].ConnectPoint(egyik_ki[j]);
+                    masik_be[x].setDirection(egyik.center - masik.center);
+                    egyik_ki[j].setDirection(egyik.center - masik.center);
                 }
             }
         }

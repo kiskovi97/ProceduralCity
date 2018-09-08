@@ -9,10 +9,16 @@ namespace Assets.Scripts.AdvancedCity
     {
 
         public MovementPoint nextPoint;
+        public MovementPoint elozoPoint;
         protected float actualspeed = 10.0f;
         public virtual void setPoint(MovementPoint next)
         {
-            nextPoint = next;
+            nextPoint = next.getNextPoint();
+            if (nextPoint == null)
+                nextPoint = next;
+            if (nextPoint != next)
+                elozoPoint = next;
+            transform.rotation = Quaternion.LookRotation(nextPoint.direction);
         }
 
         public virtual void Update()
@@ -24,7 +30,14 @@ namespace Assets.Scripts.AdvancedCity
         {
             float length = (nextPoint.center - transform.position).magnitude;
             if (length < 0.1f)
+            {
+                MovementPoint tmp = nextPoint;
                 nextPoint = nextPoint.getNextPoint();
+                if (tmp != nextPoint && nextPoint != null)
+                {
+                    elozoPoint = tmp;
+                }
+            }
             else
                 Move();
         }

@@ -36,7 +36,7 @@ GameObject:
   - component: {fileID: 4417453213028554}
   - component: {fileID: 65442470686287596}
   - component: {fileID: 54744890904704274}
-  - component: {fileID: 114292184040763272}
+  - component: {fileID: 114709516845539690}
   m_Layer: 0
   m_Name: CarPrefab02
   m_TagString: Untagged
@@ -171,7 +171,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.20712407, y: 0.26664126, z: 0.46571153}
   m_Center: {x: 0.0033979937, y: 0.121666014, z: 0.008653045}
---- !u!114 &114292184040763272
+--- !u!114 &114709516845539690
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -179,11 +179,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1320831109989684}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b44d2e014f2c46b4a9f85ae615cac416, type: 3}
+  m_Script: {fileID: 11500000, guid: be41d80f5edeadd48b7b1476fa653fb8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   audioSource: {fileID: 0}
-  speed: 25
+  speed: 10
   hasCamera: 0
   time: 0
   carsize: 1.5

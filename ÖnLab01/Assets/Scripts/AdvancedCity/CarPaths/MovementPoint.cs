@@ -8,9 +8,14 @@ namespace Assets.Scripts.AdvancedCity
     public class MovementPoint
     {
         public Vector3 center;
+        public Vector3 direction;
         public MovementPoint(Vector3 mov)
         {
             center = mov;
+        }
+        public void setDirection(Vector3 dir)
+        {
+            direction = dir;
         }
         private List<MovementPoint> outPoints;
         private bool onmaga = false;
@@ -85,24 +90,23 @@ namespace Assets.Scripts.AdvancedCity
             {
                 int length = be.Length;
                 for (int j = 0; j < kulonbseg; j++)
-                    output.AddRange(CurveAndConnect(be[0], ki[j], beDir, kiDir));
+                    be[0].ConnectPoint(ki[j]);
                 for (int j = 0; j < length; j++)
-                    output.AddRange(CurveAndConnect(be[j], ki[j + kulonbseg], beDir, kiDir));
+                    be[j].ConnectPoint(ki[j + kulonbseg]);
             }
             else
             {
                 int length = ki.Length;
                 for (int j = 0; j < kulonbseg; j++)
-                    output.AddRange(CurveAndConnect(be[j], ki[0], beDir, kiDir));
+                    be[j].ConnectPoint(ki[0]);
                 for (int j = 0; j < length; j++)
-                    output.AddRange(CurveAndConnect(be[j + kulonbseg], ki[j], beDir, kiDir));
+                   be[j + kulonbseg].ConnectPoint(ki[j]);
             }
             return output.ToArray();
         }
 
         static MovementPoint[] CurveAndConnect(MovementPoint be, MovementPoint ki, Vector3 beDir, Vector3 kiDir, int iterationMax = 5)
         {
-           
             if (iterationMax < 1 || Vector3.Angle(beDir,kiDir) < 30)
             {
                 be.ConnectPoint(ki);
@@ -115,6 +119,7 @@ namespace Assets.Scripts.AdvancedCity
             {
                 MovementPoint point = new MovementPoint(
                     BezierCurve(be.center, cross, ki.center, i));
+                point.setDirection(directionBezierCurve(be.center, cross, ki.center, i));
                 if (elso) be.ConnectPoint(point);
                 else movementPoints.Last().ConnectPoint(point);
                 movementPoints.Add(point);
@@ -129,6 +134,11 @@ namespace Assets.Scripts.AdvancedCity
             return (1 - time) * (1 - time) * P0 +
                 2 * (1 - time) * time * P1 +
                 time * time * P2;
+        }
+
+        public static Vector3 directionBezierCurve(Vector3 P0, Vector3 P1, Vector3 P2, float t)
+        {
+            return 2 * (1 - t) * (P1 - P0) + 2 * t * (P2 - P1);
         }
 
     }
