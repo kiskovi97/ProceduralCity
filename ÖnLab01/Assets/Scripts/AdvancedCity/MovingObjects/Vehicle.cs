@@ -23,7 +23,6 @@ namespace Assets.Scripts.AdvancedCity
 
         public virtual void Update()
         {
-            
             Step();
         }
         public virtual void Step()

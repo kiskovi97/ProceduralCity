@@ -10,8 +10,11 @@ public class BuildingObject : MonoBehaviour {
     List<Vector3> meshVertexes;
     List<List<int>> subTriangles;
     List<Vector2> UV;
-	// Use this for initialization
-	void Start () {
+    List<Vector3> colliderMeshVertexes;
+    List<List<int>> colliderSubTriangles;
+    List<Vector2> colliderUV;
+    // Use this for initialization
+    void Start () {
         meshfilter = GetComponent<MeshFilter>();
         mesh = meshfilter.mesh;
         meshVertexes = new List<Vector3>();
@@ -23,6 +26,14 @@ public class BuildingObject : MonoBehaviour {
         {
             subTriangles.Add(new List<int>());
         }
+
+        colliderMeshVertexes = new List<Vector3>();
+        colliderUV = new List<Vector2>();
+        colliderSubTriangles = new List<List<int>>();
+        for (int i = 0; i < MateraialCount; i++)
+        {
+            colliderSubTriangles.Add(new List<int>());
+        }
     }
 
     // Update is called once per frame
@@ -30,14 +41,19 @@ public class BuildingObject : MonoBehaviour {
     {
         Start();
         float positionValue = (values.getTextureValue(kontrolpoints[0])* 2);
-        // 
         int floorNumber = (int)((Random.value*0.75 + 0.25) * (max - min) * positionValue) + min;
         Building building = new Building(kontrolpoints, floor, floorNumber);
         foreach (Triangle triangle in building.getTriangles())
         {
             AddTriangle(triangle);
         }
+        CollisionBox box = new CollisionBox(kontrolpoints);
+        foreach (Triangle triangle in box.getTriangles())
+        {
+            AddTriangleCollision(triangle);
+        }
         CreateMesh();
+        CreateColliderMesh();
     }
 
     public void MakeBase(Vector3 a, Vector3 b, Vector3 c)
@@ -71,7 +87,27 @@ public class BuildingObject : MonoBehaviour {
         UV.Add(triangle.uvs[1]);
         UV.Add(triangle.uvs[2]);
     }
-
+    private void AddTriangleCollision(Triangle triangle)
+    {
+        if (colliderSubTriangles.Count <= triangle.material)
+        {
+            Debug.Log("Need material : " + triangle.material);
+            return;
+        }
+        Matrix4x4 matrix = gameObject.transform.worldToLocalMatrix;
+        Vector3 to = transform.position;
+        if (triangle.uvs.Length < 3) return;
+        colliderSubTriangles[triangle.material].Add(colliderMeshVertexes.Count);
+        colliderMeshVertexes.Add(matrix * (triangle.A - to));
+        colliderSubTriangles[triangle.material].Add(colliderMeshVertexes.Count);
+        colliderMeshVertexes.Add(matrix * (triangle.B - to));
+        colliderSubTriangles[triangle.material].Add(colliderMeshVertexes.Count);
+        colliderMeshVertexes.Add(matrix * (triangle.C - to));
+        colliderUV.Add(triangle.uvs[0]);
+        colliderUV.Add(triangle.uvs[1]);
+        colliderUV.Add(triangle.uvs[2]);
+    }
+    Mesh colliderMesh;
     void CreateMesh()
     {
         mesh.Clear();
@@ -89,8 +125,27 @@ public class BuildingObject : MonoBehaviour {
         mesh.SetUVs(0, UV);
         mesh.RecalculateBounds();
         mesh.RecalculateNormals();
-        //meshfilter.mesh = mesh;
     }
+
+    void CreateColliderMesh()
+    {
+        MeshCollider collider = gameObject.AddComponent<MeshCollider>();
+        Mesh mesh1 = new Mesh();
+        colliderMesh = mesh1;
+        colliderMesh.Clear();
+        colliderMesh.vertices = colliderMeshVertexes.ToArray();
+        colliderMesh.subMeshCount = colliderSubTriangles.Count;
+        for (int i = 0; i < colliderSubTriangles.Count; i++)
+        {
+            colliderMesh.SetTriangles(colliderSubTriangles[i].ToArray(), i);
+        }
+        colliderMesh.SetUVs(0, colliderUV);
+        colliderMesh.RecalculateBounds();
+        colliderMesh.RecalculateNormals();
+        collider.sharedMesh = colliderMesh;
+        collider.convex = true;
+    }
+
     public void DestorySelf()
     {
         Destroy(this.gameObject, 0.1f);

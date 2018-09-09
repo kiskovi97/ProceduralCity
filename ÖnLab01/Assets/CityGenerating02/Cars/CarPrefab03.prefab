@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4523961461540332}
   - component: {fileID: 65743066979498256}
   - component: {fileID: 114622352745067624}
+  - component: {fileID: 54495878204161004}
   m_Layer: 0
   m_Name: CarPrefab03
   m_TagString: Untagged
@@ -464,6 +465,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1058961117849084}
   m_Mesh: {fileID: 4300008, guid: abb023aef540a22438a70abd439cdec2, type: 3}
+--- !u!54 &54495878204161004
+Rigidbody:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1026481080868770}
+  serializedVersion: 2
+  m_Mass: 10
+  m_Drag: 10
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 116
+  m_CollisionDetection: 0
 --- !u!65 &65743066979498256
 BoxCollider:
   m_ObjectHideFlags: 1

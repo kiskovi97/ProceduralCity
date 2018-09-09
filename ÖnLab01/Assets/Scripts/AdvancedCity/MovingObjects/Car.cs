@@ -24,9 +24,7 @@ namespace Assets.Scripts.AdvancedCity.monoBeheviors.interactiveObjects
             float length = (nextPoint.center - transform.position).magnitude;
             if (length < 0.1f)
                 nextPoint = nextPoint.getNextPoint();
-            else
-            {
-                if (canMove())
+            if (canMove())
                 {
                     Move();
                 }
@@ -44,10 +42,6 @@ namespace Assets.Scripts.AdvancedCity.monoBeheviors.interactiveObjects
                         }
                     }
                 }
-            }
-
-
-            SpeedAdjustments(length);
         }
 
         Car waitedcar = null;
@@ -84,19 +78,6 @@ namespace Assets.Scripts.AdvancedCity.monoBeheviors.interactiveObjects
             }
             waitedcar = null;
             return true;
-        }
-        protected virtual void SpeedAdjustments(float length)
-        {
-            if (length > 3.0f)
-            {
-                actualspeed += 0.03f;
-            }
-            else
-            {
-                actualspeed -= 0.03f;
-            }
-            if (actualspeed > speed) actualspeed = speed;
-            if (actualspeed < 2.0f) actualspeed = 2.0f;
         }
         public override void Move()
         {

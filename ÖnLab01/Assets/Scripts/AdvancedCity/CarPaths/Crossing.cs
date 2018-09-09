@@ -220,7 +220,6 @@ namespace Assets.Scripts.AdvancedCity
             {
                 CarPath carpath = new CarPath();
                 int thissavok = szomszedok[i].szomszedRoad.Savok();
-                int thatsavok = Math.Max(szomszedok[jobbra].szomszedRoad.Savok(), thissavok);
                 carpath.bemenet = new MovementPoint[thissavok];
                 carpath.kimenet = new MovementPoint[thissavok];
                 carpath.others = new MovementPoint[0];

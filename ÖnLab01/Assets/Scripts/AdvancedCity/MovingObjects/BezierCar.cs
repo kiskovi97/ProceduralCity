@@ -9,23 +9,25 @@ namespace Assets.Scripts.AdvancedCity.monoBeheviors.interactiveObjects
     {
         public override void Step()
         {
-
-            if (isLoop(new List<Car>() { this }))
-            {
-                if (!hasCamera)
-                    Destroy(gameObject, 0.1f);
-            }
-            float length = (nextPoint.center - transform.position).magnitude;
-            if (length < 0.1f)
-            {
-                elozoPoint = nextPoint;
-                nextPoint = nextPoint.getNextPoint();
-                distanceTime = 0;
-            }
             if (canMove())
             {
+                float length = (nextPoint.center - transform.position).magnitude;
+                if (length < 0.1f || elozoPoint == nextPoint)
+                {
+                    elozoPoint = nextPoint;
+                    nextPoint = nextPoint.getNextPoint();
+                    distanceTime = 0;
+                }
                 Move();
+            } else
+            {
+                if (isLoop(new List<Car>() { this }))
+                {
+                    if (!hasCamera)
+                        Destroy(gameObject, 0.1f);
+                }
             }
+            
         }
         protected float distanceTime = 0;
         public override void Move()
@@ -51,6 +53,9 @@ namespace Assets.Scripts.AdvancedCity.monoBeheviors.interactiveObjects
                 Vector3 pos = MovementPoint.BezierCurve(elozoPoint.center, cross, nextPoint.center, thisTime);
                 transform.position = pos;
                 transform.rotation = Quaternion.LookRotation(MovementPoint.directionBezierCurve(elozoPoint.center, cross, nextPoint.center, thisTime));
+            } else
+            {
+                transform.position = transform.position + (elozoPoint.center - transform.position)*0.1f;
             }
         }
     }

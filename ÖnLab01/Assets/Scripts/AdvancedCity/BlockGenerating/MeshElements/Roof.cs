@@ -4,11 +4,11 @@ using System.Collections.Generic;
 class Roof : MeshElementImpl
 {
     static int MATERIAL = (int)MaterialEnum.ROOF;
-    static int MATERIALSIMPLEWALL = (int)MaterialEnum.SIMPLEWALL;
+    static int MATERIALSIMPLEWALL = (int)MaterialEnum.BASE;
     public Roof(List<Vector3> controlpoints, bool last)
     {
-        shapes.Add(new Polygon(controlpoints, MATERIALSIMPLEWALL));
-        
+        shapes.Add(new Polygon(controlpoints, 0));
+        if (controlpoints[0].y > 2) return;
         if (last && controlpoints.Count == 4) {
             Vector3 tetopontA = (controlpoints[0] + controlpoints[1]) / 2 + new Vector3(0, 0.3f, 0);
             Vector3 tetopontB = (controlpoints[3] + controlpoints[2]) / 2 + new Vector3(0, 0.3f, 0);

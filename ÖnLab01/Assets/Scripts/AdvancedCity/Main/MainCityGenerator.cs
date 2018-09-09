@@ -93,6 +93,10 @@ namespace Assets.Scripts.AdvancedCity
         int i = 1;
         void Update()
         {
+            if (Input.GetButtonDown("Exit")) {
+                Debug.Log("Exit");
+                Application.Quit();
+            }
             if (crossings == null) return;
             i++;
             if (i % 300 == 0)

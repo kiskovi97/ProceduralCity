@@ -6,12 +6,10 @@ class Polygon : Shape
 {
     public List<Vector3> controlPoints;
     public List<Triangle> ears = new List<Triangle>();
-    private int material;
     public Polygon(List<Vector3> inputControlPoints, int material)
     {
         controlPoints = new List<Vector3>();
         controlPoints.AddRange(inputControlPoints);
-        this.material = material;
         int max = 100;
         while (controlPoints.Count >= 4 && max > 0)
         {

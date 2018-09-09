@@ -52,23 +52,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cars:
-  - {fileID: 1947337989532640, guid: 0cb8f416e5e41da43b9811b5ca0e5981, type: 2}
-  - {fileID: 1947337989532640, guid: f95fdcddaaedd1d4b87368396f57ca52, type: 2}
-  - {fileID: 1947337989532640, guid: e619142cca1099f4d83d1dd3079d847f, type: 2}
-  - {fileID: 1947337989532640, guid: ec46dd572a72f4c4ab7cbab33bfd3f1d, type: 2}
-  - {fileID: 1947337989532640, guid: 4931762607c92d243ba52ef794e10f14, type: 2}
-  - {fileID: 1947337989532640, guid: b83b229b633bfbc4c80ce1f2eeb2f186, type: 2}
-  - {fileID: 1947337989532640, guid: bfc8e070149cc6243b968320230ee7fb, type: 2}
-  - {fileID: 1026481080868770, guid: 15fa2876293919941a3b0468bc99f0d6, type: 2}
   - {fileID: 1947337989532640, guid: 0500ce412f72e804682d8b2addad4454, type: 2}
-  - {fileID: 1947337989532640, guid: 0500ce412f72e804682d8b2addad4454, type: 2}
-  - {fileID: 1947337989532640, guid: f95fdcddaaedd1d4b87368396f57ca52, type: 2}
-  - {fileID: 1947337989532640, guid: e619142cca1099f4d83d1dd3079d847f, type: 2}
-  - {fileID: 1947337989532640, guid: ec46dd572a72f4c4ab7cbab33bfd3f1d, type: 2}
-  - {fileID: 1947337989532640, guid: 4931762607c92d243ba52ef794e10f14, type: 2}
-  - {fileID: 1947337989532640, guid: b83b229b633bfbc4c80ce1f2eeb2f186, type: 2}
   - {fileID: 1026481080868770, guid: 15fa2876293919941a3b0468bc99f0d6, type: 2}
   - {fileID: 1947337989532640, guid: bfc8e070149cc6243b968320230ee7fb, type: 2}
-  - {fileID: 1947337989532640, guid: 0500ce412f72e804682d8b2addad4454, type: 2}
+  - {fileID: 1947337989532640, guid: b83b229b633bfbc4c80ce1f2eeb2f186, type: 2}
   cameraCar: {fileID: 1473476920159558, guid: d991baa1db398174599e65a99e1a3d4f, type: 2}
   tram: {fileID: 1144836741589656, guid: 10d0634f0cb50814c8e1a47e69063857, type: 2}
