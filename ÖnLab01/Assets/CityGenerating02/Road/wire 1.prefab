@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4410352064345508}
   - component: {fileID: 33350540411278196}
   - component: {fileID: 23291141597283274}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: wire 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}

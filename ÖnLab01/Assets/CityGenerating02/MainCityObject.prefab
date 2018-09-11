@@ -59,8 +59,8 @@ MonoBehaviour:
   Sizes:
   - 0
   - 0
-  - 6
-  - 6
+  - 10
+  - 10
   sizeRatio: 6
   CollapseMainRoad: 1
   CollapseSideRoad: 1
@@ -91,6 +91,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d132fc11b2943c34da648261f9607dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cameras:
+  - {fileID: 0}
   vehicles: {fileID: 114650428067430184, guid: 50080373056715741adae62dc014f21b, type: 2}
   VisualGraph: 0
   VisualRoads: 1

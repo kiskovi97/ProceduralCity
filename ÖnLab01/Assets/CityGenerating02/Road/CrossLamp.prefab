@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4984339356303550}
   - component: {fileID: 33890954978097640}
   - component: {fileID: 23826822469437546}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: CrossLamp
   m_TagString: Untagged
   m_Icon: {fileID: 0}

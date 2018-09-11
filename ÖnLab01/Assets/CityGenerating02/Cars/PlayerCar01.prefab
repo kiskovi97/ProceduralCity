@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4879191640789044}
   - component: {fileID: 33947011119676566}
   - component: {fileID: 23083992361990924}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: CarBody
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -36,7 +36,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4911022703995732}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Car1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -51,7 +51,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4208079160196232}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Connect
   m_TagString: Connect
   m_Icon: {fileID: 0}
@@ -68,7 +68,7 @@ GameObject:
   - component: {fileID: 4213384189672764}
   - component: {fileID: 33250073790881442}
   - component: {fileID: 23663411325630884}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Front_Right_Wheel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -85,7 +85,7 @@ GameObject:
   - component: {fileID: 4117871749411514}
   - component: {fileID: 33681546730606996}
   - component: {fileID: 23661741614927524}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Rear_Left_Wheel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -102,7 +102,7 @@ GameObject:
   - component: {fileID: 4247910389358644}
   - component: {fileID: 33231287729047926}
   - component: {fileID: 23305757216318958}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Rear_Right_Wheel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -119,7 +119,7 @@ GameObject:
   - component: {fileID: 4554927065048006}
   - component: {fileID: 81676355640196894}
   - component: {fileID: 20137214088177980}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Camera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -137,7 +137,7 @@ GameObject:
   - component: {fileID: 65514833290189282}
   - component: {fileID: 54857292245762198}
   - component: {fileID: 114073221402293070}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: PlayerCar01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -154,7 +154,7 @@ GameObject:
   - component: {fileID: 4343062888119976}
   - component: {fileID: 33390693163048274}
   - component: {fileID: 23086609194731430}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Front_Left_Wheel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -314,7 +314,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 3895
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0

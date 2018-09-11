@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4078472516611924}
   - component: {fileID: 33477465337060030}
   - component: {fileID: 23456154041885594}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: TramLight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38,7 +38,7 @@ GameObject:
   - component: {fileID: 4261453383960648}
   - component: {fileID: 33018332715721214}
   - component: {fileID: 23151344653453336}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Tram_wheel_A
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -53,7 +53,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4010038405396102}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: tramBtm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -70,7 +70,7 @@ GameObject:
   - component: {fileID: 4652289228492064}
   - component: {fileID: 65678105106641442}
   - component: {fileID: 114328894562224218}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Tram
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -87,7 +87,7 @@ GameObject:
   - component: {fileID: 4095613014983278}
   - component: {fileID: 33684609331784998}
   - component: {fileID: 23188991126115172}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Tramlampshade
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -104,7 +104,7 @@ GameObject:
   - component: {fileID: 4834842695585978}
   - component: {fileID: 33680877910852488}
   - component: {fileID: 23584154150604628}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: TramStoboard_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -121,7 +121,7 @@ GameObject:
   - component: {fileID: 4548249159271220}
   - component: {fileID: 33618575804124612}
   - component: {fileID: 23184490711828014}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: TramadBanner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -138,7 +138,7 @@ GameObject:
   - component: {fileID: 4632028312493806}
   - component: {fileID: 33012760079333518}
   - component: {fileID: 23584552919688318}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: TramPantograph
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -155,7 +155,7 @@ GameObject:
   - component: {fileID: 4107516319658898}
   - component: {fileID: 33202073413145482}
   - component: {fileID: 23578951315676974}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: tramBtm_B
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -170,7 +170,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4761025198828694}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Tram_wheel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -186,7 +186,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4997977554966776}
   - component: {fileID: 114429520308324772}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Tram_Blue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -203,8 +203,25 @@ GameObject:
   - component: {fileID: 4619106047427902}
   - component: {fileID: 33524289776395532}
   - component: {fileID: 23671316249433168}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: TramBase
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1737155926746526
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4932996396860532}
+  - component: {fileID: 33123922372026840}
+  - component: {fileID: 23744534757681990}
+  m_Layer: 12
+  m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -220,7 +237,7 @@ GameObject:
   - component: {fileID: 4953793255121094}
   - component: {fileID: 33196947965442252}
   - component: {fileID: 23058057022894678}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: TramStoboard_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -237,7 +254,7 @@ GameObject:
   - component: {fileID: 4043769813811786}
   - component: {fileID: 33114829276091744}
   - component: {fileID: 23571937430401294}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Tram_wheel_B
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -254,7 +271,7 @@ GameObject:
   - component: {fileID: 4614149232495072}
   - component: {fileID: 33295655198903420}
   - component: {fileID: 23677553413073072}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: tramBtm_A
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -410,6 +427,7 @@ Transform:
   m_LocalScale: {x: 1.1973, y: 0.9022126, z: 0.7579687}
   m_Children:
   - {fileID: 4997977554966776}
+  - {fileID: 4932996396860532}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -440,6 +458,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4619106047427902}
   m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4932996396860532
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1737155926746526}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.3036981, y: 0.29852983, z: 0.7060159}
+  m_Children: []
+  m_Father: {fileID: 4652289228492064}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4953793255121094
 Transform:
@@ -855,6 +886,41 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!23 &23744534757681990
+MeshRenderer:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1737155926746526}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 4294967295
+  m_Materials:
+  - {fileID: 2100000, guid: 5894a0c83e33c52468c8ff8c41730a90, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
 --- !u!33 &33012760079333518
 MeshFilter:
   m_ObjectHideFlags: 1
@@ -876,6 +942,13 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1779163389207866}
   m_Mesh: {fileID: 4300000, guid: 94be66a39fc28ee488e05fb4c09f12c7, type: 3}
+--- !u!33 &33123922372026840
+MeshFilter:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1737155926746526}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!33 &33196947965442252
 MeshFilter:
   m_ObjectHideFlags: 1

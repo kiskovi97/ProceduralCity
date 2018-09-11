@@ -12,6 +12,7 @@ namespace Assets.Scripts.AdvancedCity
         RoadandCrossingGenerator objGen;
         RoadGeneratingValues values;
         // ------- Instantinate Objects
+        public FollowPlayer[] cameras;
         public Vehicles vehicles;
         public bool VisualGraph = false;
         public bool VisualRoads = false;
@@ -74,7 +75,12 @@ namespace Assets.Scripts.AdvancedCity
                 {
                     if (vehicles.cameraCar != null)
                     {
-                        cars.Add(Instantiate(vehicles.cameraCar));
+                        GameObject player = Instantiate(vehicles.cameraCar);
+                        cars.Add(player);
+                        foreach(FollowPlayer camera in cameras)
+                        {
+                            camera.player = player.transform;
+                        }
                     }
                 }
                 cars.Add(vehicles.Car);
