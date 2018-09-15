@@ -7,10 +7,15 @@ namespace Assets.Scripts.AdvancedCity
 {
     public class Vehicle : MonoBehaviour
     {
-
+        public Animator anim;
         public MovementPoint nextPoint;
         public MovementPoint elozoPoint;
-        protected float actualspeed = 10.0f;
+        protected float actualspeed = 1.5f;
+        public void Start()
+        {
+            if (anim == null)
+            anim = GetComponent<Animator>();
+        }
         public virtual void setPoint(MovementPoint next)
         {
             nextPoint = next.getNextPoint();
@@ -37,12 +42,20 @@ namespace Assets.Scripts.AdvancedCity
                 {
                     elozoPoint = tmp;
                 }
+                if (anim != null)
+                {
+                    anim.SetFloat("Blend", 0);
+                }
             }
             else
                 Move();
         }
         public virtual void Move()
         {
+            if (anim != null)
+            {
+                anim.SetFloat("Blend", 1);
+            }
             Vector3 toward = (nextPoint.center - transform.position);
             transform.rotation = Quaternion.LookRotation(toward);
             transform.position += toward.normalized * actualspeed * 0.01f;

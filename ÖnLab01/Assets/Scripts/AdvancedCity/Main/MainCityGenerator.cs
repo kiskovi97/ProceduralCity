@@ -14,6 +14,7 @@ namespace Assets.Scripts.AdvancedCity
         // ------- Instantinate Objects
         public FollowPlayer[] cameras;
         public Vehicles vehicles;
+        public GameObject person;
         public bool VisualGraph = false;
         public bool VisualRoads = false;
         public bool makecars = true;
@@ -87,6 +88,12 @@ namespace Assets.Scripts.AdvancedCity
             }
             
             objGen.SetCarsStartingPosition(cars.ToArray());
+            List<GameObject> people = new List<GameObject>();
+            for (int i=0; i< 50; i++)
+            {
+                people.Add(Instantiate(person));
+            }
+            objGen.SetPeopleStartingPosition(people.ToArray());
             if (trams)
             {
                 GameObject obj = vehicles.Tram;

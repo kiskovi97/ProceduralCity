@@ -11,6 +11,11 @@ public class BuildingContainer : MonoBehaviour {
             return Instantiate(buildings[i]);
         }
     }
+    public GameObject buildingBySize(float size)
+    {
+        int i = (int)(size * (buildings.Length));
+        return Instantiate(buildings[i]);
+    }
     public GameObject[] greenPlace;
     public GameObject place
     {

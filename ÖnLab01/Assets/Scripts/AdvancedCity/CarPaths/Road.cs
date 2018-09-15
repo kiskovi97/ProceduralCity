@@ -73,7 +73,7 @@ namespace Assets.Scripts.AdvancedCity
             }
             if (egyik_be != null && masik_ki != null)
             {
-                for (int i = sav; i > 0; i--)
+                for (int i = egyik_be.Length; i > 0; i--)
                 {
                     int j = egyik_be.Length - i;
                     if (j < 0) j = 0;
@@ -127,7 +127,14 @@ namespace Assets.Scripts.AdvancedCity
         {
             if (line_egyik != null && line_masik != null)
             {
-
+                int db = 3;
+                for (int i=0; i< db; i++)
+                {
+                    Vector3 center = (line_masik[0] * (i + 1) + line_egyik[1] * (db - i)) / (db + 1);
+                    Vector3 centerOther = (line_egyik[0] * (i + 1) + line_masik[1] * (db - i)) / (db + 1);
+                    generator.createSideLamp(center, line_masik[1] - line_masik[0]);
+                    generator.createSideLamp(centerOther, line_masik[0] - line_masik[1]);
+                }
                 generator.CreateRoad(masik.KeresztRoad(egyik), egyik.KeresztRoadMasik(masik), masik.Kereszt(egyik), egyik.KeresztMasik(masik), 0);
                 generator.CreateRoad(egyik.KeresztRoad(masik), masik.KeresztRoadMasik(egyik), egyik.Kereszt(masik), masik.KeresztMasik(egyik), 0);
                 Vector3 centerMasik = (line_masik[0] + line_masik[1]) / 2;
@@ -172,11 +179,11 @@ namespace Assets.Scripts.AdvancedCity
 
                     }
 
-                    if (egyik.tram && masik.tram)
+                    if (tram)
                     {
                         Vector3 up = new Vector3(0, 0.35f, 0);
-                        generator.AddLine(egyik_be.Last().center + up, masik_ki.Last().center + up, 0.15f);
-                        generator.AddLine(masik_be.Last().center + up, egyik_ki.Last().center + up, 0.15f);
+                        generator.AddLine(egyik_be[egyik_be.Length-2].center + up, masik_ki[masik_ki.Length - 2].center + up, 0.15f);
+                        generator.AddLine(masik_be[masik_be.Length - 2].center + up, egyik_ki[egyik_ki.Length - 2].center + up, 0.15f);
                     }
                 }
             }

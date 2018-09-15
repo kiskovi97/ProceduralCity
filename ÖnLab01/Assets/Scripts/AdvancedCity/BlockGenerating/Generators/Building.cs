@@ -18,7 +18,7 @@ class Building : GeneratorImpl
         {
             magasMax += floor * 1.5f;
         }
-        MakeRoof(kontrolpoints.ToArray(), new Vector3(0, magasMax, 0), (megHouse <= 0 || (floorNumber/2) < 1));
+        MakeRoof(kontrolpoints.ToArray(), new Vector3(0, magasMax, 0), (megHouse <= 0 || (int)(floorNumber * 0.7f) < 1));
         if (megHouse > 0)
         {
             List<Vector3> newControlPoints = controlChange(kontrolpoints);
@@ -26,7 +26,7 @@ class Building : GeneratorImpl
             {
                 newControlPoints[i] += new Vector3(0, magasMax, 0);
             }
-            generators.Add(new Building(newControlPoints, floor, floorNumber/2, megHouse-1, false));
+            generators.Add(new Building(newControlPoints, floor, (int)(floorNumber*0.7f), megHouse-1, false));
         }
     }
 

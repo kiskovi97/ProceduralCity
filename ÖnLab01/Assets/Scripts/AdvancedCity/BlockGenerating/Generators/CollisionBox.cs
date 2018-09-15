@@ -3,9 +3,9 @@ using UnityEngine;
 
 class CollisionBox : GeneratorImpl
 {
-    public CollisionBox(List<Vector3> kontrolpoints)
+    public CollisionBox(List<Vector3> kontrolpoints, float upFloat)
     {
-        Vector3 up = new Vector3(0, 5, 0);
+        Vector3 up = new Vector3(0, upFloat, 0);
         List<Vector3> magas = new List<Vector3>();
         for (int i=0; i< kontrolpoints.Count; i++)
         {

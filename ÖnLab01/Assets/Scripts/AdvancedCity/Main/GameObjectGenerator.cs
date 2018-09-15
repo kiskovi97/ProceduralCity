@@ -9,6 +9,7 @@ namespace Assets.Scripts.AdvancedCity
     {
         public GameObject roadObject;
         public GameObject crossLamp;
+        public GameObject sideLamp;
         public GameObject wireObject;
         public GameObject railObject;
         List<Crossing> roads;
@@ -50,6 +51,14 @@ namespace Assets.Scripts.AdvancedCity
         public GameObject createCrossLamp(Vector3 position, Vector3 forward)
         {
             GameObject output = Instantiate(crossLamp);
+            output.transform.position = position;
+            output.transform.rotation = Quaternion.LookRotation(forward, new Vector3(0, 1, 0));
+            return output;
+        }
+
+        public GameObject createSideLamp(Vector3 position, Vector3 forward)
+        {
+            GameObject output = Instantiate(sideLamp);
             output.transform.position = position;
             output.transform.rotation = Quaternion.LookRotation(forward, new Vector3(0, 1, 0));
             return output;

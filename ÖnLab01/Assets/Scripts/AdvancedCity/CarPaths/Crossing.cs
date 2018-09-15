@@ -30,6 +30,8 @@ namespace Assets.Scripts.AdvancedCity
             public MovementPoint[] others;
             public MovementPoint[] bemenet;
             public MovementPoint[] kimenet;
+            public MovementPoint balCross;
+            public MovementPoint jobbCross;
             public MeshRenderer[] lamps;
         }
         public class HelpLine
@@ -104,11 +106,18 @@ namespace Assets.Scripts.AdvancedCity
         public void carsPathSetting()
         {
             ujraRendez();
-            for (int i = 0; i < szomszedok.Count; i++)
+            for (int i = szomszedok.Count - 1; i >= 0; i--)
             {
-                int jobbra = i - 1;
-                if (jobbra < 0) jobbra = szomszedok.Count - 1;
+                int jobbra = i + 1;
+                if (jobbra > szomszedok.Count - 1) jobbra = 0;
                 MakeMovePoints(i, jobbra);
+            }
+
+            for (int i = szomszedok.Count - 1; i >= 0; i--)
+            {
+                int jobbra = i + 1;
+                if (jobbra > szomszedok.Count - 1) jobbra = 0;
+                MakeRoads(i, jobbra);
             }
 
             if (szomszedok.Count > 2)
@@ -211,7 +220,7 @@ namespace Assets.Scripts.AdvancedCity
             stop = !stop;
         }
 
-        void MakeMovePoints(int i, int jobbra)
+        void MakeMovePoints(int i, int jobb)
         {
             Vector3[] line = szomszedok[i].helpline.mainline;
             Vector3 othercenter = szomszedok[i].szomszedRoad.NextCros(this).center;
@@ -220,6 +229,8 @@ namespace Assets.Scripts.AdvancedCity
             {
                 CarPath carpath = new CarPath();
                 int thissavok = szomszedok[i].szomszedRoad.Savok();
+                carpath.balCross = new MovementPoint((szomszedok[i].helpline.roadedgecross + szomszedok[i].helpline.sidecross)/2);
+                carpath.jobbCross = new MovementPoint((szomszedok[jobb].helpline.roadedgecross + szomszedok[jobb].helpline.sidecross) / 2);
                 carpath.bemenet = new MovementPoint[thissavok];
                 carpath.kimenet = new MovementPoint[thissavok];
                 carpath.others = new MovementPoint[0];
@@ -231,9 +242,24 @@ namespace Assets.Scripts.AdvancedCity
                     if (szomszedok.Count > 2) carpath.bemenet[j].Nyitott(false);
                     carpath.kimenet[j] = new MovementPoint((line[0] * b + line[1] * a) / (thissavok * 4) + direction * 0.2f);
                 }
-                szomszedok[i].szomszedRoad.addMovePoint(this, carpath.kimenet, carpath.bemenet);
                 szomszedok[i].carpath = carpath;
             }
+        }
+
+        void MakeRoads(int i, int jobbra)
+        {
+            CarPath carpath = szomszedok[i].carpath;
+            List<MovementPoint> kimenet = new List<MovementPoint>(carpath.kimenet)
+            {
+                carpath.jobbCross
+            };
+            List<MovementPoint> bemenet = new List<MovementPoint>(carpath.bemenet)
+            {
+                carpath.balCross
+            };
+            carpath.jobbCross.ConnectPoint(szomszedok[jobbra].carpath.balCross);
+            szomszedok[jobbra].carpath.balCross.ConnectPoint(carpath.jobbCross);
+            szomszedok[i].szomszedRoad.addMovePoint(this, kimenet.ToArray(), bemenet.ToArray());
         }
 
         public void Draw(bool helplines_draw, bool depthtest)
@@ -247,6 +273,8 @@ namespace Assets.Scripts.AdvancedCity
                 if (x >= szomszedok.Count) x = 0;
                 if (helplines_draw)
                 {
+                    szomszed.carpath.balCross.Draw(depthtest);
+                    szomszed.carpath.jobbCross.Draw(depthtest);
                     for (int i = 0; i < szomszed.carpath.kimenet.Length; i++)
                         szomszed.carpath.kimenet[i].Draw(depthtest);
                     for (int i = 0; i < szomszed.carpath.bemenet.Length; i++)
@@ -387,6 +415,20 @@ namespace Assets.Scripts.AdvancedCity
             return false;
         }
 
+        private int peoples = 0;
+
+        public bool AddPeople(Vehicle car)
+        {
+            if (szomszedok == null) return false;
+            if (szomszedok.Count > peoples)
+            {
+                car.setPoint(szomszedok[peoples].carpath.jobbCross);
+                peoples++;
+                return true;
+            }
+            return false;
+        }
+
         public void AddTram(Vehicle car, Vehicle car2)
         {
             bool carbool = false;
@@ -410,6 +452,11 @@ namespace Assets.Scripts.AdvancedCity
         public bool HavePlace()
         {
             return szomszedok.Count > cars && szomszedok.Count > 1;
+        }
+
+        public bool HavePlaceForPeople()
+        {
+            return szomszedok.Count > peoples && szomszedok.Count > 1;
         }
 
         public bool isCrossing()

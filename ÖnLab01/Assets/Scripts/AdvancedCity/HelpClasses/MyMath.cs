@@ -28,6 +28,23 @@ public class MyMath
         return meroleges;
     }
 
+    public static List<Vector3> innerPoints(List<Vector3> controlpoints, float scale)
+    {
+        List<Vector3> outpout = new List<Vector3>();
+        for(int i=0; i< controlpoints.Count; i++)
+        {
+            int j = i+1;
+            if (j > controlpoints.Count - 1) j = 0;
+            int z = i - 1;
+            if (z < 0) z = controlpoints.Count - 1;
+            Vector3 nextMer = Meroleges(controlpoints[i], controlpoints[j]).normalized * scale;
+            Vector3 elozoMer = Meroleges(controlpoints[z], controlpoints[i]).normalized * scale;
+            Vector3 kereszt = Intersect(controlpoints[i] + elozoMer, controlpoints[z] - controlpoints[i], controlpoints[i] + nextMer, controlpoints[i] - controlpoints[j]);
+            outpout.Add(kereszt);
+        }
+        return outpout;
+    }
+
     public static float Area(Vector3 a, Vector3 b, Vector3 c)
     {
         return Mathf.Abs((a.x * b.z + b.x * c.z + c.x * a.z
@@ -93,9 +110,6 @@ public class MyMath
             return PrincipleVertex(polygon[x], polygon[y], polygon);
         } else
         {
-            //Debug.DrawLine(polygon[x], polygon[y], Color.red, 1000, false);
-            //Debug.DrawLine((polygon[x] + polygon[y]) / 2, (polygon[x] + polygon[y]) / 2 + new Vector3(0, 0.1f, 0), Color.red, 1000, false);
-            //Debug.DrawLine((polygon[x] + polygon[y]) / 2, (polygon[x] + polygon[y]) / 2 + new Vector3(0, 0, 1), Color.green, 1000, false);
             return false;
         }
     }

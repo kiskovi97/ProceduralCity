@@ -176,6 +176,32 @@ namespace Assets.Scripts.AdvancedCity
 
         }
 
+        public void SetPeopleStartingPosition(GameObject[] people)
+        {
+            int i = 0;
+            if (crossings == null) return;
+            foreach (Crossing cros in crossings)
+            {
+                Vehicle vehicle;
+                while (cros.HavePlaceForPeople())
+                {
+                    if (i < people.Length) vehicle = people[i].GetComponent<Vehicle>();
+                    else return;
+                    if (cros.AddPeople(vehicle))
+                    {
+                        people[i].transform.position = vehicle.nextPoint.center;
+                        i++;
+                    }
+                }
+            }
+            for (int j = i; j < people.Length; j++)
+            {
+                people[j].transform.position += new Vector3(0, 10, 0);
+                GameObject.Destroy(people[j]);
+            }
+
+        }
+
         public void SetTram(GameObject cars, GameObject cars2)
         {
             if (crossings == null) return;

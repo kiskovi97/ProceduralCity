@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
+using UnityEditor;
 
 class BlockGeneratorBasic : BlockGenerator
 {
@@ -107,12 +108,6 @@ class BlockGeneratorBasic : BlockGenerator
                     kontrolpoints.Add(nextDeep);
                     kontrolpoints.Add(nextHousePoint);
                     kontrolpoints.Add(crossingPoint);
-                    /*  GameObject me = buildingContainer.building;
-                      me.name = "BASE";
-                      me.transform.position = vertexes[i];
-                      BuildingObject baseBuild = me.GetComponent<BuildingObject>();
-                      baseBuild.MakeBase(elozoDeep, vertexes[i], nextDeep);
-                  buildings.Add(baseBuild);*/
                     elozoLine.Add(new KontrolLine(elozoHousePoint, crossingPoint));
                     nextLine.Add(new KontrolLine(nextHousePoint, crossingPoint));
 
@@ -133,11 +128,23 @@ class BlockGeneratorBasic : BlockGenerator
                 }
             }
             crossings.Add(crossingPoint);
-            GameObject gameObject = buildingContainer.building;
+            int min = (int)values.HouseUpmin;
+            int max = (int)values.HouseUpmax;
+            float positionValue = (values.getTextureValue(kontrolpoints[0])) * (values.getTextureValue(kontrolpoints[0]));
+            int floorNumber = (int)((UnityEngine.Random.value * 0.5 + 0.5) * (max - min) * positionValue) + min;
+            GameObject gameObject = buildingContainer.buildingBySize(values.getTextureValue(kontrolpoints[0]));
             gameObject.transform.position = vertexes[0];
             BuildingObject building = gameObject.GetComponent<BuildingObject>();
-            building.MakeBuilding(kontrolpoints, (int)values.HouseUpmin, (int)values.HouseUpmax, values.floor, values);
+            building.MakeBuilding(kontrolpoints, floorNumber, values.floor);
             buildings.Add(building);
+
+            if (elso && export)
+            {
+                MeshFilter filter = gameObject.GetComponent<MeshFilter>();
+                MeshRenderer meshRenderer = gameObject.GetComponent<MeshRenderer>();
+                ObjExporter.MeshToFile(filter, meshRenderer.materials, "Assets/test.obj");
+                elso = false;
+            }
         }
         for (int i=0; i< vertexes.Count; i++)
         {
@@ -150,6 +157,11 @@ class BlockGeneratorBasic : BlockGenerator
         if (!sikeres)
             Clear();
     }
+
+    private bool export = false;
+
+    private bool elso = true;
+
     private void MakeSideBuildings(KontrolLine elozo, KontrolLine kovetkezo, BuildingContainer buildingContainer)
     {
         List<Vector3> kontrolpoints = new List<Vector3>();
@@ -177,10 +189,14 @@ class BlockGeneratorBasic : BlockGenerator
             kontrolpoints.Add(kovetkezo.normalPoint);
             kontrolpoints.Add(kovetkezo.deepPoint);
         }
-        GameObject gameObject = buildingContainer.building;
+        int min = (int)values.HouseUpmin;
+        int max = (int)values.HouseUpmax;
+        float positionValue = (values.getTextureValue(kontrolpoints[0])) * (values.getTextureValue(kontrolpoints[0]));
+        int floorNumber = (int)((UnityEngine.Random.value * 0.75 + 0.25) * (max - min) * positionValue) + min;
+        GameObject gameObject = buildingContainer.buildingBySize(values.getTextureValue(kontrolpoints[0]));
         gameObject.transform.position = elozo.normalPoint;
         BuildingObject building = gameObject.GetComponent<BuildingObject>();
-        building.MakeBuilding(kontrolpoints, (int)values.HouseUpmin, (int)values.HouseUpmax, values.floor, values);
+        building.MakeBuilding(kontrolpoints, floorNumber, values.floor);
         buildings.Add(building);
     }
    

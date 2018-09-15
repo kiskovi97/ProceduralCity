@@ -37,17 +37,18 @@ public class BuildingObject : MonoBehaviour {
     }
 
     // Update is called once per frame
-    public void MakeBuilding(List<Vector3> kontrolpoints, int min, int max, float floor, RoadGeneratingValues values)
+    public void MakeBuilding(List<Vector3> kontrolpoints, int floorNumber, float floor)
     {
         Start();
-        float positionValue = (values.getTextureValue(kontrolpoints[0])* 2);
-        int floorNumber = (int)((Random.value*0.75 + 0.25) * (max - min) * positionValue) + min;
         Building building = new Building(kontrolpoints, floor, floorNumber);
+        float max = 0;
         foreach (Triangle triangle in building.getTriangles())
         {
             AddTriangle(triangle);
+            if (triangle.A.y > max) max = triangle.A.y;
         }
-        CollisionBox box = new CollisionBox(kontrolpoints);
+        
+        CollisionBox box = new CollisionBox(kontrolpoints, max);
         foreach (Triangle triangle in box.getTriangles())
         {
             AddTriangleCollision(triangle);
@@ -77,15 +78,9 @@ public class BuildingObject : MonoBehaviour {
         Matrix4x4 matrix = gameObject.transform.worldToLocalMatrix;
         Vector3 to = transform.position;
         if (triangle.uvs.Length < 3) return;
-        subTriangles[triangle.material].Add(meshVertexes.Count);
-        meshVertexes.Add(matrix * (triangle.A - to));
-        subTriangles[triangle.material].Add(meshVertexes.Count);
-        meshVertexes.Add(matrix * (triangle.B - to));
-        subTriangles[triangle.material].Add(meshVertexes.Count);
-        meshVertexes.Add(matrix * (triangle.C - to));
-        UV.Add(triangle.uvs[0]);
-        UV.Add(triangle.uvs[1]);
-        UV.Add(triangle.uvs[2]);
+        AddPoint(matrix * (triangle.A - to), triangle.material, triangle.uvs[0]);
+        AddPoint(matrix * (triangle.B - to), triangle.material, triangle.uvs[1]);
+        AddPoint(matrix * (triangle.C - to), triangle.material, triangle.uvs[2]);
     }
     private void AddTriangleCollision(Triangle triangle)
     {
@@ -97,16 +92,51 @@ public class BuildingObject : MonoBehaviour {
         Matrix4x4 matrix = gameObject.transform.worldToLocalMatrix;
         Vector3 to = transform.position;
         if (triangle.uvs.Length < 3) return;
-        colliderSubTriangles[triangle.material].Add(colliderMeshVertexes.Count);
-        colliderMeshVertexes.Add(matrix * (triangle.A - to));
-        colliderSubTriangles[triangle.material].Add(colliderMeshVertexes.Count);
-        colliderMeshVertexes.Add(matrix * (triangle.B - to));
-        colliderSubTriangles[triangle.material].Add(colliderMeshVertexes.Count);
-        colliderMeshVertexes.Add(matrix * (triangle.C - to));
-        colliderUV.Add(triangle.uvs[0]);
-        colliderUV.Add(triangle.uvs[1]);
-        colliderUV.Add(triangle.uvs[2]);
+        AddColliderPoint(matrix * (triangle.A - to), triangle.material, triangle.uvs[0]);
+        AddColliderPoint(matrix * (triangle.B - to), triangle.material, triangle.uvs[1]);
+        AddColliderPoint(matrix * (triangle.C - to), triangle.material, triangle.uvs[2]);
     }
+
+    private void AddPoint(Vector3 kp, int mat, Vector2 uv)
+    {
+        /* if (meshVertexes.Contains(kp))
+         {
+             int i = meshVertexes.LastIndexOf(kp);
+             if (UV[i].Equals(uv))
+             {
+                 subTriangles[mat].Add(i);
+             } else
+             {
+                 subTriangles[mat].Add(meshVertexes.Count);
+                 meshVertexes.Add(kp);
+                 UV.Add(uv);
+             }
+         }
+         else
+         {
+             subTriangles[mat].Add(meshVertexes.Count);
+             meshVertexes.Add(kp);
+             UV.Add(uv);
+         }*/
+        subTriangles[mat].Add(meshVertexes.Count);
+        meshVertexes.Add(kp);
+        UV.Add(uv);
+    }
+
+    private void AddColliderPoint(Vector3 kp, int mat, Vector2 uv)
+    {
+        if (colliderMeshVertexes.Contains(kp))
+        {
+            int i = colliderMeshVertexes.IndexOf(kp);
+            colliderSubTriangles[mat].Add(i);
+        } else
+        {
+            colliderSubTriangles[mat].Add(colliderMeshVertexes.Count);
+            colliderMeshVertexes.Add(kp);
+            colliderUV.Add(uv);
+        }
+    }
+
     Mesh colliderMesh;
     void CreateMesh()
     {

@@ -3,6 +3,7 @@ using UnityEditor;
 
 public enum MaterialEnum 
 {
+    SIMPLE = 0,
     ROOF = 1,
     SIMPLEWALL = 2,
     GROUNDWALL = 3,
