@@ -89,7 +89,7 @@ namespace Assets.Scripts.AdvancedCity
             
             objGen.SetCarsStartingPosition(cars.ToArray());
             List<GameObject> people = new List<GameObject>();
-            for (int i=0; i< 50; i++)
+            for (int i=0; i< 500; i++)
             {
                 people.Add(Instantiate(person));
             }

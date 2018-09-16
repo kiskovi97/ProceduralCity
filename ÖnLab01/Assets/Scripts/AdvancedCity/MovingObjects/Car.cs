@@ -12,10 +12,14 @@ namespace Assets.Scripts.AdvancedCity.monoBeheviors.interactiveObjects
         public bool hasCamera = false;
         public int time = 0;
         public float carsize = 1.0f;
-        
+        public string allapot = "";
+
         public override void Step()
         {
-            if (nextPoint == null) return;
+            if (nextPoint == null) {
+                allapot = "nextPoint = null";
+                return;
+            }
             if (isLoop(new List<Car>() { this }))
             {
                 if (!hasCamera)
@@ -30,6 +34,7 @@ namespace Assets.Scripts.AdvancedCity.monoBeheviors.interactiveObjects
                 }
                 else
                 {
+                allapot = "NOCANMOVE";
                     time++;
                     if (time > 200)
                     {
@@ -73,6 +78,8 @@ namespace Assets.Scripts.AdvancedCity.monoBeheviors.interactiveObjects
                     {
                         waitedcar = null;
                     }
+
+                    allapot = "SomethingOnTheWay "+hit.gameObject.name;
                     return false;
                 }
             }

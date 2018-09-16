@@ -11,6 +11,7 @@ namespace Assets.Scripts.AdvancedCity
     class Crossing
     {
         public bool main;
+        readonly float zebra = 0.7f;
         public bool tram = false;
         public Vector3 center;
         List<Neighbor> szomszedok;
@@ -128,6 +129,16 @@ namespace Assets.Scripts.AdvancedCity
                         if (j == i) continue;
                         Vector3 iDir = szomszedok[i].szomszedRoad.getDir(this);
                         Vector3 jDir = szomszedok[j].szomszedRoad.getDir(this);
+                        int max = szomszedok[i].carpath.bemenet.Length;
+                        MovementPoint[] newBemenet = new MovementPoint[max];
+                        /*for (int p = 0; p < max; p++)
+                        {
+                            newBemenet[p] = new MovementPoint(szomszedok[i].carpath.bemenet[p].center + szomszedok[i].carpath.bemenet[p].direction.normalized * zebra)
+                            {
+                                direction = iDir
+                            };
+                            szomszedok[i].carpath.bemenet[p].ConnectPoint(newBemenet[p]);
+                        }*/
                         szomszedok[i].carpath.others = szomszedok[i].carpath.others.Concat(
                             MovementPoint.Connect(szomszedok[i].carpath.bemenet, szomszedok[j].carpath.kimenet, szomszedok[i].szomszedRoad.tram, szomszedok[j].szomszedRoad.tram, iDir, jDir * -1))
                             .ToArray();
@@ -164,14 +175,14 @@ namespace Assets.Scripts.AdvancedCity
                         point.Nyitott(true);
                 }
                 if (szomszed.carpath.lamps != null)
-                foreach (MeshRenderer renderer in szomszed.carpath.lamps)
-                {
-                    Material[] tomb = renderer.materials;
-                    tomb[1] = RYG[1];
-                    tomb[2] = RYG[0];
-                    tomb[3] = RYG[0];
-                    renderer.materials = tomb;
-                }
+                    foreach (MeshRenderer renderer in szomszed.carpath.lamps)
+                    {
+                        Material[] tomb = renderer.materials;
+                        tomb[1] = RYG[1];
+                        tomb[2] = RYG[0];
+                        tomb[3] = RYG[0];
+                        renderer.materials = tomb;
+                    }
             }
             if (!stop)
             {
@@ -183,39 +194,39 @@ namespace Assets.Scripts.AdvancedCity
                     point.Nyitott(true);
                 }
                 if (szomszed.carpath.lamps != null)
-                foreach (MeshRenderer renderer in szomszed.carpath.lamps)
-                {
-                    Material[] tomb = renderer.materials;
-                    tomb[1] = RYG[0];
-                    tomb[2] = RYG[0];
-                    tomb[3] = RYG[3];
-                    renderer.materials = tomb;
-                }
+                    foreach (MeshRenderer renderer in szomszed.carpath.lamps)
+                    {
+                        Material[] tomb = renderer.materials;
+                        tomb[1] = RYG[0];
+                        tomb[2] = RYG[0];
+                        tomb[3] = RYG[3];
+                        renderer.materials = tomb;
+                    }
             }
             else
             {
                 Neighbor szomszed = szomszedok[nyitott];
                 if (szomszed.carpath.lamps != null)
-                foreach (MeshRenderer renderer in szomszed.carpath.lamps)
-                {
-                    Material[] tomb = renderer.materials;
-                    tomb[1] = RYG[0];
-                    tomb[2] = RYG[2];
-                    tomb[3] = RYG[0];
-                    renderer.materials = tomb;
-                }
+                    foreach (MeshRenderer renderer in szomszed.carpath.lamps)
+                    {
+                        Material[] tomb = renderer.materials;
+                        tomb[1] = RYG[0];
+                        tomb[2] = RYG[2];
+                        tomb[3] = RYG[0];
+                        renderer.materials = tomb;
+                    }
                 int next = nyitott + 1;
                 if (next > szomszedok.Count - 1) next = 0;
                 szomszed = szomszedok[next];
                 if (szomszed.carpath.lamps != null)
-                foreach (MeshRenderer renderer in szomszed.carpath.lamps)
-                {
-                    Material[] tomb = renderer.materials;
-                    tomb[1] = RYG[1];
-                    tomb[2] = RYG[2];
-                    tomb[3] = RYG[0];
-                    renderer.materials = tomb;
-                }
+                    foreach (MeshRenderer renderer in szomszed.carpath.lamps)
+                    {
+                        Material[] tomb = renderer.materials;
+                        tomb[1] = RYG[1];
+                        tomb[2] = RYG[2];
+                        tomb[3] = RYG[0];
+                        renderer.materials = tomb;
+                    }
             }
             stop = !stop;
         }
@@ -229,7 +240,7 @@ namespace Assets.Scripts.AdvancedCity
             {
                 CarPath carpath = new CarPath();
                 int thissavok = szomszedok[i].szomszedRoad.Savok();
-                carpath.balCross = new MovementPoint((szomszedok[i].helpline.roadedgecross + szomszedok[i].helpline.sidecross)/2);
+                carpath.balCross = new MovementPoint((szomszedok[i].helpline.roadedgecross + szomszedok[i].helpline.sidecross) / 2);
                 carpath.jobbCross = new MovementPoint((szomszedok[jobb].helpline.roadedgecross + szomszedok[jobb].helpline.sidecross) / 2);
                 carpath.bemenet = new MovementPoint[thissavok];
                 carpath.kimenet = new MovementPoint[thissavok];
@@ -238,9 +249,10 @@ namespace Assets.Scripts.AdvancedCity
                 {
                     int a = (1 + j * 2);
                     int b = thissavok * 4 - a;
-                    carpath.bemenet[j] = new MovementPoint((line[0] * a + line[1] * b) / (thissavok * 4) + direction * 0.2f);
+                    float realZebra = (szomszedok.Count == 2 || (szomszedok[i].szomszedRoad.tram && j== thissavok - 1)) ? 0 : zebra;
+                    carpath.bemenet[j] = new MovementPoint((line[0] * a + line[1] * b) / (thissavok * 4) + direction * realZebra);
                     if (szomszedok.Count > 2) carpath.bemenet[j].Nyitott(false);
-                    carpath.kimenet[j] = new MovementPoint((line[0] * b + line[1] * a) / (thissavok * 4) + direction * 0.2f);
+                    carpath.kimenet[j] = new MovementPoint((line[0] * b + line[1] * a) / (thissavok * 4));
                 }
                 szomszedok[i].carpath = carpath;
             }
@@ -259,6 +271,8 @@ namespace Assets.Scripts.AdvancedCity
             };
             carpath.jobbCross.ConnectPoint(szomszedok[jobbra].carpath.balCross);
             szomszedok[jobbra].carpath.balCross.ConnectPoint(carpath.jobbCross);
+            carpath.balCross.ConnectPoint(carpath.jobbCross);
+            carpath.jobbCross.ConnectPoint(carpath.balCross);
             szomszedok[i].szomszedRoad.addMovePoint(this, kimenet.ToArray(), bemenet.ToArray());
         }
 
@@ -296,7 +310,7 @@ namespace Assets.Scripts.AdvancedCity
                 if (szomszed.helpline.sideline[1] == szomszed.helpline.mainline[0])
                 {
                     uplittle = uplittle * 3;
-                    if (polygon.Count < 1 || polygon[polygon.Count-1] != szomszed.helpline.mainline[1])
+                    if (polygon.Count < 1 || polygon[polygon.Count - 1] != szomszed.helpline.mainline[1])
                         polygon.Add(szomszed.helpline.mainline[1]);
                     if (polygon.Count < 1 || polygon[polygon.Count - 1] != szomszed.helpline.sideline[1])
                         polygon.Add(szomszed.helpline.sideline[1]);
@@ -324,9 +338,11 @@ namespace Assets.Scripts.AdvancedCity
                 while (egyik != masik && max > 0)
                 {
                     max--;
-                    generator.AddLine(egyik.center + up, egyik.getPoint().center + up, 0.2f);
+                    MovementPoint tmp = egyik.getPoint();
+                    if (tmp == null) break;
+                    generator.AddLine(egyik.center + up, tmp.center + up, 0.2f);
                     egyikList.Add(egyik.center);
-                    egyik = egyik.getPoint();
+                    egyik = tmp;
                 }
                 egyikList.Add(egyik.center);
                 egyik = trams[1].carpath.bemenet.Last();
@@ -335,9 +351,11 @@ namespace Assets.Scripts.AdvancedCity
                 while (egyik != masik && max > 0)
                 {
                     max--;
-                    generator.AddLine(egyik.center + up, egyik.getPoint().center + up, 0.2f);
+                    MovementPoint tmp = egyik.getPoint();
+                    if (tmp == null) break;
+                    generator.AddLine(egyik.center + up, tmp.center + up, 0.2f);
                     masikList.Add(egyik.center);
-                    egyik = egyik.getPoint();
+                    egyik = tmp;
                 }
                 masikList.Add(egyik.center);
                 for (int i = 0; i < egyikList.Count; i++)

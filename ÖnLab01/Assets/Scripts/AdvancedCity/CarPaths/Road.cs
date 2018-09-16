@@ -8,6 +8,7 @@ namespace Assets.Scripts.AdvancedCity
 {
     class Road
     {
+        readonly float zebra = 0.7f;
         Crossing egyik;
         Vector3[] line_egyik;
         MovementPoint[] egyik_be;
@@ -94,27 +95,6 @@ namespace Assets.Scripts.AdvancedCity
             }
         }
 
-        public Vector3[] getTram(Crossing cros)
-        {
-            if (!tram) return null;
-            Vector3 dir = (line_egyik[0] - line_masik[1]).normalized * 0.2f;
-            if (cros == masik)
-            {
-                return new Vector3[]
-                {
-                    (masik_ki[sav - 2].center + masik_ki[sav - 1].center) / 2 - dir, (masik_be[sav - 2].center + masik_be[sav - 1].center) / 2 - dir
-                };
-            }
-            if (cros == egyik)
-            {
-                return new Vector3[]
-                {
-                    (egyik_ki[sav - 2].center + egyik_ki[sav - 1].center) / 2 + dir, (egyik_be[sav - 2].center + egyik_be[sav - 1].center) / 2 + dir
-                };
-            }
-            return null;
-        }
-
         public Vector3 getDir(Crossing cros)
         {
             if (cros == egyik)
@@ -128,7 +108,7 @@ namespace Assets.Scripts.AdvancedCity
             if (line_egyik != null && line_masik != null)
             {
                 int db = 3;
-                for (int i=0; i< db; i++)
+                for (int i = 0; i < db; i++)
                 {
                     Vector3 center = (line_masik[0] * (i + 1) + line_egyik[1] * (db - i)) / (db + 1);
                     Vector3 centerOther = (line_egyik[0] * (i + 1) + line_masik[1] * (db - i)) / (db + 1);
@@ -146,35 +126,35 @@ namespace Assets.Scripts.AdvancedCity
                 }
                 else
                 {
-                    Vector3 dir = (line_egyik[0] - line_masik[1]).normalized * 0.2f;
-                    generator.CreateRoad(line_egyik[0], line_masik[1], (egyik_be[0].center + egyik_be[1].center) / 2 + dir, (masik_ki[0].center + masik_ki[1].center) / 2 - dir, 2);
-                    generator.CreateRoad(line_masik[0], line_egyik[1], (masik_be[0].center + masik_be[1].center) / 2 - dir, (egyik_ki[0].center + egyik_ki[1].center) / 2 + dir, 2);
+                    int max = sav * 2;
+                    generator.CreateRoad(line_egyik[0], line_masik[1], (line_egyik[0] * (max - 1) + line_egyik[1]) / max, (line_masik[0] + line_masik[1] * (max - 1)) / max, 2);
+                    generator.CreateRoad(line_masik[0], line_egyik[1], (line_masik[0] * (max - 1) + line_masik[1]) / max, (line_egyik[0] + line_egyik[1] * (max - 1)) / max, 2);
                     for (int i = 1; i < sav - 1; i++)
                     {
-                        generator.CreateRoad((masik_ki[i + 1].center + masik_ki[i].center) / 2 - dir, (egyik_be[i].center + egyik_be[i + 1].center) / 2 + dir,
-                         (masik_ki[i - 1].center + masik_ki[i].center) / 2 - dir, (egyik_be[i].center + egyik_be[i - 1].center) / 2 + dir, 1);
-                        generator.CreateRoad((egyik_ki[i].center + egyik_ki[i + 1].center) / 2 + dir, (masik_be[i + 1].center + masik_be[i].center) / 2 - dir,
-                        (egyik_ki[i].center + egyik_ki[i - 1].center) / 2 + dir, (masik_be[i - 1].center + masik_be[i].center) / 2 - dir, 1);
+                        generator.CreateRoad((line_masik[0] * (i + 1) + line_masik[1] * (max - i - 1)) / max,  (line_egyik[0] * (max - i - 1) + line_egyik[1] * (i + 1)) / max,
+                         (line_masik[0] * i + line_masik[1] * (max - i)) / max, (line_egyik[0] * (max - i) + line_egyik[1] * i) / max, 1);
                     }
 
-
+                    for (int i = sav+1; i < max; i++)
                     {
-                        generator.CreateRoad(centerMasik, centerEgyik,
-                         (masik_ki[sav - 2].center + masik_ki[sav - 1].center) / 2 - dir, (egyik_be[sav - 2].center + egyik_be[sav - 1].center) / 2 + dir,
+                        generator.CreateRoad((line_masik[0] * (i + 1) + line_masik[1] * (max - i - 1)) / max, (line_egyik[0] * (max - i - 1) + line_egyik[1] * (i + 1)) / max,
+                         (line_masik[0] * i + line_masik[1] * (max - i)) / max, (line_egyik[0] * (max - i) + line_egyik[1] * i) / max, 1);
+                    }
+                    generator.CreateRoad(centerMasik, centerEgyik,
+                         (line_masik[0] * (max / 2 - 1) + line_masik[1] * (max / 2 + 1)) / max, (line_egyik[0] * (max / 2 + 1) + line_egyik[1] * (max / 2 - 1)) / max,
                          2);
 
-                        generator.CreateRoad(centerEgyik, centerMasik,
-                              (egyik_ki[sav - 2].center + egyik_ki[sav - 1].center) / 2 + dir, (masik_be[sav - 2].center + masik_be[sav - 1].center) / 2 - dir,
-                              2);
-                    }
+                    generator.CreateRoad(centerEgyik, centerMasik,
+                             (line_egyik[0] * (max / 2 - 1) + line_egyik[1] * (max / 2 + 1)) / max, (line_masik[0] * (max / 2 + 1) + line_masik[1] * (max / 2 - 1)) / max,
+                             2);
                     if (tram)
                     {
-                        generator.CreateRails(centerMasik + dir, centerEgyik - dir,
-                         (masik_ki[sav - 2].center + masik_ki[sav - 1].center) / 2, (egyik_be[sav - 2].center + egyik_be[sav - 1].center) / 2,
+                        generator.CreateRails(centerMasik, centerEgyik,
+                         (line_masik[0] * (max / 2 - 1) + line_masik[1] * (max / 2 + 1)) / max, (line_egyik[0] * (max / 2 + 1) + line_egyik[1] * (max / 2 - 1)) / max,
                          3);
 
-                        generator.CreateRails(centerEgyik - dir, centerMasik + dir,
-                              (egyik_ki[sav - 2].center + egyik_ki[sav - 1].center) / 2, (masik_be[sav - 2].center + masik_be[sav - 1].center) / 2,
+                        generator.CreateRails(centerEgyik, centerMasik,
+                             (line_egyik[0] * (max / 2 - 1) + line_egyik[1] * (max / 2 + 1)) / max, (line_masik[0] * (max / 2 + 1) + line_masik[1] * (max / 2 - 1)) / max,
                               3);
 
                     }
@@ -182,7 +162,7 @@ namespace Assets.Scripts.AdvancedCity
                     if (tram)
                     {
                         Vector3 up = new Vector3(0, 0.35f, 0);
-                        generator.AddLine(egyik_be[egyik_be.Length-2].center + up, masik_ki[masik_ki.Length - 2].center + up, 0.15f);
+                        generator.AddLine(egyik_be[egyik_be.Length - 2].center + up, masik_ki[masik_ki.Length - 2].center + up, 0.15f);
                         generator.AddLine(masik_be[masik_be.Length - 2].center + up, egyik_ki[egyik_ki.Length - 2].center + up, 0.15f);
                     }
                 }

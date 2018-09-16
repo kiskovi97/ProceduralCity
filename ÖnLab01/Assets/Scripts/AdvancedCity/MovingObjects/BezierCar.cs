@@ -11,6 +11,7 @@ namespace Assets.Scripts.AdvancedCity.monoBeheviors.interactiveObjects
         {
             if (canMove())
             {
+                allapot = "canMove";
                 float length = (nextPoint.center - transform.position).magnitude;
                 if (length < 0.1f || elozoPoint == nextPoint)
                 {
@@ -35,6 +36,7 @@ namespace Assets.Scripts.AdvancedCity.monoBeheviors.interactiveObjects
             transform.rotation = Quaternion.LookRotation(nextPoint.direction);
             if (elozoPoint != nextPoint)
             {
+                allapot = "MOVEING";
                 distanceTime += speed * 0.1f * Time.deltaTime;
                 float length = (elozoPoint.center - nextPoint.center).magnitude;
                 float angle = Vector3.Angle(elozoPoint.direction, nextPoint.direction);

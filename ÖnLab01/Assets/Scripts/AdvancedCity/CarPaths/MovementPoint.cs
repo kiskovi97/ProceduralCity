@@ -53,6 +53,7 @@ namespace Assets.Scripts.AdvancedCity
         }
         public void Draw(bool depthtest)
         {
+            Debug.DrawLine(center, center + new Vector3(0, 1, 0), Color.blue, 1000, depthtest);
             if (outPoints == null)
             {
                 Debug.DrawLine(center, center + new Vector3(0, 1, 0), Color.red, 1000, depthtest);

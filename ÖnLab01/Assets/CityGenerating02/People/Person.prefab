@@ -7793,6 +7793,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4822062425340276}
   - component: {fileID: 114505783646718532}
+  - component: {fileID: 65840076830148688}
   m_Layer: 9
   m_Name: Person
   m_TagString: Untagged
@@ -18798,6 +18799,18 @@ Transform:
   m_Father: {fileID: 4443267050874240}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &65840076830148688
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1788382860825896}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.08996262, y: 1, z: 0.106022775}
+  m_Center: {x: 0.004439093, y: 0, z: 0.0077484846}
 --- !u!95 &95462555179584278
 Animator:
   serializedVersion: 3
