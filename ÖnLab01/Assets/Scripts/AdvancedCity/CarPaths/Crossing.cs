@@ -129,16 +129,6 @@ namespace Assets.Scripts.AdvancedCity
                         if (j == i) continue;
                         Vector3 iDir = szomszedok[i].szomszedRoad.getDir(this);
                         Vector3 jDir = szomszedok[j].szomszedRoad.getDir(this);
-                        int max = szomszedok[i].carpath.bemenet.Length;
-                        MovementPoint[] newBemenet = new MovementPoint[max];
-                        /*for (int p = 0; p < max; p++)
-                        {
-                            newBemenet[p] = new MovementPoint(szomszedok[i].carpath.bemenet[p].center + szomszedok[i].carpath.bemenet[p].direction.normalized * zebra)
-                            {
-                                direction = iDir
-                            };
-                            szomszedok[i].carpath.bemenet[p].ConnectPoint(newBemenet[p]);
-                        }*/
                         szomszedok[i].carpath.others = szomszedok[i].carpath.others.Concat(
                             MovementPoint.Connect(szomszedok[i].carpath.bemenet, szomszedok[j].carpath.kimenet, szomszedok[i].szomszedRoad.tram, szomszedok[j].szomszedRoad.tram, iDir, jDir * -1))
                             .ToArray();

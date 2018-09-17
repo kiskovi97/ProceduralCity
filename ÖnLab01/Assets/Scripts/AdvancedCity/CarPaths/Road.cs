@@ -18,6 +18,7 @@ namespace Assets.Scripts.AdvancedCity
         Vector3[] line_masik;
         MovementPoint[] masik_be;
         MovementPoint[] masik_ki;
+        List<MovementPoint> others = new List<MovementPoint>();
         public bool tram;
         GameObjectGenerator generator;
         public int Savok()
@@ -74,23 +75,47 @@ namespace Assets.Scripts.AdvancedCity
             }
             if (egyik_be != null && masik_ki != null)
             {
-                for (int i = egyik_be.Length; i > 0; i--)
+                for (int i=0; i< egyik_be.Length; i++)
                 {
-                    int j = egyik_be.Length - i;
-                    if (j < 0) j = 0;
-                    int x = masik_ki.Length - i;
-                    if (x < 0) j = 0;
-                    egyik_be[j].ConnectPoint(masik_ki[x]);
-                    egyik_be[j].setDirection(masik.center - egyik.center);
-                    masik_ki[x].setDirection(masik.center - egyik.center);
+                    MovementPoint point01 = new MovementPoint((egyik_be[i].center + masik_ki[i].center*2) / 3);
+                    MovementPoint point02 = new MovementPoint((egyik_be[i].center*2 + masik_ki[i].center) / 3);
+                    point01.setDirection(masik.center - egyik.center);
+                    point02.setDirection(masik.center - egyik.center);
+                    egyik_be[i].ConnectPoint(point01);
+                    point01.ConnectPoint(point02);
+                    point02.ConnectPoint(masik_ki[i]);
+                    others.Add(point01);
+                    others.Add(point02);
+                    egyik_be[i].setDirection(masik.center - egyik.center);
+                    masik_ki[i].setDirection(masik.center - egyik.center);
 
-                    j = egyik_ki.Length - i;
-                    if (j < 0) j = 0;
-                    x = masik_be.Length - i;
-                    if (x < 0) j = 0;
-                    masik_be[x].ConnectPoint(egyik_ki[j]);
-                    masik_be[x].setDirection(egyik.center - masik.center);
-                    egyik_ki[j].setDirection(egyik.center - masik.center);
+                    MovementPoint point03 = new MovementPoint((masik_be[i].center + egyik_ki[i].center * 2) / 3);
+                    MovementPoint point04 = new MovementPoint((masik_be[i].center * 2 + egyik_ki[i].center) / 3);
+                    point03.setDirection(masik.center - egyik.center);
+                    point04.setDirection(masik.center - egyik.center);
+                    masik_be[i].ConnectPoint(point03);
+                    point03.ConnectPoint(point04);
+                    point04.ConnectPoint(egyik_ki[i]);
+                    others.Add(point03);
+                    others.Add(point04);
+                    masik_be[i].setDirection(egyik.center - masik.center);
+                    egyik_ki[i].setDirection(egyik.center - masik.center);
+                }
+
+                if (egyik_be.Length > 3 || (egyik_be.Length>2 && !tram))
+                {
+                    others[0].ConnectPoint(others[5]);
+                    others[4].ConnectPoint(others[1]);
+                    others[2].ConnectPoint(others[7]);
+                    others[6].ConnectPoint(others[3]);
+                }
+
+                if (egyik_be.Length > 4 || (egyik_be.Length > 3 && !tram))
+                {
+                    others[4].ConnectPoint(others[9]);
+                    others[8].ConnectPoint(others[5]);
+                    others[6].ConnectPoint(others[11]);
+                    others[10].ConnectPoint(others[7]);
                 }
             }
         }
@@ -103,10 +128,19 @@ namespace Assets.Scripts.AdvancedCity
                 return masik.center - egyik.center;
         }
 
-        public void Draw(bool depthtest)
+        public void Draw(bool helplines_draw, bool depthtest)
         {
             if (line_egyik != null && line_masik != null)
             {
+
+                if (helplines_draw)
+                {
+                    foreach (MovementPoint point in others)
+                    {
+                        point.Draw(depthtest);
+                    }
+                }
+
                 int db = 3;
                 for (int i = 0; i < db; i++)
                 {
@@ -156,11 +190,6 @@ namespace Assets.Scripts.AdvancedCity
                         generator.CreateRails(centerEgyik, centerMasik,
                              (line_egyik[0] * (max / 2 - 1) + line_egyik[1] * (max / 2 + 1)) / max, (line_masik[0] * (max / 2 + 1) + line_masik[1] * (max / 2 - 1)) / max,
                               3);
-
-                    }
-
-                    if (tram)
-                    {
                         Vector3 up = new Vector3(0, 0.35f, 0);
                         generator.AddLine(egyik_be[egyik_be.Length - 2].center + up, masik_ki[masik_ki.Length - 2].center + up, 0.15f);
                         generator.AddLine(masik_be[masik_be.Length - 2].center + up, egyik_ki[egyik_ki.Length - 2].center + up, 0.15f);

@@ -142,7 +142,7 @@ namespace Assets.Scripts.AdvancedCity
         {
             foreach (Road road in roads)
             {
-                road.Draw(depthtest);
+                road.Draw(draw_helplines, depthtest);
             }
             foreach (Crossing cros in crossings)
             {
