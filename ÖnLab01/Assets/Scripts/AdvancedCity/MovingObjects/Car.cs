@@ -20,33 +20,26 @@ namespace Assets.Scripts.AdvancedCity.monoBeheviors.interactiveObjects
                 allapot = "nextPoint = null";
                 return;
             }
-            if (isLoop(new List<Car>() { this }))
-            {
-                if (!hasCamera)
-                    Destroy(gameObject, 0.1f);
-            }
             float length = (nextPoint.center - transform.position).magnitude;
-            if (length < 0.1f)
-                nextPoint = nextPoint.getNextPoint();
+            if (length < 0.1f || elozoPoint == nextPoint)
+			{
+				elozoPoint = nextPoint;
+				nextPoint = nextPoint.getNextPoint();
+				distanceTime = 0;
+			}
             if (canMove())
-                {
-                    Move();
-                }
-                else
-                {
-                allapot = "NOCANMOVE";
-                    time++;
-                    if (time > 200)
-                    {
-                        audioSource = gameObject.GetComponent<AudioSource>();
-                        time = 100;
-                        if (audioSource != null)
-                        {
-                            audioSource.Play();
-                            Debug.Log("play");
-                        }
-                    }
-                }
+			{
+				Move();
+			}
+			else
+			{
+				allapot = "NOCANMOVE";
+				if (isLoop(new List<Car>() { this }))
+				{
+					if (!hasCamera)
+						Destroy(gameObject, 0.1f);
+				}
+            }
         }
 
         Car waitedcar = null;
@@ -96,7 +89,8 @@ namespace Assets.Scripts.AdvancedCity.monoBeheviors.interactiveObjects
                 transform.rotation = Quaternion.LookRotation(newDir);
                 transform.position += newDir.normalized * speed * 0.1f * Time.deltaTime;
             }
-            else {
+            else 
+			{
                 transform.rotation = Quaternion.LookRotation(newDir);
                 transform.position += toward.normalized * 20 * 0.1f * Time.deltaTime;
             }
