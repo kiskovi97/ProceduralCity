@@ -17,7 +17,7 @@ public class RoadPhysicalObject : MonoBehaviour
 
     // Szelso es Kozepso pontok
     Vector3 S1, S2, K1, K2;
-    public void CreateRoadMesh(Vector3 s1, Vector3 s2, Vector3 k1, Vector3 k2, int mat)
+    public void CreateRoadMesh(Vector3 s1, Vector3 s2, Vector3 k1, Vector3 k2, int savok, bool tram, bool sideway)
     {
         Vector2[] tomb =
         {
@@ -33,11 +33,19 @@ public class RoadPhysicalObject : MonoBehaviour
         {
             subTriangles.Add(new List<int>());
         }
-        S1 = s1;
-        S2 = s2;
-        K1 = k1;
-        K2 = k2;
-        GenerateMesh(mat);
+        RoadGenerator roadGenerator = new RoadGenerator(s1, s2, k1, k2, savok, tram, sideway);
+        foreach (Triangle triangle in roadGenerator.getTriangles())
+        {
+            AddTriangle(triangle);
+        }
+    }
+    public void AddRoadMesh(Vector3 s1, Vector3 s2, Vector3 k1, Vector3 k2, int savok, bool tram, bool sideway)
+    {
+        RoadGenerator roadGenerator = new RoadGenerator(s1, s2, k1, k2, savok, tram, sideway);
+        foreach (Triangle triangle in roadGenerator.getTriangles())
+        {
+            AddTriangle(triangle);
+        }
     }
     public void CreateCrossingMesh(List<Vector3> pointList, int mat)
     {
@@ -49,12 +57,20 @@ public class RoadPhysicalObject : MonoBehaviour
         {
             subTriangles.Add(new List<int>());
         }
-        CrossingGenerator building = new CrossingGenerator(pointList, mat);
-        foreach (Triangle triangle in building.getTriangles())
+        CrossingGenerator crossing = new CrossingGenerator(pointList, mat);
+        foreach (Triangle triangle in crossing.getTriangles())
         {
             AddTriangle(triangle);
         }
+    }
 
+    public void AddCrossingMesh(List<Vector3> pointList, int mat)
+    {
+        CrossingGenerator crossing = new CrossingGenerator(pointList, mat);
+        foreach (Triangle triangle in crossing.getTriangles())
+        {
+            AddTriangle(triangle);
+        }
     }
 
     bool AddTriangle(Vector3 A, Vector3 B, Vector3 C, int mat)

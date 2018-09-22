@@ -164,6 +164,8 @@ namespace Assets.Scripts.AdvancedCity
 
         }
 
+        long maxAngle = 60;
+
         bool Ellenorzes(GraphPoint current_road, GraphPoint newroad, bool Javitassal)
         {
 
@@ -171,9 +173,9 @@ namespace Assets.Scripts.AdvancedCity
 
             foreach (GraphPoint other_road in sideroads)
             {
-                if ((newroad.position - other_road.position).magnitude < values.collapseRangeSideRoad)
+                if (other_road != newroad && (newroad.position - other_road.position).magnitude < values.collapseRangeSideRoad)
                 {
-                    if (Javitassal)
+                    if (Javitassal && Ellenorzes(current_road,other_road, false))
                     {
                         if (KeresztEllenorzes(current_road.position, other_road.position))
                         {
@@ -182,15 +184,14 @@ namespace Assets.Scripts.AdvancedCity
                             plusroads.Add(new PlusEdge(current_road.position, other_road.position));
                         }
                     }
-
                     return false;
                 }
             }
             foreach (GraphPoint other_road in roads)
             {
-                if ((newroad.position - other_road.position).magnitude < values.collapseRangeMainRoad)
+                if (other_road != newroad && (newroad.position - other_road.position).magnitude < values.collapseRangeMainRoad)
                 {
-                    if (Javitassal)
+                    if (Javitassal && Ellenorzes(current_road,other_road, false))
                     {
                         if (KeresztEllenorzes(current_road.position, other_road.position))
                         {
@@ -209,7 +210,40 @@ namespace Assets.Scripts.AdvancedCity
             if ((p1 - q1).magnitude < values.CollapseSideRoad) return false;
             foreach (PlusEdge plusroad in plusroads)
             {
-                if (p1 == plusroad.p || p1 == plusroad.q || plusroad.q == q1 || plusroad.p == q1) continue;
+                
+                if (p1 == plusroad.p) {
+                    if (q1 == plusroad.q) continue;
+                    float angle = Vector3.Angle(q1 - p1, plusroad.q - p1);
+                    angle = Mathf.Abs(angle);
+                    if (angle < maxAngle) return false;
+                    continue;
+                }
+                if (p1 == plusroad.q)
+                {
+                    if (q1 == plusroad.p) continue;
+                    float angle = Vector3.Angle(q1 - p1, plusroad.p - p1);
+                    angle = Mathf.Abs(angle);
+                    if (angle < maxAngle) return false;
+                    continue;
+                }
+                if (plusroad.q == q1)
+                {
+                    if (p1 == plusroad.p) continue;
+                    float angle = Vector3.Angle(p1 - q1, plusroad.p - q1);
+                    angle = Mathf.Abs(angle);
+                    if (angle < maxAngle) return false;
+                    continue;
+                }
+                if (plusroad.p == q1)
+                {
+                    if (p1 == plusroad.q) continue;
+                    float angle = Vector3.Angle(p1 - q1, plusroad.q - q1);
+                    angle = Mathf.Abs(angle);
+                    if (angle < maxAngle) return false;
+                    continue;
+                }
+                
+                
                 if (SegmentFunctions.doIntersect(p1, q1, plusroad.p, plusroad.q))
                 {
                     return false;
@@ -221,7 +255,38 @@ namespace Assets.Scripts.AdvancedCity
                 if (other_road.getElozo() == null) continue;
                 Vector3 p2 = other_road.getElozo().position;
                 Vector3 q2 = other_road.position;
-                if (p1 == p2 || p1 == q2 || q1 == p2 || q1 == q2) continue;
+                if (p1 == p2)
+                {
+                    if (q1 == q2) continue;
+                    float angle = Vector3.Angle(q1 - p1, q2 - p1);
+                    angle = Mathf.Abs(angle);
+                    if (angle < maxAngle) return false;
+                    continue;
+                }
+                if (p1 == q2)
+                {
+                    if (q1 == p2) continue;
+                    float angle = Vector3.Angle(q1 - p1, p2 - p1);
+                    angle = Mathf.Abs(angle);
+                    if (angle < maxAngle) return false;
+                    continue;
+                }
+                if (q2 == q1)
+                {
+                    if (p1 == p2) continue;
+                    float angle = Vector3.Angle(p1 - q1, p2 - q1);
+                    angle = Mathf.Abs(angle);
+                    if (angle < maxAngle) return false;
+                    continue;
+                }
+                if (p2 == q1)
+                {
+                    if (p1 == q2) continue;
+                    float angle = Vector3.Angle(p1 - q1, q2 - q1);
+                    angle = Mathf.Abs(angle);
+                    if (angle < maxAngle) return false;
+                    continue;
+                }
                 if (SegmentFunctions.doIntersect(p1, q1, p2, q2))
                 {
                     return false;
@@ -233,8 +298,39 @@ namespace Assets.Scripts.AdvancedCity
                 if (other_road.getElozo() == null) continue;
                 Vector3 p2 = other_road.getElozo().position;
                 Vector3 q2 = other_road.position;
-                if (p1 == p2 || p1 == q2 || q1 == p2 || q1 == q2) continue;
-                if (SegmentFunctions.doIntersect(p1, q1, p2, q2))
+                if (p1 == p2)
+                {
+                    if (q1 == q2) continue;
+                    float angle = Vector3.Angle(q1 - p1, q2 - p1);
+                    angle = Mathf.Abs(angle);
+                    if (angle < maxAngle) return false;
+                    continue;
+                }
+                if (p1 == q2)
+                {
+                    if (q1 == p2) continue;
+                    float angle = Vector3.Angle(q1 - p1, p2 - p1);
+                    angle = Mathf.Abs(angle);
+                    if (angle < maxAngle) return false;
+                    continue;
+                }
+                if (q2 == q1)
+                {
+                    if (p1 == p2) continue;
+                    float angle = Vector3.Angle(p1 - q1, p2 - q1);
+                    angle = Mathf.Abs(angle);
+                    if (angle < maxAngle) return false;
+                    continue;
+                }
+                if (p2 == q1)
+                {
+                    if (p1 == q2) continue;
+                    float angle = Vector3.Angle(p1 - q1, q2 - q1);
+                    angle = Mathf.Abs(angle);
+                    if (angle < maxAngle) return false;
+                    continue;
+                }
+                    if (SegmentFunctions.doIntersect(p1, q1, p2, q2))
                 {
                     return false;
                 }

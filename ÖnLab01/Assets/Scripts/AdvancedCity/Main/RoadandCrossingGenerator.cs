@@ -75,7 +75,7 @@ namespace Assets.Scripts.AdvancedCity
                     float utekov = RoadSize * sizeRatio;
                     if (szomszedok[kov].isMainRoad() && elozoMain) utekov += sizeRatio * RoadSize * 2;
                     if (szomszedok[kov].isTram() && elozoTram) utekov += sizeRatio * RoadSize * 1;
-                    float sidewalk = RoadSize * sizeRatio;
+                    float sidewalk = RoadSize * sizeRatio * 1.5f;
 
                     Vector3 merolegeselozo = MyMath.Meroleges(ez, elozo).normalized * utelozo;
                     Vector3 merolegeskovetkezo = MyMath.Meroleges(kovetkezo, ez).normalized * utekov;
@@ -138,15 +138,15 @@ namespace Assets.Scripts.AdvancedCity
             }
         }
 
-        public void DrawRoads(bool draw_helplines, bool depthtest)
+        public void DrawRoads(bool draw_helplines, bool depthtest, bool lamps, bool trams)
         {
             foreach (Road road in roads)
             {
-                road.Draw(draw_helplines, depthtest);
+                road.Draw(draw_helplines, depthtest, lamps, trams);
             }
             foreach (Crossing cros in crossings)
             {
-                cros.Draw(draw_helplines, depthtest);
+                cros.Draw(draw_helplines, depthtest, trams);
             }
         }
 

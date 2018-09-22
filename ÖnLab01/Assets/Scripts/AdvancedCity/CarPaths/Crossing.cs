@@ -143,11 +143,6 @@ namespace Assets.Scripts.AdvancedCity
                 szomszedok[1].carpath.others =
                     MovementPoint.Connect(szomszedok[1].carpath.bemenet, szomszedok[0].carpath.kimenet, szomszedok[1].szomszedRoad.tram, szomszedok[0].szomszedRoad.tram, jDir, iDir * -1);
             }
-            /* if (szomszedok.Count == 1)
-             {
-                 Vector3 iDir = szomszedok[0].szomszedRoad.getDir();
-                 MovementPoint.Connect(szomszedok[0].carpath.bemenet, szomszedok[0].carpath.kimenet, szomszedok[0].szomszedRoad.tram, szomszedok[0].szomszedRoad.tram, iDir, iDir);
-             }*/
         }
 
         public int nyitott = 0;
@@ -266,7 +261,7 @@ namespace Assets.Scripts.AdvancedCity
             szomszedok[i].szomszedRoad.addMovePoint(this, kimenet.ToArray(), bemenet.ToArray());
         }
 
-        public void Draw(bool helplines_draw, bool depthtest)
+        public void Draw(bool helplines_draw, bool depthtest, bool tramIsPresent)
         {
             List<Vector3> polygon = new List<Vector3>();
             Vector3 uplittle = new Vector3(0, 0.1f, 0);
@@ -291,7 +286,7 @@ namespace Assets.Scripts.AdvancedCity
                     bool distance = szomszed.helpline.mainline[0] == szomszed.helpline.sideline[1];
                     generator.CreateRoad(szomszed.helpline.sideline[1], szomszed.helpline.sideline[0],
                         distance ? szomszedok[x].helpline.sidecross : szomszed.helpline.sidecross,
-                        distance ? szomszedok[x].helpline.sidecross : szomszed.helpline.sidecross, 0);
+                        distance ? szomszedok[x].helpline.sidecross : szomszed.helpline.sidecross, 1, false, true);
                 }
                 if (szomszedok.Count > 2)
                 {
@@ -330,7 +325,7 @@ namespace Assets.Scripts.AdvancedCity
                     max--;
                     MovementPoint tmp = egyik.getPoint();
                     if (tmp == null) break;
-                    generator.AddLine(egyik.center + up, tmp.center + up, 0.2f);
+                    if (tramIsPresent) generator.AddLine(egyik.center + up, tmp.center + up, 0.2f);
                     egyikList.Add(egyik.center);
                     egyik = tmp;
                 }
@@ -343,7 +338,7 @@ namespace Assets.Scripts.AdvancedCity
                     max--;
                     MovementPoint tmp = egyik.getPoint();
                     if (tmp == null) break;
-                    generator.AddLine(egyik.center + up, tmp.center + up, 0.2f);
+                    if (tramIsPresent) generator.AddLine(egyik.center + up, tmp.center + up, 0.2f);
                     masikList.Add(egyik.center);
                     egyik = tmp;
                 }
@@ -366,8 +361,8 @@ namespace Assets.Scripts.AdvancedCity
                     Vector3 tmpEgyik2 = egyikList[i + 1];
                     Vector3 tmpMasik2 = masikList[masikList.Count - i - 2];
                     Vector3 tmpCenter2 = (tmpEgyik2 + tmpMasik2) / 2;
-                    generator.CreateRails(tmpCenter2, tmpCenter, tmpEgyik2, tmpEgyik, 3);
-                    generator.CreateRails(tmpCenter, tmpCenter2, tmpMasik, tmpMasik2, 3);
+                    if (tramIsPresent) generator.CreateRails(tmpCenter2, tmpCenter, tmpEgyik2, tmpEgyik, 3);
+                    if (tramIsPresent) generator.CreateRails(tmpCenter, tmpCenter2, tmpMasik, tmpMasik2, 3);
                 }
             }
         }

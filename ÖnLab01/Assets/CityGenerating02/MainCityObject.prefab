@@ -30,7 +30,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &4055480370328876
 Transform:
@@ -38,7 +38,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1171539287468024}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -51,7 +51,7 @@ AudioSource:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1171539287468024}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: dac377aa3f535d444a9888735728ad66, type: 3}
@@ -153,26 +153,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   map: {fileID: 2800000, guid: 47f295d5a1936124fa77a6aefacf68ca, type: 3}
   Sizes:
-  - -4
-  - -4
-  - 4
-  - 4
-  sizeRatio: 6
+  - -25
+  - -25
+  - 25
+  - 25
+  sizeRatio: 7.2
   CollapseMainRoad: 1
   CollapseSideRoad: 1
-  RoadSize: 0.2
-  MainRoadDistance: 1.1
-  SideRoadsDistance: 1.1
+  RoadSize: 0.25
+  MainRoadDistance: 1.2
+  SideRoadsDistance: 1.2
   straightFreqMainRoad: 0.9
-  straightFreqSideRoad: 0.251
+  straightFreqSideRoad: 0.382
   maxCrossings: 4
-  rotationRandomMainRoad: 0.111
-  rotationRandomSideRoad: 0.045
+  rotationRandomMainRoad: 0.192
+  rotationRandomSideRoad: 0.047
   sideRoadFreq: 0.644
   smootIntensity: 0.089
   minHouseSize: 0.2
   HouseUpminSize: 1
-  HouseUpmaxSize: 15
+  HouseUpmaxSize: 24
   HouseDeepminSize: 0.2
   HouseDeepmaxSize: 0.3
   floorSize: 0.03
@@ -193,12 +193,14 @@ MonoBehaviour:
   person: {fileID: 1788382860825896, guid: 1345d9c99f7e8c742acea08226b14e9a, type: 2}
   VisualGraph: 0
   VisualRoads: 1
+  MakeLamps: 0
   makecars: 1
   helplines_draw: 0
-  cars_number: 100
-  depthtest: 1
+  cars_number: 20
+  peopleMax: 20
+  depthtest: 0
   makeblocks: 1
-  trams: 1
+  trams: 0
 --- !u!114 &114702943412692204
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -212,8 +214,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ControlPointsVisualationObject: {fileID: 1365869826836838, guid: f2abffc89d278154baa35c7c746742ee,
     type: 2}
-  ReqursiveMax: 400
-  ReqursiveMaxS: 1000
+  ReqursiveMax: 200
+  ReqursiveMaxS: 500
   DebugLines: 1
 --- !u!114 &114716519156173054
 MonoBehaviour:

@@ -307,7 +307,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.1
-  far clip plane: 15
+  far clip plane: 10
   field of view: 60
   orthographic: 0
   orthographic size: 5
@@ -581,8 +581,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 415d361accc59494993604ece2d03664, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  anim: {fileID: 0}
   audioSource: {fileID: 0}
   speed: 22
   hasCamera: 1
   time: 0
   carsize: 1
+  allapot: 

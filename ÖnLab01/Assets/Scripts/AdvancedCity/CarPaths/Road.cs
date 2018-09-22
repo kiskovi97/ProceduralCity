@@ -77,10 +77,8 @@ namespace Assets.Scripts.AdvancedCity
             {
                 for (int i=0; i< egyik_be.Length; i++)
                 {
-                    MovementPoint point01 = new MovementPoint((egyik_be[i].center + masik_ki[i].center*2) / 3);
-                    MovementPoint point02 = new MovementPoint((egyik_be[i].center*2 + masik_ki[i].center) / 3);
-                    point01.setDirection(masik.center - egyik.center);
-                    point02.setDirection(masik.center - egyik.center);
+                    MovementPoint point01 = new MovementPoint((egyik_be[i].center * 2 + masik_ki[i].center) / 3);
+                    MovementPoint point02 = new MovementPoint((egyik_be[i].center + masik_ki[i].center * 2) / 3);
                     egyik_be[i].ConnectPoint(point01);
                     point01.ConnectPoint(point02);
                     point02.ConnectPoint(masik_ki[i]);
@@ -88,11 +86,11 @@ namespace Assets.Scripts.AdvancedCity
                     others.Add(point02);
                     egyik_be[i].setDirection(masik.center - egyik.center);
                     masik_ki[i].setDirection(masik.center - egyik.center);
+                    point01.setDirection(masik.center - egyik.center);
+                    point02.setDirection(masik.center - egyik.center);
 
-                    MovementPoint point03 = new MovementPoint((masik_be[i].center + egyik_ki[i].center * 2) / 3);
-                    MovementPoint point04 = new MovementPoint((masik_be[i].center * 2 + egyik_ki[i].center) / 3);
-                    point03.setDirection(masik.center - egyik.center);
-                    point04.setDirection(masik.center - egyik.center);
+                    MovementPoint point03 = new MovementPoint((masik_be[i].center * 2 + egyik_ki[i].center) / 3);
+                    MovementPoint point04 = new MovementPoint((masik_be[i].center + egyik_ki[i].center * 2) / 3);
                     masik_be[i].ConnectPoint(point03);
                     point03.ConnectPoint(point04);
                     point04.ConnectPoint(egyik_ki[i]);
@@ -100,6 +98,8 @@ namespace Assets.Scripts.AdvancedCity
                     others.Add(point04);
                     masik_be[i].setDirection(egyik.center - masik.center);
                     egyik_ki[i].setDirection(egyik.center - masik.center);
+                    point03.setDirection(masik.center - egyik.center);
+                    point04.setDirection(masik.center - egyik.center);
                 }
 
                 if (egyik_be.Length > 3 || (egyik_be.Length>2 && !tram))
@@ -128,7 +128,7 @@ namespace Assets.Scripts.AdvancedCity
                 return masik.center - egyik.center;
         }
 
-        public void Draw(bool helplines_draw, bool depthtest)
+        public void Draw(bool helplines_draw, bool depthtest, bool lamps, bool trams)
         {
             if (line_egyik != null && line_masik != null)
             {
@@ -142,59 +142,34 @@ namespace Assets.Scripts.AdvancedCity
                 }
 
                 int db = 3;
-                for (int i = 0; i < db; i++)
-                {
-                    Vector3 center = (line_masik[0] * (i + 1) + line_egyik[1] * (db - i)) / (db + 1);
-                    Vector3 centerOther = (line_egyik[0] * (i + 1) + line_masik[1] * (db - i)) / (db + 1);
-                    generator.createSideLamp(center, line_masik[1] - line_masik[0]);
-                    generator.createSideLamp(centerOther, line_masik[0] - line_masik[1]);
-                }
-                generator.CreateRoad(masik.KeresztRoad(egyik), egyik.KeresztRoadMasik(masik), masik.Kereszt(egyik), egyik.KeresztMasik(masik), 0);
-                generator.CreateRoad(egyik.KeresztRoad(masik), masik.KeresztRoadMasik(egyik), egyik.Kereszt(masik), masik.KeresztMasik(egyik), 0);
+                if (lamps)
+                    for (int i = 0; i < db; i++)
+                    {
+                        Vector3 center = (line_masik[0] * (i + 1) + line_egyik[1] * (db - i)) / (db + 1);
+                        Vector3 centerOther = (line_egyik[0] * (i + 1) + line_masik[1] * (db - i)) / (db + 1);
+                        generator.createSideLamp(center, line_masik[1] - line_masik[0]);
+                        generator.createSideLamp(centerOther, line_masik[0] - line_masik[1]);
+                    }
+                generator.CreateRoad(masik.KeresztRoad(egyik), egyik.KeresztRoadMasik(masik), masik.Kereszt(egyik), egyik.KeresztMasik(masik), 1, false, true);
+                generator.CreateRoad(egyik.KeresztRoad(masik), masik.KeresztRoadMasik(egyik), egyik.Kereszt(masik), masik.KeresztMasik(egyik), 1, false, true);
                 Vector3 centerMasik = (line_masik[0] + line_masik[1]) / 2;
                 Vector3 centerEgyik = (line_egyik[0] + line_egyik[1]) / 2;
-                if (sav == 1 || sav == 0)
+                generator.CreateRoad(line_egyik[0], line_masik[1], line_egyik[1], line_masik[0], sav, tram, false);
+                int max = sav * 2;
+                if (tram && trams)
                 {
-                    generator.CreateRoad(line_egyik[0], line_masik[1], centerEgyik, centerMasik, 2);
-                    generator.CreateRoad(line_masik[0], line_egyik[1], centerMasik, centerEgyik, 2);
+                    generator.CreateRails(centerMasik, centerEgyik,
+                     (line_masik[0] * (max / 2 - 1) + line_masik[1] * (max / 2 + 1)) / max, (line_egyik[0] * (max / 2 + 1) + line_egyik[1] * (max / 2 - 1)) / max,
+                     3);
+
+                    generator.CreateRails(centerEgyik, centerMasik,
+                         (line_egyik[0] * (max / 2 - 1) + line_egyik[1] * (max / 2 + 1)) / max, (line_masik[0] * (max / 2 + 1) + line_masik[1] * (max / 2 - 1)) / max,
+                          3);
+                    Vector3 up = new Vector3(0, 0.35f, 0);
+                    generator.AddLine(egyik_be[egyik_be.Length - 2].center + up, masik_ki[masik_ki.Length - 2].center + up, 0.15f);
+                    generator.AddLine(masik_be[masik_be.Length - 2].center + up, egyik_ki[egyik_ki.Length - 2].center + up, 0.15f);
                 }
-                else
-                {
-                    int max = sav * 2;
-                    generator.CreateRoad(line_egyik[0], line_masik[1], (line_egyik[0] * (max - 1) + line_egyik[1]) / max, (line_masik[0] + line_masik[1] * (max - 1)) / max, 2);
-                    generator.CreateRoad(line_masik[0], line_egyik[1], (line_masik[0] * (max - 1) + line_masik[1]) / max, (line_egyik[0] + line_egyik[1] * (max - 1)) / max, 2);
-                    for (int i = 1; i < sav - 1; i++)
-                    {
-                        generator.CreateRoad((line_masik[0] * (i + 1) + line_masik[1] * (max - i - 1)) / max,  (line_egyik[0] * (max - i - 1) + line_egyik[1] * (i + 1)) / max,
-                         (line_masik[0] * i + line_masik[1] * (max - i)) / max, (line_egyik[0] * (max - i) + line_egyik[1] * i) / max, 1);
-                    }
-
-                    for (int i = sav+1; i < max; i++)
-                    {
-                        generator.CreateRoad((line_masik[0] * (i + 1) + line_masik[1] * (max - i - 1)) / max, (line_egyik[0] * (max - i - 1) + line_egyik[1] * (i + 1)) / max,
-                         (line_masik[0] * i + line_masik[1] * (max - i)) / max, (line_egyik[0] * (max - i) + line_egyik[1] * i) / max, 1);
-                    }
-                    generator.CreateRoad(centerMasik, centerEgyik,
-                         (line_masik[0] * (max / 2 - 1) + line_masik[1] * (max / 2 + 1)) / max, (line_egyik[0] * (max / 2 + 1) + line_egyik[1] * (max / 2 - 1)) / max,
-                         2);
-
-                    generator.CreateRoad(centerEgyik, centerMasik,
-                             (line_egyik[0] * (max / 2 - 1) + line_egyik[1] * (max / 2 + 1)) / max, (line_masik[0] * (max / 2 + 1) + line_masik[1] * (max / 2 - 1)) / max,
-                             2);
-                    if (tram)
-                    {
-                        generator.CreateRails(centerMasik, centerEgyik,
-                         (line_masik[0] * (max / 2 - 1) + line_masik[1] * (max / 2 + 1)) / max, (line_egyik[0] * (max / 2 + 1) + line_egyik[1] * (max / 2 - 1)) / max,
-                         3);
-
-                        generator.CreateRails(centerEgyik, centerMasik,
-                             (line_egyik[0] * (max / 2 - 1) + line_egyik[1] * (max / 2 + 1)) / max, (line_masik[0] * (max / 2 + 1) + line_masik[1] * (max / 2 - 1)) / max,
-                              3);
-                        Vector3 up = new Vector3(0, 0.35f, 0);
-                        generator.AddLine(egyik_be[egyik_be.Length - 2].center + up, masik_ki[masik_ki.Length - 2].center + up, 0.15f);
-                        generator.AddLine(masik_be[masik_be.Length - 2].center + up, egyik_ki[egyik_ki.Length - 2].center + up, 0.15f);
-                    }
-                }
+                
             }
         }
 

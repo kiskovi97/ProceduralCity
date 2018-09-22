@@ -16,51 +16,64 @@ namespace Assets.Scripts.AdvancedCity
         List<List<Crossing>> circles;
         BuildingContainer buildingContainer;
 
+        GameObject wireBase = null;
         public void AddLine(Vector3 a, Vector3 b, float scale)
         {
+            if (wireBase == null)
+            {
+                wireBase = Instantiate(new GameObject(), new Vector3(0,0,0), new Quaternion());
+                wireBase.name = "WireBase";
+            }
             GameObject wire = Instantiate(wireObject);
             wire.transform.position = (a + b) / 2;
             wire.transform.rotation = Quaternion.LookRotation(a - b);
             wire.transform.localScale = new Vector3(scale, scale, (a - b).magnitude * 50);
+            wire.transform.parent = wireBase.transform;
         }
-
-
         public void CreateRails(Vector3 a, Vector3 b, Vector3 c, Vector3 d, int mat)
         {
             AddRail((a * 3 + c * 2) / 5, (b * 3 + d * 2) / 5, 0.4f);
             AddRail((a * 2 + c * 3) / 5, (b * 2 + d * 3) / 5, 0.4f);
         }
-
         private void AddRail(Vector3 a, Vector3 b, float scale)
         {
+            if (wireBase == null)
+            {
+                wireBase = Instantiate(new GameObject(), new Vector3(0, 0, 0), new Quaternion());
+                wireBase.name = "WireBase";
+            }
             GameObject rail = Instantiate(railObject);
             rail.transform.position = (a + b) / 2;
             rail.transform.rotation = Quaternion.LookRotation(a - b);
             rail.transform.localScale = new Vector3(scale, scale, (a - b).magnitude * 50);
+            rail.transform.parent = wireBase.transform;
         }
-
-
-        public void CreateCrossing(List<Vector3> polygon, int mat)
-        {
-            GameObject road = Instantiate(roadObject);
-            RoadPhysicalObject roadobj = road.GetComponent<RoadPhysicalObject>();
-            roadobj.CreateCrossingMesh(polygon, mat);
-            roadobj.CreateMesh();
-        }
-
+        
+        GameObject lampBase = null;
         public GameObject createCrossLamp(Vector3 position, Vector3 forward)
         {
+            if (lampBase == null)
+            {
+                lampBase = Instantiate(new GameObject(), new Vector3(0, 0, 0), new Quaternion());
+                lampBase.name = "lampBase";
+            }
             GameObject output = Instantiate(crossLamp);
             output.transform.position = position;
             output.transform.rotation = Quaternion.LookRotation(forward, new Vector3(0, 1, 0));
+            output.transform.parent = lampBase.transform;
             return output;
         }
-
         public GameObject createSideLamp(Vector3 position, Vector3 forward)
         {
+            if (lampBase == null)
+            {
+                lampBase = Instantiate(new GameObject(), new Vector3(0, 0, 0), new Quaternion());
+                lampBase.name = "lampBase";
+            }
             GameObject output = Instantiate(sideLamp);
             output.transform.position = position;
             output.transform.rotation = Quaternion.LookRotation(forward, new Vector3(0, 1, 0));
+            output.transform.parent = lampBase.transform;
             return output;
         }
 
@@ -89,11 +102,11 @@ namespace Assets.Scripts.AdvancedCity
                     GenerateCircle(cros, second, false);
                 }
             }
-            StartCoroutine(GenerateFromCircles());
+            GenerateFromCircles();
 
         }
 
-        IEnumerator GenerateFromCircles()
+        void GenerateFromCircles()
         {
             foreach (List<Crossing> circle in circles)
             {
@@ -110,7 +123,6 @@ namespace Assets.Scripts.AdvancedCity
                 if (values == null) throw new System.Exception("No Values Connected");
                 generator.SetValues(values);
                 generator.GenerateBuildings(controlPoints, buildingContainer);
-                yield return new WaitForSeconds(0.2f);
             }
         }
 
@@ -171,12 +183,40 @@ namespace Assets.Scripts.AdvancedCity
             if (j == egyik.Count) return true;
             return false;
         }
-        public void CreateRoad(Vector3 a, Vector3 b, Vector3 c, Vector3 d, int mat)
+
+        RoadPhysicalObject oneRod = null;
+        public void CreateCrossing(List<Vector3> polygon, int mat)
         {
-            GameObject road = Instantiate(roadObject);
-            RoadPhysicalObject roadobj = road.GetComponent<RoadPhysicalObject>();
-            roadobj.CreateRoadMesh(a, b, c, d, mat);
-            roadobj.CreateMesh();
+            if (oneRod == null)
+            {
+                GameObject road = Instantiate(roadObject);
+                RoadPhysicalObject roadobj = road.GetComponent<RoadPhysicalObject>();
+                oneRod = roadobj;
+                oneRod.name = "Roads";
+                oneRod.CreateCrossingMesh(polygon, mat);
+            }
+            else
+            {
+                oneRod.AddCrossingMesh(polygon, mat);
+            }
+        }
+        public void CreateRoad(Vector3 a, Vector3 b, Vector3 c, Vector3 d, int savok, bool tram, bool sideway)
+        {
+            if (oneRod == null)
+            {
+                GameObject road = Instantiate(roadObject);
+                RoadPhysicalObject roadobj = road.GetComponent<RoadPhysicalObject>();
+                oneRod = roadobj;
+                oneRod.name = "Roads";
+                oneRod.CreateRoadMesh(a, b, c, d, savok, tram, sideway);
+            } else
+            {
+                oneRod.AddRoadMesh(a, b, c, d, savok, tram, sideway);
+            }
+        }
+        public void CreatRoadMesh()
+        {
+            oneRod.CreateMesh();
         }
 
     }

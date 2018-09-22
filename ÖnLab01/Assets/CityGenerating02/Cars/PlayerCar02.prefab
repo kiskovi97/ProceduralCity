@@ -307,7 +307,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.01
-  far clip plane: 15
+  far clip plane: 25
   field of view: 87
   orthographic: 0
   orthographic size: 5
@@ -587,3 +587,4 @@ MonoBehaviour:
   hasCamera: 1
   time: 0
   carsize: 1
+  allapot: 
