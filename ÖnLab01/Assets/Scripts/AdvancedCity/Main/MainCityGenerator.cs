@@ -27,17 +27,6 @@ namespace Assets.Scripts.AdvancedCity
         public bool trams = true;
 
         private List<Crossing> crossings = null;
-
-        private void Awake()
-        {
-            Debug.Log("Awake");
-        }
-
-        void valamk()
-        {
-            Debug.Log("Completed");
-        }
-
         void Start()
         {
             Debug.Log("Start");
@@ -71,20 +60,16 @@ namespace Assets.Scripts.AdvancedCity
                     objGen.DrawRoads(helplines_draw, depthtest, MakeLamps, trams);
                     gameObjectGenerator.CreatRoadMesh();
                 }
-                Debug.Log("Roads Done");
                 if (makeblocks)
                     gameObjectGenerator.GenerateBlocks(crossings);
-                Debug.Log("Blocks Done");
                 if (makecars)
                     GenerateCars();
-                Debug.Log("Cars Done");
             }
             foreach (Crossing cros in crossings)
             {
                 cros.Valt();
             }
-            Debug.Log("Done");
-            Invoke("Export", 1f);
+            //Invoke("Export", 1f);
         }
         
         void Export()
@@ -107,7 +92,7 @@ namespace Assets.Scripts.AdvancedCity
                 }
             }
             AscnyFgv(filters, renderers);
-            Debug.Log("Done");
+            Debug.Log("Export Done");
         }
 
         void AscnyFgv(List<MeshFilter> filters, List<MeshRenderer> renderers)
@@ -125,7 +110,6 @@ namespace Assets.Scripts.AdvancedCity
         void GenerateCars()
         {
             List<GameObject> cars = new List<GameObject>();
-
             for (int i = 0; i < cars_number; i++)
             {
                 if ((i == 5 && cars_number > 50) || (i == 0 && cars_number <= 50))
@@ -142,7 +126,6 @@ namespace Assets.Scripts.AdvancedCity
                 }
                 cars.Add(vehicles.Car);
             }
-
             objGen.SetCarsStartingPosition(cars.ToArray());
             List<GameObject> people = new List<GameObject>();
             for (int i = 0; i < peopleMax; i++)
@@ -156,7 +139,6 @@ namespace Assets.Scripts.AdvancedCity
                 GameObject obj2 = vehicles.Tram;
                 objGen.SetTram(obj, obj2);
             }
-
         }
         
         int i = 1;
@@ -170,16 +152,21 @@ namespace Assets.Scripts.AdvancedCity
             i++;
             if (i % 300 == 0)
             {
-                foreach (Crossing cros in crossings)
-                {
-                    cros.Valt();
-                }
+                StartCoroutine(AllValt());
                 if (i == 300) i = 500;
                 else i = 1;
                 Debug.Log("Valtott");
             }
         }
 
+        System.Collections.IEnumerator AllValt()
+        {
+            foreach (Crossing cros in crossings)
+            {
+                cros.Valt();
+                yield return null;
+            }
+        }
 
     }
 }

@@ -154,7 +154,7 @@ namespace Assets.Scripts.AdvancedCity
                 generator.CreateRoad(egyik.KeresztRoad(masik), masik.KeresztRoadMasik(egyik), egyik.Kereszt(masik), masik.KeresztMasik(egyik), 1, false, true);
                 Vector3 centerMasik = (line_masik[0] + line_masik[1]) / 2;
                 Vector3 centerEgyik = (line_egyik[0] + line_egyik[1]) / 2;
-                generator.CreateRoad(line_egyik[0], line_masik[1], line_egyik[1], line_masik[0], sav, tram, false);
+                generator.CreateRoad(line_egyik[0], line_masik[1], line_egyik[1], line_masik[0], sav, tram, false, zebra);
                 int max = sav * 2;
                 if (tram && trams)
                 {

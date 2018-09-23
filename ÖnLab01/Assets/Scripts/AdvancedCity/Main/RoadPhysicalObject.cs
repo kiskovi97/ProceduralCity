@@ -17,7 +17,7 @@ public class RoadPhysicalObject : MonoBehaviour
 
     // Szelso es Kozepso pontok
     Vector3 S1, S2, K1, K2;
-    public void CreateRoadMesh(Vector3 s1, Vector3 s2, Vector3 k1, Vector3 k2, int savok, bool tram, bool sideway)
+    public void CreateRoadMesh(Vector3 s1, Vector3 s2, Vector3 k1, Vector3 k2, int savok, bool tram, bool sideway, float zebra)
     {
         Vector2[] tomb =
         {
@@ -33,15 +33,15 @@ public class RoadPhysicalObject : MonoBehaviour
         {
             subTriangles.Add(new List<int>());
         }
-        RoadGenerator roadGenerator = new RoadGenerator(s1, s2, k1, k2, savok, tram, sideway);
+        RoadGenerator roadGenerator = new RoadGenerator(s1, s2, k1, k2, savok, tram, sideway, zebra);
         foreach (Triangle triangle in roadGenerator.getTriangles())
         {
             AddTriangle(triangle);
         }
     }
-    public void AddRoadMesh(Vector3 s1, Vector3 s2, Vector3 k1, Vector3 k2, int savok, bool tram, bool sideway)
+    public void AddRoadMesh(Vector3 s1, Vector3 s2, Vector3 k1, Vector3 k2, int savok, bool tram, bool sideway, float zebra)
     {
-        RoadGenerator roadGenerator = new RoadGenerator(s1, s2, k1, k2, savok, tram, sideway);
+        RoadGenerator roadGenerator = new RoadGenerator(s1, s2, k1, k2, savok, tram, sideway, zebra);
         foreach (Triangle triangle in roadGenerator.getTriangles())
         {
             AddTriangle(triangle);

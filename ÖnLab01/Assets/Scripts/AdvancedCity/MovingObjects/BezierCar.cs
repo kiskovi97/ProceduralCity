@@ -32,6 +32,7 @@ namespace Assets.Scripts.AdvancedCity.monoBeheviors.interactiveObjects
                 {
                     if (!hasCamera)
                         Destroy(gameObject, 0.1f);
+                    Debug.Log("In Loop");
                 }
             }
             

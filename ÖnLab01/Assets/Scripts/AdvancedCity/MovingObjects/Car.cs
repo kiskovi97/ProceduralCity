@@ -25,7 +25,6 @@ namespace Assets.Scripts.AdvancedCity.monoBeheviors.interactiveObjects
 			{
 				elozoPoint = nextPoint;
 				nextPoint = nextPoint.getNextPoint();
-				distanceTime = 0;
 			}
             if (canMove())
 			{

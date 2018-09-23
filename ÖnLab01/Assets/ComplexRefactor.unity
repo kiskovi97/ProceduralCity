@@ -37,8 +37,8 @@ RenderSettings:
   m_ReflectionBounces: 1
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
-  m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.16648677, g: 0.20532708, b: 0.27350938, a: 1}
+  m_Sun: {fileID: 1006902960}
+  m_IndirectSpecularColor: {r: 0.23878086, g: 0.2944947, b: 0.39229655, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -151,7 +151,7 @@ MeshRenderer:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 375275026}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -621,13 +621,13 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1006902959}
-  m_LocalRotation: {x: 0.41305476, y: -0.150245, z: 0.08359111, w: 0.8943293}
+  m_LocalRotation: {x: 0.47933072, y: -0.1827392, z: 0.08120324, w: 0.8545493}
   m_LocalPosition: {x: 0, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2053327833}
   m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 49.812004, y: -18.026001, z: 2.256}
+  m_LocalEulerAnglesHint: {x: 58.092003, y: -26.335001, z: -3.9490001}
 --- !u!1001 &1040139534
 Prefab:
   m_ObjectHideFlags: 0
@@ -672,11 +672,6 @@ Prefab:
       propertyPath: cameras.Array.data[0]
       value: 
       objectReference: {fileID: 707176226}
-    - target: {fileID: 114540087894697062, guid: f22bf4b8f9d101740ab663cfe3ba5d0f,
-        type: 2}
-      propertyPath: cars_number
-      value: 200
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f22bf4b8f9d101740ab663cfe3ba5d0f, type: 2}
   m_IsPrefabAsset: 0
