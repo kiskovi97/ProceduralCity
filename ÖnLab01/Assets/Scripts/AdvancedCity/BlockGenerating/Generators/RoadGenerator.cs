@@ -3,8 +3,9 @@ using UnityEngine;
 
 class RoadGenerator : GeneratorImpl
 {
-    public RoadGenerator(Vector3 inputS1, Vector3 inputS2, Vector3 inputK1, Vector3 inputK2, int savok, bool tram, bool sideway, float zebra)
+    public RoadGenerator(Vector3 inputS1, Vector3 inputS2, Vector3 inputK1, Vector3 inputK2, int savok, bool tram, bool sideway, float inputZebra)
     {
+        float zebra = inputZebra / 2;
         Vector3 dir = (inputS1 - inputS2).normalized;
         Vector3 s1 = inputS1 - dir * zebra;
         Vector3 s2 = inputS2 + dir * zebra;
@@ -14,10 +15,11 @@ class RoadGenerator : GeneratorImpl
         {
             elements.Add(new RoadMesh(s1, s2, k1, k2, 0));
             return;
-        } else
+        }
+        else
         {
-            elements.Add(new RoadMesh(k1, inputK1, s1, inputS1, 1));
-            elements.Add(new RoadMesh(inputK2, k2, inputS2, s2, 1));
+            elements.Add(new RoadMesh(inputK1, inputS1, k1, s1, 3));
+            elements.Add(new RoadMesh(inputS2, inputK2, s2, k2, 3));
         }
         float db = savok * 2;
         for (int i = 0; i < db; i++)

@@ -215,9 +215,9 @@ namespace Assets.Scripts.AdvancedCity
                     cars.transform.position = cros.center;
                     cars2.transform.position = cros.center;
                     vehicle.setDirection();
-                    vehicle.generateMore(8);
+                    vehicle.generateMore(5);
                     vehicle2.setDirection();
-                    vehicle2.generateMore(8);
+                    vehicle2.generateMore(5);
                     return;
                 }
             }

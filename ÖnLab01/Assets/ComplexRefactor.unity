@@ -672,6 +672,21 @@ Prefab:
       propertyPath: cameras.Array.data[0]
       value: 
       objectReference: {fileID: 707176226}
+    - target: {fileID: 114540087894697062, guid: f22bf4b8f9d101740ab663cfe3ba5d0f,
+        type: 2}
+      propertyPath: makeblocks
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114540087894697062, guid: f22bf4b8f9d101740ab663cfe3ba5d0f,
+        type: 2}
+      propertyPath: MakeLamps
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114540087894697062, guid: f22bf4b8f9d101740ab663cfe3ba5d0f,
+        type: 2}
+      propertyPath: helplines_draw
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f22bf4b8f9d101740ab663cfe3ba5d0f, type: 2}
   m_IsPrefabAsset: 0

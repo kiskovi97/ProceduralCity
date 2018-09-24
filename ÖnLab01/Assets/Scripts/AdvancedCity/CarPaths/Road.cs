@@ -21,6 +21,7 @@ namespace Assets.Scripts.AdvancedCity
         List<MovementPoint> others = new List<MovementPoint>();
         public bool tram;
         GameObjectGenerator generator;
+        bool stopping = false;
         public int Savok()
         {
             return sav;
@@ -77,6 +78,7 @@ namespace Assets.Scripts.AdvancedCity
             {
                 for (int i=0; i< egyik_be.Length; i++)
                 {
+                    if (i == egyik_be.Length - 2 && tram) continue;
                     MovementPoint point01 = new MovementPoint((egyik_be[i].center * 2 + masik_ki[i].center) / 3);
                     MovementPoint point02 = new MovementPoint((egyik_be[i].center + masik_ki[i].center * 2) / 3);
                     egyik_be[i].ConnectPoint(point01);
@@ -102,6 +104,27 @@ namespace Assets.Scripts.AdvancedCity
                     point04.setDirection(masik.center - egyik.center);
                 }
 
+                if (tram)
+                {
+                    int i = egyik_be.Length - 2;
+                    Vector3 dir = (masik.center - egyik.center).normalized;
+                    if (Random.value < 0.5f)
+                    {
+                        float roadSize = (egyik_be[0].center - egyik_be[1].center).magnitude;
+                        Vector3 meroleges = MyMath.Meroleges(egyik.center, masik.center).normalized * (roadSize / 4);
+                        makeStopping(egyik_be[i], masik_ki[i], dir, -meroleges);
+                        makeStopping(masik_be[i], egyik_ki[i], -dir, meroleges);
+                        stopping = true;
+                    } else
+                    {
+                        egyik_be[i].ConnectPoint(masik_ki[i]);
+                        masik_be[i].ConnectPoint(egyik_ki[i]);
+                        egyik_be[i].setDirection(dir);
+                        masik_ki[i].setDirection(dir);
+                        masik_be[i].setDirection(dir);
+                        egyik_ki[i].setDirection(dir);
+                    }
+                }
                 if (egyik_be.Length > 3 || (egyik_be.Length>2 && !tram))
                 {
                     others[0].ConnectPoint(others[5]);
@@ -118,6 +141,30 @@ namespace Assets.Scripts.AdvancedCity
                     others[10].ConnectPoint(others[7]);
                 }
             }
+        }
+
+        private void makeStopping(MovementPoint egyik, MovementPoint masik, Vector3 dir, Vector3 meroleges)
+        {
+            MovementPoint point01 = new MovementPoint((egyik.center * 3 + masik.center) / 4);
+            MovementPoint point02 = new MovementPoint((egyik.center + masik.center * 3) / 4);
+            MovementPoint point01in = new MovementPoint((egyik.center * 2 + masik.center) / 3 - meroleges);
+            MovementPoint point02in = new MovementPoint((egyik.center + masik.center * 2) / 3 - meroleges);
+            egyik.ConnectPoint(point01);
+            point01.ConnectPoint(point01in);
+            point01in.ConnectPoint(point02in);
+            point02in.ConnectPoint(point02);
+            point02.ConnectPoint(masik);
+            others.Add(point01);
+            others.Add(point02);
+            others.Add(point01in);
+            others.Add(point02in);
+            egyik.setDirection(dir);
+            masik.setDirection(dir);
+            point01.setDirection(dir);
+            point02.setDirection(dir);
+            point01in.setDirection(dir);
+            point02in.setDirection(dir);
+            point02in.megallo = true;
         }
 
         public Vector3 getDir(Crossing cros)
@@ -158,13 +205,22 @@ namespace Assets.Scripts.AdvancedCity
                 int max = sav * 2;
                 if (tram && trams)
                 {
-                    generator.CreateRails(centerMasik, centerEgyik,
-                     (line_masik[0] * (max / 2 - 1) + line_masik[1] * (max / 2 + 1)) / max, (line_egyik[0] * (max / 2 + 1) + line_egyik[1] * (max / 2 - 1)) / max,
-                     3);
+                    float roadSize = (egyik_be[0].center - egyik_be[1].center).magnitude;
+                    Vector3 dir = (masik.center - egyik.center).normalized;
+                    Vector3 meroleges = MyMath.Meroleges(egyik.center, masik.center).normalized;
+                    int i = egyik_be.Length - 2;
+                    generator.CreateRails(egyik_be[i], masik_ki[i], roadSize / 4.0f, meroleges, 3);
+                    generator.CreateRails(masik_be[i], egyik_ki[i], roadSize / 4.0f, -meroleges, 3);
+                    if (stopping)
+                    {
+                        Vector3 a = (egyik_be[i].center * 2 + masik_ki[i].center) / 3 - meroleges * roadSize / 3;
+                        Vector3 c = (egyik_be[i].center + masik_ki[i].center * 2) / 3 - meroleges * roadSize / 3;
+                        Vector3 b = (masik_be[i].center + egyik_ki[i].center * 2) / 3 + meroleges * roadSize / 3;
+                        Vector3 d = (masik_be[i].center * 2 + egyik_ki[i].center) / 3 + meroleges * roadSize / 3;
+                        generator.AddStoppingMesh(a, b, c, d);
+                    }
+                    
 
-                    generator.CreateRails(centerEgyik, centerMasik,
-                         (line_egyik[0] * (max / 2 - 1) + line_egyik[1] * (max / 2 + 1)) / max, (line_masik[0] * (max / 2 + 1) + line_masik[1] * (max / 2 - 1)) / max,
-                          3);
                     Vector3 up = new Vector3(0, 0.35f, 0);
                     generator.AddLine(egyik_be[egyik_be.Length - 2].center + up, masik_ki[masik_ki.Length - 2].center + up, 0.15f);
                     generator.AddLine(masik_be[masik_be.Length - 2].center + up, egyik_ki[egyik_ki.Length - 2].center + up, 0.15f);

@@ -24,6 +24,38 @@ namespace Assets.Scripts.AdvancedCity
             return getPosition();
         }
 
+        private float timeToStop = 0;
+        private float maxTime = 200;
+
+        public Vector3 getFirstPosition()
+        {
+            if (elozo != kovetkezo)
+            {
+                time += speed;
+            }
+            Vector3 dir = kovetkezo.center - elozo.center;
+            if (dir.magnitude < time)
+            {
+                if (kovetkezo.megallo && timeToStop < maxTime)
+                {
+                    time -= speed;
+                    timeToStop++;
+                    return kovetkezo.center;
+                }
+                timeToStop = 0;
+                time -= dir.magnitude;
+                elozo = kovetkezo;
+                kovetkezo = kovetkezo.getNextPoint();
+                if (elozo == kovetkezo)
+                {
+                    return kovetkezo.center;
+                }
+                dir = kovetkezo.center - elozo.center;
+            }
+
+            return elozo.center + dir.normalized * time;
+        }
+
         public Vector3 getPosition()
         {
             if (elozo != kovetkezo)

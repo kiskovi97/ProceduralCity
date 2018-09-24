@@ -51,7 +51,7 @@ AudioSource:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1171539287468024}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: dac377aa3f535d444a9888735728ad66, type: 3}
@@ -197,7 +197,7 @@ MonoBehaviour:
   makecars: 1
   helplines_draw: 0
   cars_number: 100
-  peopleMax: 0
+  peopleMax: 20
   depthtest: 0
   makeblocks: 1
   trams: 1
@@ -214,8 +214,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ControlPointsVisualationObject: {fileID: 1365869826836838, guid: f2abffc89d278154baa35c7c746742ee,
     type: 2}
-  ReqursiveMax: 15
-  ReqursiveMaxS: 50
+  ReqursiveMax: 100
+  ReqursiveMaxS: 200
   DebugLines: 1
 --- !u!114 &114716519156173054
 MonoBehaviour:

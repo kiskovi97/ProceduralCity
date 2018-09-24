@@ -12,16 +12,26 @@ namespace Assets.Scripts.AdvancedCity
         public GameObject sideLamp;
         public GameObject wireObject;
         public GameObject railObject;
+        public GameObject stoppingObj;
         List<Crossing> roads;
         List<List<Crossing>> circles;
         BuildingContainer buildingContainer;
 
         GameObject wireBase = null;
+
+        public void AddStoppingMesh(Vector3 a, Vector3 b, Vector3 c, Vector3 d)
+        {
+            GameObject obj = Instantiate(stoppingObj);
+            obj.transform.position = (a + b + c + d) / 4;
+            obj.transform.localScale = new Vector3((a - b).magnitude, 0.5f, (a - c).magnitude/2);
+            obj.transform.rotation = Quaternion.LookRotation(a - c);
+        }
+
         public void AddLine(Vector3 a, Vector3 b, float scale)
         {
             if (wireBase == null)
             {
-                wireBase = Instantiate(new GameObject(), new Vector3(0,0,0), new Quaternion());
+                wireBase = Instantiate(new GameObject(), new Vector3(0, 0, 0), new Quaternion());
                 wireBase.name = "WireBase";
             }
             GameObject wire = Instantiate(wireObject);
@@ -32,8 +42,21 @@ namespace Assets.Scripts.AdvancedCity
         }
         public void CreateRails(Vector3 a, Vector3 b, Vector3 c, Vector3 d, int mat)
         {
-            AddRail((a * 3 + c * 2) / 5, (b * 3 + d * 2) / 5, 0.4f);
-            AddRail((a * 2 + c * 3) / 5, (b * 2 + d * 3) / 5, 0.4f);
+            AddRail((a * 5 + c * 3) / 8, (b * 5 + d * 3) / 8, 0.4f);
+            AddRail((a * 3 + c * 5) / 8, (b * 3 + d * 5) / 8, 0.4f);
+        }
+
+        public void CreateRails(MovementPoint a, MovementPoint b, float size, Vector3 meroleges, int mat)
+        {
+            if (a == null || b == null) return;
+            if (a == b) return;
+            MovementPoint next = a.getNextPoint();
+            if (next!=b)
+            {
+                CreateRails(next, b, size, meroleges, mat);
+            }
+            AddRail(a.center + meroleges * (size / 2.0f), next.center + meroleges * (size / 2.0f), 0.4f);
+            AddRail(a.center - meroleges * (size / 2.0f), next.center - meroleges * (size / 2.0f), 0.4f);
         }
         private void AddRail(Vector3 a, Vector3 b, float scale)
         {
@@ -48,7 +71,7 @@ namespace Assets.Scripts.AdvancedCity
             rail.transform.localScale = new Vector3(scale, scale, (a - b).magnitude * 50);
             rail.transform.parent = wireBase.transform;
         }
-        
+
         GameObject lampBase = null;
         public GameObject createCrossLamp(Vector3 position, Vector3 forward)
         {
@@ -209,7 +232,8 @@ namespace Assets.Scripts.AdvancedCity
                 oneRod = roadobj;
                 oneRod.name = "Roads";
                 oneRod.CreateRoadMesh(a, b, c, d, savok, tram, sideway, zebra);
-            } else
+            }
+            else
             {
                 oneRod.AddRoadMesh(a, b, c, d, savok, tram, sideway, zebra);
             }

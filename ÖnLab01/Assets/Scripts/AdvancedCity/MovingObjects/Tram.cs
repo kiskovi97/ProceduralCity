@@ -51,7 +51,12 @@ namespace Assets.Scripts.AdvancedCity.monoBeheviors.interactiveObjects
 
         private void CalculateA()
         {
-            if (next_tram == null || ((next_tram.B_point - A_point).magnitude > 0 && ((next_tram.A_point - A_point).magnitude > 0.5f)))
+            if (next_tram == null)
+            {
+                A_point = A_nextPoint.getFirstPosition();
+                return;
+            }
+            if (((next_tram.B_point - A_point).magnitude > 0 && ((next_tram.A_point - A_point).magnitude > 0.5f)))
                  A_point = A_nextPoint.getPosition();
            
         }

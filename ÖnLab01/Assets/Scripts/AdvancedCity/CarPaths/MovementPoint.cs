@@ -9,6 +9,7 @@ namespace Assets.Scripts.AdvancedCity
     {
         public Vector3 center;
         public Vector3 direction;
+        public bool megallo = false;
         public MovementPoint(Vector3 mov)
         {
             center = mov;
@@ -49,7 +50,6 @@ namespace Assets.Scripts.AdvancedCity
                 return outPoints[i];
             }
             else return this;
-               
         }
         public void Draw(bool depthtest)
         {
