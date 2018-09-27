@@ -13,7 +13,7 @@ namespace Assets.Scripts.AdvancedCity
         Vector3[] line_egyik;
         MovementPoint[] egyik_be;
         MovementPoint[] egyik_ki;
-        int sav = 0;
+        public int sav = 0;
         Crossing masik;
         Vector3[] line_masik;
         MovementPoint[] masik_be;
@@ -219,11 +219,8 @@ namespace Assets.Scripts.AdvancedCity
                         Vector3 d = (masik_be[i].center * 2 + egyik_ki[i].center) / 3 + meroleges * roadSize / 3;
                         generator.AddStoppingMesh(a, b, c, d);
                     }
-                    
-
-                    Vector3 up = new Vector3(0, 0.35f, 0);
-                    generator.AddLine(egyik_be[egyik_be.Length - 2].center + up, masik_ki[masik_ki.Length - 2].center + up, 0.15f);
-                    generator.AddLine(masik_be[masik_be.Length - 2].center + up, egyik_ki[egyik_ki.Length - 2].center + up, 0.15f);
+                    generator.AddLine(egyik_be[egyik_be.Length - 2].center, masik_ki[masik_ki.Length - 2].center, 0.15f, 0.35f);
+                    generator.AddLine(masik_be[masik_be.Length - 2].center, egyik_ki[egyik_ki.Length - 2].center, 0.15f, 0.35f);
                 }
                 
             }

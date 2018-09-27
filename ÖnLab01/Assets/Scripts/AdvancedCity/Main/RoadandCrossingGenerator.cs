@@ -46,9 +46,9 @@ namespace Assets.Scripts.AdvancedCity
         {
             for (int x = 0; x < controlPoints.Count; x++)
             {
-                GraphPoint road = controlPoints[x];
+                //GraphPoint road = controlPoints[x];
                 Crossing cros = crossings[x];
-                List<GraphPoint> szomszedok = road.Szomszedok;
+                List<Crossing> szomszedok = cros.getSzomszedok();
                 List<Vector3> sidewalks = new List<Vector3>();
                 List<List<Vector3>> lista = new List<List<Vector3>>();
                 for (int i = 0; i < szomszedok.Count; i++)
@@ -57,24 +57,18 @@ namespace Assets.Scripts.AdvancedCity
                     for (int j = 0; j < 4; j++) lista[i].Add(new Vector3(0, 0, 0));
                 }
 
-                Vector3 ez = road.position;
-                bool elozoMain = road.isMainRoad();
-                bool elozoTram = road.isTram();
+                Vector3 ez = cros.center;
                 for (int i = 0; i < szomszedok.Count; i++)
                 {
                     int kov = i + 1;
                     if (i == szomszedok.Count - 1) kov = 0;
-                    Vector3 elozo = szomszedok[i].position;
-                    Vector3 kovetkezo = szomszedok[kov].position;
+                    Crossing elozoCross = szomszedok[i];
+                    Crossing kovetkezoCross = szomszedok[kov];
+                    Vector3 elozo = elozoCross.center;
+                    Vector3 kovetkezo = kovetkezoCross.center;
 
-
-                    float utelozo = RoadSize * sizeRatio;
-                    if (szomszedok[i].isMainRoad() && elozoMain) utelozo += sizeRatio * RoadSize * 2;
-                    if (szomszedok[i].isTram() && elozoTram) utelozo += sizeRatio * RoadSize * 1;
-
-                    float utekov = RoadSize * sizeRatio;
-                    if (szomszedok[kov].isMainRoad() && elozoMain) utekov += sizeRatio * RoadSize * 2;
-                    if (szomszedok[kov].isTram() && elozoTram) utekov += sizeRatio * RoadSize * 1;
+                    float utelozo = RoadSize * sizeRatio * elozoCross.GetRoad(cros).sav;
+                    float utekov = RoadSize * sizeRatio * kovetkezoCross.GetRoad(cros).sav;
                     float sidewalk = RoadSize * sizeRatio * 1.5f;
 
                     Vector3 merolegeselozo = MyMath.Meroleges(ez, elozo).normalized * utelozo;
@@ -95,6 +89,7 @@ namespace Assets.Scripts.AdvancedCity
                     sidewalks.Add(kereszt_side);
 
                     Vector3 meroleges_elozo = MyMath.Intersect(kereszt, merolegeselozo, ez, (elozo - ez).normalized);
+                    Debug.DrawLine(kereszt, kereszt + merolegeselozo, Color.red, 10000, false);
                     lista[i][2] = meroleges_elozo;
                     lista[i][3] = kereszt;
 
@@ -105,10 +100,10 @@ namespace Assets.Scripts.AdvancedCity
                 for (int i = 0; i < lista.Count; i++)
                 {
 
-                    Vector3 szomszed = szomszedok[i].position;
+                    Vector3 szomszed = szomszedok[i].center;
                     float a = Vector3.Dot((szomszed - ez).normalized, lista[i][0] - ez);
                     float b = Vector3.Dot((szomszed - ez).normalized, lista[i][2] - ez);
-                    Road r = cros.getSzomszedRoad(szomszedok[i].position);
+                    Road r = cros.getSzomszedRoad(szomszedok[i].center);
 
                     int elozo = i - 1;
                     if (elozo < 0) elozo = lista.Count - 1;

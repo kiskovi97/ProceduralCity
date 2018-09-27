@@ -193,14 +193,14 @@ MonoBehaviour:
   person: {fileID: 1788382860825896, guid: 1345d9c99f7e8c742acea08226b14e9a, type: 2}
   VisualGraph: 0
   VisualRoads: 1
-  MakeLamps: 1
+  MakeLamps: 0
   makecars: 1
   helplines_draw: 0
-  cars_number: 100
-  peopleMax: 20
+  cars_number: 50
+  peopleMax: 1
   depthtest: 0
-  makeblocks: 1
-  trams: 1
+  makeblocks: 0
+  trams: 0
 --- !u!114 &114702943412692204
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -214,8 +214,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ControlPointsVisualationObject: {fileID: 1365869826836838, guid: f2abffc89d278154baa35c7c746742ee,
     type: 2}
-  ReqursiveMax: 100
-  ReqursiveMaxS: 200
+  ReqursiveMax: 25
+  ReqursiveMaxS: 150
   DebugLines: 1
 --- !u!114 &114716519156173054
 MonoBehaviour:
@@ -248,3 +248,5 @@ MonoBehaviour:
   sideLamp: {fileID: 1496388209719504, guid: c54a12dcf5064f649b2832a143804bc0, type: 2}
   wireObject: {fileID: 1956822081182336, guid: 8c7ceae03ceb8274b80f9125f0b66357, type: 2}
   railObject: {fileID: 1956822081182336, guid: b8eb0d6b8d6a9a84f89a4e74c14fb069, type: 2}
+  stoppingObj: {fileID: 1126559101544582, guid: b5cfe6eca0d2cdf44baca83f450cf002,
+    type: 2}

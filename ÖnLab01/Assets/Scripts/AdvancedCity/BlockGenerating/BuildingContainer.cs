@@ -13,6 +13,8 @@ public class BuildingContainer : MonoBehaviour {
     }
     public GameObject buildingBySize(float size)
     {
+        if (size > 1) size = 0;
+        if (size < 0) size = 0;
         int i = (int)(size * (buildings.Length));
         return Instantiate(buildings[i]);
     }

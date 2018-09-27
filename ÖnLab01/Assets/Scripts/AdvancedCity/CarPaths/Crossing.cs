@@ -314,7 +314,6 @@ namespace Assets.Scripts.AdvancedCity
             if (tram)
             {
                 List<Neighbor> trams = szomszedok.FindAll(TramNeighbour);
-                Vector3 up = new Vector3(0, 0.35f, 0);
                 MovementPoint egyik = trams[0].carpath.bemenet.Last();
                 MovementPoint masik = trams[1].carpath.kimenet.Last();
                 List<Vector3> egyikList = new List<Vector3>();
@@ -325,7 +324,7 @@ namespace Assets.Scripts.AdvancedCity
                     max--;
                     MovementPoint tmp = egyik.getPoint();
                     if (tmp == null) break;
-                    if (tramIsPresent) generator.AddLine(egyik.center + up, tmp.center + up, 0.2f);
+                    if (tramIsPresent) generator.AddLine(egyik.center, tmp.center, 0.2f, 0.35f);
                     egyikList.Add(egyik.center);
                     egyik = tmp;
                 }
@@ -338,7 +337,7 @@ namespace Assets.Scripts.AdvancedCity
                     max--;
                     MovementPoint tmp = egyik.getPoint();
                     if (tmp == null) break;
-                    if (tramIsPresent) generator.AddLine(egyik.center + up, tmp.center + up, 0.2f);
+                    if (tramIsPresent) generator.AddLine(egyik.center, tmp.center, 0.2f, 0.35f);
                     masikList.Add(egyik.center);
                     egyik = tmp;
                 }
@@ -383,19 +382,19 @@ namespace Assets.Scripts.AdvancedCity
                 Vector3 pos = szomszed.carpath.bemenet[i].center;
                 Vector3 meroleges = Vector3.Cross(szomszed.helpline.mainline[1] - szomszed.helpline.mainline[0], new Vector3(0, 1, 0));
                 Vector3 intersect = MyMath.Intersect(szomszed.helpline.mainline[0], szomszed.helpline.mainline[1] - szomszed.helpline.mainline[0], pos, meroleges);
-                GameObject lamp = generator.createCrossLamp(intersect + new Vector3(0, 0.3f, 0), forward);
+                GameObject lamp = generator.createCrossLamp(intersect, forward, 0.3f);
                 MeshRenderer renderer = lamp.GetComponent<MeshRenderer>();
                 Material[] tomb = renderer.materials;
                 RYG = tomb.ToArray();
                 tomb[2] = tomb[0];
                 tomb[3] = tomb[0];
                 renderer.materials = tomb;
-                generator.AddLine(intersect + new Vector3(0, 0.3f, 0), intersect + new Vector3(0, 0.4f, 0), 0.2f);
+                generator.AddLine(intersect, intersect, 0.2f, .3f, .4f);
                 if (szomszed.szomszedRoad.tram && i == szomszed.carpath.bemenet.Length - 1) break;
                 szomszed.carpath.lamps[i] = renderer;
             }
-            generator.AddLine(szomszed.helpline.mainline[1] + new Vector3(0, 0.4f, 0), (szomszed.helpline.mainline[1] + szomszed.helpline.mainline[0]) / 2 + new Vector3(0, 0.4f, 0), 0.2f);
-            generator.AddLine(szomszed.helpline.mainline[1], szomszed.helpline.mainline[1] + new Vector3(0, 0.4f, 0), 0.6f);
+            generator.AddLine(szomszed.helpline.mainline[1], (szomszed.helpline.mainline[1] + szomszed.helpline.mainline[0]) / 2, 0.2f, 0.4f);
+            generator.AddLine(szomszed.helpline.mainline[1], szomszed.helpline.mainline[1], 0.6f, 0, 0.4f);
         }
 
         private Material[] RYG;
@@ -543,8 +542,47 @@ namespace Assets.Scripts.AdvancedCity
             else
                 return center;
         }
+
+        public Road GetRoad(Crossing cros)
+        {
+            if (szomszedok == null) return null;
+            foreach (Neighbor szomszed in szomszedok)
+            {
+                if (cros == szomszed.szomszedRoad.NextCros(this)) return szomszed.szomszedRoad;
+            }
+            return null;
+        }
+
+        private void sorbaRendez()
+        {
+            for (int i = 0; i < szomszedok.Count - 1; i++)
+            {
+                Vector3 eddigiirany = szomszedok[i].szomszedRoad.NextCros(this).center - center;
+                float eddigiszog = 360;
+                int z = i;
+                for (int j = i + 1; j < szomszedok.Count; j++)
+                {
+                    Vector3 masirany = szomszedok[j].szomszedRoad.NextCros(this).center - center;
+                    float szog = Vector3.SignedAngle(eddigiirany, masirany, new Vector3(0, 1, 0));
+                    if (szog < 0) szog += 360;
+                    if (eddigiszog > szog)
+                    {
+                        z = j;
+                        eddigiszog = szog;
+                    }
+                }
+                if (z > i + 1)
+                {
+                    Neighbor tmp = szomszedok[i + 1];
+                    szomszedok[i + 1] = szomszedok[z];
+                    szomszedok[z] = tmp;
+                }
+            }
+        }
+
         public List<Crossing> getSzomszedok()
         {
+            sorbaRendez();
             if (szomszedok == null) return null;
             List<Crossing> kimenet = new List<Crossing>();
             for (int i = 0; i < szomszedok.Count; i++)

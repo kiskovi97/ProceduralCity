@@ -23,22 +23,6 @@ class BlockGeneratorBasic : BlockGenerator
     List<BuildingObject> buildings = new List<BuildingObject>();
     RoadGeneratingValues values;
 
-    private Vector3 convert(Vector3 point)
-    {
-        float magassag = values.getTextureValue(point) * 10;
-        return new Vector3(point.x, magassag, point.z);
-    }
-
-    private List<Vector3> convert(List<Vector3> list)
-    {
-        List<Vector3> output = new List<Vector3>();
-        for(int i=0; i<list.Count; i++)
-        {
-            output.Add(convert(list[i]));
-        }
-        return output;
-    }
-
     public void Clear()
     {
         elozoLine.Clear();
@@ -53,9 +37,9 @@ class BlockGeneratorBasic : BlockGenerator
     public void GenerateBuildings(List<Vector3> vertexes, BuildingContainer buildingContainer)
     {
         GameObject placeObject = buildingContainer.place;
-        placeObject.transform.position = convert(vertexes[0]);
+        placeObject.transform.position = vertexes[0];
         GreenPlace place = placeObject.GetComponent<GreenPlace>();
-        place.MakePlace(convert(vertexes));
+        place.MakePlace(vertexes);
         bool sikeres = true;
         if (vertexes.Count == 3)
         {
@@ -150,9 +134,9 @@ class BlockGeneratorBasic : BlockGenerator
             float positionValue = (values.getTextureValue(kontrolpoints[0])) * (values.getTextureValue(kontrolpoints[0]));
             int floorNumber = (int)((UnityEngine.Random.value * 0.5 + 0.5) * (max - min) * positionValue) + min;
             GameObject gameObject = buildingContainer.buildingBySize(values.getTextureValue(kontrolpoints[0]));
-            gameObject.transform.position = convert(vertexes[0]);
+            gameObject.transform.position = vertexes[0];
             BuildingObject building = gameObject.GetComponent<BuildingObject>();
-            building.MakeBuilding(convert(kontrolpoints), floorNumber, values.floor);
+            building.MakeBuilding(kontrolpoints, floorNumber, values.floor);
             buildings.Add(building);
 
             if (elso && export)
@@ -211,9 +195,9 @@ class BlockGeneratorBasic : BlockGenerator
         float positionValue = (values.getTextureValue(kontrolpoints[0])) * (values.getTextureValue(kontrolpoints[0]));
         int floorNumber = (int)((UnityEngine.Random.value * 0.75 + 0.25) * (max - min) * positionValue) + min;
         GameObject gameObject = buildingContainer.buildingBySize(values.getTextureValue(kontrolpoints[0]));
-        gameObject.transform.position = convert(elozo.normalPoint);
+        gameObject.transform.position = elozo.normalPoint;
         BuildingObject building = gameObject.GetComponent<BuildingObject>();
-        building.MakeBuilding(convert(kontrolpoints), floorNumber, values.floor);
+        building.MakeBuilding(kontrolpoints, floorNumber, values.floor);
         buildings.Add(building);
     }
    

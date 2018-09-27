@@ -6,7 +6,7 @@ using UnityEngine;
 namespace Assets.Scripts.AdvancedCity
 {
     [RequireComponent(typeof(RoadGeneratingValues))]
-    class MainCityGenerator: MonoBehaviour
+    public class MainCityGenerator: MonoBehaviour
     {
         
         RoadandCrossingGenerator objGen;
@@ -27,16 +27,12 @@ namespace Assets.Scripts.AdvancedCity
         public bool trams = true;
 
         private List<Crossing> crossings = null;
-        void Start()
+        public void GenerateEverything()
         {
             Debug.Log("Start");
             RoadGeneratingValues values = GetComponent<RoadGeneratingValues>();
-            if (values == null) return;
-            if (!values.isActiveAndEnabled) return;
 
             GraphGenerator graphGen = GetComponent<GraphGenerator>();
-            if (graphGen == null) return;
-            if (!graphGen.isActiveAndEnabled) return;
 
             List<GraphPoint> points = graphGen.GenerateGraph(VisualGraph, depthtest);
             int max = 10;
@@ -48,8 +44,6 @@ namespace Assets.Scripts.AdvancedCity
                 points = graphGen.GenerateGraph(VisualGraph, depthtest);
             }
             GameObjectGenerator gameObjectGenerator = GetComponent<GameObjectGenerator>();
-            if (gameObjectGenerator == null) return;
-            if (!gameObjectGenerator.isActiveAndEnabled) return;
             gameObjectGenerator.SetValues(values);
 
             objGen = new RoadandCrossingGenerator();

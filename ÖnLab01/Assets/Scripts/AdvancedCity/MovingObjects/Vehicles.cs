@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Assets.Scripts.AdvancedCity
 {
-    class Vehicles : MonoBehaviour
+    public class Vehicles : MonoBehaviour
     {
         public List<GameObject> cars;
         public GameObject cameraCar;
