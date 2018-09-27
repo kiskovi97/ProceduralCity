@@ -9,7 +9,7 @@ public class RoadGeneratingValues : MonoBehaviour {
     {
         float x_arany = (position.x - Sizes[0] * sizeRatio) / (Sizes[2] * sizeRatio - Sizes[0] * sizeRatio);
         float y_arany = (position.z - Sizes[1] * sizeRatio) / (Sizes[3] * sizeRatio - Sizes[1] * sizeRatio);
-        return map.GetPixel((int)(map.width * x_arany), (int)(map.height * y_arany)).r;
+        return map.GetPixelBilinear(x_arany, y_arany).r;
     }
 
     [Header("Size of the city")]

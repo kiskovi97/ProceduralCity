@@ -50,6 +50,7 @@ namespace Assets.Scripts.AdvancedCity
             GameObjectGenerator gameObjectGenerator = GetComponent<GameObjectGenerator>();
             if (gameObjectGenerator == null) return;
             if (!gameObjectGenerator.isActiveAndEnabled) return;
+            gameObjectGenerator.SetValues(values);
 
             objGen = new RoadandCrossingGenerator();
             if (gameObjectGenerator != null)

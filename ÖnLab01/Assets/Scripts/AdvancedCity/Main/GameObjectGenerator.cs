@@ -16,11 +16,36 @@ namespace Assets.Scripts.AdvancedCity
         List<Crossing> roads;
         List<List<Crossing>> circles;
         BuildingContainer buildingContainer;
+        RoadGeneratingValues values;
+
+        public void SetValues(RoadGeneratingValues values)
+        {
+            this.values = values;
+        }
+        private Vector3 convert(Vector3 point)
+        {
+            float magassag = values.getTextureValue(point) *10;
+            return new Vector3(point.x, magassag + point.y, point.z);
+        }
+
+        private List<Vector3> convert(List<Vector3> list)
+        {
+            List<Vector3> output = new List<Vector3>();
+            for (int i = 0; i < list.Count; i++)
+            {
+                output.Add(convert(list[i]));
+            }
+            return output;
+        }
 
         GameObject wireBase = null;
 
         public void AddStoppingMesh(Vector3 a, Vector3 b, Vector3 c, Vector3 d)
         {
+            a = convert(a);
+            b = convert(b);
+            c = convert(c);
+            d = convert(d);
             GameObject obj = Instantiate(stoppingObj);
             obj.transform.position = (a + b + c + d) / 4;
             obj.transform.localScale = new Vector3((a - b).magnitude, 0.5f, (a - c).magnitude/2);
@@ -29,6 +54,8 @@ namespace Assets.Scripts.AdvancedCity
 
         public void AddLine(Vector3 a, Vector3 b, float scale)
         {
+            a = convert(a);
+            b = convert(b);
             if (wireBase == null)
             {
                 wireBase = Instantiate(new GameObject(), new Vector3(0, 0, 0), new Quaternion());
@@ -60,6 +87,8 @@ namespace Assets.Scripts.AdvancedCity
         }
         private void AddRail(Vector3 a, Vector3 b, float scale)
         {
+            a = convert(a);
+            b = convert(b);
             if (wireBase == null)
             {
                 wireBase = Instantiate(new GameObject(), new Vector3(0, 0, 0), new Quaternion());
@@ -81,7 +110,7 @@ namespace Assets.Scripts.AdvancedCity
                 lampBase.name = "lampBase";
             }
             GameObject output = Instantiate(crossLamp);
-            output.transform.position = position;
+            output.transform.position = convert(position);
             output.transform.rotation = Quaternion.LookRotation(forward, new Vector3(0, 1, 0));
             output.transform.parent = lampBase.transform;
             return output;
@@ -94,7 +123,7 @@ namespace Assets.Scripts.AdvancedCity
                 lampBase.name = "lampBase";
             }
             GameObject output = Instantiate(sideLamp);
-            output.transform.position = position;
+            output.transform.position = convert(position);
             output.transform.rotation = Quaternion.LookRotation(forward, new Vector3(0, 1, 0));
             output.transform.parent = lampBase.transform;
             return output;
@@ -216,15 +245,19 @@ namespace Assets.Scripts.AdvancedCity
                 RoadPhysicalObject roadobj = road.GetComponent<RoadPhysicalObject>();
                 oneRod = roadobj;
                 oneRod.name = "Roads";
-                oneRod.CreateCrossingMesh(polygon, mat);
+                oneRod.CreateCrossingMesh(convert(polygon), mat);
             }
             else
             {
-                oneRod.AddCrossingMesh(polygon, mat);
+                oneRod.AddCrossingMesh(convert(polygon), mat);
             }
         }
         public void CreateRoad(Vector3 a, Vector3 b, Vector3 c, Vector3 d, int savok, bool tram, bool sideway, float zebra = 0.0f)
         {
+            a = convert(a);
+            b = convert(b);
+            c = convert(c);
+            d = convert(d);
             if (oneRod == null)
             {
                 GameObject road = Instantiate(roadObject);
