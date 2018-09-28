@@ -140,7 +140,7 @@ GameObject:
   - component: {fileID: 54843924554878748}
   m_Layer: 9
   m_Name: CarPrefab04
-  m_TagString: Untagged
+  m_TagString: Generated
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -518,8 +518,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be41d80f5edeadd48b7b1476fa653fb8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  anim: {fileID: 0}
   audioSource: {fileID: 0}
   speed: 20
   hasCamera: 0
   time: 0
   carsize: 1
+  allapot: 

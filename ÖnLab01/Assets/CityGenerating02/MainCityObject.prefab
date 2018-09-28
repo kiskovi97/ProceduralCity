@@ -153,10 +153,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   map: {fileID: 2800000, guid: 47f295d5a1936124fa77a6aefacf68ca, type: 3}
   Sizes:
-  - -25
-  - -25
-  - 25
-  - 25
+  - -10
+  - -10
+  - 10
+  - 10
   sizeRatio: 7.2
   CollapseMainRoad: 1
   CollapseSideRoad: 1
@@ -191,16 +191,11 @@ MonoBehaviour:
   - {fileID: 0}
   vehicles: {fileID: 114650428067430184, guid: 50080373056715741adae62dc014f21b, type: 2}
   person: {fileID: 1788382860825896, guid: 1345d9c99f7e8c742acea08226b14e9a, type: 2}
-  VisualGraph: 0
-  VisualRoads: 1
   MakeLamps: 0
-  makecars: 1
   helplines_draw: 0
   cars_number: 50
   peopleMax: 1
   depthtest: 0
-  makeblocks: 0
-  trams: 0
 --- !u!114 &114702943412692204
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -250,3 +245,4 @@ MonoBehaviour:
   railObject: {fileID: 1956822081182336, guid: b8eb0d6b8d6a9a84f89a4e74c14fb069, type: 2}
   stoppingObj: {fileID: 1126559101544582, guid: b5cfe6eca0d2cdf44baca83f450cf002,
     type: 2}
+  progress: 0

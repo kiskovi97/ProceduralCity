@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.AdvancedCity
 {
-    class Road
+    public class Road
     {
         readonly float zebra = 0.7f;
         Crossing egyik;

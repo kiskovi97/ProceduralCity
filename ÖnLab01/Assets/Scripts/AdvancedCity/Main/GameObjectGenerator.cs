@@ -5,7 +5,7 @@ using System.Collections;
 namespace Assets.Scripts.AdvancedCity
 {
     [RequireComponent(typeof(RoadGeneratingValues))]
-    class GameObjectGenerator : MonoBehaviour
+    public class GameObjectGenerator : MonoBehaviour
     {
         public GameObject roadObject;
         public GameObject crossLamp;
@@ -136,23 +136,12 @@ namespace Assets.Scripts.AdvancedCity
             return output;
         }
 
-        public void GenerateBlocks(List<Crossing> crossings)
+        public void GenerateBlocks(List<Crossing> crossings, step delegateStep)
         {
+            progress = 0;
             circles = new List<List<Crossing>>();
             roads = crossings;
-            if (roads == null)
-            {
-                Debug.Log("ERROR Not initializaled Roads");
-                return;
-            }
             buildingContainer = GetComponent<BuildingContainer>();
-            if (buildingContainer == null)
-            {
-                Debug.Log("Need Building Container");
-                return;
-            }
-
-            if (roads.Count <= 0) return;
             foreach (Crossing cros in roads)
             {
                 List<Crossing> szomszedok = cros.getSzomszedok();
@@ -161,12 +150,13 @@ namespace Assets.Scripts.AdvancedCity
                     GenerateCircle(cros, second, false);
                 }
             }
-            GenerateFromCircles();
-
+            StartCoroutine(GenerateFromCircles(delegateStep));
         }
-
-        void GenerateFromCircles()
+        public float progress = 0;
+        public delegate void step(float step);
+        IEnumerator GenerateFromCircles(step delegateStep)
         {
+            float step = 1f / circles.Count;
             foreach (List<Crossing> circle in circles)
             {
                 List<Vector3> controlPoints = new List<Vector3>();
@@ -182,7 +172,11 @@ namespace Assets.Scripts.AdvancedCity
                 if (values == null) throw new System.Exception("No Values Connected");
                 generator.SetValues(values);
                 generator.GenerateBuildings(controlPoints, buildingContainer);
+                progress += step;
+                delegateStep(step);
+                yield return null;
             }
+            progress = 1;
         }
 
         void GenerateCircle(Crossing root, Crossing second, bool jobbra)
@@ -274,10 +268,10 @@ namespace Assets.Scripts.AdvancedCity
                 oneRod.AddRoadMesh(a, b, c, d, savok, tram, sideway, zebra);
             }
         }
-        public void CreatRoadMesh()
+        public RoadPhysicalObject CreatRoadMesh()
         {
             oneRod.CreateMesh();
+            return oneRod;
         }
-
     }
 }

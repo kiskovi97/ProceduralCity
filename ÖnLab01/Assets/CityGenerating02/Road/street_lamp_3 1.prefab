@@ -39,7 +39,7 @@ GameObject:
   - component: {fileID: 23064582364638250}
   m_Layer: 10
   m_Name: street_lamp_3 1
-  m_TagString: Untagged
+  m_TagString: Generated
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295

@@ -6,68 +6,57 @@ using UnityEngine;
 namespace Assets.Scripts.AdvancedCity
 {
     [RequireComponent(typeof(RoadGeneratingValues))]
-    public class MainCityGenerator: MonoBehaviour
+    public class MainCityGenerator : MonoBehaviour
     {
-        
-        RoadandCrossingGenerator objGen;
-        RoadGeneratingValues values;
-        // ------- Instantinate Objects
         public FollowPlayer[] cameras;
         public Vehicles vehicles;
         public GameObject person;
-        public bool VisualGraph = false;
-        public bool VisualRoads = false;
         public bool MakeLamps = false;
-        public bool makecars = true;
         public bool helplines_draw = true;
         public int cars_number = 100;
         public int peopleMax = 100;
         public bool depthtest = false;
-        public bool makeblocks = true;
-        public bool trams = true;
 
         private List<Crossing> crossings = null;
-        public void GenerateEverything()
+        private List<GraphPoint> points = null;
+        private GameObjectGenerator gameObjectGenerator = null;
+        private RoadandCrossingGenerator objGen = null;
+        private RoadGeneratingValues values = null;
+        public void GenerateOnlyGraph(bool visual)
         {
-            Debug.Log("Start");
-            RoadGeneratingValues values = GetComponent<RoadGeneratingValues>();
-
+            values = GetComponent<RoadGeneratingValues>();
             GraphGenerator graphGen = GetComponent<GraphGenerator>();
-
-            List<GraphPoint> points = graphGen.GenerateGraph(VisualGraph, depthtest);
+            points = graphGen.GenerateGraph(visual, depthtest);
             int max = 10;
             while (max > 0 && points.Count <= 0)
             {
-                int i = 10 - max + 1;
-                Debug.Log("The " + i + ". try was an empty graph");
+                Debug.Log("The " + (10 - max + 1) + ". try was an empty graph");
                 max--;
-                points = graphGen.GenerateGraph(VisualGraph, depthtest);
+                points = graphGen.GenerateGraph(visual, depthtest);
             }
-            GameObjectGenerator gameObjectGenerator = GetComponent<GameObjectGenerator>();
+            gameObjectGenerator = GetComponent<GameObjectGenerator>();
             gameObjectGenerator.SetValues(values);
-
             objGen = new RoadandCrossingGenerator();
-            if (gameObjectGenerator != null)
-            {
-                crossings = objGen.GenerateObjects(gameObjectGenerator, points, values.sizeRatio);
-                if (VisualRoads)
-                {
-                    objGen.DrawRoads(helplines_draw, depthtest, MakeLamps, trams);
-                    gameObjectGenerator.CreatRoadMesh();
-                }
-                if (makeblocks)
-                    gameObjectGenerator.GenerateBlocks(crossings);
-                if (makecars)
-                    GenerateCars();
-            }
-            foreach (Crossing cros in crossings)
-            {
-                cros.Valt();
-            }
-            //Invoke("Export", 1f);
+            crossings = objGen.GenerateObjects(gameObjectGenerator, points, values.sizeRatio);
         }
-        
-        void Export()
+        public void GenerateEverything(GameObjectGenerator.step delegateStep)
+        {
+            GenerateOnlyGraph(false);
+            DrawRoads();
+            DrawBlocks(delegateStep);
+            GenerateCars();
+        }
+        public void DrawRoads()
+        {
+            objGen.DrawRoads(helplines_draw, depthtest, MakeLamps, trams);
+            gameObjectGenerator.CreatRoadMesh();
+        }
+        public void DrawBlocks(GameObjectGenerator.step delegateStep)
+        {
+            gameObjectGenerator.GenerateBlocks(crossings, delegateStep);
+        }
+
+        public void Export()
         {
             Debug.Log("Export Start");
             GameObject[] allObjects = FindObjectsOfType<GameObject>();
@@ -92,24 +81,27 @@ namespace Assets.Scripts.AdvancedCity
 
         void AscnyFgv(List<MeshFilter> filters, List<MeshRenderer> renderers)
         {
-            for(int i = 0; i < filters.Count && i < 1; i++)
+            for (int i = 0; i < filters.Count && i < 1; i++)
             {
                 MeshFilter filter = filters[i];
                 MeshRenderer meshRenderer = renderers[i];
                 string fileName = i + "mesh";
-                ObjExporter.MeshToFile(filter, meshRenderer.materials, "Assets/Export/"+fileName+".obj");
+                ObjExporter.MeshToFile(filter, meshRenderer.materials, "Assets/Export/" + fileName + ".obj");
             }
         }
 
         //--- Ez majd a KRESZ osztaly feladata lesz ----------
-        void GenerateCars()
+        bool playerOK = false;
+        bool running = false;
+        bool trams = true;
+        public void GenerateCars()
         {
             List<GameObject> cars = new List<GameObject>();
             for (int i = 0; i < cars_number; i++)
             {
                 if ((i == 5 && cars_number > 50) || (i == 0 && cars_number <= 50))
                 {
-                    if (vehicles.cameraCar != null)
+                    if (vehicles.cameraCar != null && !playerOK)
                     {
                         GameObject player = Instantiate(vehicles.cameraCar);
                         cars.Add(player);
@@ -117,6 +109,7 @@ namespace Assets.Scripts.AdvancedCity
                         {
                             camera.player = player.transform;
                         }
+                        playerOK = true;
                     }
                 }
                 cars.Add(vehicles.Car);
@@ -133,19 +126,32 @@ namespace Assets.Scripts.AdvancedCity
                 GameObject obj = vehicles.Tram;
                 GameObject obj2 = vehicles.Tram;
                 objGen.SetTram(obj, obj2);
+                trams = false;
             }
+            foreach (Crossing cros in crossings)
+            {
+                cros.Valt();
+            }
+            running = true;
         }
-        
-        int i = 1;
-        void Update()
+
+        public void Clear()
         {
-            if (Input.GetButtonDown("Exit")) {
+            running = false;
+            playerOK = false;
+            trams = true;
+        }
+        int i = 1;
+        public void Update()
+        {
+            if (Input.GetButtonDown("Exit"))
+            {
                 Debug.Log("Exit");
                 Application.Quit();
             }
             if (crossings == null) return;
             i++;
-            if (i % 300 == 0)
+            if (i % 300 == 0 && running)
             {
                 StartCoroutine(AllValt());
                 if (i == 300) i = 500;

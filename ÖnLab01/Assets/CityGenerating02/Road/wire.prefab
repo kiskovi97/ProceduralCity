@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 64835487237708130}
   m_Layer: 10
   m_Name: wire
-  m_TagString: Untagged
+  m_TagString: Generated
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295

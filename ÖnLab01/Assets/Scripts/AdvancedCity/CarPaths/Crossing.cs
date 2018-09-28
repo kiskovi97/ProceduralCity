@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.AdvancedCity
 {
-    class Crossing
+    public class Crossing
     {
         public bool main;
         readonly float zebra = 0.7f;
