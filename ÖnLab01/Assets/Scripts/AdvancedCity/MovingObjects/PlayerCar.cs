@@ -17,14 +17,17 @@ namespace Assets.Scripts.AdvancedCity.monoBeheviors.interactiveObjects
             var z = Input.GetAxis("Vertical") * Time.deltaTime * 0.1f * speed;
             var y = Input.GetAxis("Jump") * Time.deltaTime * 0.1f * speed;
             float turbo = Input.GetButton("Turbo") ? 2.0f : 1.0f;
-            transform.Rotate(0, x, 0);
-            Vector3 move = new Vector3(0, y, z * turbo);
+            transform.Rotate(0, x , 0, Space.World);
+            transform.Rotate(-y * 100 * turbo * z, 0, 0);
+            Vector3 move = new Vector3(0, 0, z * turbo);
             move = Quaternion.LookRotation(transform.forward, new Vector3(0,1,0)) * move;
             transform.position += move;
             if (transform.position.y < 0)
             {
                 transform.position -= new Vector3(0, transform.position.y, 0);
-               // transform.Rotate(y * 10, 0, 0);
+                Vector3 RealForward = transform.forward;
+                RealForward.y = 0;
+                transform.rotation = Quaternion.LookRotation(RealForward);
             }
         }
     }

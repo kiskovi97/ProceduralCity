@@ -196,6 +196,8 @@ MonoBehaviour:
   cars_number: 50
   peopleMax: 1
   depthtest: 0
+  begginingTram: 0
+  trams: 1
 --- !u!114 &114702943412692204
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -209,8 +211,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ControlPointsVisualationObject: {fileID: 1365869826836838, guid: f2abffc89d278154baa35c7c746742ee,
     type: 2}
-  ReqursiveMax: 25
-  ReqursiveMaxS: 150
+  ReqursiveMax: 100
+  ReqursiveMaxS: 600
   DebugLines: 1
 --- !u!114 &114716519156173054
 MonoBehaviour:

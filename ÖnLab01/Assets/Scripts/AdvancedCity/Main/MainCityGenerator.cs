@@ -16,15 +16,28 @@ namespace Assets.Scripts.AdvancedCity
         public int cars_number = 100;
         public int peopleMax = 100;
         public bool depthtest = false;
+        public bool begginingTram = false;
 
         private List<Crossing> crossings = null;
         private List<GraphPoint> points = null;
         private GameObjectGenerator gameObjectGenerator = null;
         private RoadandCrossingGenerator objGen = null;
         private RoadGeneratingValues values = null;
+        public void setSize(float size)
+        {
+            values.Sizes[0] = -size;
+            values.Sizes[1] = -size;
+            values.Sizes[2] = size;
+            values.Sizes[3] = size;
+        }
+        public float getSize()
+        {
+            if (values == null) values = GetComponent<RoadGeneratingValues>();
+            return values.Sizes[2];
+        }
         public void GenerateOnlyGraph(bool visual)
         {
-            values = GetComponent<RoadGeneratingValues>();
+            if (values == null) values = GetComponent<RoadGeneratingValues>();
             GraphGenerator graphGen = GetComponent<GraphGenerator>();
             points = graphGen.GenerateGraph(visual, depthtest);
             int max = 10;
@@ -93,7 +106,7 @@ namespace Assets.Scripts.AdvancedCity
         //--- Ez majd a KRESZ osztaly feladata lesz ----------
         bool playerOK = false;
         bool running = false;
-        bool trams = true;
+        public bool trams = true;
         public void GenerateCars()
         {
             List<GameObject> cars = new List<GameObject>();
@@ -139,7 +152,7 @@ namespace Assets.Scripts.AdvancedCity
         {
             running = false;
             playerOK = false;
-            trams = true;
+            trams = false;
         }
         int i = 1;
         public void Update()
