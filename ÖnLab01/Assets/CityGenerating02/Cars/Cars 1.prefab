@@ -1,0 +1,61 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1633470016759580}
+  m_IsPrefabAsset: 1
+--- !u!1 &1633470016759580
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4899680268959222}
+  - component: {fileID: 114650428067430184}
+  m_Layer: 0
+  m_Name: Cars 1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4899680268959222
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1633470016759580}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -7.6514144, y: 0.8461255, z: -4.202897}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114650428067430184
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1633470016759580}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8fb61cb25e9c6242accef9b8f6e7825, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cars:
+  - {fileID: 1947337989532640, guid: 0cb8f416e5e41da43b9811b5ca0e5981, type: 2}
+  - {fileID: 1947337989532640, guid: 0500ce412f72e804682d8b2addad4454, type: 2}
+  - {fileID: 1026481080868770, guid: 15fa2876293919941a3b0468bc99f0d6, type: 2}
+  - {fileID: 1947337989532640, guid: bfc8e070149cc6243b968320230ee7fb, type: 2}
+  - {fileID: 1947337989532640, guid: b83b229b633bfbc4c80ce1f2eeb2f186, type: 2}
+  cameraCar: {fileID: 1473476920159558, guid: d991baa1db398174599e65a99e1a3d4f, type: 2}
+  tram: {fileID: 1144836741589656, guid: 10d0634f0cb50814c8e1a47e69063857, type: 2}
