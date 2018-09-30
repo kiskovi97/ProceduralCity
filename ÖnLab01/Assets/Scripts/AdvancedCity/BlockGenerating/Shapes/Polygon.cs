@@ -6,7 +6,7 @@ class Polygon : Shape
 {
     public List<Vector3> controlPoints;
     public List<Triangle> ears = new List<Triangle>();
-    public Polygon(List<Vector3> inputControlPoints, int material)
+    public Polygon(Vector3[] inputControlPoints, int material)
     {
         controlPoints = new List<Vector3>();
         controlPoints.AddRange(inputControlPoints);

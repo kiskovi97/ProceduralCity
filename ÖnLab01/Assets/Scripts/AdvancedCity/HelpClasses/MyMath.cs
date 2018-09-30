@@ -36,21 +36,21 @@ public class MyMath
         return meroleges;
     }
 
-    public static List<Vector3> innerPoints(List<Vector3> controlpoints, float scale)
+    public static Vector3[] InnerPoints(Vector3[] controlpoints, float scale)
     {
         List<Vector3> outpout = new List<Vector3>();
-        for(int i=0; i< controlpoints.Count; i++)
+        for(int i=0; i< controlpoints.Length; i++)
         {
             int j = i+1;
-            if (j > controlpoints.Count - 1) j = 0;
+            if (j > controlpoints.Length - 1) j = 0;
             int z = i - 1;
-            if (z < 0) z = controlpoints.Count - 1;
+            if (z < 0) z = controlpoints.Length - 1;
             Vector3 nextMer = Meroleges(controlpoints[i], controlpoints[j]).normalized * scale;
             Vector3 elozoMer = Meroleges(controlpoints[z], controlpoints[i]).normalized * scale;
             Vector3 kereszt = Intersect(controlpoints[i] + elozoMer, controlpoints[z] - controlpoints[i], controlpoints[i] + nextMer, controlpoints[i] - controlpoints[j]);
             outpout.Add(kereszt);
         }
-        return outpout;
+        return outpout.ToArray();
     }
 
     public static float Area(Vector3 a, Vector3 b, Vector3 c)

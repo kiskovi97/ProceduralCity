@@ -138,14 +138,6 @@ class BlockGeneratorBasic : BlockGenerator
             BuildingObject building = gameObject.GetComponent<BuildingObject>();
             building.MakeBuilding(kontrolpoints, floorNumber, values.floor);
             buildings.Add(building);
-
-            if (elso && export)
-            {
-                MeshFilter filter = gameObject.GetComponent<MeshFilter>();
-                MeshRenderer meshRenderer = gameObject.GetComponent<MeshRenderer>();
-                ObjExporter.MeshToFile(filter, meshRenderer.materials, "Assets/test.obj");
-                elso = false;
-            }
         }
         for (int i=0; i< vertexes.Count; i++)
         {

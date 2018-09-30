@@ -4,25 +4,13 @@ ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
     100000: //RootNode
-    100002: BuildingObject_4(Clone)
-    100004: BuildingObject_3(Clone)
-    100006: BuildingObject_6(Clone)
+    100002: BuildingObject_6(Clone)
     400000: //RootNode
-    400002: BuildingObject_4(Clone)
-    400004: BuildingObject_3(Clone)
-    400006: BuildingObject_6(Clone)
-    2100000: BuildingObject_4(Clone)Mat
-    2100002: BuildingObject_3(Clone)Mat
-    2100004: BuildingObject_6(Clone)Mat
-    2300000: BuildingObject_4(Clone)
-    2300002: BuildingObject_3(Clone)
-    2300004: BuildingObject_6(Clone)
-    3300000: BuildingObject_4(Clone)
-    3300002: BuildingObject_3(Clone)
-    3300004: BuildingObject_6(Clone)
-    4300000: BuildingObject_4(Clone)
-    4300002: BuildingObject_3(Clone)
-    4300004: BuildingObject_6(Clone)
+    400002: BuildingObject_6(Clone)
+    2100000: BuildingObject_6(Clone)Mat
+    2300000: BuildingObject_6(Clone)
+    3300000: BuildingObject_6(Clone)
+    4300000: BuildingObject_6(Clone)
   externalObjects: {}
   materials:
     importMaterials: 1

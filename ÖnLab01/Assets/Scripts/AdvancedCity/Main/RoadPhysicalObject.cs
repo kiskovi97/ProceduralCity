@@ -17,7 +17,7 @@ public class RoadPhysicalObject : MonoBehaviour
 
     // Szelso es Kozepso pontok
     Vector3 S1, S2, K1, K2;
-    public void CreateRoadMesh(Vector3 s1, Vector3 s2, Vector3 k1, Vector3 k2, int savok, bool tram, bool sideway, float zebra)
+    public void CreateRoadMesh(Vector3 s1, Vector3 s2, Vector3 k1, Vector3 k2, int savok, bool tram, bool sideway, float zebra, float otherzebra)
     {
         Vector2[] tomb =
         {
@@ -33,21 +33,21 @@ public class RoadPhysicalObject : MonoBehaviour
         {
             subTriangles.Add(new List<int>());
         }
-        RoadGenerator roadGenerator = new RoadGenerator(s1, s2, k1, k2, savok, tram, sideway, zebra);
+        RoadGenerator roadGenerator = new RoadGenerator(s1, s2, k1, k2, savok, sideway, zebra, otherzebra);
         foreach (Triangle triangle in roadGenerator.getTriangles())
         {
             AddTriangle(triangle);
         }
     }
-    public void AddRoadMesh(Vector3 s1, Vector3 s2, Vector3 k1, Vector3 k2, int savok, bool tram, bool sideway, float zebra)
+    public void AddRoadMesh(Vector3 s1, Vector3 s2, Vector3 k1, Vector3 k2, int savok, bool tram, bool sideway, float zebra, float otherzebra)
     {
-        RoadGenerator roadGenerator = new RoadGenerator(s1, s2, k1, k2, savok, tram, sideway, zebra);
+        RoadGenerator roadGenerator = new RoadGenerator(s1, s2, k1, k2, savok, sideway, zebra, otherzebra);
         foreach (Triangle triangle in roadGenerator.getTriangles())
         {
             AddTriangle(triangle);
         }
     }
-    public void CreateCrossingMesh(List<Vector3> pointList, int mat)
+    public void CreateCrossingMesh(List<Vector3> pointList)
     {
         subTriangles = new List<List<int>>();
         mesh = GetComponent<MeshFilter>().mesh;
@@ -57,16 +57,16 @@ public class RoadPhysicalObject : MonoBehaviour
         {
             subTriangles.Add(new List<int>());
         }
-        CrossingGenerator crossing = new CrossingGenerator(pointList, mat);
+        CrossingGenerator crossing = new CrossingGenerator(pointList.ToArray());
         foreach (Triangle triangle in crossing.getTriangles())
         {
             AddTriangle(triangle);
         }
     }
 
-    public void AddCrossingMesh(List<Vector3> pointList, int mat)
+    public void AddCrossingMesh(List<Vector3> pointList)
     {
-        CrossingGenerator crossing = new CrossingGenerator(pointList, mat);
+        CrossingGenerator crossing = new CrossingGenerator(pointList.ToArray());
         foreach (Triangle triangle in crossing.getTriangles())
         {
             AddTriangle(triangle);

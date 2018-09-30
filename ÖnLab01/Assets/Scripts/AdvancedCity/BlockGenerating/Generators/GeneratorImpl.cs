@@ -1,16 +1,13 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 
 class GeneratorImpl : Generator
 {
-    protected List<MeshElement> elements = new List<MeshElement>();
+    protected List<MeshElement> meshElements = new List<MeshElement>();
     protected List<Generator> generators = new List<Generator>();
-    public List<Triangle> getTriangles()
+    public Triangle[] getTriangles()
     {
         List<Triangle> triangles = new List<Triangle>();
-        foreach(MeshElement element in elements)
+        foreach(MeshElement element in meshElements)
         {
             triangles.AddRange(element.getTriangles());
         }
@@ -18,6 +15,6 @@ class GeneratorImpl : Generator
         {
             triangles.AddRange(generator.getTriangles());
         }
-        return triangles;
+        return triangles.ToArray();
     }
 }

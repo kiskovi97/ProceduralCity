@@ -43,6 +43,11 @@ namespace Assets.Scripts.AdvancedCity
             public Vector3 sidecross;
         }
 
+        public bool isCorssing()
+        {
+            return szomszedok.Count > 2;
+        }
+
         public Crossing(Vector3 centerpoint, bool inputmain, bool tramInput, GameObjectGenerator generatorbe)
         {
             center = centerpoint;
@@ -309,7 +314,7 @@ namespace Assets.Scripts.AdvancedCity
                         polygon.Add(szomszed.helpline.mainline[1]);
                 }
             }
-            generator.CreateCrossing(polygon, 4);
+            generator.CreateCrossing(polygon);
 
             if (tram)
             {

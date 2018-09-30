@@ -26,7 +26,6 @@ public class BuildingObject : MonoBehaviour {
         {
             subTriangles.Add(new List<int>());
         }
-
         colliderMeshVertexes = new List<Vector3>();
         colliderUV = new List<Vector2>();
         colliderSubTriangles = new List<List<int>>();
@@ -40,16 +39,16 @@ public class BuildingObject : MonoBehaviour {
     public void MakeBuilding(List<Vector3> kontrolpoints, int floorNumber, float floor)
     {
         Start();
-        Building building = new Building(kontrolpoints, floor, floorNumber);
+        BuildingGenerator building = new BuildingGenerator(kontrolpoints.ToArray(), floor, floorNumber);
         float max = 0;
         foreach (Triangle triangle in building.getTriangles())
         {
             AddTriangle(triangle);
             if (triangle.A.y > max) max = triangle.A.y;
         }
-        
-        CollisionBox box = new CollisionBox(kontrolpoints, max);
-        foreach (Triangle triangle in box.getTriangles())
+
+        Triangle[] collision = building.GetCollision();
+        foreach (Triangle triangle in collision)
         {
             AddTriangleCollision(triangle);
         }
@@ -60,7 +59,7 @@ public class BuildingObject : MonoBehaviour {
     public void MakeBase(Vector3 a, Vector3 b, Vector3 c)
     {
         Start();
-        TriangleShape triangleShape = new TriangleShape(a, b, c, (int)MaterialEnum.BASE);
+        TriangleShape triangleShape = new TriangleShape(a, b, c, (int)BlockMaterial.BASE);
         foreach (Triangle triangle in triangleShape.getTriangles())
         {
             AddTriangle(triangle);
@@ -99,25 +98,6 @@ public class BuildingObject : MonoBehaviour {
 
     private void AddPoint(Vector3 kp, int mat, Vector2 uv)
     {
-        /* if (meshVertexes.Contains(kp))
-         {
-             int i = meshVertexes.LastIndexOf(kp);
-             if (UV[i].Equals(uv))
-             {
-                 subTriangles[mat].Add(i);
-             } else
-             {
-                 subTriangles[mat].Add(meshVertexes.Count);
-                 meshVertexes.Add(kp);
-                 UV.Add(uv);
-             }
-         }
-         else
-         {
-             subTriangles[mat].Add(meshVertexes.Count);
-             meshVertexes.Add(kp);
-             UV.Add(uv);
-         }*/
         subTriangles[mat].Add(meshVertexes.Count);
         meshVertexes.Add(kp);
         UV.Add(uv);
@@ -173,7 +153,7 @@ public class BuildingObject : MonoBehaviour {
         colliderMesh.RecalculateBounds();
         colliderMesh.RecalculateNormals();
         collider.sharedMesh = colliderMesh;
-        collider.convex = true;
+        //collider.convex = true;
     }
 
     public void DestorySelf()

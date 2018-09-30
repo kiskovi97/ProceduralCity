@@ -3,8 +3,8 @@ using UnityEngine;
 
 class CrossingGenerator : GeneratorImpl
 {
-    public CrossingGenerator(List<Vector3> kontrolpoints, int mat)
+    public CrossingGenerator(Vector3[] kontrolpoints)
     {
-        elements.Add(new CrossingMesh(kontrolpoints, mat));
+        meshElements.Add(new CrossingMesh(kontrolpoints));
     }
 }

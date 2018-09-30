@@ -1,4 +1,5 @@
 ﻿
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -69,7 +70,7 @@ namespace Assets.Scripts.AdvancedCity
             gameObjectGenerator.GenerateBlocks(crossings, delegateStep);
         }
 
-        public void Export()
+        public void Export(int max)
         {
             Debug.Log("Export Start");
             GameObject[] allObjects = FindObjectsOfType<GameObject>();
@@ -77,7 +78,7 @@ namespace Assets.Scripts.AdvancedCity
             List<MeshRenderer> renderers = new List<MeshRenderer>();
             foreach (GameObject obj in allObjects)
             {
-                if (obj.GetComponent<BuildingObject>() != null)
+                if (obj.GetComponent<BuildingObject>() != null || obj.GetComponent<RoadPhysicalObject>() != null)
                 {
                     MeshFilter filter = obj.GetComponent<MeshFilter>();
                     MeshRenderer renderer = obj.GetComponent<MeshRenderer>();
@@ -88,19 +89,20 @@ namespace Assets.Scripts.AdvancedCity
                     }
                 }
             }
-            AscnyFgv(filters, renderers);
-            Debug.Log("Export Done");
+            StartCoroutine(AscnyFgv(filters, renderers, max));
         }
 
-        void AscnyFgv(List<MeshFilter> filters, List<MeshRenderer> renderers)
+        IEnumerator AscnyFgv(List<MeshFilter> filters, List<MeshRenderer> renderers, int max)
         {
-            for (int i = 0; i < filters.Count && i < 1; i++)
+            for (int i = 0; i < filters.Count && i < max; i++)
             {
                 MeshFilter filter = filters[i];
                 MeshRenderer meshRenderer = renderers[i];
                 string fileName = i + "mesh";
                 ObjExporter.MeshToFile(filter, meshRenderer.materials, "Assets/Export/" + fileName + ".obj");
+                yield return null;
             }
+            Debug.Log("Export Ended");
         }
 
         //--- Ez majd a KRESZ osztaly feladata lesz ----------

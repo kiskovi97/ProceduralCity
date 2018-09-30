@@ -6,9 +6,9 @@ using System.Text;
 public class Ring: Shape
 {
     public int material;
-    public List<Vector3> innerRing;
-    public List<Vector3> outerRing;
-    public Ring(List<Vector3> outerRing, List<Vector3> innerRing, int material)
+    public Vector3[] innerRing;
+    public Vector3[] outerRing;
+    public Ring(Vector3[] outerRing, Vector3[] innerRing, int material)
     {
         this.material = material;
         this.innerRing = innerRing;
@@ -17,10 +17,10 @@ public class Ring: Shape
     public List<Triangle> getTriangles()
     {
         List<Triangle> list = new List<Triangle>();
-        for (int i=0; i< outerRing.Count; i++)
+        for (int i=0; i< outerRing.Length; i++)
         {
             int j = i + 1;
-            if (j > outerRing.Count - 1) j = 0;
+            if (j > outerRing.Length - 1) j = 0;
             Vector3 LeftDown = outerRing[i];
             Vector3 LeftUp = innerRing[i];
             Vector3 RightUp = innerRing[j];

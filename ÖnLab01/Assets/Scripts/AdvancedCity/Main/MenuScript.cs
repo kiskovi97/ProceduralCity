@@ -57,7 +57,7 @@ namespace Assets.Scripts.AdvancedCity
         }
         public void ExportObjects()
         {
-            mainCityGenerator.Export();
+            mainCityGenerator.Export(100);
         }
         public void CreateGraph()
         {

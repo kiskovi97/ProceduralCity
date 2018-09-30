@@ -1,19 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 
 class MeshElementImpl : MeshElement
 {
     protected List<Shape> shapes = new List<Shape>();
-    public List<Triangle> getTriangles()
+    public Triangle[] getTriangles()
     {
         List<Triangle> triangles = new List<Triangle>();
         foreach( Shape shape in shapes)
         {
             triangles.AddRange(shape.getTriangles());
         }
-        return triangles;
+        return triangles.ToArray();
     }
 }
 

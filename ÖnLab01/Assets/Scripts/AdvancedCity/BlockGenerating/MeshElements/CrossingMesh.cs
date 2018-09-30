@@ -1,12 +1,9 @@
 ﻿using UnityEngine;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 class CrossingMesh : MeshElementImpl
 {
-    public CrossingMesh(List<Vector3> controlpoints, int mat)
+    public CrossingMesh(Vector3[] controlpoints)
     {
-        shapes.Add(new Polygon(controlpoints, mat));
+        shapes.Add(new Polygon(controlpoints, (int)RoadMaterial.CROSSING));
     }
 }

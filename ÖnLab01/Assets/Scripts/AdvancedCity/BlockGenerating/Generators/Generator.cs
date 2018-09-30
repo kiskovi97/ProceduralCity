@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-interface Generator
+﻿interface Generator
 {
-    List<Triangle> getTriangles();
+    Triangle[] getTriangles();
 }
 

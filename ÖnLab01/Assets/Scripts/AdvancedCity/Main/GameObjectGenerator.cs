@@ -238,7 +238,7 @@ namespace Assets.Scripts.AdvancedCity
         }
 
         RoadPhysicalObject oneRod = null;
-        public void CreateCrossing(List<Vector3> polygon, int mat)
+        public void CreateCrossing(List<Vector3> polygon)
         {
             if (oneRod == null)
             {
@@ -246,14 +246,14 @@ namespace Assets.Scripts.AdvancedCity
                 RoadPhysicalObject roadobj = road.GetComponent<RoadPhysicalObject>();
                 oneRod = roadobj;
                 oneRod.name = "Roads";
-                oneRod.CreateCrossingMesh(polygon, mat);
+                oneRod.CreateCrossingMesh(polygon);
             }
             else
             {
-                oneRod.AddCrossingMesh(polygon, mat);
+                oneRod.AddCrossingMesh(polygon);
             }
         }
-        public void CreateRoad(Vector3 a, Vector3 b, Vector3 c, Vector3 d, int savok, bool tram, bool sideway, float zebra = 0.0f)
+        public void CreateRoad(Vector3 a, Vector3 b, Vector3 c, Vector3 d, int savok, bool tram, bool sideway, float zebra = 0.0f, float otherzebra = 0.0f)
         {
             if (oneRod == null)
             {
@@ -261,11 +261,11 @@ namespace Assets.Scripts.AdvancedCity
                 RoadPhysicalObject roadobj = road.GetComponent<RoadPhysicalObject>();
                 oneRod = roadobj;
                 oneRod.name = "Roads";
-                oneRod.CreateRoadMesh(a, b, c, d, savok, tram, sideway, zebra);
+                oneRod.CreateRoadMesh(a, b, c, d, savok, tram, sideway, zebra, otherzebra);
             }
             else
             {
-                oneRod.AddRoadMesh(a, b, c, d, savok, tram, sideway, zebra);
+                oneRod.AddRoadMesh(a, b, c, d, savok, tram, sideway, zebra, otherzebra);
             }
         }
         public RoadPhysicalObject CreatRoadMesh()

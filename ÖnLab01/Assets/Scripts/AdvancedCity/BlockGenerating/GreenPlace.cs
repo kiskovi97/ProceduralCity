@@ -27,7 +27,7 @@ public class GreenPlace : MonoBehaviour {
     public void MakePlace(List<Vector3> kontrolpoints)
     {
         Start();
-        GreenPlaceGenerator place = new GreenPlaceGenerator(kontrolpoints);
+        GreenPlaceGenerator place = new GreenPlaceGenerator(kontrolpoints.ToArray());
         foreach (Triangle triangle in place.getTriangles())
         {
             AddTriangle(triangle);
