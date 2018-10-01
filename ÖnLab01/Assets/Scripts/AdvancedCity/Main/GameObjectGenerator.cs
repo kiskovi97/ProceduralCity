@@ -166,12 +166,12 @@ namespace Assets.Scripts.AdvancedCity
                     if (x > circle.Count - 1) x = 0;
                     controlPoints.Add(circle[i].Kereszt(circle[x]));
                 }
-                BlockGenerator generator = new BlockGeneratorBasic();
+                IBlockGenerator generator = new BlockGeneratorBasic();
                 controlPoints.Reverse();
                 RoadGeneratingValues values = GetComponent<RoadGeneratingValues>();
                 if (values == null) throw new System.Exception("No Values Connected");
                 generator.SetValues(values);
-                generator.GenerateBuildings(controlPoints, buildingContainer);
+                generator.GenerateBuildings(controlPoints.ToArray(), buildingContainer);
                 progress += step;
                 delegateStep(step);
                 yield return null;

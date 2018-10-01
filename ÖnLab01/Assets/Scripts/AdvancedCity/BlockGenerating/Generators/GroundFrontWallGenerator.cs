@@ -17,12 +17,12 @@ class GroundFrontWallGenerator : GeneratorImpl
 
         if ((LD-RD).magnitude > windowSize)
         {
-            meshElements.Add(new Door(leftDoorDown, leftDoorUp, rightDoorDown, rightDoorUp));
+            meshElements.Add(new DoorMesh(leftDoorDown, leftDoorUp, rightDoorDown, rightDoorUp));
             Vector3 centerCenter = centerU + upToDown * windowSize;
             Vector3 centerLeftDoor = centerCenter - leftToRight * (windowSize / 2);
             Vector3 centerRightDoor = centerCenter + leftToRight * (windowSize / 2);
-            meshElements.Add(new GroundWall(LD, centerLeft, leftDoorDown, centerLeftDoor));
-            meshElements.Add(new GroundWall(rightDoorDown, centerRightDoor, RD, centerRight));
+            meshElements.Add(new GroundWallMesh(LD, centerLeft, leftDoorDown, centerLeftDoor));
+            meshElements.Add(new GroundWallMesh(rightDoorDown, centerRightDoor, RD, centerRight));
             if (windowCount % 2 == 0)
             {
                 windowCount = windowCount - 1;
@@ -31,7 +31,7 @@ class GroundFrontWallGenerator : GeneratorImpl
             generators.Add(new FloorWallGenerator(centerRightDoor, rightDoorUp, centerRight, RU, windowCount / 2, windowSize));
         } else
         {
-            meshElements.Add(new GroundWall(LD, centerLeft, RD, centerRight));
+            meshElements.Add(new GroundWallMesh(LD, centerLeft, RD, centerRight));
             generators.Add(new FloorWallGenerator(centerLeft,LU,centerRight,RU,1,windowSize));
         }
         

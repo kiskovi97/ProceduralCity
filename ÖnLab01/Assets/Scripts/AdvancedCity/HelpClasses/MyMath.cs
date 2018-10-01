@@ -68,14 +68,14 @@ public class MyMath
         return (angle > 179.9f) && (angle < 180.1f);
     }
 
-    public static bool PrincipleVertex(Vector3 lineA, Vector3 lineB, List<Vector3> polygon)
+    public static bool PrincipleVertex(Vector3 lineA, Vector3 lineB, Vector3[] polygon)
     {
         int kereszt = 0;
-        for (int i = 0; i < polygon.Count; i++)
+        for (int i = 0; i < polygon.Length; i++)
         {
             if (lineA == polygon[i] || lineB == polygon[i]) continue;
             int j = i + 1;
-            if (j > polygon.Count - 1) j = 0;
+            if (j > polygon.Length - 1) j = 0;
             if (lineA == polygon[j] || lineB == polygon[j]) continue;
             Vector3 intersect = Intersect(polygon[i], polygon[i] - polygon[j], lineA, lineA - lineB);
             if (Between(lineA, lineB, intersect) && Between(polygon[i], polygon[j], intersect)) kereszt++;
@@ -83,14 +83,14 @@ public class MyMath
         return kereszt == 0;
     }
 
-    public static bool innerPoint(Vector3 a, List<Vector3> polygon)
+    public static bool InnerPoint(Vector3 a, Vector3[] polygon)
     {
         int kereszt = 0;
-        for (int i = 0; i < polygon.Count; i++)
+        for (int i = 0; i < polygon.Length; i++)
         {
             if (a == polygon[i]) continue;
             int j = i + 1;
-            if (j > polygon.Count - 1) j = 0;
+            if (j > polygon.Length - 1) j = 0;
             if (a == polygon[j]) continue;
             Vector3 intersect = Intersect(polygon[i], polygon[i] - polygon[j], a, new Vector3(0, 0, 1));
             if (Between(polygon[i], polygon[j], intersect) && Between(a,a+new Vector3(0,0,100),intersect)) kereszt++;
@@ -98,7 +98,7 @@ public class MyMath
         return kereszt % 2 == 1;
     }
 
-    private static bool toTHeRight(Vector3 a, Vector3 egyik, Vector3 masik)
+    private static bool ToTheRight(Vector3 a, Vector3 egyik, Vector3 masik)
     {
         Vector3 egyikFele = egyik - a;
         Vector3 masikFele = masik - a;
@@ -106,16 +106,16 @@ public class MyMath
         return angle > 0;
     }
 
-    public static bool isEar(int i, List<Vector3> polygon)
+    public static bool IsEar(int i, Vector3[] polygon)
     {
         Vector3 point = polygon[i];
-        int x = i - 1;
-        int y = i + 1;
-        if (y > polygon.Count - 1) y = 0;
-        if (x < 0) x = polygon.Count - 1;
-        if (innerPoint((polygon[x] + polygon[y]) / 2, polygon))
+        int prev = i - 1;
+        int next = i + 1;
+        if (next > polygon.Length - 1) next = 0;
+        if (prev < 0) prev = polygon.Length - 1;
+        if (InnerPoint((polygon[prev] + polygon[next]) / 2, polygon))
         {
-            return PrincipleVertex(polygon[x], polygon[y], polygon);
+            return PrincipleVertex(polygon[prev], polygon[next], polygon);
         } else
         {
             return false;

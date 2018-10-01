@@ -13,9 +13,9 @@ class RoofMesh : MeshElementImpl
             Vector3[] innerRing = MyMath.InnerPoints(controlpoints, 0.03f);
             Vector3[] upControl = UpList(controlpoints, 0.05f);
             Vector3[] upRing = UpList(innerRing, 0.05f);
-            shapes.Add(new Ring(controlpoints, upControl, MATERIALSIMPLEWALL));
-            shapes.Add(new Ring(upControl, upRing, MATERIALSIMPLEWALL));
-            shapes.Add(new Ring(upRing, innerRing, MATERIALSIMPLEWALL));
+            shapes.Add(new RingShape(controlpoints, upControl, MATERIALSIMPLEWALL));
+            shapes.Add(new RingShape(upControl, upRing, MATERIALSIMPLEWALL));
+            shapes.Add(new RingShape(upRing, innerRing, MATERIALSIMPLEWALL));
             shapes.Add(new Polygon(innerRing, MATERIALSIMPLEWALL));
             int i = 3;
             while (i > 0)
@@ -33,7 +33,7 @@ class RoofMesh : MeshElementImpl
                 kp = kp + Random.value * right;
                 left = left / (Random.value * 2.0f + 3);
                 right = right / (Random.value * 2.0f + 3);
-                shapes.Add(new Box(kp, left, right, up, MATERIALSIMPLEWALL));
+                shapes.Add(new BoxShape(kp, left, right, up, MATERIALSIMPLEWALL));
             }
         }
         else

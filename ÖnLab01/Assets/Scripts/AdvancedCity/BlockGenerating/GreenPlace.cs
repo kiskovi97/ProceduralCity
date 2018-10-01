@@ -1,15 +1,16 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(MeshFilter))]
-public class GreenPlace : MonoBehaviour {
+public class GreenPlace : MonoBehaviour
+{
     MeshFilter meshfilter;
     Mesh mesh;
     List<Vector3> meshVertexes;
     List<List<int>> subTriangles;
     List<Vector2> UV;
-	void Start () {
+    void Start()
+    {
         meshfilter = GetComponent<MeshFilter>();
         mesh = meshfilter.mesh;
         meshVertexes = new List<Vector3>();
@@ -17,17 +18,17 @@ public class GreenPlace : MonoBehaviour {
         subTriangles = new List<List<int>>();
         MeshRenderer meshRenderer = GetComponent<MeshRenderer>();
         int MateraialCount = meshRenderer.materials.Length;
-        for (int i=0; i< MateraialCount; i++)
+        for (int i = 0; i < MateraialCount; i++)
         {
             subTriangles.Add(new List<int>());
         }
     }
 
     // Update is called once per frame
-    public void MakePlace(List<Vector3> kontrolpoints)
+    public void MakePlace(Vector3[] kontrolpoints)
     {
         Start();
-        GreenPlaceGenerator place = new GreenPlaceGenerator(kontrolpoints.ToArray());
+        GreenPlaceGenerator place = new GreenPlaceGenerator(kontrolpoints);
         foreach (Triangle triangle in place.getTriangles())
         {
             AddTriangle(triangle);

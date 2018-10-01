@@ -1,14 +1,14 @@
 ﻿using System.Collections.Generic;
 
-class MeshElementImpl : MeshElement
+class MeshElementImpl : IMeshElement
 {
-    protected List<Shape> shapes = new List<Shape>();
+    protected List<IShape> shapes = new List<IShape>();
     public Triangle[] getTriangles()
     {
         List<Triangle> triangles = new List<Triangle>();
-        foreach( Shape shape in shapes)
+        foreach( IShape shape in shapes)
         {
-            triangles.AddRange(shape.getTriangles());
+            triangles.AddRange(shape.GetTriangles());
         }
         return triangles.ToArray();
     }

@@ -1,9 +1,6 @@
 ﻿using UnityEngine;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
-public class TriangleShape : Shape
+public class TriangleShape : IShape
 {
     public int material;
     public Vector3 A;
@@ -16,10 +13,12 @@ public class TriangleShape : Shape
         this.B = B;
         this.C = C;
     }
-    public List<Triangle> getTriangles()
+    public Triangle[] GetTriangles()
     {
-        List<Triangle> list = new List<Triangle>();
-        list.Add(new Triangle(A, B, C, material, new Vector2[] { new Vector2(0, 0), new Vector2(1, 1), new Vector2(0, 1) }));
+        Triangle[] list = new Triangle[]
+        {
+            new Triangle(A, B, C, material, new Vector2[] { new Vector2(0, 0), new Vector2(1, 1), new Vector2(0, 1) })
+        };
         return list;
     }
 }

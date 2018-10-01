@@ -1,9 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(MeshFilter))]
-public class BuildingObject : MonoBehaviour {
+public class BuildingObject : MonoBehaviour
+{
     public Texture2D texture;
     MeshFilter meshfilter;
     Mesh mesh;
@@ -14,7 +14,8 @@ public class BuildingObject : MonoBehaviour {
     List<List<int>> colliderSubTriangles;
     List<Vector2> colliderUV;
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
         meshfilter = GetComponent<MeshFilter>();
         mesh = meshfilter.mesh;
         meshVertexes = new List<Vector3>();
@@ -22,7 +23,7 @@ public class BuildingObject : MonoBehaviour {
         subTriangles = new List<List<int>>();
         MeshRenderer meshRenderer = GetComponent<MeshRenderer>();
         int MateraialCount = meshRenderer.materials.Length;
-        for (int i=0; i< MateraialCount; i++)
+        for (int i = 0; i < MateraialCount; i++)
         {
             subTriangles.Add(new List<int>());
         }
@@ -36,10 +37,10 @@ public class BuildingObject : MonoBehaviour {
     }
 
     // Update is called once per frame
-    public void MakeBuilding(List<Vector3> kontrolpoints, int floorNumber, float floor)
+    public void MakeBuilding(Vector3[] kontrolpoints, int floorNumber, float floor)
     {
         Start();
-        BuildingGenerator building = new BuildingGenerator(kontrolpoints.ToArray(), floor, floorNumber);
+        BuildingGenerator building = new BuildingGenerator(kontrolpoints, floor, floorNumber);
         float max = 0;
         foreach (Triangle triangle in building.getTriangles())
         {
@@ -60,7 +61,7 @@ public class BuildingObject : MonoBehaviour {
     {
         Start();
         TriangleShape triangleShape = new TriangleShape(a, b, c, (int)BlockMaterial.BASE);
-        foreach (Triangle triangle in triangleShape.getTriangles())
+        foreach (Triangle triangle in triangleShape.GetTriangles())
         {
             AddTriangle(triangle);
         }
@@ -109,7 +110,8 @@ public class BuildingObject : MonoBehaviour {
         {
             int i = colliderMeshVertexes.IndexOf(kp);
             colliderSubTriangles[mat].Add(i);
-        } else
+        }
+        else
         {
             colliderSubTriangles[mat].Add(colliderMeshVertexes.Count);
             colliderMeshVertexes.Add(kp);

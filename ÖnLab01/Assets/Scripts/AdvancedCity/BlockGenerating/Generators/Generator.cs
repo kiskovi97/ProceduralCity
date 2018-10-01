@@ -1,5 +1,0 @@
-﻿interface Generator
-{
-    Triangle[] getTriangles();
-}
-

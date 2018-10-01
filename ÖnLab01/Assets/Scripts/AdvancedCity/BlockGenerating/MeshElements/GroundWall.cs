@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 
-class GroundWall : MeshElementImpl
+class GroundWallMesh : MeshElementImpl
 {
-    public GroundWall(Vector3 LD, Vector3 LU, Vector3 RD, Vector3 RU)
+    public GroundWallMesh(Vector3 LD, Vector3 LU, Vector3 RD, Vector3 RU)
     {
-        shapes.Add(new ReactRectangle(LD, RD, LU, RU, (int)BlockMaterial.GROUNDWALL));
+        shapes.Add(new ReactRectangleShape(LD, RD, LU, RU, (int)BlockMaterial.GROUNDWALL));
     }
 }

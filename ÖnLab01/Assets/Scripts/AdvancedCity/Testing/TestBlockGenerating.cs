@@ -11,7 +11,7 @@ public class TestBlockGenerating : MonoBehaviour {
     private bool update = true;
     public bool something = true;
     GameObject actual;
-    BlockGenerator generator;
+    IBlockGenerator generator;
     // Use this for initialization
     void Start () {
         if (values == null)
@@ -38,7 +38,7 @@ public class TestBlockGenerating : MonoBehaviour {
         }
         kozeppont /= vertexes.Count;
         generator.SetValues(values);
-        generator.GenerateBuildings(vertexes, buildingContainer);
+        generator.GenerateBuildings(vertexes.ToArray(), buildingContainer);
         update = true;
     }
 	
@@ -69,7 +69,7 @@ public class TestBlockGenerating : MonoBehaviour {
                     kozeppont += road.transform.position;
                 }
                 kozeppont /= vertexes.Count;
-                generator.GenerateBuildings(vertexes, buildingContainer);
+                generator.GenerateBuildings(vertexes.ToArray(), buildingContainer);
             }
         }
         

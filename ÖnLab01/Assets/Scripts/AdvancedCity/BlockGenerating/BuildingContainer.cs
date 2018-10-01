@@ -1,25 +1,25 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class BuildingContainer : MonoBehaviour {
 
-    public GameObject[] buildings;
-	public GameObject building{
+    [SerializeField]
+    private GameObject[] buildings;
+	public GameObject Building{
         get {
             int i = (int)(Random.value * (buildings.Length));
             return Instantiate(buildings[i]);
         }
     }
-    public GameObject buildingBySize(float size)
+    public GameObject BuildingBySize(float size)
     {
         if (size > 1) size = 0;
         if (size < 0) size = 0;
         int i = (int)(size * (buildings.Length));
         return Instantiate(buildings[i]);
     }
-    public GameObject[] greenPlace;
-    public GameObject place
+    [SerializeField]
+    private GameObject[] greenPlace;
+    public GameObject Place
     {
         get
         {

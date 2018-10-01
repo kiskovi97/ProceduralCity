@@ -1,17 +1,17 @@
 ﻿using System.Collections.Generic;
 
-class GeneratorImpl : Generator
+class GeneratorImpl : IGenerator
 {
-    protected List<MeshElement> meshElements = new List<MeshElement>();
-    protected List<Generator> generators = new List<Generator>();
+    protected List<IMeshElement> meshElements = new List<IMeshElement>();
+    protected List<IGenerator> generators = new List<IGenerator>();
     public Triangle[] getTriangles()
     {
         List<Triangle> triangles = new List<Triangle>();
-        foreach(MeshElement element in meshElements)
+        foreach(IMeshElement element in meshElements)
         {
             triangles.AddRange(element.getTriangles());
         }
-        foreach(Generator generator in generators)
+        foreach(IGenerator generator in generators)
         {
             triangles.AddRange(generator.getTriangles());
         }
