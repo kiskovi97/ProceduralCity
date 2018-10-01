@@ -1,9 +1,5 @@
-﻿
-
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using UnityEngine;
 
 namespace Assets.Scripts.AdvancedCity
@@ -11,18 +7,18 @@ namespace Assets.Scripts.AdvancedCity
     public class Crossing
     {
         public bool main;
-        readonly float zebra = 0.7f;
         public bool tram = false;
         public Vector3 center;
-        List<Neighbor> szomszedok;
+        readonly float zebra = 0.7f;
+        List<Neighbor> neighbours = new List<Neighbor>();
         GameObjectGenerator generator;
         public class Neighbor
         {
             public Neighbor(Road road)
             {
-                szomszedRoad = road;
+                this.road = road;
             }
-            public Road szomszedRoad;
+            public Road road;
             public HelpLine helpline;
             public CarPath carpath;
         }
@@ -31,122 +27,118 @@ namespace Assets.Scripts.AdvancedCity
             public MovementPoint[] others;
             public MovementPoint[] bemenet;
             public MovementPoint[] kimenet;
-            public MovementPoint balCross;
-            public MovementPoint jobbCross;
+            public MovementPoint leftCross;
+            public MovementPoint rightCross;
             public MeshRenderer[] lamps;
         }
         public class HelpLine
         {
             public Vector3[] mainline;
             public Vector3[] sideline;
-            public Vector3 roadedgecross;
-            public Vector3 sidecross;
+            public Vector3 roadEdgeCross;
+            public Vector3 sideCross;
         }
 
-        public bool isCorssing()
+        public bool IsCorssing()
         {
-            return szomszedok.Count > 2;
+            return neighbours.Count > 2;
         }
 
-        public Crossing(Vector3 centerpoint, bool inputmain, bool tramInput, GameObjectGenerator generatorbe)
+        public Crossing(Vector3 center, bool main, bool tram, GameObjectGenerator generator)
         {
-            center = centerpoint;
-            szomszedok = new List<Neighbor>();
-            main = inputmain;
-            tram = tramInput;
-            generator = generatorbe;
+            this.center = center;
+            this.main = main;
+            this.tram = tram;
+            this.generator = generator;
         }
 
         public void AddSzomszed(Road ujszomszed)
         {
-            if (szomszedok == null)
-            {
-                Debug.Log("Crossing.AddSzomszed Initialization ERROR");
-                return;
-            }
-            szomszedok.Add(new Neighbor(ujszomszed));
+            neighbours.Add(new Neighbor(ujszomszed));
         }
         public void AddLines(Vector3[] mainline, Vector3[] sideline, Vector3 roadedgecross, Vector3 sidewalkcorss, Road road)
         {
             if (mainline == null || sideline == null) return;
-            foreach (Neighbor szomszed in szomszedok)
+            foreach (Neighbor szomszed in neighbours)
             {
-                if (szomszed.szomszedRoad.Equals(road))
+                if (szomszed.road.Equals(road))
                 {
-                    szomszed.helpline = new HelpLine();
-                    szomszed.helpline.mainline = mainline;
-                    szomszed.helpline.sideline = sideline;
-                    szomszed.helpline.roadedgecross = roadedgecross;
-                    szomszed.helpline.sidecross = sidewalkcorss;
+                    szomszed.helpline = new HelpLine
+                    {
+                        mainline = mainline,
+                        sideline = sideline,
+                        roadEdgeCross = roadedgecross,
+                        sideCross = sidewalkcorss
+                    };
                 }
             }
         }
 
-        private void ujraRendez()
+        private void Order()
         {
-            for (int i = 0; i < szomszedok.Count - 1; i++)
+            for (int i = 0; i < neighbours.Count - 1; i++)
             {
-                Vector3 eddigiirany = szomszedok[i].szomszedRoad.NextCros(this).center - center;
-                float eddigiszog = 360;
+                Vector3 actualDir = neighbours[i].road.NextCros(this).center - center;
+                float minAngle = 360;
                 int z = i;
-                for (int j = i + 1; j < szomszedok.Count; j++)
+                for (int j = i + 1; j < neighbours.Count; j++)
                 {
-                    Vector3 masirany = szomszedok[j].szomszedRoad.NextCros(this).center - center;
-                    float szog = Vector3.SignedAngle(eddigiirany, masirany, new Vector3(0, 1, 0));
-                    if (szog < 0) szog += 360;
-                    if (eddigiszog > szog)
+                    Vector3 otherDir = neighbours[j].road.NextCros(this).center - center;
+                    float otherAngle = Vector3.SignedAngle(actualDir, otherDir, new Vector3(0, 1, 0));
+                    if (otherAngle < 0) otherAngle += 360;
+                    if (minAngle > otherAngle)
                     {
                         z = j;
-                        eddigiszog = szog;
+                        minAngle = otherAngle;
                     }
                 }
                 if (z > i + 1)
                 {
-                    Neighbor tmp = szomszedok[i + 1];
-                    szomszedok[i + 1] = szomszedok[z];
-                    szomszedok[z] = tmp;
+                    Neighbor tmp = neighbours[i + 1];
+                    neighbours[i + 1] = neighbours[z];
+                    neighbours[z] = tmp;
                 }
             }
         }
-        // Calculating and Connecting the Movement Points ... how can a Vehicle get throw here
-        public void carsPathSetting()
+
+        public void CarsPathSetting()
         {
-            ujraRendez();
-            for (int i = szomszedok.Count - 1; i >= 0; i--)
+            Order();
+            for (int i = neighbours.Count - 1; i >= 0; i--)
             {
                 int jobbra = i + 1;
-                if (jobbra > szomszedok.Count - 1) jobbra = 0;
-                MakeMovePoints(i, jobbra);
+                if (jobbra > neighbours.Count - 1) jobbra = 0;
+                MakeMovePoints(neighbours[i], neighbours[jobbra]);
             }
 
-            for (int i = szomszedok.Count - 1; i >= 0; i--)
+            for (int i = neighbours.Count - 1; i >= 0; i--)
             {
                 int jobbra = i + 1;
-                if (jobbra > szomszedok.Count - 1) jobbra = 0;
+                if (jobbra > neighbours.Count - 1) jobbra = 0;
                 MakeRoads(i, jobbra);
             }
 
-            if (szomszedok.Count > 2)
-                for (int i = 0; i < szomszedok.Count; i++)
+            if (neighbours.Count > 2)
+                for (int i = 0; i < neighbours.Count; i++)
                 {
-                    for (int j = 0; j < szomszedok.Count; j++)
+                    for (int j = 0; j < neighbours.Count; j++)
                     {
                         if (j == i) continue;
-                        Vector3 iDir = szomszedok[i].szomszedRoad.getDir(this);
-                        Vector3 jDir = szomszedok[j].szomszedRoad.getDir(this);
-                        szomszedok[i].carpath.others = szomszedok[i].carpath.others.Concat(
-                            MovementPoint.Connect(szomszedok[i].carpath.bemenet, szomszedok[j].carpath.kimenet, szomszedok[i].szomszedRoad.tram, szomszedok[j].szomszedRoad.tram, iDir, jDir * -1))
+                        Vector3 iDir = neighbours[i].road.getDir(this);
+                        Vector3 jDir = neighbours[j].road.getDir(this);
+                        neighbours[i].carpath.others = neighbours[i].carpath.others.Concat(
+                            MovementPoint.Connect(neighbours[i].carpath.bemenet, neighbours[j].carpath.kimenet, neighbours[i].road.tram, neighbours[j].road.tram, iDir, jDir * -1))
                             .ToArray();
                     }
                 }
-            if (szomszedok.Count == 2)
+            if (neighbours.Count == 2)
             {
-                Vector3 iDir = szomszedok[0].szomszedRoad.getDir(this);
-                Vector3 jDir = szomszedok[1].szomszedRoad.getDir(this);
-                szomszedok[0].carpath.others =
-                    MovementPoint.Connect(szomszedok[0].carpath.bemenet, szomszedok[1].carpath.kimenet, szomszedok[0].szomszedRoad.tram, szomszedok[1].szomszedRoad.tram, iDir, jDir * -1);
-                szomszedok[1].carpath.others =
-                    MovementPoint.Connect(szomszedok[1].carpath.bemenet, szomszedok[0].carpath.kimenet, szomszedok[1].szomszedRoad.tram, szomszedok[0].szomszedRoad.tram, jDir, iDir * -1);
+                Vector3 iDir = neighbours[0].road.getDir(this);
+                Vector3 jDir = neighbours[1].road.getDir(this);
+                neighbours[0].carpath.others =
+                    MovementPoint.Connect(neighbours[0].carpath.bemenet, neighbours[1].carpath.kimenet, neighbours[0].road.tram, neighbours[1].road.tram, iDir, jDir * -1);
+                neighbours[1].carpath.others =
+                    MovementPoint.Connect(neighbours[1].carpath.bemenet, neighbours[0].carpath.kimenet, neighbours[1].road.tram, neighbours[0].road.tram, jDir, iDir * -1);
             }
         }
 
@@ -154,14 +146,14 @@ namespace Assets.Scripts.AdvancedCity
         public bool stop = false;
         public void Valt()
         {
-            if (szomszedok.Count < 3) return;
-            foreach (Neighbor szomszed in szomszedok)
+            if (neighbours.Count < 3) return;
+            foreach (Neighbor szomszed in neighbours)
             {
                 for (int i = 0; i < szomszed.carpath.bemenet.Length; i++)
                 {
                     MovementPoint point = szomszed.carpath.bemenet[i];
                     point.Nyitott(false);
-                    if (szomszed.szomszedRoad.tram && i == szomszed.carpath.bemenet.Length - 1)
+                    if (szomszed.road.tram && i == szomszed.carpath.bemenet.Length - 1)
                         point.Nyitott(true);
                 }
                 if (szomszed.carpath.lamps != null)
@@ -177,8 +169,8 @@ namespace Assets.Scripts.AdvancedCity
             if (!stop)
             {
                 nyitott++;
-                if (nyitott > szomszedok.Count - 1) nyitott = 0;
-                Neighbor szomszed = szomszedok[nyitott];
+                if (nyitott > neighbours.Count - 1) nyitott = 0;
+                Neighbor szomszed = neighbours[nyitott];
                 foreach (MovementPoint point in szomszed.carpath.bemenet)
                 {
                     point.Nyitott(true);
@@ -195,7 +187,7 @@ namespace Assets.Scripts.AdvancedCity
             }
             else
             {
-                Neighbor szomszed = szomszedok[nyitott];
+                Neighbor szomszed = neighbours[nyitott];
                 if (szomszed.carpath.lamps != null)
                     foreach (MeshRenderer renderer in szomszed.carpath.lamps)
                     {
@@ -206,8 +198,8 @@ namespace Assets.Scripts.AdvancedCity
                         renderer.materials = tomb;
                     }
                 int next = nyitott + 1;
-                if (next > szomszedok.Count - 1) next = 0;
-                szomszed = szomszedok[next];
+                if (next > neighbours.Count - 1) next = 0;
+                szomszed = neighbours[next];
                 if (szomszed.carpath.lamps != null)
                     foreach (MeshRenderer renderer in szomszed.carpath.lamps)
                     {
@@ -221,17 +213,17 @@ namespace Assets.Scripts.AdvancedCity
             stop = !stop;
         }
 
-        void MakeMovePoints(int i, int jobb)
+        void MakeMovePoints(Neighbor actual, Neighbor right)
         {
-            Vector3[] line = szomszedok[i].helpline.mainline;
-            Vector3 othercenter = szomszedok[i].szomszedRoad.NextCros(this).center;
+            Vector3[] line = actual.helpline.mainline;
+            Vector3 othercenter = actual.road.NextCros(this).center;
             Vector3 direction = (othercenter - center).normalized;
             if (line != null)
             {
                 CarPath carpath = new CarPath();
-                int thissavok = szomszedok[i].szomszedRoad.Savok();
-                carpath.balCross = new MovementPoint((szomszedok[i].helpline.roadedgecross + szomszedok[i].helpline.sidecross) / 2);
-                carpath.jobbCross = new MovementPoint((szomszedok[jobb].helpline.roadedgecross + szomszedok[jobb].helpline.sidecross) / 2);
+                int thissavok = actual.road.Savok();
+                carpath.leftCross = new MovementPoint((actual.helpline.roadEdgeCross + actual.helpline.sideCross) / 2);
+                carpath.rightCross = new MovementPoint((right.helpline.roadEdgeCross + right.helpline.sideCross) / 2);
                 carpath.bemenet = new MovementPoint[thissavok];
                 carpath.kimenet = new MovementPoint[thissavok];
                 carpath.others = new MovementPoint[0];
@@ -239,46 +231,46 @@ namespace Assets.Scripts.AdvancedCity
                 {
                     int a = (1 + j * 2);
                     int b = thissavok * 4 - a;
-                    float realZebra = (szomszedok.Count == 2 || (szomszedok[i].szomszedRoad.tram && j== thissavok - 1)) ? 0 : zebra;
+                    float realZebra = (neighbours.Count == 2 || (actual.road.tram && j== thissavok - 1)) ? 0 : zebra;
                     carpath.bemenet[j] = new MovementPoint((line[0] * a + line[1] * b) / (thissavok * 4) + direction * realZebra);
-                    if (szomszedok.Count > 2) carpath.bemenet[j].Nyitott(false);
+                    if (neighbours.Count > 2) carpath.bemenet[j].Nyitott(false);
                     carpath.kimenet[j] = new MovementPoint((line[0] * b + line[1] * a) / (thissavok * 4));
                 }
-                szomszedok[i].carpath = carpath;
+                actual.carpath = carpath;
             }
         }
 
         void MakeRoads(int i, int jobbra)
         {
-            CarPath carpath = szomszedok[i].carpath;
+            CarPath carpath = neighbours[i].carpath;
             List<MovementPoint> kimenet = new List<MovementPoint>(carpath.kimenet)
             {
-                carpath.jobbCross
+                carpath.rightCross
             };
             List<MovementPoint> bemenet = new List<MovementPoint>(carpath.bemenet)
             {
-                carpath.balCross
+                carpath.leftCross
             };
-            carpath.jobbCross.ConnectPoint(szomszedok[jobbra].carpath.balCross);
-            szomszedok[jobbra].carpath.balCross.ConnectPoint(carpath.jobbCross);
-            carpath.balCross.ConnectPoint(carpath.jobbCross);
-            carpath.jobbCross.ConnectPoint(carpath.balCross);
-            szomszedok[i].szomszedRoad.addMovePoint(this, kimenet.ToArray(), bemenet.ToArray());
+            carpath.rightCross.ConnectPoint(neighbours[jobbra].carpath.leftCross);
+            neighbours[jobbra].carpath.leftCross.ConnectPoint(carpath.rightCross);
+            carpath.leftCross.ConnectPoint(carpath.rightCross);
+            carpath.rightCross.ConnectPoint(carpath.leftCross);
+            neighbours[i].road.addMovePoint(this, kimenet.ToArray(), bemenet.ToArray());
         }
 
         public void Draw(bool helplines_draw, bool depthtest, bool tramIsPresent)
         {
             List<Vector3> polygon = new List<Vector3>();
             Vector3 uplittle = new Vector3(0, 0.1f, 0);
-            for (int j = 0; j < szomszedok.Count; j++)
+            for (int j = 0; j < neighbours.Count; j++)
             {
-                Neighbor szomszed = szomszedok[j];
+                Neighbor szomszed = neighbours[j];
                 int x = j + 1;
-                if (x >= szomszedok.Count) x = 0;
+                if (x >= neighbours.Count) x = 0;
                 if (helplines_draw)
                 {
-                    szomszed.carpath.balCross.Draw(depthtest);
-                    szomszed.carpath.jobbCross.Draw(depthtest);
+                    szomszed.carpath.leftCross.Draw(depthtest);
+                    szomszed.carpath.rightCross.Draw(depthtest);
                     for (int i = 0; i < szomszed.carpath.kimenet.Length; i++)
                         szomszed.carpath.kimenet[i].Draw(depthtest);
                     for (int i = 0; i < szomszed.carpath.bemenet.Length; i++)
@@ -290,10 +282,10 @@ namespace Assets.Scripts.AdvancedCity
                 {
                     bool distance = szomszed.helpline.mainline[0] == szomszed.helpline.sideline[1];
                     generator.CreateRoad(szomszed.helpline.sideline[1], szomszed.helpline.sideline[0],
-                        distance ? szomszedok[x].helpline.sidecross : szomszed.helpline.sidecross,
-                        distance ? szomszedok[x].helpline.sidecross : szomszed.helpline.sidecross, 1, false, true);
+                        distance ? neighbours[x].helpline.sideCross : szomszed.helpline.sideCross,
+                        distance ? neighbours[x].helpline.sideCross : szomszed.helpline.sideCross, 1, false, true);
                 }
-                if (szomszedok.Count > 2)
+                if (neighbours.Count > 2)
                 {
                     makeLamps(szomszed);
                 }
@@ -318,7 +310,7 @@ namespace Assets.Scripts.AdvancedCity
 
             if (tram)
             {
-                List<Neighbor> trams = szomszedok.FindAll(TramNeighbour);
+                List<Neighbor> trams = neighbours.FindAll(TramNeighbour);
                 MovementPoint egyik = trams[0].carpath.bemenet.Last();
                 MovementPoint masik = trams[1].carpath.kimenet.Last();
                 List<Vector3> egyikList = new List<Vector3>();
@@ -373,17 +365,17 @@ namespace Assets.Scripts.AdvancedCity
 
         private bool TramNeighbour(Neighbor szomszed)
         {
-            return szomszed.szomszedRoad.tram;
+            return szomszed.road.tram;
         }
 
         private void makeLamps(Neighbor szomszed)
         {
             Vector3 forward = Vector3.Cross(szomszed.helpline.mainline[0] - szomszed.helpline.mainline[1], new Vector3(0, 1, 0));
             szomszed.carpath.lamps = new MeshRenderer[szomszed.carpath.bemenet.Length];
-            if (szomszed.szomszedRoad.tram) szomszed.carpath.lamps = new MeshRenderer[szomszed.carpath.bemenet.Length - 1];
+            if (szomszed.road.tram) szomszed.carpath.lamps = new MeshRenderer[szomszed.carpath.bemenet.Length - 1];
             for (int i = 0; i < szomszed.carpath.bemenet.Length; i++)
             {
-                if (szomszed.szomszedRoad.tram && i == szomszed.carpath.bemenet.Length - 1) break;
+                if (szomszed.road.tram && i == szomszed.carpath.bemenet.Length - 1) break;
                 Vector3 pos = szomszed.carpath.bemenet[i].center;
                 Vector3 meroleges = Vector3.Cross(szomszed.helpline.mainline[1] - szomszed.helpline.mainline[0], new Vector3(0, 1, 0));
                 Vector3 intersect = MyMath.Intersect(szomszed.helpline.mainline[0], szomszed.helpline.mainline[1] - szomszed.helpline.mainline[0], pos, meroleges);
@@ -395,7 +387,7 @@ namespace Assets.Scripts.AdvancedCity
                 tomb[3] = tomb[0];
                 renderer.materials = tomb;
                 generator.AddLine(intersect, intersect, 0.2f, .3f, .4f);
-                if (szomszed.szomszedRoad.tram && i == szomszed.carpath.bemenet.Length - 1) break;
+                if (szomszed.road.tram && i == szomszed.carpath.bemenet.Length - 1) break;
                 szomszed.carpath.lamps[i] = renderer;
             }
             generator.AddLine(szomszed.helpline.mainline[1], (szomszed.helpline.mainline[1] + szomszed.helpline.mainline[0]) / 2, 0.2f, 0.4f);
@@ -408,11 +400,11 @@ namespace Assets.Scripts.AdvancedCity
         private int kimenetIndex = 0;
         public bool AddVehicle(Vehicle car)
         {
-            if (szomszedok == null) return false;
-            if (szomszedok.Count > cars)
+            if (neighbours == null) return false;
+            if (neighbours.Count > cars)
             {
-                car.setPoint(szomszedok[cars].carpath.kimenet[kimenetIndex++]);
-                if (kimenetIndex >= szomszedok[cars].carpath.kimenet.Length || (kimenetIndex >= szomszedok[cars].carpath.kimenet.Length - 1 && szomszedok[cars].szomszedRoad.tram))
+                car.setPoint(neighbours[cars].carpath.kimenet[kimenetIndex++]);
+                if (kimenetIndex >= neighbours[cars].carpath.kimenet.Length || (kimenetIndex >= neighbours[cars].carpath.kimenet.Length - 1 && neighbours[cars].road.tram))
                 {
                     cars++;
                     kimenetIndex = 0;
@@ -426,10 +418,10 @@ namespace Assets.Scripts.AdvancedCity
 
         public bool AddPeople(Vehicle car)
         {
-            if (szomszedok == null) return false;
-            if (szomszedok.Count > peoples)
+            if (neighbours == null) return false;
+            if (neighbours.Count > peoples)
             {
-                car.setPoint(szomszedok[peoples].carpath.jobbCross);
+                car.setPoint(neighbours[peoples].carpath.rightCross);
                 peoples++;
                 return true;
             }
@@ -439,16 +431,16 @@ namespace Assets.Scripts.AdvancedCity
         public void AddTram(Vehicle car, Vehicle car2)
         {
             bool carbool = false;
-            foreach (Neighbor szomszed in szomszedok)
+            foreach (Neighbor szomszed in neighbours)
             {
-                if (szomszed.szomszedRoad.tram && !carbool)
+                if (szomszed.road.tram && !carbool)
                 {
                     carbool = true;
                     int max = szomszed.carpath.kimenet.Length - 1;
                     car.setPoint(szomszed.carpath.kimenet[max]);
                     continue;
                 }
-                if (szomszed.szomszedRoad.tram && carbool)
+                if (szomszed.road.tram && carbool)
                 {
                     int max = szomszed.carpath.kimenet.Length - 1;
                     car2.setPoint(szomszed.carpath.kimenet[max]);
@@ -458,34 +450,34 @@ namespace Assets.Scripts.AdvancedCity
         }
         public bool HavePlace()
         {
-            return szomszedok.Count > cars && szomszedok.Count > 1;
+            return neighbours.Count > cars && neighbours.Count > 1;
         }
 
         public bool HavePlaceForPeople()
         {
-            return szomszedok.Count > peoples && szomszedok.Count > 1;
+            return neighbours.Count > peoples && neighbours.Count > 1;
         }
 
         public bool isCrossing()
         {
-            if (szomszedok == null) return false;
-            return szomszedok.Count > 2;
+            if (neighbours == null) return false;
+            return neighbours.Count > 2;
         }
 
         public Road getSzomszedRoad(Vector3 to)
         {
             int i = 0;
-            while (i < szomszedok.Count)
+            while (i < neighbours.Count)
             {
-                Vector3 masik = szomszedok[i].szomszedRoad.NextCros(this).center;
+                Vector3 masik = neighbours[i].road.NextCros(this).center;
                 if (masik.Equals(to))
                 {
                     break;
                 }
                 i++;
             }
-            if (i < szomszedok.Count)
-                return szomszedok[i].szomszedRoad;
+            if (i < neighbours.Count)
+                return neighbours[i].road;
             else
                 return null;
         }
@@ -497,7 +489,7 @@ namespace Assets.Scripts.AdvancedCity
             if (list.Contains(crossing))
             {
                 int i = list.IndexOf(crossing);
-                return szomszedok[i].helpline.sidecross;
+                return neighbours[i].helpline.sideCross;
             }
             else
                 return center;
@@ -510,7 +502,7 @@ namespace Assets.Scripts.AdvancedCity
             if (list.Contains(crossing))
             {
                 int i = list.IndexOf(crossing);
-                return szomszedok[i].helpline.mainline[1];
+                return neighbours[i].helpline.mainline[1];
             }
             else
                 return center;
@@ -523,10 +515,10 @@ namespace Assets.Scripts.AdvancedCity
             if (list.Contains(crossing))
             {
                 int i = list.IndexOf(crossing);
-                if (i < szomszedok.Count - 1)
-                    return szomszedok[i + 1].helpline.sidecross;
+                if (i < neighbours.Count - 1)
+                    return neighbours[i + 1].helpline.sideCross;
                 else
-                    return szomszedok[0].helpline.sidecross;
+                    return neighbours[0].helpline.sideCross;
             }
             else
                 return center;
@@ -539,10 +531,10 @@ namespace Assets.Scripts.AdvancedCity
             if (list.Contains(crossing))
             {
                 int i = list.IndexOf(crossing);
-                if (i < szomszedok.Count - 1)
-                    return szomszedok[i].helpline.mainline[0];
+                if (i < neighbours.Count - 1)
+                    return neighbours[i].helpline.mainline[0];
                 else
-                    return szomszedok[i].helpline.mainline[0];
+                    return neighbours[i].helpline.mainline[0];
             }
             else
                 return center;
@@ -550,24 +542,24 @@ namespace Assets.Scripts.AdvancedCity
 
         public Road GetRoad(Crossing cros)
         {
-            if (szomszedok == null) return null;
-            foreach (Neighbor szomszed in szomszedok)
+            if (neighbours == null) return null;
+            foreach (Neighbor szomszed in neighbours)
             {
-                if (cros == szomszed.szomszedRoad.NextCros(this)) return szomszed.szomszedRoad;
+                if (cros == szomszed.road.NextCros(this)) return szomszed.road;
             }
             return null;
         }
 
         private void sorbaRendez()
         {
-            for (int i = 0; i < szomszedok.Count - 1; i++)
+            for (int i = 0; i < neighbours.Count - 1; i++)
             {
-                Vector3 eddigiirany = szomszedok[i].szomszedRoad.NextCros(this).center - center;
+                Vector3 eddigiirany = neighbours[i].road.NextCros(this).center - center;
                 float eddigiszog = 360;
                 int z = i;
-                for (int j = i + 1; j < szomszedok.Count; j++)
+                for (int j = i + 1; j < neighbours.Count; j++)
                 {
-                    Vector3 masirany = szomszedok[j].szomszedRoad.NextCros(this).center - center;
+                    Vector3 masirany = neighbours[j].road.NextCros(this).center - center;
                     float szog = Vector3.SignedAngle(eddigiirany, masirany, new Vector3(0, 1, 0));
                     if (szog < 0) szog += 360;
                     if (eddigiszog > szog)
@@ -578,9 +570,9 @@ namespace Assets.Scripts.AdvancedCity
                 }
                 if (z > i + 1)
                 {
-                    Neighbor tmp = szomszedok[i + 1];
-                    szomszedok[i + 1] = szomszedok[z];
-                    szomszedok[z] = tmp;
+                    Neighbor tmp = neighbours[i + 1];
+                    neighbours[i + 1] = neighbours[z];
+                    neighbours[z] = tmp;
                 }
             }
         }
@@ -588,10 +580,10 @@ namespace Assets.Scripts.AdvancedCity
         public List<Crossing> getSzomszedok()
         {
             sorbaRendez();
-            if (szomszedok == null) return null;
+            if (neighbours == null) return null;
             List<Crossing> kimenet = new List<Crossing>();
-            for (int i = 0; i < szomszedok.Count; i++)
-                kimenet.Add(szomszedok[i].szomszedRoad.NextCros(this));
+            for (int i = 0; i < neighbours.Count; i++)
+                kimenet.Add(neighbours[i].road.NextCros(this));
             return kimenet;
         }
         public Crossing Kovetkezo(Crossing crossing, bool jobbra)

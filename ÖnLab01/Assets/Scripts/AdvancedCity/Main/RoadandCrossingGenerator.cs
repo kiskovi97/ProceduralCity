@@ -129,7 +129,7 @@ namespace Assets.Scripts.AdvancedCity
             }
             foreach (Crossing cros in crossings)
             {
-                cros.carsPathSetting();
+                cros.CarsPathSetting();
             }
         }
 
