@@ -1,7 +1,5 @@
 ﻿
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using UnityEngine;
 
 namespace Assets.Scripts.AdvancedCity
@@ -9,76 +7,80 @@ namespace Assets.Scripts.AdvancedCity
     public class Road
     {
         readonly float zebra = 0.7f;
-        Crossing egyik;
-        Vector3[] line_egyik;
-        MovementPoint[] egyik_be;
-        MovementPoint[] egyik_ki;
         public int sav = 0;
-        Crossing masik;
-        Vector3[] line_masik;
-        MovementPoint[] masik_be;
-        MovementPoint[] masik_ki;
-        List<MovementPoint> others = new List<MovementPoint>();
         public bool tram;
-        GameObjectGenerator generator;
         bool stopping = false;
+
+        Crossing oneCrossing;
+        HelpLine oneLine;
+        CarPath oneCarpath;
+
+        Crossing otherCrossing;
+        HelpLine otherLine;
+        CarPath otherCarpath;
+
+        List<MovementPoint> others = new List<MovementPoint>();
+        GameObjectGenerator generator;
+
         public int Savok()
         {
             return sav;
         }
-        public Road(GameObjectGenerator generatorbe)
+
+        public Road(GameObjectGenerator generator)
         {
-            egyik = null;
-            line_egyik = null;
-            line_masik = null;
-            masik = null;
-            generator = generatorbe;
+            oneCrossing = null;
+            oneLine = null;
+            otherLine = null;
+            otherCrossing = null;
+            this.generator = generator;
         }
-        public void setSzomszedok(Crossing a, Crossing b)
+
+        public void SetCrossings(Crossing a, Crossing b, float roadSize)
         {
-            egyik = a;
-            masik = b;
+            oneCrossing = a;
+            otherCrossing = b;
             if (a.main && b.main)
             {
                 sav = 3;
             }
             else
                 sav = 1;
-            if (a.tram && b.tram) sav++;
-            tram = (a.tram && b.tram);
+            tram = a.tram && b.tram;
+            if (tram) sav++;
+            this.roadSize = roadSize;
         }
-        public void addLine(Crossing be, Vector3 a, Vector3 b)
+
+        public void AddHelpLine(Crossing crossing, HelpLine line)
         {
-            if (be.Equals(egyik))
+            if (crossing.Equals(oneCrossing))
             {
-                line_egyik = new Vector3[2];
-                line_egyik[0] = a;
-                line_egyik[1] = b;
+                oneLine = line;
             }
-            if (be.Equals(masik))
+            if (crossing.Equals(otherCrossing))
             {
-                line_masik = new Vector3[2];
-                line_masik[0] = a;
-                line_masik[1] = b;
+                otherLine = line;
             }
         }
-        public void addMovePoint(Crossing be, MovementPoint[] befele, MovementPoint[] kifele)
+        float roadSize;
+        public void AddCarpath(Crossing be, CarPath carPath)
         {
-            if (be.Equals(egyik))
+            if (be.Equals(oneCrossing))
             {
-                egyik_be = befele;
-                egyik_ki = kifele;
+                oneCarpath = carPath;
             }
-            if (be.Equals(masik))
+            if (be.Equals(otherCrossing))
             {
-                masik_be = befele;
-                masik_ki = kifele;
+                otherCarpath = carPath;
             }
-            if (egyik_be != null && masik_ki != null)
+            if (oneCarpath != null && otherCarpath != null)
             {
-                for (int i=0; i< egyik_be.Length; i++)
+                MovementPoint[] egyik_be = oneCarpath.input;
+                MovementPoint[] masik_ki = otherCarpath.output;
+                MovementPoint[] egyik_ki = oneCarpath.output;
+                MovementPoint[] masik_be = otherCarpath.input;
+                for (int i = 0; i < oneCarpath.input.Length; i++)
                 {
-                    if (i == egyik_be.Length - 2 && tram) continue;
                     MovementPoint point01 = new MovementPoint((egyik_be[i].center * 2 + masik_ki[i].center) / 3);
                     MovementPoint point02 = new MovementPoint((egyik_be[i].center + masik_ki[i].center * 2) / 3);
                     egyik_be[i].ConnectPoint(point01);
@@ -86,10 +88,10 @@ namespace Assets.Scripts.AdvancedCity
                     point02.ConnectPoint(masik_ki[i]);
                     others.Add(point01);
                     others.Add(point02);
-                    egyik_be[i].setDirection(masik.center - egyik.center);
-                    masik_ki[i].setDirection(masik.center - egyik.center);
-                    point01.setDirection(masik.center - egyik.center);
-                    point02.setDirection(masik.center - egyik.center);
+                    egyik_be[i].SetDirection(otherCrossing.center - oneCrossing.center);
+                    masik_ki[i].SetDirection(otherCrossing.center - oneCrossing.center);
+                    point01.SetDirection(otherCrossing.center - oneCrossing.center);
+                    point02.SetDirection(otherCrossing.center - oneCrossing.center);
 
                     MovementPoint point03 = new MovementPoint((masik_be[i].center * 2 + egyik_ki[i].center) / 3);
                     MovementPoint point04 = new MovementPoint((masik_be[i].center + egyik_ki[i].center * 2) / 3);
@@ -98,34 +100,33 @@ namespace Assets.Scripts.AdvancedCity
                     point04.ConnectPoint(egyik_ki[i]);
                     others.Add(point03);
                     others.Add(point04);
-                    masik_be[i].setDirection(egyik.center - masik.center);
-                    egyik_ki[i].setDirection(egyik.center - masik.center);
-                    point03.setDirection(masik.center - egyik.center);
-                    point04.setDirection(masik.center - egyik.center);
+                    masik_be[i].SetDirection(oneCrossing.center - otherCrossing.center);
+                    egyik_ki[i].SetDirection(oneCrossing.center - otherCrossing.center);
+                    point03.SetDirection(otherCrossing.center - oneCrossing.center);
+                    point04.SetDirection(otherCrossing.center - oneCrossing.center);
                 }
 
-                if (tram)
+                if (oneCarpath.tramInput != null && oneCarpath.tramOutput != null && otherCarpath.tramInput != null && otherCarpath.tramOutput != null)
                 {
-                    int i = egyik_be.Length - 2;
-                    Vector3 dir = (masik.center - egyik.center).normalized;
+                    Vector3 dir = (otherCrossing.center - oneCrossing.center).normalized;
                     if (Random.value < 0.5f)
                     {
-                        float roadSize = (egyik_be[0].center - egyik_be[1].center).magnitude;
-                        Vector3 meroleges = MyMath.Meroleges(egyik.center, masik.center).normalized * (roadSize / 4);
-                        makeStopping(egyik_be[i], masik_ki[i], dir, -meroleges);
-                        makeStopping(masik_be[i], egyik_ki[i], -dir, meroleges);
+                        Vector3 meroleges = MyMath.Meroleges(oneCrossing.center, otherCrossing.center).normalized * (roadSize / 4);
+                        MakeStopping(oneCarpath.tramInput, otherCarpath.tramOutput, dir, -meroleges);
+                        MakeStopping(otherCarpath.tramInput, oneCarpath.tramOutput, -dir, meroleges);
                         stopping = true;
-                    } else
+                    }
+                    else
                     {
-                        egyik_be[i].ConnectPoint(masik_ki[i]);
-                        masik_be[i].ConnectPoint(egyik_ki[i]);
-                        egyik_be[i].setDirection(dir);
-                        masik_ki[i].setDirection(dir);
-                        masik_be[i].setDirection(dir);
-                        egyik_ki[i].setDirection(dir);
+                        oneCarpath.tramInput.ConnectPoint(otherCarpath.tramOutput);
+                        otherCarpath.tramInput.ConnectPoint(oneCarpath.tramOutput);
+                        oneCarpath.tramInput.SetDirection(dir);
+                        otherCarpath.tramOutput.SetDirection(dir);
+                        otherCarpath.tramInput.SetDirection(-dir);
+                        oneCarpath.tramOutput.SetDirection(-dir);
                     }
                 }
-                if (egyik_be.Length > 3 || (egyik_be.Length>2 && !tram))
+                if (egyik_be.Length > 1)
                 {
                     others[0].ConnectPoint(others[5]);
                     others[4].ConnectPoint(others[1]);
@@ -133,7 +134,7 @@ namespace Assets.Scripts.AdvancedCity
                     others[6].ConnectPoint(others[3]);
                 }
 
-                if (egyik_be.Length > 4 || (egyik_be.Length > 3 && !tram))
+                if (egyik_be.Length > 2)
                 {
                     others[4].ConnectPoint(others[9]);
                     others[8].ConnectPoint(others[5]);
@@ -143,43 +144,42 @@ namespace Assets.Scripts.AdvancedCity
             }
         }
 
-        private void makeStopping(MovementPoint egyik, MovementPoint masik, Vector3 dir, Vector3 meroleges)
+        private void MakeStopping(MovementPoint one, MovementPoint other, Vector3 dir, Vector3 meroleges)
         {
-            MovementPoint point01 = new MovementPoint((egyik.center * 3 + masik.center) / 4);
-            MovementPoint point02 = new MovementPoint((egyik.center + masik.center * 3) / 4);
-            MovementPoint point01in = new MovementPoint((egyik.center * 2 + masik.center) / 3 - meroleges);
-            MovementPoint point02in = new MovementPoint((egyik.center + masik.center * 2) / 3 - meroleges);
-            egyik.ConnectPoint(point01);
+            MovementPoint point01 = new MovementPoint((one.center * 3 + other.center) / 4);
+            MovementPoint point02 = new MovementPoint((one.center + other.center * 3) / 4);
+            MovementPoint point01in = new MovementPoint((one.center * 2 + other.center) / 3 - meroleges);
+            MovementPoint point02in = new MovementPoint((one.center + other.center * 2) / 3 - meroleges);
+            one.ConnectPoint(point01);
             point01.ConnectPoint(point01in);
             point01in.ConnectPoint(point02in);
             point02in.ConnectPoint(point02);
-            point02.ConnectPoint(masik);
+            point02.ConnectPoint(other);
             others.Add(point01);
             others.Add(point02);
             others.Add(point01in);
             others.Add(point02in);
-            egyik.setDirection(dir);
-            masik.setDirection(dir);
-            point01.setDirection(dir);
-            point02.setDirection(dir);
-            point01in.setDirection(dir);
-            point02in.setDirection(dir);
+            one.SetDirection(dir);
+            other.SetDirection(dir);
+            point01.SetDirection(dir);
+            point02.SetDirection(dir);
+            point01in.SetDirection(dir);
+            point02in.SetDirection(dir);
             point02in.megallo = true;
         }
 
-        public Vector3 getDir(Crossing cros)
+        public Vector3 GetDir(Crossing cros)
         {
-            if (cros == egyik)
-                return egyik.center - masik.center;
+            if (cros == oneCrossing)
+                return oneCrossing.center - otherCrossing.center;
             else
-                return masik.center - egyik.center;
+                return otherCrossing.center - oneCrossing.center;
         }
 
         public void Draw(bool helplines_draw, bool depthtest, bool lamps, bool trams)
         {
-            if (line_egyik != null && line_masik != null)
+            if (oneLine != null && otherLine != null)
             {
-
                 if (helplines_draw)
                 {
                     foreach (MovementPoint point in others)
@@ -187,60 +187,52 @@ namespace Assets.Scripts.AdvancedCity
                         point.Draw(depthtest);
                     }
                 }
-
                 int db = 3;
                 if (lamps)
-                    for (int i = 0; i < db; i++)
+                    for (int i = 0; i < 3; i++)
                     {
-                        Vector3 center = (line_masik[0] * (i + 1) + line_egyik[1] * (db - i)) / (db + 1);
-                        Vector3 centerOther = (line_egyik[0] * (i + 1) + line_masik[1] * (db - i)) / (db + 1);
-                        generator.createSideLamp(center, line_masik[1] - line_masik[0]);
-                        generator.createSideLamp(centerOther, line_masik[0] - line_masik[1]);
+                        Vector3 center = (otherLine.mainLine[0] * (i + 1) + oneLine.mainLine[1] * (db - i)) / (db + 1);
+                        Vector3 centerOther = (oneLine.mainLine[0] * (i + 1) + otherLine.mainLine[1] * (db - i)) / (db + 1);
+                        generator.createSideLamp(center, oneLine.mainLine[0] - oneLine.mainLine[1]);
+                        generator.createSideLamp(centerOther, oneLine.mainLine[1] - oneLine.mainLine[0]);
                     }
-                generator.CreateRoad(masik.KeresztRoad(egyik), egyik.KeresztRoadMasik(masik), masik.Kereszt(egyik), egyik.KeresztMasik(masik), 1, false, true);
-                generator.CreateRoad(egyik.KeresztRoad(masik), masik.KeresztRoadMasik(egyik), egyik.Kereszt(masik), masik.KeresztMasik(egyik), 1, false, true);
-                Vector3 centerMasik = (line_masik[0] + line_masik[1]) / 2;
-                Vector3 centerEgyik = (line_egyik[0] + line_egyik[1]) / 2;
-                generator.CreateRoad(line_egyik[0], line_masik[1], line_egyik[1], line_masik[0], sav, tram, false, 
-                    egyik.IsCorssing() ? zebra : 0, masik.IsCorssing() ? zebra : 0);
+                generator.CreateRoad(otherCrossing.MainCross(oneCrossing), oneCrossing.OtherMainCross(otherCrossing), otherCrossing.SideCross(oneCrossing), oneCrossing.OtherSideCross(otherCrossing),
+                    1, false, true);
+                generator.CreateRoad(oneCrossing.MainCross(otherCrossing), otherCrossing.OtherMainCross(oneCrossing), oneCrossing.SideCross(otherCrossing), otherCrossing.OtherSideCross(oneCrossing),
+                    1, false, true);
+                generator.CreateRoad(oneLine.mainLine[0], otherLine.mainLine[1], oneLine.mainLine[1], otherLine.mainLine[0], sav, tram, false,
+                    oneCrossing.IsCorssing() ? zebra : 0, otherCrossing.IsCorssing() ? zebra : 0);
                 int max = sav * 2;
                 if (tram && trams)
                 {
-                    float roadSize = (egyik_be[0].center - egyik_be[1].center).magnitude;
-                    Vector3 dir = (masik.center - egyik.center).normalized;
-                    Vector3 meroleges = MyMath.Meroleges(egyik.center, masik.center).normalized;
-                    int i = egyik_be.Length - 2;
-                    generator.CreateRails(egyik_be[i], masik_ki[i], roadSize / 4.0f, meroleges, 3);
-                    generator.CreateRails(masik_be[i], egyik_ki[i], roadSize / 4.0f, -meroleges, 3);
+                    Vector3 dir = (otherCrossing.center - oneCrossing.center).normalized;
+                    Vector3 meroleges = MyMath.Meroleges(oneCrossing.center, otherCrossing.center).normalized;
+                    generator.CreateRails(oneCarpath.tramInput, otherCarpath.tramOutput, roadSize / 4.0f, meroleges, 3);
+                    generator.CreateRails(otherCarpath.tramInput, oneCarpath.tramOutput, roadSize / 4.0f, -meroleges, 3);
                     if (stopping)
                     {
-                        Vector3 a = (egyik_be[i].center * 2 + masik_ki[i].center) / 3 - meroleges * roadSize / 3;
-                        Vector3 c = (egyik_be[i].center + masik_ki[i].center * 2) / 3 - meroleges * roadSize / 3;
-                        Vector3 b = (masik_be[i].center + egyik_ki[i].center * 2) / 3 + meroleges * roadSize / 3;
-                        Vector3 d = (masik_be[i].center * 2 + egyik_ki[i].center) / 3 + meroleges * roadSize / 3;
+                        Vector3 a = (oneCarpath.tramInput.center * 2 + otherCarpath.tramOutput.center) / 3 - meroleges * roadSize / 3;
+                        Vector3 c = (oneCarpath.tramInput.center + otherCarpath.tramOutput.center * 2) / 3 - meroleges * roadSize / 3;
+                        Vector3 b = (otherCarpath.tramInput.center + oneCarpath.tramOutput.center * 2) / 3 + meroleges * roadSize / 3;
+                        Vector3 d = (otherCarpath.tramInput.center * 2 + oneCarpath.tramOutput.center) / 3 + meroleges * roadSize / 3;
                         generator.AddStoppingMesh(a, b, c, d);
                     }
-                    generator.AddLine(egyik_be[egyik_be.Length - 2].center, masik_ki[masik_ki.Length - 2].center, 0.15f, 0.35f);
-                    generator.AddLine(masik_be[masik_be.Length - 2].center, egyik_ki[egyik_ki.Length - 2].center, 0.15f, 0.35f);
+                    generator.AddLine(oneCarpath.tramInput.center, otherCarpath.tramOutput.center, 0.15f, 0.35f);
+                    generator.AddLine(otherCarpath.tramInput.center, oneCarpath.tramOutput.center, 0.15f, 0.35f);
                 }
-                
-            }
-        }
 
-        public bool isSame(Crossing a, Crossing b)
-        {
-            return ((egyik == a && masik == b) || (egyik == b && masik == a));
+            }
         }
 
         public Crossing NextCros(Crossing a)
         {
-            if (egyik.Equals(a))
+            if (oneCrossing.Equals(a))
             {
-                return masik;
+                return otherCrossing;
             }
-            if (masik.Equals(a))
+            if (otherCrossing.Equals(a))
             {
-                return egyik;
+                return oneCrossing;
             }
             return null;
         }

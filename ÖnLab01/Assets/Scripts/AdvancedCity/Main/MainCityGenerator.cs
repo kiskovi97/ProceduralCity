@@ -51,7 +51,7 @@ namespace Assets.Scripts.AdvancedCity
             gameObjectGenerator = GetComponent<GameObjectGenerator>();
             gameObjectGenerator.SetValues(values);
             objGen = new RoadandCrossingGenerator();
-            crossings = objGen.GenerateObjects(gameObjectGenerator, points, values.sizeRatio);
+            crossings = objGen.GenerateObjects(gameObjectGenerator, points, values.RoadSize);
         }
         public void GenerateEverything(GameObjectGenerator.step delegateStep)
         {
@@ -145,7 +145,7 @@ namespace Assets.Scripts.AdvancedCity
             }
             foreach (Crossing cros in crossings)
             {
-                cros.Valt();
+                cros.Switch();
             }
             running = true;
         }
@@ -179,7 +179,7 @@ namespace Assets.Scripts.AdvancedCity
         {
             foreach (Crossing cros in crossings)
             {
-                cros.Valt();
+                cros.Switch();
                 yield return null;
             }
         }

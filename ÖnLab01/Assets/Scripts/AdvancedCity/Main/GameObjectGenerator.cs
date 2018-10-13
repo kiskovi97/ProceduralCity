@@ -76,25 +76,27 @@ namespace Assets.Scripts.AdvancedCity
             wire.transform.localScale = new Vector3(scale, scale, (a - b).magnitude * 50);
             wire.transform.parent = wireBase.transform;
         }
-        public void CreateRails(Vector3 a, Vector3 b, Vector3 c, Vector3 d, int mat)
+
+        public void CreateRails(Vector3 oneFrom, Vector3 oneToward, Vector3 otherFrom, Vector3 otherToward)
         {
-            AddRail((a * 5 + c * 3) / 8, (b * 5 + d * 3) / 8, 0.4f);
-            AddRail((a * 3 + c * 5) / 8, (b * 3 + d * 5) / 8, 0.4f);
+            AddRail((oneFrom * 5 + otherFrom * 3) / 8, (oneToward * 5 + otherToward * 3) / 8, 0.4f);
+            AddRail((oneFrom * 3 + otherFrom * 5) / 8, (oneToward * 3 + otherToward * 5) / 8, 0.4f);
         }
 
-        public void CreateRails(MovementPoint a, MovementPoint b, float size, Vector3 meroleges, int mat)
+        public void CreateRails(MovementPoint a, MovementPoint b, float size, Vector3 distanceVector, int mat)
         {
             if (a == null || b == null) return;
             if (a == b) return;
-            MovementPoint next = a.getNextPoint();
+            MovementPoint next = a.GetNextPoint();
+            if (next == null) return;
             if (next!=b)
             {
-                CreateRails(next, b, size, meroleges, mat);
+                CreateRails(next, b, size, distanceVector, mat);
             }
-            AddRail(a.center + meroleges * (size / 2.0f), next.center + meroleges * (size / 2.0f), 0.4f);
-            AddRail(a.center - meroleges * (size / 2.0f), next.center - meroleges * (size / 2.0f), 0.4f);
+            AddRail(a.center + distanceVector * (size / 2.0f), next.center + distanceVector * (size / 2.0f), 0.4f);
+            AddRail(a.center - distanceVector * (size / 2.0f), next.center - distanceVector * (size / 2.0f), 0.4f);
         }
-        private void AddRail(Vector3 a, Vector3 b, float scale)
+        public void AddRail(Vector3 a, Vector3 b, float scale)
         {
             if (wireBase == null)
             {
@@ -144,7 +146,7 @@ namespace Assets.Scripts.AdvancedCity
             buildingContainer = GetComponent<BuildingContainer>();
             foreach (Crossing cros in roads)
             {
-                List<Crossing> szomszedok = cros.getSzomszedok();
+                List<Crossing> szomszedok = cros.NeighbourCrossings();
                 foreach (Crossing second in szomszedok)
                 {
                     GenerateCircle(cros, second, false);
@@ -164,7 +166,7 @@ namespace Assets.Scripts.AdvancedCity
                 {
                     int x = i + 1;
                     if (x > circle.Count - 1) x = 0;
-                    controlPoints.Add(circle[i].Kereszt(circle[x]));
+                    controlPoints.Add(circle[i].SideCross(circle[x]));
                 }
                 IBlockGenerator generator = new BlockGeneratorBasic();
                 controlPoints.Reverse();
@@ -190,7 +192,7 @@ namespace Assets.Scripts.AdvancedCity
             int last = circle.Count - 1;
             while (ok)
             {
-                Crossing nextroad = circle[last].Kovetkezo(circle[last - 1], jobbra);
+                Crossing nextroad = circle[last].Next(circle[last - 1], jobbra);
                 if (nextroad == null) return;
                 if (nextroad == root) ok = false;
                 else

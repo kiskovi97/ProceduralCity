@@ -7,6 +7,7 @@ class Polygon : IShape
     public List<Triangle> ears = new List<Triangle>();
     public Polygon(Vector3[] inputControlPoints, int material)
     {
+        if (inputControlPoints.Length < 3) return;
         controlPoints = new List<Vector3>();
         controlPoints.AddRange(inputControlPoints);
         int max = 100;

@@ -24,7 +24,7 @@ namespace Assets.Scripts.AdvancedCity.monoBeheviors.interactiveObjects
             if (length < 0.1f || elozoPoint == nextPoint)
 			{
 				elozoPoint = nextPoint;
-				nextPoint = nextPoint.getNextPoint();
+				nextPoint = nextPoint.GetNextPoint();
 			}
             if (canMove())
 			{

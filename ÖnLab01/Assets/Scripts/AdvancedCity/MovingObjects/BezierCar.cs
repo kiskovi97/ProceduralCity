@@ -17,7 +17,7 @@ namespace Assets.Scripts.AdvancedCity.monoBeheviors.interactiveObjects
             if (length < 0.1f || elozoPoint == nextPoint)
 			{
 				elozoPoint = nextPoint;
-				nextPoint = nextPoint.getNextPoint();
+				nextPoint = nextPoint.GetNextPoint();
 				distanceTime = 0;
 			}
             if (canMove())
@@ -63,10 +63,11 @@ namespace Assets.Scripts.AdvancedCity.monoBeheviors.interactiveObjects
                 if (thisTime > 1) thisTime = 1;
                 Vector3 pos = MovementPoint.BezierCurve(eCenter, cross, nCenter, thisTime);
                 transform.position = pos;
-                transform.rotation = Quaternion.LookRotation(MovementPoint.directionBezierCurve(eCenter, cross, nCenter, thisTime));
+                transform.rotation = Quaternion.LookRotation(MovementPoint.DirectionBezierCurve(eCenter, cross, nCenter, thisTime));
             } 
 			else
             {
+                allapot = "Elozo==Next";
                 transform.position = transform.position + (elozoPoint.center - transform.position) * 0.1f;
             }
         }

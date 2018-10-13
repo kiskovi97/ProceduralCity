@@ -18,7 +18,7 @@ namespace Assets.Scripts.AdvancedCity
         }
         public virtual void setPoint(MovementPoint next)
         {
-            nextPoint = next.getNextPoint();
+            nextPoint = next.GetNextPoint();
             if (nextPoint == null)
                 nextPoint = next;
             if (nextPoint != next)
@@ -37,7 +37,7 @@ namespace Assets.Scripts.AdvancedCity
             if (length < 0.1f)
             {
                 MovementPoint tmp = nextPoint;
-                nextPoint = nextPoint.getNextPoint();
+                nextPoint = nextPoint.GetNextPoint();
                 if (tmp != nextPoint && nextPoint != null)
                 {
                     elozoPoint = tmp;

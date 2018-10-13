@@ -8,20 +8,19 @@ namespace Assets.Scripts.AdvancedCity
 
     class RoadandCrossingGenerator
     {
-        float RoadSize = 0.05f;
         List<Crossing> crossings;
         List<Road> roads;
-        
+        float roadSize;
 
-        public List<Crossing> GenerateObjects(GameObjectGenerator generator, List<GraphPoint> controlPoints, float sizeRatio)
+        public List<Crossing> GenerateObjects(GameObjectGenerator generator, List<GraphPoint> controlPoints, float roadSize)
         {
             crossings = new List<Crossing>();
-
+            this.roadSize = roadSize;
             roads = new List<Road>();
             for (int i = 0; i < controlPoints.Count; i++)
             {
                 GraphPoint point = controlPoints[i];
-                crossings.Add(new Crossing(point.position, point.isMainRoad(), point.isTram(), generator));
+                crossings.Add(new Crossing(point.position, point.isMainRoad(), point.isTram(), generator, roadSize));
             }
             for (int i = 0; i < controlPoints.Count; i++)
             {
@@ -32,23 +31,23 @@ namespace Assets.Scripts.AdvancedCity
                     if (x > i)
                     {
                         Road r = new Road(generator);
-                        r.setSzomszedok(crossings[i], crossings[x]);
-                        crossings[i].AddSzomszed(r);
-                        crossings[x].AddSzomszed(r);
+                        r.SetCrossings(crossings[i], crossings[x], roadSize);
+                        crossings[i].AddRoad(r);
+                        crossings[x].AddRoad(r);
                         roads.Add(r);
                     }
                 }
             }
-            MakeMovementPoint(controlPoints, sizeRatio);
+            MakeMovementPoint(controlPoints);
             return crossings;
         }
-        private void MakeMovementPoint(List<GraphPoint> controlPoints, float sizeRatio)
+        private void MakeMovementPoint(List<GraphPoint> controlPoints)
         {
             for (int x = 0; x < controlPoints.Count; x++)
             {
                 //GraphPoint road = controlPoints[x];
                 Crossing cros = crossings[x];
-                List<Crossing> szomszedok = cros.getSzomszedok();
+                List<Crossing> szomszedok = cros.NeighbourCrossings();
                 List<Vector3> sidewalks = new List<Vector3>();
                 List<List<Vector3>> lista = new List<List<Vector3>>();
                 for (int i = 0; i < szomszedok.Count; i++)
@@ -67,9 +66,9 @@ namespace Assets.Scripts.AdvancedCity
                     Vector3 elozo = elozoCross.center;
                     Vector3 kovetkezo = kovetkezoCross.center;
 
-                    float utelozo = RoadSize * sizeRatio * elozoCross.GetRoad(cros).sav;
-                    float utekov = RoadSize * sizeRatio * kovetkezoCross.GetRoad(cros).sav;
-                    float sidewalk = RoadSize * sizeRatio * 1.5f;
+                    float utelozo = roadSize * elozoCross.GetRoad(cros).sav;
+                    float utekov = roadSize * kovetkezoCross.GetRoad(cros).sav;
+                    float sidewalk = roadSize * 1.5f;
 
                     Vector3 merolegeselozo = MyMath.Meroleges(ez, elozo).normalized * utelozo;
                     Vector3 merolegeskovetkezo = MyMath.Meroleges(kovetkezo, ez).normalized * utekov;
@@ -89,7 +88,6 @@ namespace Assets.Scripts.AdvancedCity
                     sidewalks.Add(kereszt_side);
 
                     Vector3 meroleges_elozo = MyMath.Intersect(kereszt, merolegeselozo, ez, (elozo - ez).normalized);
-                    Debug.DrawLine(kereszt, kereszt + merolegeselozo, Color.red, 10000, false);
                     lista[i][2] = meroleges_elozo;
                     lista[i][3] = kereszt;
 
@@ -103,7 +101,7 @@ namespace Assets.Scripts.AdvancedCity
                     Vector3 szomszed = szomszedok[i].center;
                     float a = Vector3.Dot((szomszed - ez).normalized, lista[i][0] - ez);
                     float b = Vector3.Dot((szomszed - ez).normalized, lista[i][2] - ez);
-                    Road r = cros.getSzomszedRoad(szomszedok[i].center);
+                    Road r = cros.GetNeighbourRoad(szomszedok[i].center);
 
                     int elozo = i - 1;
                     if (elozo < 0) elozo = lista.Count - 1;
@@ -112,18 +110,16 @@ namespace Assets.Scripts.AdvancedCity
                         if (a > b)
                         {
                             Vector3 masikkereszt = MyMath.Intersect(lista[i][3], (szomszed - ez).normalized, lista[i][1], lista[i][0] - lista[i][1]);
-                            r.addLine(cros, masikkereszt, lista[i][1]);
                             Vector3[] line = { masikkereszt, lista[i][1] };
                             Vector3[] helpline = { lista[i][3], masikkereszt };
-                            cros.AddLines(line, helpline, lista[i][1], sidewalks[elozo], r);
+                            cros.AddLines(new HelpLine(line, helpline, lista[i][1], sidewalks[elozo]), r);
                         }
                         else
                         {
                             Vector3 masikkereszt = MyMath.Intersect(lista[i][1], (szomszed - ez).normalized, lista[i][3], lista[i][2] - lista[i][3]);
                             Vector3[] line = { lista[i][3], masikkereszt };
                             Vector3[] helpline = { masikkereszt, lista[i][1] };
-                            cros.AddLines(line, helpline, lista[i][1], sidewalks[elozo], r);
-                            r.addLine(cros, lista[i][3], masikkereszt);
+                            cros.AddLines(new HelpLine(line, helpline, lista[i][1], sidewalks[elozo]), r);
                         }
                 }
             }

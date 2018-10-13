@@ -22,9 +22,9 @@ namespace Assets.Scripts.AdvancedCity.monoBeheviors.interactiveObjects
         public override void setPoint(MovementPoint next)
         {
             nextPoint = next;
-            A_nextPoint = new MovementCurve(next,next.getNextPoint(),speed*0.01f);
-            B_nextPoint = new MovementCurve(next, next.getNextPoint(), speed * 0.01f);
-            A_nextPoint.addTime(0.6f);
+            A_nextPoint = new MovementCurve(next,next.GetNextPoint(),speed*0.01f);
+            B_nextPoint = new MovementCurve(next, next.GetNextPoint(), speed * 0.01f);
+            A_nextPoint.AddTime(0.6f);
         }
 
         public void setDirection()
@@ -53,18 +53,18 @@ namespace Assets.Scripts.AdvancedCity.monoBeheviors.interactiveObjects
         {
             if (next_tram == null)
             {
-                A_point = A_nextPoint.getFirstPosition();
+                A_point = A_nextPoint.GetFirstPosition();
                 return;
             }
             if (((next_tram.B_point - A_point).magnitude > 0 && ((next_tram.A_point - A_point).magnitude > 0.5f)))
-                 A_point = A_nextPoint.getPosition();
+                 A_point = A_nextPoint.GetPosition();
            
         }
 
         private void CalculateB()
         {
             if ((B_point - A_point).magnitude > 0.5f)
-                B_point = B_nextPoint.getPosition();
+                B_point = B_nextPoint.GetPosition();
         }
 
         public override void Move()

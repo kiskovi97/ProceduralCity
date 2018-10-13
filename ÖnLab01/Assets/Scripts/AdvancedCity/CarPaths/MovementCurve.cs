@@ -1,103 +1,101 @@
 ﻿using UnityEngine;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Assets.Scripts.AdvancedCity
 {
     public class MovementCurve
     {
-        MovementPoint elozo;
-        MovementPoint kovetkezo;
-        float speed;
+        MovementPoint before;
+        MovementPoint next;
+        readonly float speed;
         float time;
-        public MovementCurve(MovementPoint elozo, MovementPoint kovetkezo, float speed)
+        public MovementCurve(MovementPoint before, MovementPoint next, float speed)
         {
-            this.elozo = elozo;
-            this.kovetkezo = kovetkezo;
+            this.before = before;
+            this.next = next;
             this.speed = speed;
             time = 0;
         }
-        public Vector3 addTime(float change)
+        public Vector3 AddTime(float change)
         {
             time += change;
-            return getPosition();
+            return GetPosition();
         }
 
         private float timeToStop = 0;
-        private float maxTime = 200;
 
-        public Vector3 getFirstPosition()
+        private readonly float maxTime = 200;
+
+        public Vector3 GetFirstPosition()
         {
-            if (elozo != kovetkezo)
+            if (before != next)
             {
                 time += speed;
             }
-            Vector3 dir = kovetkezo.center - elozo.center;
+            Vector3 dir = next.center - before.center;
             if (dir.magnitude < time)
             {
-                if (kovetkezo.megallo && timeToStop < maxTime)
+                if (next.megallo && timeToStop < maxTime)
                 {
                     time -= speed;
                     timeToStop++;
-                    return kovetkezo.center;
+                    return next.center;
                 }
                 timeToStop = 0;
                 time -= dir.magnitude;
-                elozo = kovetkezo;
-                kovetkezo = kovetkezo.getNextPoint();
-                if (elozo == kovetkezo)
+                before = next;
+                next = next.GetNextPoint();
+                if (before == next)
                 {
-                    return kovetkezo.center;
+                    return next.center;
                 }
-                dir = kovetkezo.center - elozo.center;
+                dir = next.center - before.center;
             }
 
-            return elozo.center + dir.normalized * time;
+            return before.center + dir.normalized * time;
         }
 
-        public Vector3 getPosition()
+        public Vector3 GetPosition()
         {
-            if (elozo != kovetkezo)
+            if (before != next)
             {
                 time += speed;
             }
-            Vector3 dir = kovetkezo.center - elozo.center;
+            Vector3 dir = next.center - before.center;
             if (dir.magnitude < time)
             {
                 time -= dir.magnitude;
-                elozo = kovetkezo;
-                kovetkezo = kovetkezo.getNextPoint();
-                if (elozo == kovetkezo)
+                before = next;
+                next = next.GetNextPoint();
+                if (before == next)
                 {
-                    return kovetkezo.center;
+                    return next.center;
                 }
-                dir = kovetkezo.center - elozo.center;
+                dir = next.center - before.center;
             }
 
-            return elozo.center + dir.normalized * time;
+            return before.center + dir.normalized * time;
         }
 
-        public Vector3 getPlusPosition(float timeplus)
+        public Vector3 GetPlusPosition(float timeplus)
         {
             float tmpTime = time;
-            if (elozo != kovetkezo)
+            if (before != next)
             {
                 tmpTime += timeplus; 
             }
-            Vector3 dir = kovetkezo.center - elozo.center;
+            Vector3 dir = next.center - before.center;
             if (dir.magnitude < tmpTime)
             {
                 tmpTime -= dir.magnitude;
-                MovementPoint tmpElozo = kovetkezo;
-                MovementPoint tmpKovetkezo = kovetkezo.getNextPoint();
+                MovementPoint tmpElozo = next;
+                MovementPoint tmpKovetkezo = next.GetNextPoint();
                 if (tmpElozo == tmpKovetkezo)
                 {
                     return tmpKovetkezo.center;
                 }
                 dir = tmpKovetkezo.center - tmpElozo.center;
             }
-            return elozo.center + dir.normalized * tmpTime;
+            return before.center + dir.normalized * tmpTime;
         }
     }
 }
