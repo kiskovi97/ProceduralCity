@@ -20,11 +20,11 @@ namespace Assets.Scripts.AdvancedCity
             for (int i = 0; i < controlPoints.Count; i++)
             {
                 GraphPoint point = controlPoints[i];
-                crossings.Add(new Crossing(point.position, point.isMainRoad(), point.isTram(), generator, roadSize));
+                crossings.Add(new Crossing(point.position, point.IsMainRoad(), point.IsTram(), generator, roadSize));
             }
             for (int i = 0; i < controlPoints.Count; i++)
             {
-                List<GraphPoint> szomszedok = controlPoints[i].Szomszedok;
+                List<GraphPoint> szomszedok = controlPoints[i].Neighbours;
                 for (int j = 0; j < szomszedok.Count; j++)
                 {
                     int x = controlPoints.IndexOf(szomszedok[j]);

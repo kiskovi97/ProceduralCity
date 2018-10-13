@@ -1,7 +1,5 @@
 ﻿
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using UnityEngine;
 
 namespace Assets.Scripts.AdvancedCity
@@ -21,16 +19,16 @@ namespace Assets.Scripts.AdvancedCity
         public bool DebugLines = true;
         class PlusEdge
         {
-            public PlusEdge(Vector3 _p, Vector3 _q)
+            public PlusEdge(Vector3 p, Vector3 q)
             {
-                p = _p; q = _q;
+                this.one = p; this.other = q;
             }
-            public Vector3 p;
-            public Vector3 q;
+            public Vector3 one;
+            public Vector3 other;
         }
 
-        List<InteractiveGraphPoint> roads = new List<InteractiveGraphPoint>();
-        List<InteractiveGraphPoint> sideroads = new List<InteractiveGraphPoint>();
+        List<InteractiveGraphPoint> mainPoints = new List<InteractiveGraphPoint>();
+        List<InteractiveGraphPoint> sidePoints = new List<InteractiveGraphPoint>();
         // plus roads just for not to cross them
         List<PlusEdge> plusroads = new List<PlusEdge>();
         List<GraphPoint> circle;
@@ -40,6 +38,7 @@ namespace Assets.Scripts.AdvancedCity
             values = GetComponent<RoadGeneratingValues>();
             if (values == null) throw new System.Exception("No Values Binded");
         }
+
         public List<GraphPoint> GenerateGraph(bool visual, bool depth)
         {
             ClearStart();
@@ -48,76 +47,76 @@ namespace Assets.Scripts.AdvancedCity
             GeneratingMoreSideRoads();
             if (visual)
             {
-                Visualization01(depth);
+                Visualization(depth);
             }
             ClearDeadEnds();
-            List<GraphPoint> kimenet = new List<GraphPoint>();
-            foreach(InteractiveGraphPoint point in roads)
+            List<GraphPoint> output = new List<GraphPoint>();
+            foreach (InteractiveGraphPoint point in mainPoints)
             {
-                point.sorbaRendez();
-                kimenet.Add(point);
+                point.Order();
+                output.Add(point);
             }
-            foreach(InteractiveGraphPoint point in sideroads)
+            foreach (InteractiveGraphPoint point in sidePoints)
             {
-                point.sorbaRendez();
-                kimenet.Add(point);
+                point.Order();
+                output.Add(point);
             }
             CircleGenerator circleGenerator = new CircleGenerator();
-            circle = circleGenerator.maxCircle(kimenet);
+            circle = circleGenerator.MaxCircle(output);
             foreach (GraphPoint point in circle)
             {
-                point.setAsTram();
+                point.SetAsTram();
             }
-            return kimenet;
+            return output;
         }
-        public void Visualization01(bool depthtest)
+        public void Visualization(bool depthtest)
         {
-            foreach (InteractiveGraphPoint road in roads)
+            foreach (InteractiveGraphPoint point in mainPoints)
             {
                 if (ControlPointsVisualationObject != null)
                 {
                     GameObject ki = Instantiate(ControlPointsVisualationObject);
-                    ki.transform.position = road.position;
+                    ki.transform.position = point.position;
                 }
-                road.DrawLines(Color.red, depthtest);
+                point.DrawLines(Color.red, depthtest);
             }
-            foreach (InteractiveGraphPoint road in sideroads)
+            foreach (InteractiveGraphPoint point in sidePoints)
             {
                 if (ControlPointsVisualationObject != null)
                 {
                     GameObject ki = Instantiate(ControlPointsVisualationObject);
-                    ki.transform.position = road.position;
+                    ki.transform.position = point.position;
                 }
-                road.DrawLines(Color.yellow, depthtest);
+                point.DrawLines(Color.yellow, depthtest);
             }
 
         }
-
-       
 
         void ClearStart()
         {
-            roads.Clear();
-            sideroads.Clear();
+            mainPoints.Clear();
+            sidePoints.Clear();
             plusroads.Clear();
         }
 
         void GeneratingMainRoads()
         {
-            InteractiveGraphPoint elso = new InteractiveGraphPoint();
-            elso.position = values.StartingPoint();
-            roads.Add(elso);
-
-            for (int i = 0; i < ReqursiveMax && i < roads.Count; i++)
+            InteractiveGraphPoint elso = new InteractiveGraphPoint
             {
-                InteractiveGraphPoint root = roads[i];
-                List<InteractiveGraphPoint> newRoads = root.generatePoints(values.roadsDistancesMainRoad,values.straightFreqMainRoad,values.rotationRandomMainRoad,values.maxCrossings);
+                position = values.StartingPoint()
+            };
+            mainPoints.Add(elso);
+
+            for (int i = 0; i < ReqursiveMax && i < mainPoints.Count; i++)
+            {
+                InteractiveGraphPoint root = mainPoints[i];
+                List<InteractiveGraphPoint> newRoads = root.GeneratePoints(values.roadsDistancesMainRoad, values.straightFreqMainRoad, values.rotationRandomMainRoad, values.maxCrossings);
                 foreach (InteractiveGraphPoint road in newRoads)
                 {
-                    if (Ellenorzes(root, road, true)) roads.Add(road);
-                    else root.removeSzomszed(road);
+                    if (Check(root, road, true)) mainPoints.Add(road);
+                    else root.RemoveNeighbour(road);
                 }
-                if (roads.Count < 2)
+                if (mainPoints.Count < 2)
                 {
                     ReqursiveMax--;
                     i--;
@@ -126,17 +125,17 @@ namespace Assets.Scripts.AdvancedCity
         }
         void GeneratingFirstSideRoads()
         {
-            sideroads.Clear();
-            foreach (InteractiveGraphPoint road in roads)
+            sidePoints.Clear();
+            foreach (InteractiveGraphPoint point in mainPoints)
             {
-                List<InteractiveGraphPoint> ki = new List<InteractiveGraphPoint>();
+                List<InteractiveGraphPoint> output = new List<InteractiveGraphPoint>();
                 if (Random.value < values.sideRoadFreq)
-                    ki = road.generateSidePoints(values.roadsDistancesSideRoad);
+                    output = point.GenerateSidePoints(values.roadsDistancesSideRoad);
 
-                foreach (InteractiveGraphPoint newroad in ki)
+                foreach (InteractiveGraphPoint newPoint in output)
                 {
-                    if (Ellenorzes(road, newroad, false)) sideroads.Add(newroad);
-                    else road.removeSzomszed(newroad);
+                    if (Check(point, newPoint, false)) sidePoints.Add(newPoint);
+                    else point.RemoveNeighbour(newPoint);
                 }
 
 
@@ -144,246 +143,183 @@ namespace Assets.Scripts.AdvancedCity
         }
         void GeneratingMoreSideRoads()
         {
-            for (int i = 0; i < ReqursiveMaxS && i < sideroads.Count; i++)
+            for (int i = 0; i < ReqursiveMaxS && i < sidePoints.Count; i++)
             {
-                InteractiveGraphPoint current_road = sideroads[i];
-                List<InteractiveGraphPoint> newRoads = current_road.generatePoints(values.roadsDistancesSideRoad, values.straightFreqSideRoad, values.rotationRandomSideRoad,values.maxCrossings);
+                InteractiveGraphPoint currentPoint = sidePoints[i];
+                List<InteractiveGraphPoint> newPoints = currentPoint.GeneratePoints(values.roadsDistancesSideRoad, values.straightFreqSideRoad, values.rotationRandomSideRoad, values.maxCrossings);
 
-                foreach (InteractiveGraphPoint newroad in newRoads)
+                foreach (InteractiveGraphPoint newPoint in newPoints)
                 {
-                    if (Ellenorzes(current_road, newroad, true))
+                    if (Check(currentPoint, newPoint, true))
                     {
-                        sideroads.Add(newroad);
+                        sidePoints.Add(newPoint);
                     }
                     else
                     {
-                        current_road.removeSzomszed(newroad);
+                        currentPoint.RemoveNeighbour(newPoint);
                     }
                 }
             }
 
         }
 
-        long maxAngle = 60;
+        readonly long maxAngle = 60;
 
-        bool Ellenorzes(GraphPoint current_road, GraphPoint newroad, bool Javitassal)
+        bool Check(GraphPoint currentPoint, GraphPoint newPoint, bool withRepairs)
         {
 
-            if (!values.PalyanBelulVane(newroad.position)) return false;
+            if (!values.WithinRange(newPoint.position)) return false;
 
-            foreach (GraphPoint other_road in sideroads)
+            foreach (GraphPoint otherPoint in sidePoints)
             {
-                if (other_road != newroad && (newroad.position - other_road.position).magnitude < values.collapseRangeSideRoad)
+                if (otherPoint != newPoint && (newPoint.position - otherPoint.position).magnitude < values.collapseRangeSideRoad)
                 {
-                    if (Javitassal && Ellenorzes(current_road,other_road, false))
+                    if (withRepairs && Check(currentPoint, otherPoint, false))
                     {
-                        if (KeresztEllenorzes(current_road.position, other_road.position))
+                        if (CrossingCheck(currentPoint.position, otherPoint.position))
                         {
-                            current_road.csere(other_road, newroad);
-                            other_road.addSzomszed(current_road);
-                            plusroads.Add(new PlusEdge(current_road.position, other_road.position));
+                            currentPoint.SwitchNeigbours(otherPoint, newPoint);
+                            otherPoint.AddNeighbour(currentPoint);
+                            plusroads.Add(new PlusEdge(currentPoint.position, otherPoint.position));
                         }
                     }
                     return false;
                 }
             }
-            foreach (GraphPoint other_road in roads)
+            foreach (GraphPoint otherPoint in mainPoints)
             {
-                if (other_road != newroad && (newroad.position - other_road.position).magnitude < values.collapseRangeMainRoad)
+                if (otherPoint != newPoint && (newPoint.position - otherPoint.position).magnitude < values.collapseRangeMainRoad)
                 {
-                    if (Javitassal && Ellenorzes(current_road,other_road, false))
+                    if (withRepairs && Check(currentPoint, otherPoint, false))
                     {
-                        if (KeresztEllenorzes(current_road.position, other_road.position))
+                        if (CrossingCheck(currentPoint.position, otherPoint.position))
                         {
-                            current_road.csere(other_road, newroad);
-                            other_road.addSzomszed(current_road);
-                            plusroads.Add(new PlusEdge(current_road.position, other_road.position));
+                            currentPoint.SwitchNeigbours(otherPoint, newPoint);
+                            otherPoint.AddNeighbour(currentPoint);
+                            plusroads.Add(new PlusEdge(currentPoint.position, otherPoint.position));
                         }
                     }
                     return false;
                 }
             }
-            return KeresztEllenorzes(current_road.position, newroad.position);
+            return CrossingCheck(currentPoint.position, newPoint.position);
         }
-        bool KeresztEllenorzes(Vector3 p1, Vector3 q1)
+
+        bool CrossingCheck(PlusEdge road, Vector3 one, Vector3 other)
         {
-            if ((p1 - q1).magnitude < values.CollapseSideRoad) return false;
-            foreach (PlusEdge plusroad in plusroads)
+            if (one == road.one)
             {
-                
-                if (p1 == plusroad.p) {
-                    if (q1 == plusroad.q) continue;
-                    float angle = Vector3.Angle(q1 - p1, plusroad.q - p1);
-                    angle = Mathf.Abs(angle);
-                    if (angle < maxAngle) return false;
-                    continue;
-                }
-                if (p1 == plusroad.q)
-                {
-                    if (q1 == plusroad.p) continue;
-                    float angle = Vector3.Angle(q1 - p1, plusroad.p - p1);
-                    angle = Mathf.Abs(angle);
-                    if (angle < maxAngle) return false;
-                    continue;
-                }
-                if (plusroad.q == q1)
-                {
-                    if (p1 == plusroad.p) continue;
-                    float angle = Vector3.Angle(p1 - q1, plusroad.p - q1);
-                    angle = Mathf.Abs(angle);
-                    if (angle < maxAngle) return false;
-                    continue;
-                }
-                if (plusroad.p == q1)
-                {
-                    if (p1 == plusroad.q) continue;
-                    float angle = Vector3.Angle(p1 - q1, plusroad.q - q1);
-                    angle = Mathf.Abs(angle);
-                    if (angle < maxAngle) return false;
-                    continue;
-                }
-                
-                
-                if (SegmentFunctions.doIntersect(p1, q1, plusroad.p, plusroad.q))
-                {
-                    return false;
-                }
+                if (other == road.other) return true;
+                float angle = Vector3.Angle(other - one, road.other - one);
+                angle = Mathf.Abs(angle);
+                if (angle < maxAngle) return false;
+                return true;
             }
-            foreach (GraphPoint other_road in sideroads)
+            if (one == road.other)
+            {
+                if (other == road.one) return true;
+                float angle = Vector3.Angle(other - one, road.one - one);
+                angle = Mathf.Abs(angle);
+                if (angle < maxAngle) return false;
+                return true;
+            }
+            if (road.other == other)
+            {
+                if (one == road.one) return true;
+                float angle = Vector3.Angle(one - other, road.one - other);
+                angle = Mathf.Abs(angle);
+                if (angle < maxAngle) return false;
+                return true;
+            }
+            if (road.one == other)
+            {
+                if (one == road.other) return true;
+                float angle = Vector3.Angle(one - other, road.other - other);
+                angle = Mathf.Abs(angle);
+                if (angle < maxAngle) return false;
+                return true;
+            }
+
+            if (SegmentFunctions.DoIntersect(one, other, road.one, road.other))
+            {
+                return false;
+            }
+            return true;
+        }
+
+        bool CrossingCheck(Vector3 one, Vector3 other)
+        {
+            if ((one - other).magnitude < values.CollapseSideRoad) return false;
+            foreach (PlusEdge road in plusroads)
+            {
+                if (!CrossingCheck(road, one, other)) return false;
+                
+            }
+            foreach (GraphPoint point in sidePoints)
             {
 
-                if (other_road.getElozo() == null) continue;
-                Vector3 p2 = other_road.getElozo().position;
-                Vector3 q2 = other_road.position;
-                if (p1 == p2)
-                {
-                    if (q1 == q2) continue;
-                    float angle = Vector3.Angle(q1 - p1, q2 - p1);
-                    angle = Mathf.Abs(angle);
-                    if (angle < maxAngle) return false;
-                    continue;
-                }
-                if (p1 == q2)
-                {
-                    if (q1 == p2) continue;
-                    float angle = Vector3.Angle(q1 - p1, p2 - p1);
-                    angle = Mathf.Abs(angle);
-                    if (angle < maxAngle) return false;
-                    continue;
-                }
-                if (q2 == q1)
-                {
-                    if (p1 == p2) continue;
-                    float angle = Vector3.Angle(p1 - q1, p2 - q1);
-                    angle = Mathf.Abs(angle);
-                    if (angle < maxAngle) return false;
-                    continue;
-                }
-                if (p2 == q1)
-                {
-                    if (p1 == q2) continue;
-                    float angle = Vector3.Angle(p1 - q1, q2 - q1);
-                    angle = Mathf.Abs(angle);
-                    if (angle < maxAngle) return false;
-                    continue;
-                }
-                if (SegmentFunctions.doIntersect(p1, q1, p2, q2))
-                {
-                    return false;
-                }
+                if (point.GetBefore() == null) continue;
+                Vector3 p2 = point.GetBefore().position;
+                Vector3 q2 = point.position;
+                if (!CrossingCheck(new PlusEdge(p2, q2), one, other)) return false;
             }
-            foreach (GraphPoint other_road in roads)
+            foreach (GraphPoint point in mainPoints)
             {
 
-                if (other_road.getElozo() == null) continue;
-                Vector3 p2 = other_road.getElozo().position;
-                Vector3 q2 = other_road.position;
-                if (p1 == p2)
-                {
-                    if (q1 == q2) continue;
-                    float angle = Vector3.Angle(q1 - p1, q2 - p1);
-                    angle = Mathf.Abs(angle);
-                    if (angle < maxAngle) return false;
-                    continue;
-                }
-                if (p1 == q2)
-                {
-                    if (q1 == p2) continue;
-                    float angle = Vector3.Angle(q1 - p1, p2 - p1);
-                    angle = Mathf.Abs(angle);
-                    if (angle < maxAngle) return false;
-                    continue;
-                }
-                if (q2 == q1)
-                {
-                    if (p1 == p2) continue;
-                    float angle = Vector3.Angle(p1 - q1, p2 - q1);
-                    angle = Mathf.Abs(angle);
-                    if (angle < maxAngle) return false;
-                    continue;
-                }
-                if (p2 == q1)
-                {
-                    if (p1 == q2) continue;
-                    float angle = Vector3.Angle(p1 - q1, q2 - q1);
-                    angle = Mathf.Abs(angle);
-                    if (angle < maxAngle) return false;
-                    continue;
-                }
-                    if (SegmentFunctions.doIntersect(p1, q1, p2, q2))
-                {
-                    return false;
-                }
+                if (point.GetBefore() == null) continue;
+                Vector3 p2 = point.GetBefore().position;
+                Vector3 q2 = point.position;
+                if (!CrossingCheck(new PlusEdge(p2, q2), one, other)) return false;
             }
 
 
             return true;
         }
-        
+
 
         void SmoothGraph()
         {
-            foreach (InteractiveGraphPoint road in roads)
+            foreach (InteractiveGraphPoint road in mainPoints)
             {
                 road.Smooth(values.smootIntensity);
             }
-            foreach (InteractiveGraphPoint road in sideroads)
+            foreach (InteractiveGraphPoint road in sidePoints)
             {
                 road.Smooth(values.smootIntensity);
             }
         }
-       
+
         void ClearDeadEnds()
         {
-            if (roads.Count == 0 && sideroads.Count == 0) return;
+            if (mainPoints.Count == 0 && sidePoints.Count == 0) return;
             bool torles = false;
             List<InteractiveGraphPoint> list = new List<InteractiveGraphPoint>();
-            foreach (InteractiveGraphPoint point in roads)
+            foreach (InteractiveGraphPoint point in mainPoints)
             {
-                if (point.isDeadEnd())
+                if (point.IsDeadEnd())
                 {
-                    point.removeFromSzomszed();
-                    torles = true;
-                    list.Add(point);
-                }
-            }
-            foreach(InteractiveGraphPoint point in list)
-            {
-                roads.Remove(point);
-            }
-            list.Clear();
-            foreach (InteractiveGraphPoint point in sideroads)
-            {
-                if (point.isDeadEnd())
-                {
-                    point.removeFromSzomszed();
+                    point.RemoveFromNeighbours();
                     torles = true;
                     list.Add(point);
                 }
             }
             foreach (InteractiveGraphPoint point in list)
             {
-                sideroads.Remove(point);
+                mainPoints.Remove(point);
+            }
+            list.Clear();
+            foreach (InteractiveGraphPoint point in sidePoints)
+            {
+                if (point.IsDeadEnd())
+                {
+                    point.RemoveFromNeighbours();
+                    torles = true;
+                    list.Add(point);
+                }
+            }
+            foreach (InteractiveGraphPoint point in list)
+            {
+                sidePoints.Remove(point);
             }
             list.Clear();
             if (torles) ClearDeadEnds();

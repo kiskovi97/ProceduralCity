@@ -1,16 +1,13 @@
 ﻿
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using UnityEngine;
 namespace Assets.Scripts.AdvancedCity
 {
     public class CircleGenerator
     {
         List<List<GraphPoint>> circles = new List<List<GraphPoint>>();
-        public List<GraphPoint> maxCircle(List<GraphPoint> list)
+        public List<GraphPoint> MaxCircle(List<GraphPoint> list)
         {
-            for (int i=0; i< list.Count; i++)
+            for (int i = 0; i < list.Count; i++)
             {
                 GenerateCirlces(list[i]);
             }
@@ -22,17 +19,17 @@ namespace Assets.Scripts.AdvancedCity
             return output;
         }
 
-         void GenerateCirlces(GraphPoint begining)
+        void GenerateCirlces(GraphPoint begining)
         {
-            foreach (GraphPoint gp in begining.Szomszedok)
+            foreach (GraphPoint neighbour in begining.Neighbours)
             {
-                Next(new List<GraphPoint>() { begining, gp }, begining, gp,true);
+                Next(new List<GraphPoint>() { begining, neighbour }, begining, neighbour, true);
             }
         }
 
-        void Next(List<GraphPoint> list, GraphPoint elozo, GraphPoint mostani, bool jobbra)
+        void Next(List<GraphPoint> list, GraphPoint before, GraphPoint actual, bool right)
         {
-            GraphPoint next = mostani.kovetkezo(elozo, jobbra);
+            GraphPoint next = actual.Next(before, right);
             if (next == list[0])
             {
                 circles.Add(list);
@@ -40,16 +37,16 @@ namespace Assets.Scripts.AdvancedCity
             }
             if (list.Contains(next)) return;
             bool isGood = false;
-            foreach (GraphPoint point in next.Szomszedok)
+            foreach (GraphPoint point in next.Neighbours)
             {
                 int i = list.IndexOf(point);
                 if (i == 0)
                 {
                     isGood = true;
                 }
-                if (i > 0 && point!=mostani)
+                if (i > 0 && point != actual)
                 {
-                    list.RemoveRange(i+1, list.Count - i-1);
+                    list.RemoveRange(i + 1, list.Count - i - 1);
                 }
             }
             if (isGood)
@@ -59,7 +56,7 @@ namespace Assets.Scripts.AdvancedCity
                 return;
             }
             list.Add(next);
-                Next(list, mostani, next, jobbra);     
+            Next(list, actual, next, right);
         }
     }
 }

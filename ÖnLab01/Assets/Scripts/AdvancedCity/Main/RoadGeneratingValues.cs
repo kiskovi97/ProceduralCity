@@ -22,7 +22,7 @@ public class RoadGeneratingValues : MonoBehaviour {
         return new Vector3((Sizes[0] * sizeRatio + Sizes[2] * sizeRatio)/2, 0, Sizes[1] * sizeRatio + 1);
 
     }
-    public bool PalyanBelulVane(Vector3 position)
+    public bool WithinRange(Vector3 position)
     {
         return !(position.x < Sizes[0] * sizeRatio || position.x > Sizes[2] * sizeRatio
               || position.z < Sizes[1] * sizeRatio || position.z > Sizes[3] * sizeRatio);

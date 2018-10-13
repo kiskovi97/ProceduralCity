@@ -1,7 +1,5 @@
 ﻿
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using UnityEngine;
 
 namespace Assets.Scripts.AdvancedCity
@@ -10,137 +8,136 @@ namespace Assets.Scripts.AdvancedCity
     {
         // ---------------- Basic Initialization -----------
         public Vector3 position;
-        public enum POINTTYPE { MAIN, SIDE, TRAM, TRAM_MAIN};
+        public enum POINTTYPE { MAIN, SIDE, TRAM, TRAM_MAIN };
         protected POINTTYPE type;
-        public bool isMainRoad()
+        public bool IsMainRoad()
         {
             return type == POINTTYPE.MAIN || type == POINTTYPE.TRAM_MAIN;
         }
-        public bool isSideRoad()
+        public bool IsSideRoad()
         {
             return type == POINTTYPE.SIDE || type == POINTTYPE.TRAM;
         }
-        public bool isTram()
+        public bool IsTram()
         {
             return type == POINTTYPE.TRAM || type == POINTTYPE.TRAM_MAIN;
         }
-        public void setAsSideRoad()
+        public void SetAsSideRoad()
         {
             type = POINTTYPE.SIDE;
         }
-        public void setAsTram()
+        public void SetAsTram()
         {
             if (type == POINTTYPE.MAIN) type = POINTTYPE.TRAM_MAIN;
             if (type == POINTTYPE.SIDE) type = POINTTYPE.TRAM;
         }
-        public void setType(POINTTYPE in_type)
+        public void SetType(POINTTYPE in_type)
         {
             type = in_type;
         }
         // elso szomszed az a pont ami letrehozta
-        protected List<GraphPoint> szomszedok;
-        public List<GraphPoint> Szomszedok
+        protected List<GraphPoint> neighbours;
+        public List<GraphPoint> Neighbours
         {
             get
             {
                 List<GraphPoint> uj = new List<GraphPoint>();
-                uj.AddRange(szomszedok);
+                uj.AddRange(neighbours);
                 return uj;
             }
         }
-        public void addSzomszed(GraphPoint be)
+        public void AddNeighbour(GraphPoint point)
         {
-            if (!szomszedok.Contains(be))
-                szomszedok.Add(be);
+            if (!neighbours.Contains(point))
+                neighbours.Add(point);
         }
-        public void removeSzomszed(GraphPoint ki)
+        public void RemoveNeighbour(GraphPoint point)
         {
-            if (szomszedok.Contains(ki))
-                szomszedok.Remove(ki);
+            if (neighbours.Contains(point))
+                neighbours.Remove(point);
         }
-        public void setElozo(GraphPoint be)
+        public void SetBefore(GraphPoint point)
         {
-            if (szomszedok == null) szomszedok = new List<GraphPoint>();
+            if (neighbours == null) neighbours = new List<GraphPoint>();
 
-            if (szomszedok.Count == 0)
-                szomszedok.Add(be);
+            if (neighbours.Count == 0)
+                neighbours.Add(point);
             else
-                szomszedok[0] = be;
+                neighbours[0] = point;
         }
-        public GraphPoint getElozo()
+        public GraphPoint GetBefore()
         {
-            if (szomszedok == null) return null;
-            if (szomszedok.Count < 1) return null;
-            return szomszedok[0];
+            if (neighbours == null) return null;
+            if (neighbours.Count < 1) return null;
+            return neighbours[0];
         }
-        public void csere(GraphPoint uj, GraphPoint regi)
+        public void SwitchNeigbours(GraphPoint newPoint, GraphPoint oldPoint)
         {
-            if (szomszedok == null) return;
-            if (szomszedok.Contains(regi))
+            if (neighbours == null) return;
+            if (neighbours.Contains(oldPoint))
             {
-                int index = szomszedok.IndexOf(regi);
-                if (szomszedok.Contains(uj))
+                int index = neighbours.IndexOf(oldPoint);
+                if (neighbours.Contains(newPoint))
                 {
-                    szomszedok.Remove(regi);
+                    neighbours.Remove(oldPoint);
                 }
-                else szomszedok[index] = uj;
+                else neighbours[index] = newPoint;
             }
-            else  return;
-            
+            else return;
+
         }
         // ora mutato jarasaba rendez
         public GraphPoint()
         {
-            szomszedok = new List<GraphPoint>();
+            neighbours = new List<GraphPoint>();
         }
 
-        public GraphPoint kovetkezo(GraphPoint elozo, bool jobbra)
+        public GraphPoint Next(GraphPoint beforePoint, bool right)
         {
-            if (szomszedok == null) return null;
-            if (szomszedok.Count < 1) return null;
-            if (szomszedok.Count == 1) return szomszedok[0];
-            if (elozo == null)
+            if (neighbours == null) return null;
+            if (neighbours.Count < 1) return null;
+            if (neighbours.Count == 1) return neighbours[0];
+            if (beforePoint == null)
             {
-                return szomszedok[0];
+                return neighbours[0];
             }
-            if (!szomszedok.Contains(elozo)) { return null; }
+            if (!neighbours.Contains(beforePoint)) { return null; }
 
-            GraphPoint ki = szomszedok[0];
-            Vector3 ki_irany = (ki.position - position).normalized;
-            Vector3 elozo_irany = (elozo.position - position).normalized;
+            GraphPoint output = neighbours[0];
+            Vector3 beforeDirection = (beforePoint.position - position).normalized;
             float angleNow;
-            if (jobbra)
+            if (right)
                 angleNow = 360;
             else
                 angleNow = -360;
-            foreach (GraphPoint road in szomszedok)
+            foreach (GraphPoint point in neighbours)
             {
-                if (road == elozo) continue;
-                Vector3 kovetkezo_irany = (road.position - position).normalized;
-                float angleNew = Vector3.SignedAngle(elozo_irany, kovetkezo_irany, Vector3.up);
-                if (jobbra)
+                if (point == beforePoint) continue;
+                Vector3 nextDirection = (point.position - position).normalized;
+                float newAngle = Vector3.SignedAngle(beforeDirection, nextDirection, Vector3.up);
+                if (right)
                 {
-                    if (angleNew < 0) angleNew += 360;
+                    if (newAngle < 0) newAngle += 360;
                 }
                 else
-                     if (angleNew > 0) angleNew -= 360;
-
-
-                if (angleNow > angleNew && jobbra)
                 {
-                    ki = road;
-                    elozo_irany = elozo.position - position;
-                    angleNow = angleNew;
+                    if (newAngle > 0) newAngle -= 360;
                 }
-                if (angleNow < angleNew && !jobbra)
+                if (angleNow > newAngle && right)
                 {
-                    ki = road;
-                    elozo_irany = elozo.position - position;
-                    angleNow = angleNew;
+                    output = point;
+                    beforeDirection = beforePoint.position - position;
+                    angleNow = newAngle;
+                }
+                if (angleNow < newAngle && !right)
+                {
+                    output = point;
+                    beforeDirection = beforePoint.position - position;
+                    angleNow = newAngle;
                 }
             }
-            if (ki == elozo) return null;
-            return ki;
+            if (output == beforePoint) return null;
+            return output;
         }
 
     }

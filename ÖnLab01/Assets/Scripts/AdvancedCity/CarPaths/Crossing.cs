@@ -157,7 +157,6 @@ namespace Assets.Scripts.AdvancedCity
             }
             if (actual.road.tram)
             {
-                Debug.Log("TRam");
                 int a = (1 + carSavCount * 2);
                 int b = (savCount * 4 - a);
                 carpath.tramInput = new MovementPoint((line[0] * a + line[1] * b) / (savCount * 4));
@@ -302,7 +301,6 @@ namespace Assets.Scripts.AdvancedCity
                 if (tmp == null) break;
                 generator.AddLine(oneFrom.center, tmp.center, 0.2f, 0.35f);
                 egyikList.Add(oneFrom.center);
-                //generator.AddRail(oneFrom.center, tmp.center, 0.1f);
                 oneFrom = tmp;
             }
             egyikList.Add(oneFrom.center);

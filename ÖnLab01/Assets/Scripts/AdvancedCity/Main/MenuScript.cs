@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 namespace Assets.Scripts.AdvancedCity
@@ -15,6 +13,7 @@ namespace Assets.Scripts.AdvancedCity
         public Slider sliderBlocks;
         public InputField inputNumber;
         public Image background;
+        readonly float viewSize = 7f;
         bool graph = false;
         bool road = false;
         bool block = false;
@@ -61,13 +60,18 @@ namespace Assets.Scripts.AdvancedCity
         }
         public void CreateGraph()
         {
-            mainCityGenerator.setSize(float.Parse(inputNumber.text));
+            float size = float.Parse(inputNumber.text);
+            mainCityGenerator.setSize(size);
+            camera.orthographicSize = size * viewSize;
             mainCityGenerator.GenerateOnlyGraph(true);
             graph = true;
         }
         private void CreateGraphOther()
         {
-            mainCityGenerator.setSize(float.Parse(inputNumber.text));
+
+            float size = float.Parse(inputNumber.text);
+            mainCityGenerator.setSize(size);
+            camera.orthographicSize = size * viewSize;
             mainCityGenerator.GenerateOnlyGraph(false);
             graph = true;
         }
@@ -111,7 +115,9 @@ namespace Assets.Scripts.AdvancedCity
             StartCoroutine(AllDestroy(list));
             mainCityGenerator.MakeLamps = toggle.isOn;
             mainCityGenerator.trams = toggleTram.isOn;
-            mainCityGenerator.setSize(float.Parse(inputNumber.text));
+            float size = float.Parse(inputNumber.text);
+            mainCityGenerator.setSize(size);
+            camera.orthographicSize = size * viewSize;
         }
         System.Collections.IEnumerator AllDestroy(GameObject[] list)
         {

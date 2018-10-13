@@ -1,16 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using UnityEngine;
 
 
 public class MyMath
 {
-    public MyMath()
-    {
-    }
-
     public static Vector3 Intersect(Vector3 P, Vector3 V, Vector3 Q, Vector3 U)
     {
         V = To2D(V);
@@ -28,26 +22,26 @@ public class MyMath
         return ki.normalized;
     }
 
-    public static Vector3 Meroleges(Vector3 actual_point, Vector3 next_point)
+    public static Vector3 Meroleges(Vector3 actualPoint, Vector3 nextPoint)
     {
-        Vector3 next_irany = To2D(next_point - actual_point).normalized;
+        Vector3 next_irany = To2D(nextPoint - actualPoint).normalized;
         Quaternion rotation = Quaternion.Euler(0, 90, 0);
         Vector3 meroleges = To2D(rotation * next_irany).normalized;
         return meroleges;
     }
 
-    public static Vector3[] InnerPoints(Vector3[] controlpoints, float scale)
+    public static Vector3[] InnerPoints(Vector3[] controlPoints, float scale)
     {
         List<Vector3> outpout = new List<Vector3>();
-        for(int i=0; i< controlpoints.Length; i++)
+        for(int i=0; i< controlPoints.Length; i++)
         {
             int j = i+1;
-            if (j > controlpoints.Length - 1) j = 0;
+            if (j > controlPoints.Length - 1) j = 0;
             int z = i - 1;
-            if (z < 0) z = controlpoints.Length - 1;
-            Vector3 nextMer = Meroleges(controlpoints[i], controlpoints[j]).normalized * scale;
-            Vector3 elozoMer = Meroleges(controlpoints[z], controlpoints[i]).normalized * scale;
-            Vector3 kereszt = Intersect(controlpoints[i] + elozoMer, controlpoints[z] - controlpoints[i], controlpoints[i] + nextMer, controlpoints[i] - controlpoints[j]);
+            if (z < 0) z = controlPoints.Length - 1;
+            Vector3 nextMer = Meroleges(controlPoints[i], controlPoints[j]).normalized * scale;
+            Vector3 elozoMer = Meroleges(controlPoints[z], controlPoints[i]).normalized * scale;
+            Vector3 kereszt = Intersect(controlPoints[i] + elozoMer, controlPoints[z] - controlPoints[i], controlPoints[i] + nextMer, controlPoints[i] - controlPoints[j]);
             outpout.Add(kereszt);
         }
         return outpout.ToArray();
@@ -59,12 +53,12 @@ public class MyMath
             - a.z * b.x - b.z * c.x - c.z * a.x) / 2.0f);
     }
 
-    public static bool Between(Vector3 egyik, Vector3 masik, Vector3 kozotte)
+    public static bool Between(Vector3 one, Vector3 other, Vector3 middle)
     {
-        Vector3 egyikFele = egyik - kozotte;
-        Vector3 masikFele = masik - kozotte;
+        Vector3 egyikFele = one - middle;
+        Vector3 masikFele = other - middle;
         float angle = Vector3.Angle(egyikFele, masikFele);
-        if (egyik == kozotte || masik == kozotte) return false;
+        if (one == middle || other == middle) return false;
         return (angle > 179.9f) && (angle < 180.1f);
     }
 
@@ -98,11 +92,11 @@ public class MyMath
         return kereszt % 2 == 1;
     }
 
-    private static bool ToTheRight(Vector3 a, Vector3 egyik, Vector3 masik)
+    private static bool ToTheRight(Vector3 a, Vector3 one, Vector3 other)
     {
-        Vector3 egyikFele = egyik - a;
-        Vector3 masikFele = masik - a;
-        float angle = Vector3.SignedAngle(egyikFele, masikFele, new Vector3(0,1,0));
+        Vector3 dir1 = one - a;
+        Vector3 dir2 = other - a;
+        float angle = Vector3.SignedAngle(dir1, dir2, new Vector3(0,1,0));
         return angle > 0;
     }
 
