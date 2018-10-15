@@ -1,5 +1,6 @@
 ﻿
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 namespace Assets.Scripts.AdvancedCity
@@ -140,5 +141,20 @@ namespace Assets.Scripts.AdvancedCity
             return output;
         }
 
+        public void DrawLines(Color color, bool depthtest)
+        {
+            foreach (GraphPoint neighbour in neighbours)
+            {
+                Debug.DrawLine(position, neighbour.position, color, 100, depthtest);
+            }
+        }
+
+        public void DrawLinesHandler(Color color, bool depthtest)
+        {
+            foreach (GraphPoint neighbour in neighbours)
+            {
+                Handles.DrawLine(position, neighbour.position);
+            }
+        }
     }
 }

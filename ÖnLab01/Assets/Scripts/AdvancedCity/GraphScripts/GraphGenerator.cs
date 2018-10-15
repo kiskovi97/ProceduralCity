@@ -9,6 +9,10 @@ namespace Assets.Scripts.AdvancedCity
     {
         public GameObject ControlPointsVisualationObject;
         private RoadGeneratingValues values;
+        public void SetValues(RoadGeneratingValues values)
+        {
+            this.values = values;
+        }
         [Header("MainRoads max")]
         public int ReqursiveMax = 400;
         [Space(5)]
@@ -39,7 +43,7 @@ namespace Assets.Scripts.AdvancedCity
             if (values == null) throw new System.Exception("No Values Binded");
         }
 
-        public List<GraphPoint> GenerateGraph(bool visual, bool depth)
+        public List<GraphPoint> GenerateGraph(bool visual = false, bool depth = false)
         {
             ClearStart();
             GeneratingMainRoads();
@@ -69,6 +73,29 @@ namespace Assets.Scripts.AdvancedCity
             }
             return output;
         }
+
+        public void EditorDraw()
+        {
+            foreach (InteractiveGraphPoint point in mainPoints)
+            {
+                if (ControlPointsVisualationObject != null)
+                {
+                    GameObject ki = Instantiate(ControlPointsVisualationObject);
+                    ki.transform.position = point.position;
+                }
+                point.DrawLinesHandler(Color.red, false);
+            }
+            foreach (InteractiveGraphPoint point in sidePoints)
+            {
+                if (ControlPointsVisualationObject != null)
+                {
+                    GameObject ki = Instantiate(ControlPointsVisualationObject);
+                    ki.transform.position = point.position;
+                }
+                point.DrawLinesHandler(Color.yellow, false);
+            }
+        }
+
         public void Visualization(bool depthtest)
         {
             foreach (InteractiveGraphPoint point in mainPoints)
