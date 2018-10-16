@@ -1930,6 +1930,31 @@ Prefab:
       propertyPath: m_RootOrder
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 114441052606758114, guid: f22bf4b8f9d101740ab663cfe3ba5d0f,
+        type: 2}
+      propertyPath: houseSize
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114441052606758114, guid: f22bf4b8f9d101740ab663cfe3ba5d0f,
+        type: 2}
+      propertyPath: floorSize
+      value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 114441052606758114, guid: f22bf4b8f9d101740ab663cfe3ba5d0f,
+        type: 2}
+      propertyPath: houseDeep
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 114441052606758114, guid: f22bf4b8f9d101740ab663cfe3ba5d0f,
+        type: 2}
+      propertyPath: HouseUpmaxSize
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 114540087894697062, guid: f22bf4b8f9d101740ab663cfe3ba5d0f,
+        type: 2}
+      propertyPath: values.map
+      value: 
+      objectReference: {fileID: 2800000, guid: 47f295d5a1936124fa77a6aefacf68ca, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f22bf4b8f9d101740ab663cfe3ba5d0f, type: 2}
   m_IsPrefabAsset: 0

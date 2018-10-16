@@ -258,17 +258,41 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d132fc11b2943c34da648261f9607dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  values:
+    map: {fileID: 0}
+    sizes:
+    - -10
+    - -10
+    - 10
+    - 10
+    sizeRatio: 5
+    collapseMainRoad: 1.8
+    CollapseSideRoad: 1.8
+    roadSize: 0.1
+    MainRoadDistance: 2
+    SideRoadsDistance: 2
+    straightFreqMainRoad: 0.9
+    straightFreqSideRoad: 0.3
+    maxCrossings: 4
+    rotationRandomMainRoad: 0.2
+    rotationRandomSideRoad: 0
+    sideRoadFreq: 0.8
+    smootIntensity: 0.1
+    houseSize: 0.5
+    HouseUpminSize: 1
+    HouseUpmaxSize: 10
+    floorSize: 0.05
   cameras:
   - {fileID: 114667374585357258}
   vehicles: {fileID: 114650428067430184, guid: a78ec694571e8d043ab19c76ee7ff849, type: 2}
   person: {fileID: 1788382860825896, guid: 1345d9c99f7e8c742acea08226b14e9a, type: 2}
-  MakeLamps: 1
+  MakeLamps: 0
   helplines_draw: 0
   cars_number: 50
   peopleMax: 1
   depthtest: 0
   begginingTram: 0
-  trams: 1
+  trams: 0
 --- !u!114 &114667374585357258
 MonoBehaviour:
   m_ObjectHideFlags: 1

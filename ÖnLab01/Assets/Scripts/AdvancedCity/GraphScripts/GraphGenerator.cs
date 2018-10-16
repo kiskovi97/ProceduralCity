@@ -4,15 +4,10 @@ using UnityEngine;
 
 namespace Assets.Scripts.AdvancedCity
 {
-    [RequireComponent(typeof(RoadGeneratingValues))]
-    class GraphGenerator : MonoBehaviour
+    public class GraphGenerator
     {
         public GameObject ControlPointsVisualationObject;
-        private RoadGeneratingValues values;
-        public void SetValues(RoadGeneratingValues values)
-        {
-            this.values = values;
-        }
+        private IGraphValues values;
         [Header("MainRoads max")]
         public int ReqursiveMax = 400;
         [Space(5)]
@@ -37,14 +32,9 @@ namespace Assets.Scripts.AdvancedCity
         List<PlusEdge> plusroads = new List<PlusEdge>();
         List<GraphPoint> circle;
 
-        void Start()
+        public List<GraphPoint> GenerateGraph(IGraphValues values, bool visual = false, bool depth = false)
         {
-            values = GetComponent<RoadGeneratingValues>();
-            if (values == null) throw new System.Exception("No Values Binded");
-        }
-
-        public List<GraphPoint> GenerateGraph(bool visual = false, bool depth = false)
-        {
+            this.values = values;
             ClearStart();
             GeneratingMainRoads();
             GeneratingFirstSideRoads();
@@ -78,20 +68,10 @@ namespace Assets.Scripts.AdvancedCity
         {
             foreach (InteractiveGraphPoint point in mainPoints)
             {
-                if (ControlPointsVisualationObject != null)
-                {
-                    GameObject ki = Instantiate(ControlPointsVisualationObject);
-                    ki.transform.position = point.position;
-                }
                 point.DrawLinesHandler(Color.red, false);
             }
             foreach (InteractiveGraphPoint point in sidePoints)
             {
-                if (ControlPointsVisualationObject != null)
-                {
-                    GameObject ki = Instantiate(ControlPointsVisualationObject);
-                    ki.transform.position = point.position;
-                }
                 point.DrawLinesHandler(Color.yellow, false);
             }
         }
@@ -100,20 +80,10 @@ namespace Assets.Scripts.AdvancedCity
         {
             foreach (InteractiveGraphPoint point in mainPoints)
             {
-                if (ControlPointsVisualationObject != null)
-                {
-                    GameObject ki = Instantiate(ControlPointsVisualationObject);
-                    ki.transform.position = point.position;
-                }
                 point.DrawLines(Color.red, depthtest);
             }
             foreach (InteractiveGraphPoint point in sidePoints)
             {
-                if (ControlPointsVisualationObject != null)
-                {
-                    GameObject ki = Instantiate(ControlPointsVisualationObject);
-                    ki.transform.position = point.position;
-                }
                 point.DrawLines(Color.yellow, depthtest);
             }
 
@@ -137,7 +107,7 @@ namespace Assets.Scripts.AdvancedCity
             for (int i = 0; i < ReqursiveMax && i < mainPoints.Count; i++)
             {
                 InteractiveGraphPoint root = mainPoints[i];
-                List<InteractiveGraphPoint> newRoads = root.GeneratePoints(values.roadsDistancesMainRoad, values.straightFreqMainRoad, values.rotationRandomMainRoad, values.maxCrossings);
+                List<InteractiveGraphPoint> newRoads = root.GeneratePoints(values.RoadsDistancesMainRoad, values.StraightFreqMainRoad, values.RotationRandomMainRoad, values.MaxCrossings);
                 foreach (InteractiveGraphPoint road in newRoads)
                 {
                     if (Check(root, road, true)) mainPoints.Add(road);
@@ -156,8 +126,8 @@ namespace Assets.Scripts.AdvancedCity
             foreach (InteractiveGraphPoint point in mainPoints)
             {
                 List<InteractiveGraphPoint> output = new List<InteractiveGraphPoint>();
-                if (Random.value < values.sideRoadFreq)
-                    output = point.GenerateSidePoints(values.roadsDistancesSideRoad);
+                if (Random.value < values.SideRoadFreq)
+                    output = point.GenerateSidePoints(values.RoadsDistancesSideRoad);
 
                 foreach (InteractiveGraphPoint newPoint in output)
                 {
@@ -173,7 +143,7 @@ namespace Assets.Scripts.AdvancedCity
             for (int i = 0; i < ReqursiveMaxS && i < sidePoints.Count; i++)
             {
                 InteractiveGraphPoint currentPoint = sidePoints[i];
-                List<InteractiveGraphPoint> newPoints = currentPoint.GeneratePoints(values.roadsDistancesSideRoad, values.straightFreqSideRoad, values.rotationRandomSideRoad, values.maxCrossings);
+                List<InteractiveGraphPoint> newPoints = currentPoint.GeneratePoints(values.RoadsDistancesSideRoad, values.StraightFreqSideRoad, values.RotationRandomSideRoad, values.MaxCrossings);
 
                 foreach (InteractiveGraphPoint newPoint in newPoints)
                 {
@@ -199,7 +169,7 @@ namespace Assets.Scripts.AdvancedCity
 
             foreach (GraphPoint otherPoint in sidePoints)
             {
-                if (otherPoint != newPoint && (newPoint.position - otherPoint.position).magnitude < values.collapseRangeSideRoad)
+                if (otherPoint != newPoint && (newPoint.position - otherPoint.position).magnitude < values.CollapseRangeSideRoad)
                 {
                     if (withRepairs && Check(currentPoint, otherPoint, false))
                     {
@@ -215,7 +185,7 @@ namespace Assets.Scripts.AdvancedCity
             }
             foreach (GraphPoint otherPoint in mainPoints)
             {
-                if (otherPoint != newPoint && (newPoint.position - otherPoint.position).magnitude < values.collapseRangeMainRoad)
+                if (otherPoint != newPoint && (newPoint.position - otherPoint.position).magnitude < values.CollapseRangeMainRoad)
                 {
                     if (withRepairs && Check(currentPoint, otherPoint, false))
                     {
@@ -276,7 +246,7 @@ namespace Assets.Scripts.AdvancedCity
 
         bool CrossingCheck(Vector3 one, Vector3 other)
         {
-            if ((one - other).magnitude < values.CollapseSideRoad) return false;
+            if ((one - other).magnitude < values.CollapseRangeSideRoad) return false;
             foreach (PlusEdge road in plusroads)
             {
                 if (!CrossingCheck(road, one, other)) return false;
@@ -308,11 +278,11 @@ namespace Assets.Scripts.AdvancedCity
         {
             foreach (InteractiveGraphPoint road in mainPoints)
             {
-                road.Smooth(values.smootIntensity);
+                road.Smooth(values.SmootIntensity);
             }
             foreach (InteractiveGraphPoint road in sidePoints)
             {
-                road.Smooth(values.smootIntensity);
+                road.Smooth(values.SmootIntensity);
             }
         }
 

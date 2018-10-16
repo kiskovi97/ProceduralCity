@@ -236,30 +236,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   map: {fileID: 2800000, guid: 47f295d5a1936124fa77a6aefacf68ca, type: 3}
-  Sizes:
-  - -3
-  - -3
-  - 3
-  - 3
-  sizeRatio: 7.2
-  CollapseMainRoad: 1
-  CollapseSideRoad: 1
-  RoadSize: 0.4
-  MainRoadDistance: 1.2
-  SideRoadsDistance: 1.2
+  sizes:
+  - -10
+  - -10
+  - 10
+  - 10
+  sizeRatio: 4
+  collapseMainRoad: 1.8
+  CollapseSideRoad: 1.8
+  roadSize: 0.1
+  MainRoadDistance: 2
+  SideRoadsDistance: 2
   straightFreqMainRoad: 0.9
-  straightFreqSideRoad: 0.382
+  straightFreqSideRoad: 0.447
   maxCrossings: 4
-  rotationRandomMainRoad: 0.192
-  rotationRandomSideRoad: 0.047
-  sideRoadFreq: 0.644
-  smootIntensity: 0.089
-  minHouseSize: 0.2
+  rotationRandomMainRoad: 0.2
+  rotationRandomSideRoad: 0
+  sideRoadFreq: 0.944
+  smootIntensity: 0.1
+  houseSize: 0.2
   HouseUpminSize: 1
-  HouseUpmaxSize: 24
-  HouseDeepminSize: 0.2
-  HouseDeepmaxSize: 0.3
-  floorSize: 0.03
+  HouseUpmaxSize: 5
+  houseDeep: 0.3
+  floorSize: 0.1
 --- !u!114 &114540087894697062
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -271,17 +270,41 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d132fc11b2943c34da648261f9607dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  values:
+    map: {fileID: 0}
+    sizes:
+    - -10
+    - -10
+    - 10
+    - 10
+    sizeRatio: 5
+    collapseMainRoad: 1.8
+    CollapseSideRoad: 1.8
+    roadSize: 0.1
+    MainRoadDistance: 2
+    SideRoadsDistance: 2
+    straightFreqMainRoad: 0.9
+    straightFreqSideRoad: 0.3
+    maxCrossings: 4
+    rotationRandomMainRoad: 0.2
+    rotationRandomSideRoad: 0
+    sideRoadFreq: 0.8
+    smootIntensity: 0.1
+    houseSize: 0.5
+    HouseUpminSize: 1
+    HouseUpmaxSize: 10
+    floorSize: 0.05
   cameras:
   - {fileID: 114389267530960716}
   vehicles: {fileID: 114650428067430184, guid: 50080373056715741adae62dc014f21b, type: 2}
   person: {fileID: 1788382860825896, guid: 1345d9c99f7e8c742acea08226b14e9a, type: 2}
   MakeLamps: 0
-  helplines_draw: 1
+  helplines_draw: 0
   cars_number: 50
   peopleMax: 1
   depthtest: 0
   begginingTram: 0
-  trams: 1
+  trams: 0
 --- !u!114 &114702943412692204
 MonoBehaviour:
   m_ObjectHideFlags: 1

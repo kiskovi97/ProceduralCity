@@ -1,4 +1,0 @@
-﻿interface IMeshElement
-{
-    Triangle[] getTriangles();
-}

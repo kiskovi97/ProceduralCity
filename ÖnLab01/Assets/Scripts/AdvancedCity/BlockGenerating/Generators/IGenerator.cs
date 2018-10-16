@@ -1,5 +1,0 @@
-﻿interface IGenerator
-{
-    Triangle[] getTriangles();
-}
-
