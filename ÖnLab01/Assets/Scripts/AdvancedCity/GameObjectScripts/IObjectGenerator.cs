@@ -4,13 +4,9 @@ using System.Collections.Generic;
 
 public interface IObjectGenerator
 {
-    void SetValues(RoadGeneratingValues values);
+    void SetValues(IValues values);
 
     void AddStoppingMesh(Vector3 a, Vector3 b, Vector3 c, Vector3 d);
-
-    void AddLine(Vector3 a, Vector3 b, float scale);
-
-    void AddLine(Vector3 a, Vector3 b, float scale, float magassag);
 
     void AddLine(Vector3 a, Vector3 b, float scale, float magassag, float magassag2);
 

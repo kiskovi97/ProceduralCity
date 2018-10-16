@@ -202,7 +202,6 @@ namespace Assets.Scripts.AdvancedCity
                     1, false, true);
                 generator.CreateRoad(oneLine.mainLine[0], otherLine.mainLine[1], oneLine.mainLine[1], otherLine.mainLine[0], sav, tram, false,
                     oneCrossing.IsCorssing() ? zebra : 0, otherCrossing.IsCorssing() ? zebra : 0);
-                int max = sav * 2;
                 if (tram && trams)
                 {
                     Vector3 dir = (otherCrossing.center - oneCrossing.center).normalized;
@@ -217,8 +216,8 @@ namespace Assets.Scripts.AdvancedCity
                         Vector3 d = (otherCarpath.tramInput.center * 2 + oneCarpath.tramOutput.center) / 3 + meroleges * roadSize / 3;
                         generator.AddStoppingMesh(a, b, c, d);
                     }
-                    generator.AddLine(oneCarpath.tramInput.center, otherCarpath.tramOutput.center, 0.15f, 0.35f);
-                    generator.AddLine(otherCarpath.tramInput.center, oneCarpath.tramOutput.center, 0.15f, 0.35f);
+                    generator.AddLine(oneCarpath.tramInput.center, otherCarpath.tramOutput.center, 0.15f, 0.35f, 0.35f);
+                    generator.AddLine(otherCarpath.tramInput.center, oneCarpath.tramOutput.center, 0.15f, 0.35f, 0.35f);
                 }
 
             }

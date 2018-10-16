@@ -155,7 +155,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.1
-  far clip plane: 10
+  far clip plane: 100
   field of view: 60
   orthographic: 0
   orthographic size: 5
@@ -282,6 +282,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   anim: {fileID: 0}
+  nextPoint:
+    center: {x: 0, y: 0, z: 0}
+    direction: {x: 0, y: 0, z: 0}
+    megallo: 0
+  elozoPoint:
+    center: {x: 0, y: 0, z: 0}
+    direction: {x: 0, y: 0, z: 0}
+    megallo: 0
   audioSource: {fileID: 0}
   speed: 22
   hasCamera: 1

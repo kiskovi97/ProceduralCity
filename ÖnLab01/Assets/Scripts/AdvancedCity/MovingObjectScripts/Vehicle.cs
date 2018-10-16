@@ -13,14 +13,16 @@ namespace Assets.Scripts.AdvancedCity
             if (anim == null)
             anim = GetComponent<Animator>();
         }
-        public virtual void setPoint(MovementPoint next)
+        public virtual void SetPoint(MovementPoint next)
         {
             nextPoint = next.GetNextPoint();
             if (nextPoint == null)
                 nextPoint = next;
             if (nextPoint != next)
                 elozoPoint = next;
-            transform.rotation = Quaternion.LookRotation(nextPoint.direction);
+            transform.rotation = Quaternion.LookRotation(next.direction);
+            transform.position = next.center;
+            Debug.Log("SetPoint : " + nextPoint + " , " + elozoPoint);
         }
 
         public virtual void Update()

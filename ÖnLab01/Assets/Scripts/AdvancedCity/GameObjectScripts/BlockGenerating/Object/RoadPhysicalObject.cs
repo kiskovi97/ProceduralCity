@@ -13,10 +13,6 @@ public class RoadPhysicalObject : MonoBehaviour
     List<List<int>> subTriangles;
     List<Vector2> myUV = new List<Vector2>();
     List<Material> materials;
-
-
-    // Szelso es Kozepso pontok
-    Vector3 S1, S2, K1, K2;
     public void CreateRoadMesh(Vector3 s1, Vector3 s2, Vector3 k1, Vector3 k2, int savok, bool tram, bool sideway, float zebra, float otherzebra)
     {
         Vector2[] tomb =
@@ -26,10 +22,16 @@ public class RoadPhysicalObject : MonoBehaviour
         };
         ControlPoints.AddRange(tomb);
         subTriangles = new List<List<int>>();
-        mesh = GetComponent<MeshFilter>().mesh;
-        materials = new List<Material>();
-        materials.AddRange(GetComponent<MeshRenderer>().materials);
-        for (int i = 0; i < materials.Count; i++)
+#if UNITY_EDITOR
+        MeshFilter mf = GetComponent<MeshFilter>();   //a better way of getting the meshfilter using Generics
+        Mesh meshCopy = Mesh.Instantiate(mf.sharedMesh) as Mesh;  //make a deep copy
+        mesh = mf.mesh = meshCopy;
+#else
+     //do this in play mode
+     mesh = GetComponent<MeshFilter>().mesh;
+#endif
+        mesh.Clear();
+        for (int i = 0; i < GetComponent<MeshRenderer>().sharedMaterials.Length; i++)
         {
             subTriangles.Add(new List<int>());
         }
@@ -109,59 +111,6 @@ public class RoadPhysicalObject : MonoBehaviour
         myUV.Add(triangle.uvs[0]);
         myUV.Add(triangle.uvs[1]);
         myUV.Add(triangle.uvs[2]);
-    }
-    void GenerateMesh(int mat)
-    {
-        bool elore = true;
-        if (K1.x < K2.x) elore = false;
-        else if (K1.x == K2.x && K1.z < K2.z) elore = false;
-        Vector3 irany1 = S1 - K1;
-        Vector3 irany2 = S2 - K2;
-        Vector3 fel = new Vector3(0, 1, 0);
-        for (int i = 0; i < ControlPoints.Count - 1; i++)
-        {
-            Vector3 tmpK1 = K1 + irany1 * ControlPoints[i].x + fel * ControlPoints[i].y;
-            Vector3 tmpK2 = K2 + irany2 * ControlPoints[i].x + fel * ControlPoints[i].y;
-            Vector3 tmpS1 = K1 + irany1 * ControlPoints[i + 1].x + fel * ControlPoints[i + 1].y;
-            Vector3 tmpS2 = K2 + irany2 * ControlPoints[i + 1].x + fel * ControlPoints[i + 1].y;
-            float hoszK = (K1 - K2).magnitude * 0.5f;
-            float hoszS = (S1 - S2).magnitude * 0.5f;
-
-            bool egyik = AddTriangle(tmpS2, tmpS1, tmpK1, mat);
-            bool masik = AddTriangle(tmpK1, tmpK2, tmpS2, mat);
-
-            if (!elore)
-            {
-                if (egyik)
-                {
-                    myUV.Add(new Vector2(ControlPoints[i + 1].x, hoszS));
-                    myUV.Add(new Vector2(ControlPoints[i + 1].x, 0));
-                    myUV.Add(new Vector2(ControlPoints[i].x, 0));
-                }
-
-                if (masik)
-                {
-                    myUV.Add(new Vector2(ControlPoints[i].x, 0));
-                    myUV.Add(new Vector2(ControlPoints[i].x, hoszK));
-                    myUV.Add(new Vector2(ControlPoints[i + 1].x, hoszS));
-                }
-            }
-            else
-            {
-                if (egyik)
-                {
-                    myUV.Add(new Vector2(ControlPoints[i + 1].x, 0));
-                    myUV.Add(new Vector2(ControlPoints[i + 1].x, hoszS));
-                    myUV.Add(new Vector2(ControlPoints[i].x, hoszK));
-                }
-                if (masik)
-                {
-                    myUV.Add(new Vector2(ControlPoints[i].x, hoszK));
-                    myUV.Add(new Vector2(ControlPoints[i].x, 0));
-                    myUV.Add(new Vector2(ControlPoints[i + 1].x, 0));
-                }
-            }
-        }
     }
     public void CreateMesh()
     {

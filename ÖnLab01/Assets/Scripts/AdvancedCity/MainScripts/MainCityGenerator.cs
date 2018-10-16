@@ -10,7 +10,7 @@ namespace Assets.Scripts.AdvancedCity
     {
         public RoadGeneratingValues values;
         public FollowPlayer[] cameras;
-        public Vehicles vehicles;
+        public VehiclesMonoBehevior vehicles;
         public GameObject person;
         public bool MakeLamps = false;
         public bool helplines_draw = true;
@@ -24,6 +24,9 @@ namespace Assets.Scripts.AdvancedCity
         private GraphGenerator graphGen = new GraphGenerator();
         private RoadandCrossingGenerator objGen = new RoadandCrossingGenerator();
         private GameObjectGenerator gameObjectGenerator = null;
+        public void SetValues(RoadGeneratingValues values) {
+            this.values = values;
+        }
         public void SetSize(float size)
         {
             values.SetSize(new float[4]

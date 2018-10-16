@@ -191,7 +191,7 @@ namespace Assets.Scripts.AdvancedCity
                 if (carpath.lamps != null)
                     foreach (MeshRenderer renderer in carpath.lamps)
                     {
-                        Material[] tomb = renderer.materials;
+                        Material[] tomb = renderer.sharedMaterials;
                         tomb[1] = CrossLampColorsRYG[1];
                         tomb[2] = CrossLampColorsRYG[0];
                         tomb[3] = CrossLampColorsRYG[0];
@@ -205,7 +205,7 @@ namespace Assets.Scripts.AdvancedCity
                 if (carpath.lamps != null)
                     foreach (MeshRenderer renderer in carpath.lamps)
                     {
-                        Material[] tomb = renderer.materials;
+                        Material[] tomb = renderer.sharedMaterials;
                         tomb[1] = CrossLampColorsRYG[0];
                         tomb[2] = CrossLampColorsRYG[0];
                         tomb[3] = CrossLampColorsRYG[3];
@@ -218,7 +218,7 @@ namespace Assets.Scripts.AdvancedCity
                 if (carpath.lamps != null)
                     foreach (MeshRenderer renderer in carpath.lamps)
                     {
-                        Material[] tomb = renderer.materials;
+                        Material[] tomb = renderer.sharedMaterials;
                         tomb[1] = CrossLampColorsRYG[0];
                         tomb[2] = CrossLampColorsRYG[2];
                         tomb[3] = CrossLampColorsRYG[0];
@@ -230,7 +230,7 @@ namespace Assets.Scripts.AdvancedCity
                 if (carpath.lamps != null)
                     foreach (MeshRenderer renderer in carpath.lamps)
                     {
-                        Material[] tomb = renderer.materials;
+                        Material[] tomb = renderer.sharedMaterials;
                         tomb[1] = CrossLampColorsRYG[1];
                         tomb[2] = CrossLampColorsRYG[2];
                         tomb[3] = CrossLampColorsRYG[0];
@@ -299,7 +299,7 @@ namespace Assets.Scripts.AdvancedCity
                 max--;
                 MovementPoint tmp = oneFrom.GetPoint();
                 if (tmp == null) break;
-                generator.AddLine(oneFrom.center, tmp.center, 0.2f, 0.35f);
+                generator.AddLine(oneFrom.center, tmp.center, 0.2f, 0.35f, 0.35f);
                 egyikList.Add(oneFrom.center);
                 oneFrom = tmp;
             }
@@ -314,7 +314,7 @@ namespace Assets.Scripts.AdvancedCity
                 i++;
                 MovementPoint tmp = otherFrom.GetPoint();
                 if (tmp == null) break;
-                generator.AddLine(otherFrom.center, tmp.center, 0.2f, 0.35f);
+                generator.AddLine(otherFrom.center, tmp.center, 0.2f, 0.35f, 0.35f);
                 Vector3 merolegesFrom = (otherFrom.center - egyikList[i - 1]).normalized * roadSize / 2;
                 Vector3 merolegesTowards = (tmp.center - egyikList[i]).normalized * roadSize / 2;
                 generator.CreateRails(egyikList[i - 1] + merolegesFrom, egyikList[i] + merolegesTowards, egyikList[i - 1] - merolegesFrom, egyikList[i] - merolegesTowards);
@@ -333,7 +333,7 @@ namespace Assets.Scripts.AdvancedCity
                 Vector3 intersect = MyMath.Intersect(szomszed.helpline.mainLine[0], szomszed.helpline.mainLine[1] - szomszed.helpline.mainLine[0], pos, forward);
                 GameObject lamp = generator.CreateCrossLamp(intersect, forward, 0.3f);
                 MeshRenderer renderer = lamp.GetComponent<MeshRenderer>();
-                Material[] tomb = renderer.materials;
+                Material[] tomb = renderer.sharedMaterials;
                 CrossLampColorsRYG = tomb.ToArray();
                 tomb[2] = tomb[0];
                 tomb[3] = tomb[0];
@@ -341,7 +341,7 @@ namespace Assets.Scripts.AdvancedCity
                 generator.AddLine(intersect, intersect, 0.2f, .3f, .4f);
                 szomszed.carpath.lamps[i] = renderer;
             }
-            generator.AddLine(szomszed.helpline.mainLine[1], (szomszed.helpline.mainLine[1] + szomszed.helpline.mainLine[0]) / 2, 0.2f, 0.4f);
+            generator.AddLine(szomszed.helpline.mainLine[1], (szomszed.helpline.mainLine[1] + szomszed.helpline.mainLine[0]) / 2, 0.2f, 0.4f, 0.4f);
             generator.AddLine(szomszed.helpline.mainLine[1], szomszed.helpline.mainLine[1], 0.6f, 0, 0.4f);
         }
 
@@ -356,7 +356,7 @@ namespace Assets.Scripts.AdvancedCity
             if (neighbours == null) return false;
             if (neighbours.Count > cars)
             {
-                car.setPoint(neighbours[cars].carpath.output[kimenetIndex++]);
+                car.SetPoint(neighbours[cars].carpath.output[kimenetIndex++]);
                 if (kimenetIndex >= neighbours[cars].carpath.output.Length || (kimenetIndex >= neighbours[cars].carpath.output.Length - 1 && neighbours[cars].road.tram))
                 {
                     cars++;
@@ -374,7 +374,7 @@ namespace Assets.Scripts.AdvancedCity
             if (neighbours == null) return false;
             if (neighbours.Count > peoples)
             {
-                car.setPoint(neighbours[peoples].carpath.rightCross);
+                car.SetPoint(neighbours[peoples].carpath.rightCross);
                 peoples++;
                 return true;
             }
@@ -389,13 +389,12 @@ namespace Assets.Scripts.AdvancedCity
                 if (szomszed.road.tram && !carbool)
                 {
                     carbool = true;
-                    tram1.setPoint(szomszed.carpath.tramOutput);
+                    tram1.SetPoint(szomszed.carpath.tramOutput);
                     continue;
                 }
                 if (szomszed.road.tram && carbool)
                 {
-                    int max = szomszed.carpath.output.Length - 1;
-                    tram2.setPoint(szomszed.carpath.tramOutput);
+                    tram2.SetPoint(szomszed.carpath.tramOutput);
                     return;
                 }
             }

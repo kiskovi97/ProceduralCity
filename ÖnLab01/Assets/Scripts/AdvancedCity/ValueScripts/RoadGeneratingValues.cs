@@ -3,14 +3,14 @@
 [System.Serializable]
 public class RoadGeneratingValues : System.Object, IValues
 {
-
-    [SerializeField]
-    private Texture2D map;
+    
+    public Texture2D map;
 
     public float GetTextureValue(Vector3 position)
     {
         float x_arany = (position.x - sizes[0] * sizeRatio) / (sizes[2] * sizeRatio - sizes[0] * sizeRatio);
         float y_arany = (position.z - sizes[1] * sizeRatio) / (sizes[3] * sizeRatio - sizes[1] * sizeRatio);
+        if (map == null) return 0.5f;
         return map.GetPixelBilinear(x_arany, y_arany).r;
     }
 
@@ -18,7 +18,7 @@ public class RoadGeneratingValues : System.Object, IValues
     [SerializeField]
     private float[] sizes =
         {
-            -10, -10,  10, 10
+            -3, -3,  3, 3
         };
 
     public float getSize()
@@ -156,12 +156,20 @@ public class RoadGeneratingValues : System.Object, IValues
         {
             return HouseUpminSize;
         }
+        set
+        {
+            HouseUpminSize = value;
+        }
     }
     public float HouseUpmax
     {
         get
         {
             return HouseUpmaxSize;
+        }
+        set
+        {
+            HouseUpmaxSize = value;
         }
     }
 

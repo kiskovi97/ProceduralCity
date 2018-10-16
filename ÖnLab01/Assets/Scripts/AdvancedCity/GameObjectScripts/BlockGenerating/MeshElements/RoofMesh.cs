@@ -3,9 +3,7 @@ using System.Collections.Generic;
 
 class RoofMesh : MeshElementImpl
 {
-    static readonly int MATERIAL = (int)BlockMaterial.ROOF;
     static readonly int MATERIALSIMPLEWALL = (int)BlockMaterial.SIMPLE;
-    static readonly int MATERIALSIDEWALK = (int)BlockMaterial.BASE;
     public RoofMesh(Vector3[] controlpoints, bool last)
     {
         if (last)

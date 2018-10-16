@@ -1,7 +1,5 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Assets.Scripts.AdvancedCity.monoBeheviors.interactiveObjects
 {
@@ -15,11 +13,18 @@ namespace Assets.Scripts.AdvancedCity.monoBeheviors.interactiveObjects
             }
 			float length = (nextPoint.center - transform.position).magnitude;
             if (length < 0.1f || elozoPoint == nextPoint)
-			{
-				elozoPoint = nextPoint;
+            {
+                elozoPoint.Draw(false, 1000);
+                nextPoint.Draw(false, 1000);
+                elozoPoint = nextPoint;
 				nextPoint = nextPoint.GetNextPoint();
 				distanceTime = 0;
 			}
+            if (nextPoint == null)
+            {
+                allapot = "nextPoint = null 2";
+                return;
+            }
             if (canMove())
             {
                 allapot = "canMove";

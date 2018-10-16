@@ -19,7 +19,7 @@ namespace Assets.Scripts.AdvancedCity.monoBeheviors.interactiveObjects
             Move();
         }
 
-        public override void setPoint(MovementPoint next)
+        public override void SetPoint(MovementPoint next)
         {
             nextPoint = next;
             A_nextPoint = new MovementCurve(next,next.GetNextPoint(),speed*0.01f);
@@ -38,7 +38,7 @@ namespace Assets.Scripts.AdvancedCity.monoBeheviors.interactiveObjects
             if (db <= 0) return;
             GameObject newObj = Instantiate(this.gameObject);
             Tram vehicle = newObj.GetComponent<Tram>();
-            vehicle.setPoint(nextPoint);
+            vehicle.SetPoint(nextPoint);
             vehicle.setDirection();
             vehicle.setTram(this);
             vehicle.generateMore(db - 1);

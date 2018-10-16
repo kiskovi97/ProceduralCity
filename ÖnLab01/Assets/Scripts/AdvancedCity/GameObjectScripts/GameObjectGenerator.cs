@@ -17,7 +17,7 @@ namespace Assets.Scripts.AdvancedCity
         BuildingContainer buildingContainer;
         IValues values;
 
-        public void SetValues(RoadGeneratingValues values)
+        public void SetValues(IValues values)
         {
             this.values = values;
         }
@@ -26,56 +26,19 @@ namespace Assets.Scripts.AdvancedCity
 
         public void AddStoppingMesh(Vector3 a, Vector3 b, Vector3 c, Vector3 d)
         {
-            GameObject obj = Instantiate(stoppingObj);
-            obj.transform.position = (a + b + c + d) / 4;
-            obj.transform.localScale = new Vector3((a - b).magnitude, 0.5f, (a - c).magnitude/2);
-            obj.transform.rotation = Quaternion.LookRotation(a - c);
+            new ObjectConverter(Instantiate(stoppingObj)).Rectangle(a, b, c, d);  
         }
-
-        public void AddLine(Vector3 a, Vector3 b, float scale)
+        
+        public void AddLine(Vector3 a, Vector3 b, float scale, float height1, float height2)
         {
-            if (a == b) return;
+            if (a == b && height1 == height2) return;
             if (wireBase == null)
             {
-                wireBase = Instantiate(new GameObject(), new Vector3(0, 0, 0), new Quaternion());
+                wireBase = Instantiate(new GameObject());
                 wireBase.name = "WireBase";
             }
             GameObject wire = Instantiate(wireObject);
-            wire.transform.position = (a + b) / 2;
-            wire.transform.rotation = Quaternion.LookRotation(a - b);
-            wire.transform.localScale = new Vector3(scale, scale, (a - b).magnitude * 50);
-            wire.transform.parent = wireBase.transform;
-        }
-        public void AddLine(Vector3 a, Vector3 b, float scale, float magassag)
-        {
-            if (a == b) return;
-            a += new Vector3(0, magassag, 0);
-            b += new Vector3(0, magassag, 0);
-            if (wireBase == null)
-            {
-                wireBase = Instantiate(new GameObject(), new Vector3(0, 0, 0), new Quaternion());
-                wireBase.name = "WireBase";
-            }
-            GameObject wire = Instantiate(wireObject);
-            wire.transform.position = (a + b) / 2;
-            wire.transform.rotation = Quaternion.LookRotation(a - b);
-            wire.transform.localScale = new Vector3(scale, scale, (a - b).magnitude * 50);
-            wire.transform.parent = wireBase.transform;
-        }
-        public void AddLine(Vector3 a, Vector3 b, float scale, float magassag, float magassag2)
-        {
-            if (a == b) return;
-            a += new Vector3(0, magassag, 0);
-            b += new Vector3(0, magassag2, 0);
-            if (wireBase == null)
-            {
-                wireBase = Instantiate(new GameObject(), new Vector3(0, 0, 0), new Quaternion());
-                wireBase.name = "WireBase";
-            }
-            GameObject wire = Instantiate(wireObject);
-            wire.transform.position = (a + b) / 2;
-            wire.transform.rotation = Quaternion.LookRotation(a - b);
-            wire.transform.localScale = new Vector3(scale, scale, (a - b).magnitude * 50);
+            new ObjectConverter(wire).Line(a, b, scale, height1, height2);
             wire.transform.parent = wireBase.transform;
         }
 
@@ -107,14 +70,12 @@ namespace Assets.Scripts.AdvancedCity
                 wireBase.name = "WireBase";
             }
             GameObject rail = Instantiate(railObject);
-            rail.transform.position = (a + b) / 2;
-            rail.transform.rotation = Quaternion.LookRotation(a - b);
-            rail.transform.localScale = new Vector3(scale, scale, (a - b).magnitude * 50);
+            new ObjectConverter(rail).Line(a, b, scale, 0, 0);
             rail.transform.parent = wireBase.transform;
         }
 
         GameObject lampBase = null;
-        public GameObject CreateCrossLamp(Vector3 position, Vector3 forward, float magassag)
+        public GameObject CreateCrossLamp(Vector3 position, Vector3 forward, float height)
         {
             if (lampBase == null)
             {
@@ -122,8 +83,7 @@ namespace Assets.Scripts.AdvancedCity
                 lampBase.name = "lampBase";
             }
             GameObject output = Instantiate(crossLamp);
-            output.transform.position = position + new Vector3(0, magassag, 0);
-            output.transform.rotation = Quaternion.LookRotation(forward, new Vector3(0, 1, 0));
+            new ObjectConverter(output).Forward(position, forward, height);
             output.transform.parent = lampBase.transform;
             return output;
         }
@@ -135,8 +95,7 @@ namespace Assets.Scripts.AdvancedCity
                 lampBase.name = "lampBase";
             }
             GameObject output = Instantiate(sideLamp);
-            output.transform.position = position;
-            output.transform.rotation = Quaternion.LookRotation(forward, new Vector3(0, 1, 0));
+            new ObjectConverter(output).Forward(position, forward, 0.0f);
             output.transform.parent = lampBase.transform;
             return output;
         }
@@ -156,6 +115,23 @@ namespace Assets.Scripts.AdvancedCity
                 }
             }
             StartCoroutine(GenerateFromCircles(delegateStep));
+        }
+        public void GenerateBlocks(List<Crossing> crossings, IValues values)
+        {
+            this.values = values;
+            progress = 0;
+            circles = new List<List<Crossing>>();
+            roads = crossings;
+            buildingContainer = GetComponent<BuildingContainer>();
+            foreach (Crossing cros in roads)
+            {
+                List<Crossing> szomszedok = cros.NeighbourCrossings();
+                foreach (Crossing second in szomszedok)
+                {
+                    GenerateCircle(cros, second, false);
+                }
+            }
+            GenerateFromCircles();
         }
         public float progress = 0;
         public delegate void step(float step);
@@ -178,6 +154,28 @@ namespace Assets.Scripts.AdvancedCity
                 progress += step;
                 delegateStep(step);
                 yield return null;
+            }
+            progress = 1;
+            yield return null;
+        }
+
+        void GenerateFromCircles()
+        {
+            float step = 1f / circles.Count;
+            foreach (List<Crossing> circle in circles)
+            {
+                List<Vector3> controlPoints = new List<Vector3>();
+                for (int i = 0; i < circle.Count; i++)
+                {
+                    int x = i + 1;
+                    if (x > circle.Count - 1) x = 0;
+                    controlPoints.Add(circle[i].SideCross(circle[x]));
+                }
+                IBlockGenerator generator = new BlockGeneratorBasic();
+                controlPoints.Reverse();
+                generator.SetValues(values);
+                generator.GenerateBuildings(controlPoints.ToArray(), buildingContainer);
+                progress += step;
             }
             progress = 1;
         }

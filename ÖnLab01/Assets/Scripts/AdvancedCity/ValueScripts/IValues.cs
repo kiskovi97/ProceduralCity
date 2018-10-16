@@ -14,7 +14,7 @@ public interface IValues : IGraphValues
 
     float MinHouse { get; }
 
-    float HouseUpmin { get; }
+    float HouseUpmin { get; set; }
 
-    float HouseUpmax { get; }
+    float HouseUpmax { get; set; }
 }

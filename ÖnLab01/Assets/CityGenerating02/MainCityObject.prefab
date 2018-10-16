@@ -271,12 +271,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   values:
-    map: {fileID: 0}
+    map: {fileID: 2800000, guid: 47f295d5a1936124fa77a6aefacf68ca, type: 3}
     sizes:
-    - -10
-    - -10
-    - 10
-    - 10
+    - -3
+    - -3
+    - 3
+    - 3
     sizeRatio: 5
     collapseMainRoad: 1.8
     CollapseSideRoad: 1.8

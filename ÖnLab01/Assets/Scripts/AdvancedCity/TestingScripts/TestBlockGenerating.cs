@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(RoadGeneratingValues))]
 [RequireComponent(typeof(BuildingContainer))]
 public class TestBlockGenerating : MonoBehaviour {
 
     public List<GameObject> vertexObjects;
-    private RoadGeneratingValues values;
+    public RoadGeneratingValues values = new RoadGeneratingValues();
     public BuildingContainer buildingContainer;
     private bool update = true;
     public bool something = true;

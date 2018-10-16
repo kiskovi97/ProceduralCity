@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 class BlockGeneratorBasic : IBlockGenerator
@@ -24,8 +23,6 @@ class BlockGeneratorBasic : IBlockGenerator
     private ControlLine[] lines = null;
     private List<BuildingObject> buildings = new List<BuildingObject>();
     private IValues values;
-    private readonly bool export = false;
-    private readonly bool elso = true;
     public void Clear()
     {
         foreach (BuildingObject building in buildings)

@@ -14,15 +14,24 @@ public class BuildingObject : MonoBehaviour
     List<List<int>> colliderSubTriangles;
     List<Vector2> colliderUV;
     // Use this for initialization
-    void Start()
+
+    public void Clear()
     {
-        meshfilter = GetComponent<MeshFilter>();
-        mesh = meshfilter.mesh;
+
+#if UNITY_EDITOR
+        MeshFilter mf = GetComponent<MeshFilter>();   //a better way of getting the meshfilter using Generics
+        Mesh meshCopy = Mesh.Instantiate(mf.sharedMesh) as Mesh;  //make a deep copy
+        mesh = mf.mesh = meshCopy;
+#else
+     //do this in play mode
+     mesh = GetComponent<MeshFilter>().mesh;
+#endif
+        mesh.Clear();
         meshVertexes = new List<Vector3>();
         UV = new List<Vector2>();
         subTriangles = new List<List<int>>();
         MeshRenderer meshRenderer = GetComponent<MeshRenderer>();
-        int MateraialCount = meshRenderer.materials.Length;
+        int MateraialCount = meshRenderer.sharedMaterials.Length;
         for (int i = 0; i < MateraialCount; i++)
         {
             subTriangles.Add(new List<int>());
@@ -39,7 +48,7 @@ public class BuildingObject : MonoBehaviour
     // Update is called once per frame
     public void MakeBuilding(Vector3[] kontrolpoints, int floorNumber, float floor)
     {
-        Start();
+        Clear();
         BuildingGenerator building = new BuildingGenerator(kontrolpoints, floor, floorNumber);
         float max = 0;
         foreach (Triangle triangle in building.getTriangles())
@@ -59,7 +68,7 @@ public class BuildingObject : MonoBehaviour
 
     public void MakeBase(Vector3 a, Vector3 b, Vector3 c)
     {
-        Start();
+        Clear();
         TriangleShape triangleShape = new TriangleShape(a, b, c, (int)BlockMaterial.BASE);
         foreach (Triangle triangle in triangleShape.GetTriangles())
         {

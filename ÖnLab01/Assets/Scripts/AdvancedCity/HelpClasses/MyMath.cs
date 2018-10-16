@@ -102,7 +102,6 @@ public class MyMath
 
     public static bool IsEar(int i, Vector3[] polygon)
     {
-        Vector3 point = polygon[i];
         int prev = i - 1;
         int next = i + 1;
         if (next > polygon.Length - 1) next = 0;

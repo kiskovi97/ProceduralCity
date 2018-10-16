@@ -4,7 +4,8 @@ using System.Linq;
 
 namespace Assets.Scripts.AdvancedCity
 {
-    public class MovementPoint
+    [System.Serializable]
+    public class MovementPoint : System.Object
     {
         public Vector3 center;
         public Vector3 direction;
@@ -17,7 +18,7 @@ namespace Assets.Scripts.AdvancedCity
         {
             direction = dir;
         }
-        private List<MovementPoint> outPoints;
+        [System.NonSerialized] private List<MovementPoint> outPoints;
         private bool onmaga = false;
         public void Nyitott(bool nyitott)
         {
@@ -50,11 +51,11 @@ namespace Assets.Scripts.AdvancedCity
             }
             else return this;
         }
-        public void Draw(bool depthtest)
+        public void Draw(bool depthtest, float dur = 1000)
         {
             if (outPoints == null)
             {
-                Debug.DrawLine(center, center + new Vector3(0, 1, 0), Color.red, 1000, depthtest);
+                Debug.DrawLine(center, center + new Vector3(0, 1, 0), Color.red, dur, depthtest);
                 return;
             }
 
@@ -142,6 +143,11 @@ namespace Assets.Scripts.AdvancedCity
         public static Vector3 DirectionBezierCurve(Vector3 P0, Vector3 P1, Vector3 P2, float t)
         {
             return 2 * (1 - t) * (P1 - P0) + 2 * t * (P2 - P1);
+        }
+
+        public override string ToString()
+        {
+            return center.ToString();
         }
 
     }

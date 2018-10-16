@@ -1,13 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Assets.Scripts.AdvancedCity.monoBeheviors.interactiveObjects
 {
     class Car : Vehicle
     {
-        public AudioSource audioSource;
         public float speed = 10.0f;
         public bool hasCamera = false;
         public int time = 0;

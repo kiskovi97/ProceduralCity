@@ -4,20 +4,27 @@ using UnityEngine;
 [RequireComponent(typeof(MeshFilter))]
 public class GreenPlace : MonoBehaviour
 {
-    MeshFilter meshfilter;
     Mesh mesh;
     List<Vector3> meshVertexes;
     List<List<int>> subTriangles;
     List<Vector2> UV;
-    void Start()
+    void Clear()
     {
-        meshfilter = GetComponent<MeshFilter>();
-        mesh = meshfilter.mesh;
+#if UNITY_EDITOR
+        //Only do this in the editor
+        MeshFilter mf = GetComponent<MeshFilter>();   //a better way of getting the meshfilter using Generics
+        Mesh meshCopy = Mesh.Instantiate(mf.sharedMesh) as Mesh;  //make a deep copy
+        mesh = mf.mesh = meshCopy;                    //Assign the copy to the meshes
+#else
+     //do this in play mode
+     mesh = GetComponent<MeshFilter>().mesh;
+#endif
+        mesh.Clear();
         meshVertexes = new List<Vector3>();
         UV = new List<Vector2>();
         subTriangles = new List<List<int>>();
         MeshRenderer meshRenderer = GetComponent<MeshRenderer>();
-        int MateraialCount = meshRenderer.materials.Length;
+        int MateraialCount = meshRenderer.sharedMaterials.Length;
         for (int i = 0; i < MateraialCount; i++)
         {
             subTriangles.Add(new List<int>());
@@ -27,7 +34,7 @@ public class GreenPlace : MonoBehaviour
     // Update is called once per frame
     public void MakePlace(Vector3[] kontrolpoints)
     {
-        Start();
+        Clear();
         GreenPlaceGenerator place = new GreenPlaceGenerator(kontrolpoints);
         foreach (Triangle triangle in place.getTriangles())
         {
@@ -74,7 +81,6 @@ public class GreenPlace : MonoBehaviour
         mesh.SetUVs(0, UV);
         mesh.RecalculateBounds();
         mesh.RecalculateNormals();
-        //meshfilter.mesh = mesh;
     }
     public void DestorySelf()
     {
