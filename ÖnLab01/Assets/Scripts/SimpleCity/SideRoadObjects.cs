@@ -11,6 +11,7 @@ public class SideRoadObjects : MonoBehaviour
     {
         get
         {
+            if (padok.Count == 0) return new GameObject();
             int i = (int)(Random.value * padok.Count);
             if (i == padok.Count) i--;
             GameObject ki = Instantiate(padok[i]);
@@ -24,6 +25,7 @@ public class SideRoadObjects : MonoBehaviour
     {
         get
         {
+            if (lampa.Count == 0) return new GameObject();
             int i = (int)(Random.value * lampa.Count);
             if (i == lampa.Count) i--;
             GameObject ki = Instantiate(lampa[i]);

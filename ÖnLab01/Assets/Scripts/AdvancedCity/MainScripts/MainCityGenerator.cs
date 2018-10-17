@@ -8,6 +8,7 @@ namespace Assets.Scripts.AdvancedCity
 {
     public class MainCityGenerator : MonoBehaviour
     {
+        public GameObjects gameObjects;
         public RoadGeneratingValues values;
         public FollowPlayer[] cameras;
         public VehiclesMonoBehevior vehicles;
@@ -48,7 +49,7 @@ namespace Assets.Scripts.AdvancedCity
                 points = graphGen.GenerateGraph(values, visual, depthtest);
             }
             gameObjectGenerator = GetComponent<GameObjectGenerator>();
-            gameObjectGenerator.SetValues(values);
+            gameObjectGenerator.SetValues(values, gameObjects);
             crossings = objGen.GenerateObjects(gameObjectGenerator, points, values.RoadSize);
         }
         public void GenerateEverything(GameObjectGenerator.step delegateStep)

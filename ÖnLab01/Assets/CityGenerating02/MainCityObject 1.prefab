@@ -21,7 +21,6 @@ GameObject:
   - component: {fileID: 4055480370328876}
   - component: {fileID: 114540087894697062}
   - component: {fileID: 114987458724125090}
-  - component: {fileID: 114716519156173054}
   - component: {fileID: 82562976208220498}
   m_Layer: 0
   m_Name: MainCityObject 1
@@ -220,6 +219,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d132fc11b2943c34da648261f9607dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameObjects:
+    RoadObject: {fileID: 1268133786361746, guid: f1c58c83dae44f54baf3667b6de11860,
+      type: 2}
+    CrossLamp: {fileID: 1742883539507346, guid: e9debe2ccd857e54d980ac6ef949b627,
+      type: 2}
+    SideLamp: {fileID: 1496388209719504, guid: c54a12dcf5064f649b2832a143804bc0, type: 2}
+    WireObject: {fileID: 1956822081182336, guid: 8c7ceae03ceb8274b80f9125f0b66357,
+      type: 2}
+    RailObject: {fileID: 1956822081182336, guid: b8eb0d6b8d6a9a84f89a4e74c14fb069,
+      type: 2}
+    StoppingObj: {fileID: 1126559101544582, guid: b5cfe6eca0d2cdf44baca83f450cf002,
+      type: 2}
+    buildings:
+    - {fileID: 1863853056459178, guid: f319166b32814f747b6e43dffe649a40, type: 2}
+    - {fileID: 1863853056459178, guid: fa45dc007c5cf954cbfc7f1f03297fb7, type: 2}
+    - {fileID: 1863853056459178, guid: 762644fbe4a264746945f07ad9b2f454, type: 2}
+    - {fileID: 1863853056459178, guid: d697f80d7f0d85e4caac13f0b312e419, type: 2}
+    greenPlace:
+    - {fileID: 1137879034718380, guid: 709079188704e874c9848710dd133abd, type: 2}
   values:
     map: {fileID: 2800000, guid: 47f295d5a1936124fa77a6aefacf68ca, type: 3}
     sizes:
@@ -268,23 +286,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 0}
   distance: {x: 0, y: 10, z: 0}
---- !u!114 &114716519156173054
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1171539287468024}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ee070f6f0b5abcd4aa5df39d67ec4b09, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  buildings:
-  - {fileID: 1863853056459178, guid: 762644fbe4a264746945f07ad9b2f454, type: 2}
-  - {fileID: 1863853056459178, guid: fa45dc007c5cf954cbfc7f1f03297fb7, type: 2}
-  - {fileID: 1863853056459178, guid: f319166b32814f747b6e43dffe649a40, type: 2}
-  greenPlace:
-  - {fileID: 1137879034718380, guid: 709079188704e874c9848710dd133abd, type: 2}
 --- !u!114 &114987458724125090
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -293,14 +294,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1171539287468024}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a7c9bf3862605c349b17da36777b1d80, type: 3}
+  m_Script: {fileID: 11500000, guid: 3949067576446404c84c3c6e71c3e6b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roadObject: {fileID: 1268133786361746, guid: f1c58c83dae44f54baf3667b6de11860, type: 2}
-  crossLamp: {fileID: 1742883539507346, guid: e9debe2ccd857e54d980ac6ef949b627, type: 2}
-  sideLamp: {fileID: 1496388209719504, guid: c54a12dcf5064f649b2832a143804bc0, type: 2}
-  wireObject: {fileID: 1956822081182336, guid: 8c7ceae03ceb8274b80f9125f0b66357, type: 2}
-  railObject: {fileID: 1956822081182336, guid: b8eb0d6b8d6a9a84f89a4e74c14fb069, type: 2}
-  stoppingObj: {fileID: 1126559101544582, guid: b5cfe6eca0d2cdf44baca83f450cf002,
-    type: 2}
-  progress: 1
+  progress: 0
