@@ -83,12 +83,12 @@ namespace Assets.Scripts.AdvancedCity.monoBeheviors.interactiveObjects
             if (angle < 30.0f)
             {
                 transform.rotation = Quaternion.LookRotation(newDir);
-                transform.position += newDir.normalized * speed * 0.1f * Time.deltaTime;
+                SetPosition(transform.position + newDir.normalized * speed * 0.1f * Time.deltaTime);
             }
             else 
 			{
                 transform.rotation = Quaternion.LookRotation(newDir);
-                transform.position += toward.normalized * 20 * 0.1f * Time.deltaTime;
+                SetPosition(transform.position + toward.normalized * 20 * 0.1f * Time.deltaTime);
             }
             
         }

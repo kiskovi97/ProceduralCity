@@ -73,7 +73,9 @@ namespace Assets.Scripts.AdvancedCity.monoBeheviors.interactiveObjects
             Debug.DrawLine(B_point, B_point + new Vector3(0, 1, 0), Color.blue);*/
             Vector3 toward = (A_point - B_point).normalized;
             transform.rotation = Quaternion.LookRotation(toward);
-            transform.position = (A_point + B_point)/2;
+            Vector3 pos = (A_point + B_point) / 2;
+            transform.position = pos;
+            //SetPosition(pos);
         }
     }
 }

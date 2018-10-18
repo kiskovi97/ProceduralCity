@@ -14,7 +14,7 @@ namespace Assets.Scripts.AdvancedCity
         {
             
         }
-        public virtual void Update()
+        public virtual void LateUpdate()
         {
              var x = Input.GetAxis("MouseX") * Time.deltaTime * 0.00003f;
              var y = Input.GetAxis("MouseY") * Time.deltaTime * 0.0001f;
