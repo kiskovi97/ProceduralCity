@@ -6,12 +6,34 @@ public class BuildingObject : GeneratedObjectWithCollision
     protected Vector3[] kontrolpoints;
     protected int floorNumber;
     protected float floor;
+    public Material SimpleMaterial;
+    public Material RoofMaterial;
+    public Material SimpleWallMaterial;
+    public Material GroundWallMaterial;
+    public Material DoorMaterial;
+    public Material Window01Material;
+    public Material Window02Material;
+    public Material Window03Material;
+    public Material BaseMaterial;
     // Update is called once per frame
     public virtual void MakeBuilding(Vector3[] kontrolpoints, int floorNumber, float floor)
     {
         this.kontrolpoints = kontrolpoints;
         this.floorNumber = floorNumber;
         this.floor = floor;
+        Material[] myMaterials = new Material[9]
+        {
+            SimpleMaterial,
+            RoofMaterial,
+            SimpleWallMaterial,
+            GroundWallMaterial,
+            DoorMaterial,
+            Window01Material,
+            Window02Material,
+            Window03Material,
+            BaseMaterial
+        };
+        GetComponent<MeshRenderer>().sharedMaterials = myMaterials;
         ReGenerate();
     }
 

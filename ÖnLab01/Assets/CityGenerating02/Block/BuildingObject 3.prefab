@@ -103,4 +103,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6588643fbef050e49a0ee015bfeae810, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  texture: {fileID: 2800000, guid: 47f295d5a1936124fa77a6aefacf68ca, type: 3}
+  SimpleMaterial: {fileID: 2100000, guid: df7da4e03989f0f48bf12924ca2f0cdd, type: 2}
+  RoofMaterial: {fileID: 2100000, guid: ac49a6653ef2f1b4994f143d7a02295d, type: 2}
+  SimpleWallMaterial: {fileID: 2100000, guid: 5a53044acec16cc4598ffe3d3452bfbe, type: 2}
+  GroundWallMaterial: {fileID: 2100000, guid: 24751b13a7bcb3847a371f0705eb6275, type: 2}
+  DoorMaterial: {fileID: 2100000, guid: eec2a137483b63f46a57e556bf67be3f, type: 2}
+  Window01Material: {fileID: 2100000, guid: 4d3921c497f5aaf4da0e6678e9d3bd2d, type: 2}
+  Window02Material: {fileID: 2100000, guid: 1b208afb01e18e1489b1213c318d483d, type: 2}
+  Window03Material: {fileID: 2100000, guid: 5a097f9ebef2cd54099c991f5e420067, type: 2}
+  BaseMaterial: {fileID: 2100000, guid: 58648517b70a60c4d81c31ac7bbbf9bd, type: 2}

@@ -297,7 +297,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   anim: {fileID: 0}
-  audioSource: {fileID: 0}
+  nextPoint:
+    center: {x: 0, y: 0, z: 0}
+    direction: {x: 0, y: 0, z: 0}
+    megallo: 0
+  elozoPoint:
+    center: {x: 0, y: 0, z: 0}
+    direction: {x: 0, y: 0, z: 0}
+    megallo: 0
+  rigidbody: {fileID: 0}
   speed: 22
   hasCamera: 1
   time: 0
