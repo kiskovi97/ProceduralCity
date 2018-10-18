@@ -108,7 +108,7 @@ public class CityGenerator : EditorWindow
         gameObjectGenerator.SetValues(values, gameObjects);
         crossings = crossingGenerator.GenerateObjects(gameObjectGenerator, points, values.RoadSize);
         Debug.Log("Crossings set");
-        crossingGenerator.DrawRoads(false, false, false, false);
+        crossingGenerator.DrawRoads(false, false, true, true);
         Debug.Log("DrawRoads");
         gameObjectGenerator.CreatRoadMesh();
         Debug.Log("CreatRoadMesh");

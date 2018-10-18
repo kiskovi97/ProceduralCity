@@ -18,9 +18,19 @@ namespace Assets.Scripts.AdvancedCity
         {
             a += new Vector3(0, height1, 0);
             b += new Vector3(0, height2, 0);
-            obj.transform.position = (a + b) / 2;
-            obj.transform.rotation = Quaternion.LookRotation(a - b);
-            obj.transform.localScale = new Vector3(scale, scale, (a - b).magnitude * 50);
+            LineRenderer renderer = obj.GetComponent<LineRenderer>();
+            if (renderer !=null)
+            {
+                obj.transform.rotation = new Quaternion();
+                MeshRenderer meshRenderer = obj.GetComponent<MeshRenderer>();
+                if (meshRenderer != null) meshRenderer.enabled = false;
+                renderer.SetPositions(new Vector3[] { a, b });
+            } else
+            {
+                obj.transform.position = (a + b) / 2;
+                obj.transform.rotation = Quaternion.LookRotation(a - b);
+                obj.transform.localScale = new Vector3(scale, scale, (a - b).magnitude * 50);
+            }
         }
         public void Forward(Vector3 position, Vector3 forward, float height)
         {
