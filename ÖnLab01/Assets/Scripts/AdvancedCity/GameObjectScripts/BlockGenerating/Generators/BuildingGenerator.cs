@@ -9,7 +9,7 @@ class BuildingGenerator : GeneratorImpl
     {
         if (floorCount < 1) return;
         for (int i = 0; i < controlpoints.Length; i++)
-        {
+        { 
             int prev = i - 1;
             if (prev < 0) prev = controlpoints.Length - 1;
             FrontWallGenerator frontWall = new FrontWallGenerator(controlpoints[prev], controlpoints[i], floorSize, floorCount, onGround);
@@ -44,32 +44,61 @@ class BuildingGenerator : GeneratorImpl
 
     private Vector3[] ControlChange(Vector3[] kontrolpoints)
     {
-        Vector3[] newControlPoints = (Vector3[])kontrolpoints.Clone();
-        int indexStart = (int)(Random.value * newControlPoints.Length);
+        List<Vector3> newControlPoints = new List<Vector3>(kontrolpoints);
+        int indexStart = (int)(Random.value * newControlPoints.Count);
         int index2 = indexStart + 1;
         int index3 = indexStart + 2;
         int index4 = indexStart + 3;
-        if (index4 >= newControlPoints.Length)
+        if (index4 >= newControlPoints.Count)
         {
-            index4 = index4 - newControlPoints.Length;
-            if (index3 >= newControlPoints.Length)
+            index4 = index4 - newControlPoints.Count;
+            if (index3 >= newControlPoints.Count)
             {
-                index3 = index3 - newControlPoints.Length;
-                if (index2 >= newControlPoints.Length)
+                index3 = index3 - newControlPoints.Count;
+                if (index2 >= newControlPoints.Count)
                 {
-                    index2 = index2 - newControlPoints.Length;
+                    index2 = index2 - newControlPoints.Count;
                 }
             }
         }
-        if (Vector3.SignedAngle(newControlPoints[index2] - newControlPoints[indexStart], newControlPoints[index2] - newControlPoints[index3], new Vector3(0, 1, 0)) < 0)
+        if (Random.value > 0.5f)
         {
-            newControlPoints[index2] = (newControlPoints[index2] * 3 + newControlPoints[indexStart]) / 4;
-        }
-        if (Vector3.SignedAngle(newControlPoints[index3] - newControlPoints[index2], newControlPoints[index3] - newControlPoints[index4], new Vector3(0, 1, 0)) < 0)
+            if (Random.value > 0.2f)
+            {
+                for (int i = 0; i < newControlPoints.Count; i++)
+                {
+                    int before = i - 1;
+                    int next = i + 1;
+                    if (before < 0) before = newControlPoints.Count - 1;
+                    if (next > newControlPoints.Count - 1) next = 0;
+                    if (Vector3.SignedAngle(newControlPoints[i] - newControlPoints[before], newControlPoints[i] - newControlPoints[next], new Vector3(0, 1, 0)) < 0)
+                    {
+                        newControlPoints[i] = (newControlPoints[i] * 3 + newControlPoints[before]) / 4;
+                        newControlPoints[i] = (newControlPoints[i] * 3 + newControlPoints[next]) / 4;
+                    }
+                }
+            } else if (newControlPoints.Count > 4)
+            {
+                if (Vector3.SignedAngle(newControlPoints[index2] - newControlPoints[indexStart], newControlPoints[index2] - newControlPoints[index3], new Vector3(0, 1, 0)) < 0)
+                {
+                    newControlPoints.RemoveAt(index2);
+                }
+            } 
+            
+        } else
         {
-            newControlPoints[index3] = (newControlPoints[index3] * 3 + newControlPoints[index4]) / 4;
-        }
-        return newControlPoints;
+            Vector3 original = (newControlPoints[index2] + newControlPoints[index3]) / 2;
+            if (Vector3.SignedAngle(newControlPoints[index2] - newControlPoints[indexStart], newControlPoints[index2] - newControlPoints[index3], new Vector3(0, 1, 0)) < 0)
+            {
+                newControlPoints[index2] = (newControlPoints[index2] * 3 + newControlPoints[indexStart]) / 4;
+            }
+            if (Vector3.SignedAngle(newControlPoints[index3] - newControlPoints[index2], newControlPoints[index3] - newControlPoints[index4], new Vector3(0, 1, 0)) < 0)
+            {
+                newControlPoints[index3] = (newControlPoints[index3] * 3 + newControlPoints[index4]) / 4;
+            }
+            newControlPoints.Insert(index3, original);
+        } 
+        return newControlPoints.ToArray();
     }
 
     private void MakeRoof(Vector3[] roofPoints, Vector3 up, bool last)

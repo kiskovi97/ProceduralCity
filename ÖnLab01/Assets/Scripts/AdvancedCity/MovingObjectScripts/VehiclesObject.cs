@@ -5,7 +5,7 @@ namespace Assets.Scripts.AdvancedCity
     [System.Serializable]
     public class VehiclesObject : System.Object, IVehicles
     {
-        public List<GameObject> cars;
+        public GameObject[] cars;
         public GameObject cameraCar;
         public GameObject tram;
         public GameObject Tram
@@ -19,7 +19,7 @@ namespace Assets.Scripts.AdvancedCity
         {
             get
             {
-                int i = (int)(Random.value * cars.Count);
+                int i = (int)(Random.value * cars.Length);
                 return cars[i];
             }
         }

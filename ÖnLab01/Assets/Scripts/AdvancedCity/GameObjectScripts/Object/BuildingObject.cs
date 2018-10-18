@@ -1,14 +1,13 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 [RequireComponent(typeof(MeshFilter))]
 public class BuildingObject : GeneratedObjectWithCollision
 {
-    Vector3[] kontrolpoints;
-    int floorNumber;
-    float floor;
+    protected Vector3[] kontrolpoints;
+    protected int floorNumber;
+    protected float floor;
     // Update is called once per frame
-    public void MakeBuilding(Vector3[] kontrolpoints, int floorNumber, float floor)
+    public virtual void MakeBuilding(Vector3[] kontrolpoints, int floorNumber, float floor)
     {
         this.kontrolpoints = kontrolpoints;
         this.floorNumber = floorNumber;
@@ -16,7 +15,7 @@ public class BuildingObject : GeneratedObjectWithCollision
         ReGenerate();
     }
 
-    public void ReGenerate()
+    public virtual void ReGenerate()
     {
         Clear();
         BuildingGenerator building = new BuildingGenerator(kontrolpoints, floor, floorNumber);

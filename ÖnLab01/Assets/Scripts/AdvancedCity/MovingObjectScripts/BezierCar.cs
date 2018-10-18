@@ -67,13 +67,14 @@ namespace Assets.Scripts.AdvancedCity.monoBeheviors.interactiveObjects
                 float thisTime = distanceTime / length;
                 if (thisTime > 1) thisTime = 1;
                 Vector3 pos = MovementPoint.BezierCurve(eCenter, cross, nCenter, thisTime);
-                transform.position = pos;
+                SetPosition(pos);
                 transform.rotation = Quaternion.LookRotation(MovementPoint.DirectionBezierCurve(eCenter, cross, nCenter, thisTime));
             } 
 			else
             {
                 allapot = "Elozo==Next";
-                transform.position = transform.position + (elozoPoint.center - transform.position) * 0.1f;
+                Vector3 pos = transform.position + (elozoPoint.center - transform.position) * 0.1f;
+                SetPosition(pos);
             }
         }
     }

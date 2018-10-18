@@ -7,11 +7,13 @@ namespace Assets.Scripts.AdvancedCity
         public Animator anim;
         public MovementPoint nextPoint;
         public MovementPoint elozoPoint;
+        public new Rigidbody rigidbody;
         protected float actualspeed = 1.5f;
         public void Start()
         {
             if (anim == null)
             anim = GetComponent<Animator>();
+            rigidbody = GetComponent<Rigidbody>();
         }
         public virtual void SetPoint(MovementPoint next)
         {
@@ -25,10 +27,11 @@ namespace Assets.Scripts.AdvancedCity
             Debug.Log("SetPoint : " + nextPoint + " , " + elozoPoint);
         }
 
-        public virtual void Update()
+        public virtual void FixedUpdate()
         {
             Step();
         }
+
         public virtual void Step()
         {
             if (nextPoint == null) return;
@@ -60,5 +63,10 @@ namespace Assets.Scripts.AdvancedCity
             transform.position += toward.normalized * actualspeed * 0.01f;
         }
 
+        public void SetPosition(Vector3 position)
+        {
+            //transform.position = position;
+            rigidbody.MovePosition(position);
+        }
     }
 }

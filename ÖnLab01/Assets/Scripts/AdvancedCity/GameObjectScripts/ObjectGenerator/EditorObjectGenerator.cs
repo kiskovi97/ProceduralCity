@@ -13,25 +13,7 @@ namespace Assets.Scripts.AdvancedCity
 
         private GameObject Instantiate(GameObject stoppingObj)
         {
-            GameObject output = new GameObject(stoppingObj.name);
-            foreach (Component component in stoppingObj.GetComponents(typeof(Component)))
-            {
-                UnityEditorInternal.ComponentUtility.CopyComponent(component);
-                UnityEditorInternal.ComponentUtility.PasteComponentAsNew(output);
-            }
-            for (int i= 0; i< stoppingObj.transform.childCount; i++)
-            {
-                GameObject child = stoppingObj.transform.GetChild(i).gameObject;
-                GameObject realChild = Instantiate(child);
-                realChild.transform.SetParent(output.transform);
-                realChild.transform.position = child.transform.position;
-                realChild.transform.rotation = child.transform.rotation;
-                realChild.transform.localScale = child.transform.localScale;
-            }
-            output.tag = "Generated";
-            output.isStatic = stoppingObj.isStatic;
-            output.layer = stoppingObj.layer;
-            return output;
+            return GameObject.Instantiate(stoppingObj);
         }
 
         public void SetValues(IValues values, IGameObjects gameObjects)

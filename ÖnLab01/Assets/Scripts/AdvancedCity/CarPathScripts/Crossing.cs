@@ -275,7 +275,7 @@ namespace Assets.Scripts.AdvancedCity
                         polygon.Add(neighbour.helpline.mainLine[1]);
                 }
                 // Tram
-                if (neighbour.carpath.tramInput != null && tram)
+                if (neighbour.carpath.tramInput != null && tram && tramIsPresent)
                 {
                     for (int i = 0; i < neighbours.Count; i++)
                     {
