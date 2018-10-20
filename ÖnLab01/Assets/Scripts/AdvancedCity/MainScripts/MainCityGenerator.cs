@@ -144,7 +144,7 @@ namespace Assets.Scripts.AdvancedCity
             }
             foreach (Crossing cros in crossings)
             {
-                cros.Switch();
+                cros.Switch(true);
             }
             running = true;
         }
@@ -156,6 +156,7 @@ namespace Assets.Scripts.AdvancedCity
             trams = false;
         }
         int i = 1;
+        bool standingBy = false;
         public void Update()
         {
             if (Input.GetButtonDown("Exit"))
@@ -165,12 +166,22 @@ namespace Assets.Scripts.AdvancedCity
             }
             if (crossings == null) return;
             i++;
-            if (i % 300 == 0 && running)
+            if (i >= 100 && running)
             {
-                StartCoroutine(AllValt());
-                if (i == 300) i = 500;
-                else i = 1;
-                Debug.Log("Valtott");
+                if (standingBy)
+                {
+                    i = 0;
+                    standingBy = false;
+                    StartCoroutine(AllValt());
+                    Debug.Log("Valtott");
+                }
+                else if (i >= 300)
+                {
+                    i = 0;
+                    standingBy = true;
+                    StartCoroutine(AllValt());
+                    Debug.Log("Valtott");
+                }
             }
         }
 
@@ -178,7 +189,7 @@ namespace Assets.Scripts.AdvancedCity
         {
             foreach (Crossing cros in crossings)
             {
-                cros.Switch();
+                cros.Switch(standingBy);
                 yield return null;
             }
         }

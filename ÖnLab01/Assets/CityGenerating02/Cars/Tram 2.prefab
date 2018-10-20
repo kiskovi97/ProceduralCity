@@ -232,15 +232,52 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   anim: {fileID: 0}
-  nextPoint:
-    center: {x: 0, y: 0, z: 0}
-    direction: {x: 0, y: 0, z: 0}
-    megallo: 0
-  elozoPoint:
-    center: {x: 0, y: 0, z: 0}
-    direction: {x: 0, y: 0, z: 0}
-    megallo: 0
+  point:
+    pos: {x: 0, y: 0, z: 0}
+    nextPoint:
+      center: {x: 0, y: 0, z: 0}
+      direction: {x: 0, y: 0, z: 0}
+      ID: 0
+      stopping: 0
+      outPointIDs: 
+    prevPoint:
+      center: {x: 0, y: 0, z: 0}
+      direction: {x: 0, y: 0, z: 0}
+      ID: 0
+      stopping: 0
+      outPointIDs: 
   rigidbody: {fileID: 0}
+  actualSpeed: 1.5
   A_point: {x: 0, y: 0, z: 0}
   B_point: {x: 0, y: 0, z: 0}
-  speed: 2
+  A:
+    pos: {x: 0, y: 0, z: 0}
+    nextPoint:
+      center: {x: 0, y: 0, z: 0}
+      direction: {x: 0, y: 0, z: 0}
+      ID: 0
+      stopping: 0
+      outPointIDs: 
+    prevPoint:
+      center: {x: 0, y: 0, z: 0}
+      direction: {x: 0, y: 0, z: 0}
+      ID: 0
+      stopping: 0
+      outPointIDs: 
+  B:
+    pos: {x: 0, y: 0, z: 0}
+    nextPoint:
+      center: {x: 0, y: 0, z: 0}
+      direction: {x: 0, y: 0, z: 0}
+      ID: 0
+      stopping: 0
+      outPointIDs: 
+    prevPoint:
+      center: {x: 0, y: 0, z: 0}
+      direction: {x: 0, y: 0, z: 0}
+      ID: 0
+      stopping: 0
+      outPointIDs: 
+  nextTram: {fileID: 0}
+  maxLength: 0.5
+  speed: 3

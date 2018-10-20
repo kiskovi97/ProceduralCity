@@ -8,6 +8,9 @@ ModelImporter:
     2100000: Base
     2100002: Material
     2100004: Windows
+    2100006: Base__TramTexture
+    2100008: Material__TramTexture
+    2100010: Windows__TramTexture
     2300000: //RootNode
     3300000: //RootNode
     4300000: Cube

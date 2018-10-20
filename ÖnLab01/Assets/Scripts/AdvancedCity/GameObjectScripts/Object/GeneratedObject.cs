@@ -54,7 +54,7 @@ public class GeneratedObject : MonoBehaviour
         mesh.Clear();
         if (meshVertexes.Count < 3)
         {
-            Destroy(gameObject, 0.1f);
+            DestroyImmediate(gameObject);
             return;
         }
         mesh.vertices = meshVertexes.ToArray();

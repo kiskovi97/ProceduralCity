@@ -282,7 +282,7 @@ MonoBehaviour:
     smootIntensity: 0.1
     houseSize: 0.5
     HouseUpminSize: 1
-    HouseUpmaxSize: 10
+    HouseUpmaxSize: 50
     floorSize: 0.05
   cameras:
   - {fileID: 114389267530960716}

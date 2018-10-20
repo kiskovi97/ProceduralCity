@@ -15,7 +15,7 @@ public class CityGenerator : EditorWindow
     private List<Crossing> crossings = null;
     private List<GraphPoint> points = null;
     public VehiclesObject vehicles = new VehiclesObject();
-
+    private int car_number = 20;
     [MenuItem("Window/CityGenerator")]
     public static void ShowWindow()
     {
@@ -24,9 +24,10 @@ public class CityGenerator : EditorWindow
 
     Vector2 scrollPoint;
     bool graphGenerated = false;
+    int size = 5;
     private void OnGUI()
     {
-        values.SetSize(new float[] { -5, -5, 5, 5 });
+        values.SetSize(new float[] { -size, -size, size, size });
         scrollPoint = GUILayout.BeginScrollView(scrollPoint);
         if (GUILayout.Button("Clear"))
         {
@@ -36,6 +37,8 @@ public class CityGenerator : EditorWindow
 
         GUILayout.Label("City Generating Objects:", EditorStyles.boldLabel);
         GUILayout.Space(5);
+        size = EditorGUILayout.IntField("Size", size);
+        values.sizeRatio = EditorGUILayout.FloatField("Ratio", values.sizeRatio);
         gameObjects.CrossLamp = (GameObject)EditorGUILayout.ObjectField("Cross Lamp", gameObjects.CrossLamp, typeof(GameObject), true);
         gameObjects.RailObject = (GameObject)EditorGUILayout.ObjectField("Rail Object", gameObjects.RailObject, typeof(GameObject), true);
         gameObjects.RoadObject = (GameObject)EditorGUILayout.ObjectField("Road Object", gameObjects.RoadObject, typeof(GameObject), true);
@@ -66,6 +69,7 @@ public class CityGenerator : EditorWindow
             GUILayout.Label("Cars:", EditorStyles.boldLabel);
             GUILayout.Space(5);
             vehicles.cameraCar = (GameObject)EditorGUILayout.ObjectField("Camera Car", vehicles.cameraCar, typeof(GameObject), true);
+            vehicles.tram = (GameObject)EditorGUILayout.ObjectField("Tram", vehicles.tram, typeof(GameObject), true);
             vehicles.cars = ArrayInput("Cars", vehicles.cars);
             if (GUILayout.Button("Create Cars"))
             {
@@ -125,6 +129,7 @@ public class CityGenerator : EditorWindow
         GameObject[] list = GameObject.FindGameObjectsWithTag("Generated");
         AllDestroy(list);
         graphGenerated = false;
+        isCamera = false;
     }
 
     void AllDestroy(GameObject[] list)
@@ -141,12 +146,23 @@ public class CityGenerator : EditorWindow
         }
     }
 
+    private bool isCamera = false;
     public void GenerateCars()
     {
         List<GameObject> cars = new List<GameObject>();
         GameObject player = Instantiate(vehicles.cameraCar);
-        cars.Add(player);
+        if (isCamera) cars.Add(player);
+        for (int i = 0; i < car_number; i++)
+            cars.Add(Instantiate(vehicles.Car));
+        GameObject movementPointContainer = crossingGenerator.SaveMovementPoints();
+        movementPointContainer.tag = "Generated";
         crossingGenerator.SetCarsStartingPosition(cars.ToArray());
+        GameObject tram1 = Instantiate(vehicles.Tram);
+        GameObject tram2 = Instantiate(vehicles.Tram);
+        crossingGenerator.SetTram(tram1, tram2);
+        GameObject crossingManager = crossingGenerator.CreateCrossingManager();
+        crossingManager.tag = "Generated";
+        isCamera = true;
     }
 
     public static T SafeDestroy<T>(T obj) where T : Object

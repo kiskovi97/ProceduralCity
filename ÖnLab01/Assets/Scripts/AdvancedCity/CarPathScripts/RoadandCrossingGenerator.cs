@@ -141,6 +141,30 @@ namespace Assets.Scripts.AdvancedCity
             }
         }
 
+        public GameObject SaveMovementPoints()
+        {
+            GameObject output = new GameObject("MovementPointContainer");
+            MovementPointContainer container = output.AddComponent<MovementPointContainer>();
+            foreach (Road road in roads)
+            {
+                container.AddPoints(road.GetPoints());
+            }
+            foreach (Crossing cros in crossings)
+            {
+                container.AddPoints(cros.GetPoints());
+            }
+            container.SetIDs();
+            return output;
+        }
+
+        public GameObject CreateCrossingManager()
+        {
+            GameObject output = new GameObject("CrossingManager");
+            CrossingManager manager = output.AddComponent<CrossingManager>();
+            manager.SetCrossings(crossings);
+            return output;
+        }
+
         public void SetCarsStartingPosition(GameObject[] cars)
         {
             int i = 0;
@@ -154,7 +178,6 @@ namespace Assets.Scripts.AdvancedCity
                     else return;
                     if (cros.AddVehicle(vehicle))
                     {
-                        cars[i].transform.position = vehicle.nextPoint.center;
                         i++;
                     }
                 }
@@ -180,7 +203,6 @@ namespace Assets.Scripts.AdvancedCity
                     else return;
                     if (cros.AddPeople(vehicle))
                     {
-                        people[i].transform.position = vehicle.nextPoint.center;
                         i++;
                     }
                 }
@@ -205,10 +227,10 @@ namespace Assets.Scripts.AdvancedCity
                     cros.AddTram(vehicle, vehicle2);
                     cars.transform.position = cros.center;
                     cars2.transform.position = cros.center;
-                    vehicle.setDirection();
-                    vehicle.generateMore(5);
-                    vehicle2.setDirection();
-                    vehicle2.generateMore(5);
+                    vehicle.SetDirection();
+                    vehicle.GenerateMore(5);
+                    vehicle2.SetDirection();
+                    vehicle2.GenerateMore(5);
                     return;
                 }
             }

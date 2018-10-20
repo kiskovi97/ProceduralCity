@@ -14,9 +14,9 @@ namespace Assets.Scripts.AdvancedCity.monoBeheviors.interactiveObjects
         }
         public override void Move()
         {
-            var x = Input.GetAxis("Horizontal") * Time.deltaTime * 10 * speed;
-            var z = Input.GetAxis("Vertical") * Time.deltaTime * 0.1f * speed;
-            var y = Input.GetAxis("Jump") * Time.deltaTime * 0.1f * speed;
+            var x = Input.GetAxis("Horizontal") * Time.deltaTime * 50 * speed;
+            var z = Input.GetAxis("Vertical") * Time.deltaTime * 0.5f * speed;
+            var y = Input.GetAxis("Jump") * Time.deltaTime * 0.5f * speed;
             if (y < 0) y *= 0.5f;
             float turbo = Input.GetButton("Turbo") ? 2.0f : 1.0f;
             transform.Rotate(0, x, 0, Space.World);

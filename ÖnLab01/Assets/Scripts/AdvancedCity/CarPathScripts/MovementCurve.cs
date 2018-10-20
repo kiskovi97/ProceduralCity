@@ -2,7 +2,8 @@
 
 namespace Assets.Scripts.AdvancedCity
 {
-    public class MovementCurve
+    [System.Serializable]
+    public class MovementCurve: System.Object
     {
         MovementPoint before;
         MovementPoint next;
@@ -34,7 +35,7 @@ namespace Assets.Scripts.AdvancedCity
             Vector3 dir = next.center - before.center;
             if (dir.magnitude < time)
             {
-                if (next.megallo && timeToStop < maxTime)
+                if (next.stopping && timeToStop < maxTime)
                 {
                     time -= speed;
                     timeToStop++;

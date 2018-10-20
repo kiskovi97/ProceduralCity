@@ -5,26 +5,33 @@ namespace Assets.Scripts.AdvancedCity
     public class Vehicle : MonoBehaviour
     {
         public Animator anim;
-        public MovementPoint nextPoint;
-        public MovementPoint elozoPoint;
+        public MovementPosition point;
         public new Rigidbody rigidbody;
-        protected float actualspeed = 1.5f;
-        public void Start()
+        public float actualSpeed = 1.5f;
+        public virtual void Start()
         {
             if (anim == null)
             anim = GetComponent<Animator>();
             rigidbody = GetComponent<Rigidbody>();
+            MovementPointContainer container = FindObjectOfType< MovementPointContainer>();
+            if (container != null)
+            {
+                point.nextPoint = container.GetMovementPoint(point.nextPoint.ID);
+                point.prevPoint = container.GetMovementPoint(point.prevPoint.ID);
+                point.pos = point.prevPoint.center;
+            }
         }
         public virtual void SetPoint(MovementPoint next)
         {
-            nextPoint = next.GetNextPoint();
-            if (nextPoint == null)
-                nextPoint = next;
-            if (nextPoint != next)
-                elozoPoint = next;
+            point.prevPoint = next;
+            point.nextPoint = next.GetNextPoint();
+            if (point.nextPoint == null)
+                point.nextPoint = next;
+            if (point.nextPoint != next)
+                point.prevPoint = next;
+            point.pos = next.center;
             transform.rotation = Quaternion.LookRotation(next.direction);
             transform.position = next.center;
-            Debug.Log("SetPoint : " + nextPoint + " , " + elozoPoint);
         }
 
         public virtual void FixedUpdate()
@@ -34,38 +41,22 @@ namespace Assets.Scripts.AdvancedCity
 
         public virtual void Step()
         {
-            if (nextPoint == null) return;
-            float length = (nextPoint.center - transform.position).magnitude;
-            if (length < 0.1f)
-            {
-                MovementPoint tmp = nextPoint;
-                nextPoint = nextPoint.GetNextPoint();
-                if (tmp != nextPoint && nextPoint != null)
-                {
-                    elozoPoint = tmp;
-                }
-                if (anim != null)
-                {
-                    anim.SetFloat("Blend", 0);
-                }
-            }
-            else
-                Move();
+            point.Step(actualSpeed * Time.deltaTime);
+            Move();
         }
+
         public virtual void Move()
         {
             if (anim != null)
             {
                 anim.SetFloat("Blend", 1);
             }
-            Vector3 toward = (nextPoint.center - transform.position);
-            transform.rotation = Quaternion.LookRotation(toward);
-            transform.position += toward.normalized * actualspeed * 0.01f;
+            transform.rotation = Quaternion.LookRotation(point.Forward);
+            SetPosition(point.pos);
         }
 
         public void SetPosition(Vector3 position)
         {
-            //transform.position = position;
             rigidbody.MovePosition(position);
         }
     }

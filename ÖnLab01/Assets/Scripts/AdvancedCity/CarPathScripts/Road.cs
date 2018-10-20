@@ -22,6 +22,15 @@ namespace Assets.Scripts.AdvancedCity
         List<MovementPoint> others = new List<MovementPoint>();
         IObjectGenerator generator;
 
+        public IEnumerable<MovementPoint> GetPoints()
+        {
+            List<MovementPoint> output = new List<MovementPoint>();
+            output.AddRange(others);
+            output.AddRange(oneCarpath.GetPoints());
+            output.AddRange(otherCarpath.GetPoints());
+            return output;
+        }
+
         public int Savok()
         {
             return sav;
@@ -102,8 +111,8 @@ namespace Assets.Scripts.AdvancedCity
                     others.Add(point04);
                     masik_be[i].SetDirection(oneCrossing.center - otherCrossing.center);
                     egyik_ki[i].SetDirection(oneCrossing.center - otherCrossing.center);
-                    point03.SetDirection(otherCrossing.center - oneCrossing.center);
-                    point04.SetDirection(otherCrossing.center - oneCrossing.center);
+                    point03.SetDirection(oneCrossing.center - otherCrossing.center);
+                    point04.SetDirection(oneCrossing.center - otherCrossing.center);
                 }
 
                 if (oneCarpath.tramInput != null && oneCarpath.tramOutput != null && otherCarpath.tramInput != null && otherCarpath.tramOutput != null)
@@ -165,7 +174,7 @@ namespace Assets.Scripts.AdvancedCity
             point02.SetDirection(dir);
             point01in.SetDirection(dir);
             point02in.SetDirection(dir);
-            point02in.megallo = true;
+            point02in.stopping = true;
         }
 
         public Vector3 GetDir(Crossing cros)

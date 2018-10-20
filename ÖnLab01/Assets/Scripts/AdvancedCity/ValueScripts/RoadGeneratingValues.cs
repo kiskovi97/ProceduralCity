@@ -44,8 +44,7 @@ public class RoadGeneratingValues : System.Object, IValues
     }
 
     [Header("Size of the city")]
-    [SerializeField]
-    private float sizeRatio = 5;
+    public float sizeRatio = 5;
     [Space(20)]
     [Header("Two Point collapse, when its this close")]
     [SerializeField]

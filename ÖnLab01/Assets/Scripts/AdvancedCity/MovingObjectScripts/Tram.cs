@@ -7,9 +7,10 @@ namespace Assets.Scripts.AdvancedCity.monoBeheviors.interactiveObjects
     {
         public Vector3 A_point;
         public Vector3 B_point;
-        private Tram next_tram = null;
-        private MovementCurve A_nextPoint;
-        private MovementCurve B_nextPoint;
+        public MovementPosition A = new MovementPosition();
+        public MovementPosition B = new MovementPosition();
+        public Tram nextTram = null;
+        public float maxLength = 0.5f;
         public float speed = 10.0f;
 
         public override void Step()
@@ -21,56 +22,101 @@ namespace Assets.Scripts.AdvancedCity.monoBeheviors.interactiveObjects
 
         public override void SetPoint(MovementPoint next)
         {
-            nextPoint = next;
-            A_nextPoint = new MovementCurve(next,next.GetNextPoint(),speed*0.01f);
-            B_nextPoint = new MovementCurve(next, next.GetNextPoint(), speed * 0.01f);
-            A_nextPoint.AddTime(0.6f);
+            base.SetPoint(next);
+            A.nextPoint = point.nextPoint;
+            A.prevPoint = point.prevPoint;
+            A.pos = point.prevPoint.center;
+            A_point = A.pos;
+            B.nextPoint = point.nextPoint;
+            B.prevPoint = point.prevPoint;
+            B.pos = point.prevPoint.center;
+            B_point = A.pos;
         }
 
-        public void setDirection()
+        public override void Start()
         {
-            Vector3 toward = (nextPoint.center - transform.position);
-            transform.rotation = Quaternion.LookRotation(toward);
+            base.Start();
+            A.nextPoint = point.nextPoint;
+            A.prevPoint = point.prevPoint;
+            A.pos = point.prevPoint.center;
+            A_point = A.pos;
+            B.nextPoint = point.nextPoint;
+            B.prevPoint = point.prevPoint;
+            B.pos = point.prevPoint.center;
+            B_point = A.pos;
+            transform.position = (A_point + B_point) / 2;
         }
 
-        public void generateMore(int db)
+        public void SetDirection()
+        {
+            transform.rotation = Quaternion.LookRotation(point.Forward);
+        }
+
+        public void GenerateMore(int db)
         {
             if (db <= 0) return;
             GameObject newObj = Instantiate(this.gameObject);
             Tram vehicle = newObj.GetComponent<Tram>();
-            vehicle.SetPoint(nextPoint);
-            vehicle.setDirection();
-            vehicle.setTram(this);
-            vehicle.generateMore(db - 1);
+            vehicle.SetPoint(point.prevPoint);
+            vehicle.SetDirection();
+            vehicle.SetTram(this);
+            vehicle.GenerateMore(db - 1);
         }
 
-        public void setTram(Tram kovetkezo)
+        public void SetTram(Tram kovetkezo)
         {
-            next_tram = kovetkezo;
+            nextTram = kovetkezo;
         }
 
+        private int stoppingTick = 0;
         private void CalculateA()
         {
-            if (next_tram == null)
+            if (nextTram == null)
             {
-                A_point = A_nextPoint.GetFirstPosition();
-                return;
+                if (A.Stopping(Time.deltaTime * speed))
+                {
+                    if (stoppingTick > 100)
+                    {
+                        stoppingTick = 0;
+                        A.Step(Time.deltaTime * speed);
+                    }
+                    else
+                    {
+                        stoppingTick++;
+                    }
+                } else
+                {
+                    A.Step(Time.deltaTime * speed);
+                }
+            } else
+            {
+                float length = (nextTram.B_point - A_point).magnitude;
+                if (length > 0)
+                {
+                    float actSpeed = speed;
+                    if (length > maxLength * 2) actSpeed *= 2;
+                    A.Step(Time.deltaTime * actSpeed);
+                }
             }
-            if (((next_tram.B_point - A_point).magnitude > 0 && ((next_tram.A_point - A_point).magnitude > 0.5f)))
-                 A_point = A_nextPoint.GetPosition();
-           
+            A_point = A.pos;
         }
 
         private void CalculateB()
         {
-            if ((B_point - A_point).magnitude > 0.5f)
-                B_point = B_nextPoint.GetPosition();
+            float length = (B_point - A_point).magnitude;
+            if (length > maxLength)
+            {
+                float actSpeed = speed;
+                if (length > maxLength * 2) actSpeed *= 2;
+                B.Step(Time.deltaTime * actSpeed);
+            }
+            B_point = B.pos;
         }
 
         public override void Move()
         {
-            /*Debug.DrawLine(A_point, A_point + new Vector3(0, 1, 0), Color.red);
-            Debug.DrawLine(B_point, B_point + new Vector3(0, 1, 0), Color.blue);*/
+            Debug.DrawLine(A_point, A_point + new Vector3(0, 1, 0), Color.red);
+            Debug.DrawLine(B_point, B_point + new Vector3(0, 1, 0), Color.blue);
             Vector3 toward = (A_point - B_point).normalized;
             transform.rotation = Quaternion.LookRotation(toward);
             Vector3 pos = (A_point + B_point) / 2;

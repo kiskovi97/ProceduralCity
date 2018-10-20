@@ -5,32 +5,23 @@ namespace Assets.Scripts.AdvancedCity.monoBeheviors.interactiveObjects
 {
     class Car : Vehicle
     {
-        public float speed = 10.0f;
+        public float speed = 5.0f;
         public bool hasCamera = false;
         public int time = 0;
         public float carsize = 1.0f;
-        public string allapot = "";
 
         public override void Step()
         {
-            if (nextPoint == null) {
-                allapot = "nextPoint = null";
-                return;
-            }
-            float length = (nextPoint.center - transform.position).magnitude;
-            if (length < 0.1f || elozoPoint == nextPoint)
-			{
-				elozoPoint = nextPoint;
-				nextPoint = nextPoint.GetNextPoint();
-			}
-            if (canMove())
-			{
-				Move();
+            if (CanMove())
+            {
+                Move();
 			}
 			else
 			{
-				allapot = "NOCANMOVE";
-				if (isLoop(new List<Car>() { this }))
+                if (waitedcar != null) actualSpeed = waitedcar.actualSpeed;
+                else actualSpeed = 0;
+                if (actualSpeed > speed) actualSpeed = speed;
+                if (IsLoop(new List<Car>() { this }))
 				{
 					if (!hasCamera)
 						Destroy(gameObject, 0.1f);
@@ -38,17 +29,40 @@ namespace Assets.Scripts.AdvancedCity.monoBeheviors.interactiveObjects
             }
         }
 
+        public override void Move()
+        {
+            if (anim != null)
+            {
+                anim.SetFloat("Blend", 1);
+            }
+            SpeedCalculate();
+            actualSpeed = point.Step(actualSpeed * Time.deltaTime) / Time.deltaTime;
+            transform.rotation = Quaternion.LookRotation(point.Forward);
+            SetPosition(point.pos);
+        }
+
+        protected void SpeedCalculate()
+        {
+            if (waitedcar != null) actualSpeed = waitedcar.actualSpeed;
+            else
+            {
+                if ((speed - actualSpeed) > 0.05f) actualSpeed += 0.05f;
+                else actualSpeed = speed;
+            }
+            if (actualSpeed > speed) actualSpeed = speed;
+        }
+
         Car waitedcar = null;
 
-        protected bool isLoop(List<Car> cars)
+        protected bool IsLoop(List<Car> cars)
         {
             if (waitedcar == null) return false;
             if (cars.Contains(waitedcar)) return true;
             cars.Add(this);
-            return waitedcar.isLoop(cars);
+            return waitedcar.IsLoop(cars);
         }
 
-        protected bool canMove()
+        protected bool CanMove()
         {
             
             Vector3 newDir = transform.forward;
@@ -67,30 +81,11 @@ namespace Assets.Scripts.AdvancedCity.monoBeheviors.interactiveObjects
                     {
                         waitedcar = null;
                     }
-
-                    allapot = "SomethingOnTheWay "+hit.gameObject.name;
                     return false;
                 }
             }
             waitedcar = null;
             return true;
-        }
-        public override void Move()
-        {
-            Vector3 toward = (nextPoint.center - (transform.position));
-            Vector3 newDir = Vector3.RotateTowards(transform.forward, toward, speed * Time.deltaTime * 0.2f, 0.0f);
-            float angle = Vector3.Angle(toward, transform.forward);
-            if (angle < 30.0f)
-            {
-                transform.rotation = Quaternion.LookRotation(newDir);
-                SetPosition(transform.position + newDir.normalized * speed * 0.1f * Time.deltaTime);
-            }
-            else 
-			{
-                transform.rotation = Quaternion.LookRotation(newDir);
-                SetPosition(transform.position + toward.normalized * 20 * 0.1f * Time.deltaTime);
-            }
-            
         }
     }
 }

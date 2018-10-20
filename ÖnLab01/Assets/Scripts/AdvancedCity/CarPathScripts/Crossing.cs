@@ -4,7 +4,8 @@ using UnityEngine;
 
 namespace Assets.Scripts.AdvancedCity
 {
-    public class Crossing
+    [System.Serializable]
+    public class Crossing : System.Object
     {
         public bool main = false;
 
@@ -14,7 +15,7 @@ namespace Assets.Scripts.AdvancedCity
 
         private readonly float zebra = 0.7f;
 
-        private List<Neighbour> neighbours = new List<Neighbour>();
+        public List<Neighbour> neighbours = new List<Neighbour>();
 
         private IObjectGenerator generator;
 
@@ -22,7 +23,8 @@ namespace Assets.Scripts.AdvancedCity
 
         private readonly int curveIteration = 5;
 
-        public class Neighbour
+        [System.Serializable]
+        public class Neighbour : System.Object
         {
             public Road road;
 
@@ -34,6 +36,21 @@ namespace Assets.Scripts.AdvancedCity
             {
                 this.road = road;
             }
+        }
+
+        public void SetMovementPoints(MovementPointContainer container)
+        {
+            foreach (Neighbour neighbour in neighbours) neighbour.carpath.SetMovementPoints(container);
+        }
+
+        public IEnumerable<MovementPoint> GetPoints()
+        {
+            List<MovementPoint> output = new List<MovementPoint>();
+            foreach(Neighbour neighbour in neighbours)
+            {
+                output.AddRange(neighbour.carpath.GetPoints());
+            }
+            return output;
         }
 
         public Crossing(Vector3 center, bool main, bool tram, IObjectGenerator generator, float roadSize)
@@ -151,7 +168,7 @@ namespace Assets.Scripts.AdvancedCity
                 int b = savCount * 4 - a;
                 carpath.input[j] = new MovementPoint((line[0] * a + line[1] * b) / (savCount * 4) + direction * realZebra);
                 carpath.input[j].SetDirection(actual.road.GetDir(this));
-                if (neighbours.Count > 2) carpath.input[j].Nyitott(false);
+                if (neighbours.Count > 2) carpath.input[j].OpenClose(false);
                 carpath.output[j] = new MovementPoint((line[0] * b + line[1] * a) / (savCount * 4));
                 carpath.output[j].SetDirection(actual.road.GetDir(this) * -1);
             }
@@ -179,15 +196,13 @@ namespace Assets.Scripts.AdvancedCity
 
         public int openRoadIndex = 0;
 
-        public bool Yellow = true;
-
-        public void Switch()
+        public void Switch(bool Yellow)
         {
             if (neighbours.Count < 3) return;
             if (Yellow)
             {
                 CarPath carpath = neighbours[openRoadIndex].carpath;
-                foreach (MovementPoint point in carpath.input) point.Nyitott(false);
+                foreach (MovementPoint point in carpath.input) point.OpenClose(false);
                 if (carpath.lamps != null)
                     foreach (MeshRenderer renderer in carpath.lamps)
                     {
@@ -201,7 +216,7 @@ namespace Assets.Scripts.AdvancedCity
                 openRoadIndex++;
                 if (openRoadIndex > neighbours.Count - 1) openRoadIndex = 0;
                 carpath = neighbours[openRoadIndex].carpath;
-                foreach (MovementPoint point in carpath.input) point.Nyitott(true);
+                foreach (MovementPoint point in carpath.input) point.OpenClose(true);
                 if (carpath.lamps != null)
                     foreach (MeshRenderer renderer in carpath.lamps)
                     {
@@ -345,7 +360,7 @@ namespace Assets.Scripts.AdvancedCity
             generator.AddLine(szomszed.helpline.mainLine[1], szomszed.helpline.mainLine[1], 0.6f, 0, 0.4f);
         }
 
-        private Material[] CrossLampColorsRYG;
+        public Material[] CrossLampColorsRYG;
 
         private int cars = 0;
 

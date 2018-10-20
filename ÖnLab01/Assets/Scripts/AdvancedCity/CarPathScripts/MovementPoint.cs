@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 namespace Assets.Scripts.AdvancedCity
 {
@@ -9,7 +10,8 @@ namespace Assets.Scripts.AdvancedCity
     {
         public Vector3 center;
         public Vector3 direction;
-        public bool megallo = false;
+        public int ID;
+        public bool stopping = false;
         public MovementPoint(Vector3 mov)
         {
             center = mov;
@@ -18,17 +20,42 @@ namespace Assets.Scripts.AdvancedCity
         {
             direction = dir;
         }
-        [System.NonSerialized] private List<MovementPoint> outPoints;
+        [System.NonSerialized] private List<MovementPoint> outPoints = new List<MovementPoint>();
+        public List<int> outPointIDs = new List<int>();
         private bool onmaga = false;
-        public void Nyitott(bool nyitott)
+        public void OpenClose(bool nyitott)
         {
             onmaga = !nyitott;
+           /* if (onmaga)
+                Debug.DrawLine(center, center + new Vector3(0, 1, 0), Color.blue, 2f, false);*/
         }
         public void ConnectPoint(MovementPoint point)
         {
             if (outPoints == null) outPoints = new List<MovementPoint>();
             if (!outPoints.Contains(point)) outPoints.Add(point);
         }
+
+        public void SetNextIDs(List<MovementPoint> points)
+        {
+            outPointIDs.Clear();
+            foreach (MovementPoint point in outPoints)
+            {
+                int id = points.IndexOf(point);
+                if (id < 0 || id >= points.Count) Debug.Log("Not In The Points");
+                else outPointIDs.Add(id);
+            }
+        }
+
+        public void SetNexts(List<MovementPoint> points)
+        {
+            outPoints = new List<MovementPoint>();
+            foreach (int id in outPointIDs)
+            {
+                MovementPoint point = points[id];
+                outPoints.Add(point);
+            }
+        }
+
         public void DisConnectPoint(MovementPoint point)
         {
             if (outPoints == null) return;
@@ -44,9 +71,11 @@ namespace Assets.Scripts.AdvancedCity
         {
             if (outPoints == null) return null;
             if (outPoints.Count < 1) return null;
+            if (onmaga)
+                Debug.DrawLine(center, center + new Vector3(0, 1, 0), Color.blue, 0.1f, false);
             if (!onmaga)
             {
-                int i = (int)(Random.value * (outPoints.Count));
+                int i = (int)(UnityEngine.Random.value * (outPoints.Count));
                 return outPoints[i];
             }
             else return this;
@@ -58,6 +87,9 @@ namespace Assets.Scripts.AdvancedCity
                 Debug.DrawLine(center, center + new Vector3(0, 1, 0), Color.red, dur, depthtest);
                 return;
             }
+
+            /*if (onmaga)
+                Debug.DrawLine(center, center + new Vector3(0, 1, 0), Color.blue, dur, depthtest);*/
 
             for (int i = 0; i < outPoints.Count; i++)
             {
@@ -72,13 +104,13 @@ namespace Assets.Scripts.AdvancedCity
                 }
                 if (cross == (center + outPoints[i].center) / 2)
                 {
-                    Debug.DrawLine(center, outPoints[i].center, Color.green, 1000, depthtest);
+                    Debug.DrawLine(center, outPoints[i].center, Color.green, dur, depthtest);
                 }
                 else
                 {
                     for (float time = 0; time < 1; time += 0.1f)
                     {
-                        Debug.DrawLine(BezierCurve(center, cross, outPoints[i].center, time), BezierCurve(center, cross, outPoints[i].center, time + 0.1f), Color.green, 1000, depthtest);
+                        Debug.DrawLine(BezierCurve(center, cross, outPoints[i].center, time), BezierCurve(center, cross, outPoints[i].center, time + 0.1f), Color.green, dur, depthtest);
                     }
                 }
             }
