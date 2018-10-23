@@ -185,7 +185,8 @@ namespace Assets.Scripts.AdvancedCity
             for (int j = i; j < cars.Length; j++)
             {
                 cars[j].transform.position += new Vector3(0, 10, 0);
-                GameObject.Destroy(cars[j]);
+                cars[j].SetActive(false);
+                SafeDestroy(cars[j]);
             }
 
         }
@@ -210,7 +211,8 @@ namespace Assets.Scripts.AdvancedCity
             for (int j = i; j < people.Length; j++)
             {
                 people[j].transform.position += new Vector3(0, 10, 0);
-                GameObject.Destroy(people[j]);
+                people[j].SetActive(false);
+                SafeDestroy(people[j]);
             }
 
         }
@@ -236,5 +238,22 @@ namespace Assets.Scripts.AdvancedCity
             }
         }
 
+        public static T SafeDestroy<T>(T obj) where T : Object
+        {
+            if (Application.isEditor)
+                Object.DestroyImmediate(obj);
+            else
+                Object.Destroy(obj);
+
+            return null;
+        }
+
+        public static T SafeDestroyGameObject<T>(T component) where T : Component
+        {
+            if (component != null)
+                SafeDestroy(component.gameObject);
+            return null;
+        }
     }
 }
+

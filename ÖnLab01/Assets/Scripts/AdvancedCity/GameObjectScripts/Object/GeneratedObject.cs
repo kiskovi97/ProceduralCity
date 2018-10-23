@@ -54,7 +54,7 @@ public class GeneratedObject : MonoBehaviour
         mesh.Clear();
         if (meshVertexes.Count < 3)
         {
-            DestroyImmediate(gameObject);
+            DestorySelf();
             return;
         }
         mesh.vertices = meshVertexes.ToArray();
@@ -68,8 +68,8 @@ public class GeneratedObject : MonoBehaviour
         mesh.RecalculateNormals();
     }
 
-    public void DestorySelf()
+    public virtual void DestorySelf()
     {
-        Destroy(this.gameObject, 0.1f);
+        DestroyImmediate(gameObject);
     }
 }

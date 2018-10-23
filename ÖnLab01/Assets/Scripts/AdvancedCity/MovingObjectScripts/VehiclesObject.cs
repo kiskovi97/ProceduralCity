@@ -8,6 +8,7 @@ namespace Assets.Scripts.AdvancedCity
         public GameObject[] cars;
         public GameObject cameraCar;
         public GameObject tram;
+        public GameObject[] people;
         public GameObject Tram
         {
             get
@@ -29,6 +30,15 @@ namespace Assets.Scripts.AdvancedCity
             get
             {
                 return cameraCar;
+            }
+        }
+
+        public GameObject Person
+        {
+            get
+            {
+                int i = (int)(Random.value * people.Length);
+                return people[i];
             }
         }
     }

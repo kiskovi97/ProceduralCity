@@ -19,6 +19,7 @@ namespace Assets.Scripts.AdvancedCity
                 point.nextPoint = container.GetMovementPoint(point.nextPoint.ID);
                 point.prevPoint = container.GetMovementPoint(point.prevPoint.ID);
                 point.pos = point.prevPoint.center;
+                transform.position = point.pos;
             }
         }
         public virtual void SetPoint(MovementPoint next)
@@ -57,7 +58,10 @@ namespace Assets.Scripts.AdvancedCity
 
         public void SetPosition(Vector3 position)
         {
-            rigidbody.MovePosition(position);
+            if (rigidbody != null)
+                rigidbody.MovePosition(position);
+            else
+                transform.position = position;
         }
     }
 }

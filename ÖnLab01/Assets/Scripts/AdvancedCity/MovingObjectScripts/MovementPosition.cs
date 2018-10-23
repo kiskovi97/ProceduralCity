@@ -97,7 +97,10 @@ namespace Assets.Scripts.AdvancedCity
         {
             get
             {
-                return nextPoint.direction;
+                if (nextPoint.center != prevPoint.center)
+                    return nextPoint.center - prevPoint.center;
+                else
+                    return nextPoint.direction;
             }
         }
     }

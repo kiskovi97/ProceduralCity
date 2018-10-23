@@ -6,7 +6,7 @@ namespace Assets.Scripts.AdvancedCity.monoBeheviors.interactiveObjects
     {
         public virtual void LateUpdate()
         {
-            Move2();
+            //
         }
         public override void Step()
         {
@@ -31,10 +31,6 @@ namespace Assets.Scripts.AdvancedCity.monoBeheviors.interactiveObjects
                 transform.rotation = Quaternion.LookRotation(RealForward);
             }
             SetPosition(pos);
-        }
-        public void Move2()
-        {
-            
         }
     }
 }

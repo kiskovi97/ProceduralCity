@@ -40,7 +40,11 @@ namespace Assets.Scripts.AdvancedCity
 
         public void SetMovementPoints(MovementPointContainer container)
         {
-            foreach (Neighbour neighbour in neighbours) neighbour.carpath.SetMovementPoints(container);
+            foreach (Neighbour neighbour in neighbours) {
+                neighbour.carpath.SetMovementPoints(container);
+                if (neighbour.road != null)
+                    neighbour.road.SetMovementPoints(container);
+            }
         }
 
         public IEnumerable<MovementPoint> GetPoints()

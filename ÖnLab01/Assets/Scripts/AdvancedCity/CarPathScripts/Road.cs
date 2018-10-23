@@ -31,6 +31,14 @@ namespace Assets.Scripts.AdvancedCity
             return output;
         }
 
+        public void SetMovementPoints(MovementPointContainer container)
+        {
+            for (int i = 0; i < others.Count; i++)
+            {
+                others[i] = container.GetMovementPoint(others[i].ID);
+            }
+        }
+
         public int Savok()
         {
             return sav;
@@ -88,6 +96,10 @@ namespace Assets.Scripts.AdvancedCity
                 MovementPoint[] masik_ki = otherCarpath.output;
                 MovementPoint[] egyik_ki = oneCarpath.output;
                 MovementPoint[] masik_be = otherCarpath.input;
+                otherCarpath.leftCross.ConnectPoint(oneCarpath.rightCross);
+                oneCarpath.leftCross.ConnectPoint(otherCarpath.rightCross);
+                otherCarpath.rightCross.ConnectPoint(oneCarpath.leftCross);
+                oneCarpath.rightCross.ConnectPoint(otherCarpath.leftCross);
                 for (int i = 0; i < oneCarpath.input.Length; i++)
                 {
                     MovementPoint point01 = new MovementPoint((egyik_be[i].center * 2 + masik_ki[i].center) / 3);

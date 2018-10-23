@@ -11832,7 +11832,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1117239201367904}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.0079, z: 0}
+  m_LocalPosition: {x: 0, y: -0.0021, z: 0}
   m_LocalScale: {x: 0.070872754, y: 0.070872754, z: 0.070872754}
   m_Children:
   - {fileID: 4208911019531894}
@@ -18809,8 +18809,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.08996262, y: 1, z: 0.106022775}
-  m_Center: {x: 0.004439093, y: 0, z: 0.0077484846}
+  m_Size: {x: 0.08996262, y: 0.51840925, z: 0.106022775}
+  m_Center: {x: 0.004439093, y: 0.24079537, z: 0.0077484846}
 --- !u!95 &95462555179584278
 Animator:
   serializedVersion: 3
@@ -18841,6 +18841,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   anim: {fileID: 95462555179584278}
+  point:
+    pos: {x: 0, y: 0, z: 0}
+    nextPoint:
+      center: {x: 0, y: 0, z: 0}
+      direction: {x: 0, y: 0, z: 0}
+      ID: 0
+      stopping: 0
+      outPointIDs: 
+    prevPoint:
+      center: {x: 0, y: 0, z: 0}
+      direction: {x: 0, y: 0, z: 0}
+      ID: 0
+      stopping: 0
+      outPointIDs: 
+  rigidbody: {fileID: 0}
+  actualSpeed: 0.5
 --- !u!137 &137190601987703452
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

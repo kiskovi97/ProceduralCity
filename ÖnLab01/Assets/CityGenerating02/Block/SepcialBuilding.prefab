@@ -37,7 +37,7 @@ Transform:
   m_GameObject: {fileID: 1863853056459178}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 3, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -112,3 +112,5 @@ MonoBehaviour:
   Window02Material: {fileID: 2100000, guid: 9667c155de10798449272707901f4a70, type: 2}
   Window03Material: {fileID: 2100000, guid: 9667c155de10798449272707901f4a70, type: 2}
   BaseMaterial: {fileID: 2100000, guid: 9667c155de10798449272707901f4a70, type: 2}
+  prefab: {fileID: 100000, guid: f7b3c5d9316567449a46d96d9002f9a6, type: 3}
+  center: {x: 0, y: 0, z: 0}
