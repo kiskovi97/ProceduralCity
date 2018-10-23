@@ -130,15 +130,7 @@ namespace Assets.Scripts.AdvancedCity
             nextDirections.Add(left.normalized);
             nextDirections.Add(right.normalized);
         }
-
-        // ---------------- Debug DrawLine ---------
-        public void DrawLines(Color color, bool depthtest)
-        {
-            foreach (GraphPoint neighbour in neighbours)
-            {
-                Debug.DrawLine(position, neighbour.position, color, 100, depthtest);
-            }
-        }
+        
 
         // ---------------- Smooth Funtcion ----------
         public void Smooth(float intensity)

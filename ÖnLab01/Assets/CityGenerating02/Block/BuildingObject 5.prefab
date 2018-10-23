@@ -37,7 +37,7 @@ Transform:
   m_GameObject: {fileID: 1863853056459178}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 3, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -103,4 +103,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6588643fbef050e49a0ee015bfeae810, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  texture: {fileID: 2800000, guid: 47f295d5a1936124fa77a6aefacf68ca, type: 3}
+  SimpleMaterial: {fileID: 2100000, guid: 80a6f79ecb68b734fa4a2b5fa445ed2a, type: 2}
+  RoofMaterial: {fileID: 2100000, guid: 80a6f79ecb68b734fa4a2b5fa445ed2a, type: 2}
+  SimpleWallMaterial: {fileID: 2100000, guid: 80a6f79ecb68b734fa4a2b5fa445ed2a, type: 2}
+  GroundWallMaterial: {fileID: 2100000, guid: 80a6f79ecb68b734fa4a2b5fa445ed2a, type: 2}
+  DoorMaterial: {fileID: 2100000, guid: 80a6f79ecb68b734fa4a2b5fa445ed2a, type: 2}
+  Window01Material: {fileID: 2100000, guid: 80a6f79ecb68b734fa4a2b5fa445ed2a, type: 2}
+  Window02Material: {fileID: 2100000, guid: 80a6f79ecb68b734fa4a2b5fa445ed2a, type: 2}
+  Window03Material: {fileID: 2100000, guid: 80a6f79ecb68b734fa4a2b5fa445ed2a, type: 2}
+  BaseMaterial: {fileID: 2100000, guid: 80a6f79ecb68b734fa4a2b5fa445ed2a, type: 2}

@@ -27,7 +27,7 @@ GameObject:
   m_TagString: Generated
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &4883667214552370
 Transform:
@@ -99,5 +99,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb75b4f69db297a44ad73a1619e90bc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sideRoadObject: {fileID: 1563999252451184, guid: ba099cbf4689cde469b107f1b5b4cee7,
-    type: 2}

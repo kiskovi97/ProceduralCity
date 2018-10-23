@@ -55,4 +55,4 @@ MonoBehaviour:
   - {fileID: 1689148571194386, guid: 71cf73bf78f13fe4485fa32b69f90171, type: 2}
   - {fileID: 1689148571194386, guid: 0c84a66e0bda07d408c18c35a4529898, type: 2}
   cameraCar: {fileID: 1473476920159558, guid: 18d6f18451c76ef4e88b278c344983e2, type: 2}
-  tram: {fileID: 1144836741589656, guid: cadd3181bcee5f448ad6ec67dccf6a7d, type: 2}
+  tram: {fileID: 1674414820183368, guid: de5f06b0bbe198848937ff1fac4bb50f, type: 2}

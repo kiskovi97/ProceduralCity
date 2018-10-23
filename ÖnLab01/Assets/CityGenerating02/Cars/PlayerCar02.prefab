@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4648541378145030}
   - component: {fileID: 81617391708851186}
   - component: {fileID: 20583218046907408}
+  - component: {fileID: 114841141830497394}
   m_Layer: 8
   m_Name: Camera
   m_TagString: Untagged
@@ -582,9 +583,35 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   anim: {fileID: 0}
-  audioSource: {fileID: 0}
-  speed: 22
+  point:
+    pos: {x: 0, y: 0, z: 0}
+    nextPoint:
+      center: {x: 0, y: 0, z: 0}
+      direction: {x: 0, y: 0, z: 0}
+      ID: 0
+      stopping: 0
+      outPointIDs: 
+    prevPoint:
+      center: {x: 0, y: 0, z: 0}
+      direction: {x: 0, y: 0, z: 0}
+      ID: 0
+      stopping: 0
+      outPointIDs: 
+  rigidbody: {fileID: 0}
+  actualSpeed: 1.5
+  speed: 3
   hasCamera: 1
   time: 0
   carsize: 1
-  allapot: 
+--- !u!114 &114841141830497394
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1008349254359942}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34ebeec205696a140b9b0423e6db2856, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 4627155494602256}
