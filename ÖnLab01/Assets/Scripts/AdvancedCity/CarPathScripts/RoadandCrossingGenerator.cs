@@ -6,7 +6,7 @@ using UnityEngine;
 namespace Assets.Scripts.AdvancedCity
 {
 
-    class RoadandCrossingGenerator
+    public class RoadandCrossingGenerator
     {
         List<Crossing> crossings;
         List<Road> roads;

@@ -86,7 +86,7 @@ MeshFilter:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1742883539507346}
-  m_Mesh: {fileID: 4300004, guid: 4b13491116d16164ba832d07957c693b, type: 3}
+  m_Mesh: {fileID: 4300000, guid: a76fac2f85d83654396ad2028809a4a6, type: 3}
 --- !u!95 &95621690214896964
 Animator:
   serializedVersion: 3

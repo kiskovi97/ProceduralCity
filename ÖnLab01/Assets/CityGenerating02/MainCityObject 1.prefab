@@ -235,7 +235,7 @@ MonoBehaviour:
     - {fileID: 1863853056459178, guid: f319166b32814f747b6e43dffe649a40, type: 2}
     - {fileID: 1863853056459178, guid: fa45dc007c5cf954cbfc7f1f03297fb7, type: 2}
     - {fileID: 1863853056459178, guid: 762644fbe4a264746945f07ad9b2f454, type: 2}
-    - {fileID: 1863853056459178, guid: d697f80d7f0d85e4caac13f0b312e419, type: 2}
+    - {fileID: 0}
     greenPlace:
     - {fileID: 1137879034718380, guid: 709079188704e874c9848710dd133abd, type: 2}
   values:

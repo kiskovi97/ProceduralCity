@@ -153,7 +153,7 @@ namespace Assets.Scripts.AdvancedCity
         {
             foreach (GraphPoint neighbour in neighbours)
             {
-                Handles.DrawLine(position, neighbour.position);
+                Debug.DrawLine(position, neighbour.position);
             }
         }
     }
